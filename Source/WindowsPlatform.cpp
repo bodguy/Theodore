@@ -448,7 +448,7 @@ namespace Quark {
 	const PointCoord Platform::CenterOnWindow() {
 		int w, h;
 		GetDesktopSize(w, h);
-
+		//SetWindowPos( hWnd, 0, , xPos, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE );
 		return PointCoord((w - mWidth) / 2.f, (h - mHeight) / 2.f);
 	}
 

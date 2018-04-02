@@ -13,7 +13,8 @@ namespace Quark {
             TriangleStrip = GL_TRIANGLE_STRIP,
             LineStrip = GL_LINE_STRIP,
             TriangleFan = GL_TRIANGLE_FAN,
-            LineLoop = GL_LINE_LOOP
+            LineLoop = GL_LINE_LOOP,
+			Patches = GL_PATCHES
         };
         
         enum BufferBits {
