@@ -9,7 +9,7 @@
 
 namespace Quark {
     class Vector2d; class Vector3d; class Vector4d; class Color;
-    class VertexDataBuffer {
+    class InputStream {
     public:
         void Float(float v);
         void Int8(char v);

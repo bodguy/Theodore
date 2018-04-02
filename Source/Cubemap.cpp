@@ -22,7 +22,7 @@ namespace Quark {
 	};
 
 	Cubemap::Cubemap(std::list<std::string>& filelist, Enumeration::TextureFormat format) {
-		mVertexData = new VertexDataBuffer();
+		mVertexData = new InputStream();
 		for (int i = 0; i < sizeof(CubeVertices) / sizeof(float) / 3; i++) {
 			mVertexData->Vec3(Vector3d(CubeVertices[i*3], CubeVertices[i*3+1], CubeVertices[i*3+2]));
 		}

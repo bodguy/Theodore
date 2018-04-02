@@ -7,61 +7,61 @@
 namespace Quark {
     
     ////////////////////////////////////////////////////////////////////////////////////
-    // VertexDataBuffer
+    // InputStream
     
-    void VertexDataBuffer::Float(float v) {
+    void InputStream::Float(float v) {
         Bytes((unsigned char*)&v, sizeof(v));
     }
     
-    void VertexDataBuffer::Int8(char v) {
+    void InputStream::Int8(char v) {
         Bytes((unsigned char*)&v, sizeof(v));
     }
     
-    void VertexDataBuffer::Int16(short v) {
+    void InputStream::Int16(short v) {
         Bytes((unsigned char*)&v, sizeof(v));
     }
     
-    void VertexDataBuffer::Int32(int v) {
+    void InputStream::Int32(int v) {
         Bytes((unsigned char*)&v, sizeof(v));
     }
     
-    void VertexDataBuffer::Uint8(unsigned char v) {
+    void InputStream::Uint8(unsigned char v) {
         Bytes((unsigned char*)&v, sizeof(v));
     }
     
-    void VertexDataBuffer::Uint16(unsigned short v) {
+    void InputStream::Uint16(unsigned short v) {
         Bytes((unsigned char*)&v, sizeof(v));
     }
     
-    void VertexDataBuffer::Uint32(unsigned int v) {
+    void InputStream::Uint32(unsigned int v) {
         Bytes((unsigned char*)&v, sizeof(v));
     }
     
-    void VertexDataBuffer::Vec2(const Vector2d& v) {
+    void InputStream::Vec2(const Vector2d& v) {
         Bytes((unsigned char*)&v, sizeof(v));
     }
     
-    void VertexDataBuffer::Vec3(const Vector3d& v) {
+    void InputStream::Vec3(const Vector3d& v) {
         Bytes((unsigned char*)&v, sizeof(v));
     }
     
-    void VertexDataBuffer::Vec4(const Vector4d& v) {
+    void InputStream::Vec4(const Vector4d& v) {
         Bytes((unsigned char*)&v, sizeof(v));
     }
     
-    void VertexDataBuffer::Color4(const Color& v) {
+    void InputStream::Color4(const Color& v) {
         Bytes((unsigned char*)&v, sizeof(v));
     }
     
-    void* VertexDataBuffer::Pointer() {
+    void* InputStream::Pointer() {
         return &mData[0];
     }
     
-    unsigned long VertexDataBuffer::Size() {
+    unsigned long InputStream::Size() {
         return mData.size();
     }
     
-    void VertexDataBuffer::Bytes(unsigned char* bytes, unsigned int count) {
+    void InputStream::Bytes(unsigned char* bytes, unsigned int count) {
         for (unsigned int i = 0; i < count; i++)
             mData.push_back(bytes[i]);
     }

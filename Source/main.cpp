@@ -1,40 +1,16 @@
 #include "QuarkEngine.h"
 
-const int Faces[] = {
-        2, 1, 0,
-        3, 2, 0,
-        4, 3, 0,
-        5, 4, 0,
-        1, 5, 0,
-        11, 6,  7,
-        11, 7,  8,
-        11, 8,  9,
-        11, 9,  10,
-        11, 10, 6,
-        1, 2, 6,
-        2, 3, 7,
-        3, 4, 8,
-        4, 5, 9,
-        5, 1, 10,
-        2,  7, 6,
-        3,  8, 7,
-        4,  9, 8,
-        5, 10, 9,
-        1, 6, 10 };
+bool IsComment(const std::string& c) {
+	return (c.empty()) || (c.at(0) == '#');
+}
 
-const float Verts[] = {
-    0.000f,  0.000f,  1.000f,
-    0.894f,  0.000f,  0.447f,
-    0.276f,  0.851f,  0.447f,
-    -0.724f,  0.526f,  0.447f,
-    -0.724f, -0.526f,  0.447f,
-    0.276f, -0.851f,  0.447f,
-    0.724f,  0.526f, -0.447f,
-    -0.276f,  0.851f, -0.447f,
-    -0.894f,  0.000f, -0.447f,
-    -0.276f, -0.851f, -0.447f,
-    0.724f, -0.526f, -0.447f,
-    0.000f,  0.000f, -1.000f };
+bool IsGeometryData(const std::string& c) {
+	return (c.empty()) || (c.at(0) == 'v');
+}
+
+bool IsFaceData(const std::string& c) {
+	return (c.empty()) || (c.at(0) == 'f');
+}
 
 int main() {
 	Platform platform;
@@ -74,24 +50,34 @@ int main() {
 
 	Program program(vs, fs, gs, tc, te);
 
-	VertexDataBuffer vertexData;
-	int stride = 3;
-	int vtxCount = sizeof(Verts) / sizeof(Verts[0]) / stride; // 12
-	for(int i = 0; i < vtxCount; i++) {
-		vertexData.Vec3(Vector3d(Verts[i * stride], Verts[i * stride + 1], Verts[i * stride + 2]));
-	}
+	InputStream vertexData;
+	InputStream indexData;
+	File fmtFile;
+	fmtFile.Open("Core/Contents/Icosahedron.fmt", OpenMode::Read);
+	if (fmtFile.IsOpen()) {
+		while (fmtFile.Validate()) {
+			std::string s = fmtFile.GetLine();
 
-	VertexDataBuffer indexData;
-	int idxCount = sizeof(Faces) / sizeof(Faces[0]); // 20
-	for(int i = 0; i < idxCount; i++) {
-		indexData.Int32(Faces[i]);
+			if (!IsComment(s)) {
+				if (IsGeometryData(s)) {
+					float x, y, z;
+					fmtFile.Read("%f %f %f\n", &x, &y, &z);
+					vertexData.Vec3(Vector3d(x, y, z));
+				} else if (IsFaceData(s)) {
+					int f0, f1, f2;
+					fmtFile.Read("%d %d %d\n", &f0, &f1, &f2);
+					indexData.Int32(f0); indexData.Int32(f1); indexData.Int32(f2);
+				}
+			}
+		}
+		fmtFile.Close();
 	}
 
 	Buffer vertexBuffer(vertexData.Pointer(), vertexData.Size(), StaticDraw, BufferType::BufferVertex);
 	Buffer indexBuffer(indexData.Pointer(), indexData.Size(), BufferUsage::StaticDraw, BufferType::BufferIndex);
 
 	VertexArray vao;
-	vao.BindAttribute(program.GetAttribute("Position"), vertexBuffer, 3, stride * sizeof(float), NULL);
+	vao.BindAttribute(program.GetAttribute("Position"), vertexBuffer, 3, 3 * sizeof(float), NULL);
 	vao.BindElements(indexBuffer);
 
 	Transform transfrom;
@@ -124,7 +110,7 @@ int main() {
 		program.SetUniform(program.GetUniform("TessLevelInner"), TessLevelInner);
 		program.SetUniform(program.GetUniform("TessLevelOuter"), TessLevelOuter);
 		glPatchParameteri(GL_PATCH_VERTICES, 3);
-		Graphics::DrawElements(vao, Primitive::Patches, 0, idxCount, GL_UNSIGNED_INT);
+		Graphics::DrawElements(vao, Primitive::Patches, 0, indexData.Size() / sizeof(int), GL_UNSIGNED_INT);
 
 		platform.SwapBuffer();
 		platform.Update();

@@ -5,7 +5,7 @@
 #include "Enumeration.h"
 
 namespace Quark {
-	class VertexDataBuffer; class Buffer; class VertexArray; class Program; class Matrix4x4;
+	class InputStream; class Buffer; class VertexArray; class Program; class Matrix4x4;
 	class Cubemap {
 	public:
 		// right, left, top, bottom, back, front
@@ -16,7 +16,7 @@ namespace Quark {
 		void SetMatrix(const Matrix4x4& view, const Matrix4x4& proj);
 
 	private:
-		VertexDataBuffer* mVertexData;
+		InputStream* mVertexData;
 		Buffer* mVertexBuffer;
 		VertexArray* mVertexArray;
 		Program* mCubeProgram;
