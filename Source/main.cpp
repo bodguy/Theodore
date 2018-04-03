@@ -5,11 +5,11 @@ bool IsComment(const std::string& c) {
 }
 
 bool IsGeometryData(const std::string& c) {
-	return (!c.empty()) || (c.at(0) == 'v');
+	return (c.at(0) == 'v');
 }
 
 bool IsFaceData(const std::string& c) {
-	return (!c.empty()) || (c.at(0) == 'f');
+	return (c.at(0) == 'f');
 }
 
 int main() {
