@@ -38,8 +38,11 @@ namespace Quark {
         void SeekByOffset(int offset);
         
         bool Validate(void) const;
-        
+
     private:
+#if (_MSC_VER == 1700) && defined(ENVIRONMENT32)
+		int vfscanf(FILE* file, const char *format, va_list argPtr);
+#endif
         FILE *fp; // Pointer to file
         const char* mFileName;
         Enumeration::OpenMode mMode;

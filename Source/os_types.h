@@ -3,6 +3,11 @@
 
 // platform detection
 #if defined( _WIN32 ) || defined( _WIN64 )
+#if _WIN64
+#define ENVIRONMENT64
+#else
+#define ENVIRONMENT32
+#endif
 #define Quark_Windows
 #define GLEW_INCLUDE_DIR <GL/glew.h>
 #define GLEW_INCLUDE_DIR2 <GL/wglew.h>

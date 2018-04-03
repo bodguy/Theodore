@@ -196,4 +196,70 @@ namespace Quark {
     bool File::Validate(void) const {
         return fp && !feof(fp) ? true : false;
     }
+
+#if (_MSC_VER == 1700) && defined(ENVIRONMENT32) // _asm only works in x86
+	// In visual studio 2012, vfscanf are not supported so, we implement it from bottom.
+	int File::vfscanf(FILE* file, const char *format, va_list argPtr) {
+		// http://www.codeguru.com/Cpp/Cpp/string/comments.php/c5631/?thread=61724
+
+		// Get an upper bound for the # of args
+		size_t count = 0;
+		const char* p = format;
+
+		while(1)
+		{
+			char c = *(p++);
+			if (c == 0) 
+				break;
+		
+			if (c == '%' && (p[0] != '*' && p[0] != '%')) 
+				++count;
+		}
+
+		if (count <= 0)
+			return 0;
+
+		int result;
+
+		// copy stack pointer
+		_asm
+		{
+			mov esi, esp;
+		}
+
+		// push variable parameters pointers on stack
+		for (int i = count - 1; i >= 0; --i)
+		{
+			_asm
+			{
+				mov eax, dword ptr [i];
+				mov ecx, dword ptr [argPtr];
+				mov edx, dword ptr [ecx+eax*4];
+				push edx;
+			}
+		}
+
+		int stackAdvance = (2 + count) * 4;
+
+		_asm
+		{
+			// now push on the fixed params
+			mov eax, dword ptr [format];
+			push eax;
+			mov eax, dword ptr [file];
+			push eax;
+
+			// call fscanf, and more the result in to result
+			call dword ptr [fscanf];
+			mov result, eax;
+
+			// restore stack pointer
+			mov eax, dword ptr[stackAdvance];
+			add esp, eax;
+			//mov esp, esi;
+		}
+
+		return result;
+	}
+#endif
 }

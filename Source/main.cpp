@@ -5,11 +5,11 @@ bool IsComment(const std::string& c) {
 }
 
 bool IsGeometryData(const std::string& c) {
-	return (c.empty()) || (c.at(0) == 'v');
+	return (!c.empty()) || (c.at(0) == 'v');
 }
 
 bool IsFaceData(const std::string& c) {
-	return (c.empty()) || (c.at(0) == 'f');
+	return (!c.empty()) || (c.at(0) == 'f');
 }
 
 int main() {
@@ -29,23 +29,23 @@ int main() {
 
 	File shaderSource;
 	shaderSource.Open("Core/Shaders/VertexShader.glsl", Read);
-	vs.Compile(shaderSource.ReadUntilEnd().c_str());
+	vs.Compile(shaderSource.ReadUntilEnd());
 	shaderSource.Close();
 
 	shaderSource.Open("Core/Shaders/TessControlShader.glsl", Read);
-	tc.Compile(shaderSource.ReadUntilEnd().c_str());
+	tc.Compile(shaderSource.ReadUntilEnd());
 	shaderSource.Close();
 
 	shaderSource.Open("Core/Shaders/TessEvalShader.glsl", Read);
-	te.Compile(shaderSource.ReadUntilEnd().c_str());
+	te.Compile(shaderSource.ReadUntilEnd());
 	shaderSource.Close();
 
 	shaderSource.Open("Core/Shaders/GeometryShader.glsl", Read);
-	gs.Compile(shaderSource.ReadUntilEnd().c_str());
+	gs.Compile(shaderSource.ReadUntilEnd());
 	shaderSource.Close();
 
 	shaderSource.Open("Core/Shaders/FragmentShader.glsl", Read);
-	fs.Compile(shaderSource.ReadUntilEnd().c_str());
+	fs.Compile(shaderSource.ReadUntilEnd());
 	shaderSource.Close();
 
 	Program program(vs, fs, gs, tc, te);
