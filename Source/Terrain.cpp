@@ -1,4 +1,6 @@
 #include "Terrain.h"
+#include "TerrainConfig.h"
+#include "TerrainQuadtree.h"
 
 namespace Quark {
 	Terrain::Terrain() {
@@ -7,5 +9,12 @@ namespace Quark {
 
 	Terrain::~Terrain() {
 
+	}
+
+	void Terrain::init(const std::string& file) {
+		mConfig = new TerrainConfig();
+		mConfig->LoadFile(file);
+
+		addChild(new TerrainQuadtree(mConfig));
 	}
 }

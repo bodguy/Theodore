@@ -1,11 +1,20 @@
 #ifndef TerrainQuadtree_h
 #define TerrainQuadtree_h
 
+#include "Node.h"
+
 namespace Quark {
-	class TerrainQuadtree {
+	class TerrainConfig; class InputStream;
+	class TerrainQuadtree : public Node {
 	public:
-		TerrainQuadtree();
+		TerrainQuadtree(TerrainConfig* config);
 		~TerrainQuadtree();
+
+		static int GetRootNodes();
+		InputStream* GenerateVertexData();
+
+	private:
+		static int rootNodes;
 	};
 }
 

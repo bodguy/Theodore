@@ -40,7 +40,7 @@ namespace Quark {
         bool Validate(void) const;
 
     private:
-#if (_MSC_VER == 1700) && defined(ENVIRONMENT32)
+#if (_MSC_VER == 1700)
 		int vfscanf(FILE* file, const char *format, va_list argPtr);
 #endif
         FILE *fp; // Pointer to file

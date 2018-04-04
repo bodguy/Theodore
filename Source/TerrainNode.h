@@ -1,8 +1,10 @@
 #ifndef TerrainNode_h
 #define TerrainNode_h
 
+#include "Node.h"
+
 namespace Quark {
-	class TerrainNode {
+	class TerrainNode : public Node {
 	public:
 		TerrainNode();
 		~TerrainNode();

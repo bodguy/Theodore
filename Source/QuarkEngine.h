@@ -30,6 +30,8 @@
 #include "Enumeration.h"
 #include "Random.h"
 
+#include "TerrainConfig.h"
+
 using namespace Quark;
 using namespace Enumeration;
 
