@@ -10,16 +10,16 @@ namespace Quark {
 		Node();
 		~Node();
 
-		Node* getParent() const;
-		Transform* getWorldTransform() const;
-		Transform* getLocalTransform() const;
-		std::list<Node*> getChildren() const;
+		Node* GetParent() const;
+		Transform* GetWorldTransform() const;
+		Transform* GetLocalTransform() const;
+		std::list<Node*> GetChildren() const;
 
-		void addChild(Node* child);
-		void update();
-		void input();
-		void render();
-		void shutdown();
+		void AddChild(Node* child);
+		virtual void Update();
+		virtual void Input();
+		virtual void Render();
+		virtual void Shutdown();
 
 	private:
 		Node* mParent;

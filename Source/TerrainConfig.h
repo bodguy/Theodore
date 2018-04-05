@@ -16,9 +16,6 @@ namespace Quark {
 		float GetScaleXZ() const;
 
 	private:
-		bool IsMatching(const std::string& txt, const std::string& regex);
-		bool IsComment(const std::string& c);
-		unsigned int Split(const std::string& txt, std::vector<std::string>& strs, char ch);
 		int GetMorphingArea(int lod);
 		void SetLodRange(int index, int lod_range);
 

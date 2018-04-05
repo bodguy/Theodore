@@ -10,48 +10,48 @@ namespace Quark {
 
 	}
 
-	Node* Node::getParent() const {
+	Node* Node::GetParent() const {
 		return mParent;
 	}
 
-	Transform* Node::getWorldTransform() const {
+	Transform* Node::GetWorldTransform() const {
 		return mWorldTransform;
 	}
 
-	Transform* Node::getLocalTransform() const {
+	Transform* Node::GetLocalTransform() const {
 		return mLocalTransform;
 	}
 	
-	std::list<Node*> Node::getChildren() const {
+	std::list<Node*> Node::GetChildren() const {
 		return *mChildren;
 	}
 
-	void Node::addChild(Node* child) {
+	void Node::AddChild(Node* child) {
 		child->mParent = this;
 		mChildren->push_back(child);
 	}
 
-	void Node::update() {
+	void Node::Update() {
 		for (Node* child : *mChildren) {
-			child->update();
+			child->Update();
 		}
 	}
 
-	void Node::input() {
+	void Node::Input() {
 		for (Node* child : *mChildren) {
-			child->input();
+			child->Input();
 		}
 	}
 
-	void Node::render() {
+	void Node::Render() {
 		for (Node* child : *mChildren) {
-			child->render();
+			child->Render();
 		}
 	}
 
-	void Node::shutdown() {
+	void Node::Shutdown() {
 		for (Node* child : *mChildren) {
-			child->shutdown();
+			child->Shutdown();
 		}
 	}
 }

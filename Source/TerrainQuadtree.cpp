@@ -10,12 +10,12 @@ namespace Quark {
 	TerrainQuadtree::TerrainQuadtree(TerrainConfig* config) {
 		for (int i = 0; i < TerrainQuadtree::rootNodes; i++) {
 			for (int j = 0; j < TerrainQuadtree::rootNodes; j++) {
-				addChild(new TerrainNode());
+				AddChild(new TerrainNode());
 			}
 		}
 
-		getWorldTransform()->SetScale(Vector3d(config->GetScaleXZ(), config->GetScaleY(), config->GetScaleXZ()));
-		getWorldTransform()->SetPosition(Vector3d(-config->GetScaleXZ()/2.f, 0.f, -config->GetScaleXZ() / 2.f));
+		GetWorldTransform()->SetScale(Vector3d(config->GetScaleXZ(), config->GetScaleY(), config->GetScaleXZ()));
+		GetWorldTransform()->SetPosition(Vector3d(-config->GetScaleXZ()/2.f, 0.f, -config->GetScaleXZ() / 2.f));
 	}
 
 	TerrainQuadtree::~TerrainQuadtree() {

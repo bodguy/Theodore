@@ -15,6 +15,6 @@ namespace Quark {
 		mConfig = new TerrainConfig();
 		mConfig->LoadFile(file);
 
-		addChild(new TerrainQuadtree(mConfig));
+		AddChild(new TerrainQuadtree(mConfig));
 	}
 }
