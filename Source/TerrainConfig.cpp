@@ -6,7 +6,8 @@
 #include <algorithm>
 
 namespace Quark {
-	TerrainConfig::TerrainConfig() :mScaleY(0.f), mScaleXZ(0.f), mLodRange(new int[8]), mLodMorphingArea(new int[8]){
+	TerrainConfig::TerrainConfig() 
+		:mScaleY(0.f), mScaleXZ(0.f), mLodRange(new int[8]), mLodMorphingArea(new int[8]) {
 	}
 
 	TerrainConfig::~TerrainConfig() {
@@ -31,7 +32,7 @@ namespace Quark {
 							mScaleY = std::stof(tokens[1]);
 						} else if (tokens[0] == "scaleXZ") {
 							mScaleXZ = std::stof(tokens[1]);
-						} else if (StringUtil::PatternMatch(tokens[0], "lod[1-9]_range")) {
+						} else if (StringUtil::Match(tokens[0], "lod[1-9]_range")) {
 							int i = std::stoi(tokens[0].substr(3, 1)) - 1;
 							int value = std::stoi(tokens[1]);
 							if (value == 0) {

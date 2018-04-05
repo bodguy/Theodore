@@ -22,25 +22,13 @@ namespace Quark {
 		return mLocalTransform;
 	}
 	
-	std::list<Node*> Node::GetChildren() const {
-		return *mChildren;
+	std::list<Node*>* Node::GetChildren() const {
+		return mChildren;
 	}
 
 	void Node::AddChild(Node* child) {
 		child->mParent = this;
 		mChildren->push_back(child);
-	}
-
-	void Node::Update() {
-		for (Node* child : *mChildren) {
-			child->Update();
-		}
-	}
-
-	void Node::Input() {
-		for (Node* child : *mChildren) {
-			child->Input();
-		}
 	}
 
 	void Node::Render() {
@@ -49,9 +37,9 @@ namespace Quark {
 		}
 	}
 
-	void Node::Shutdown() {
+	void Node::Update() {
 		for (Node* child : *mChildren) {
-			child->Shutdown();
+			child->Update();
 		}
 	}
 }

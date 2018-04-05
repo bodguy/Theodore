@@ -8,7 +8,11 @@ namespace Quark {
 	StringUtil::~StringUtil(void) {
 	}
 
-	bool StringUtil::PatternMatch(const std::string& txt, const std::string& regex) {
+	bool StringUtil::Contains(const std::string& txt, const std::string& contain) {
+		return (txt.find(contain) != std::string::npos);
+	}
+
+	bool StringUtil::Match(const std::string& txt, const std::string& regex) {
 		std::regex pattern(regex);
 		if (std::regex_match(txt, pattern)) {
 			return true;
@@ -60,13 +64,20 @@ namespace Quark {
 		std::string::size_type pos = 0;
 		std::string::size_type offset = 0;
  
-		while ((pos = result.find(from, offset)) != std::string::npos)
-		{
-			result.replace(result.begin() + pos, result.begin() + pos + from.size(), to);
-			offset = pos + to.size();
+		while ((pos = result.find(from, offset)) != std::string::npos) {
+			result.replace(result.begin() + pos, result.begin() + pos + from.length(), to);
+			offset = pos + to.length();
 		}
  
 		return result;
+	}
+
+	bool StringUtil::StartsWith(const std::string& str, const std::string& prefix) {
+		return (str.length() >= prefix.length() && str.compare(0, prefix.length(), prefix) == 0);
+	}
+
+	bool StringUtil::EndsWith(const std::string& str, const std::string& suffix) {
+		return (str.length() >= suffix.length() && str.compare(str.length() - suffix.length(), suffix.length(), suffix) == 0);
 	}
 }
 

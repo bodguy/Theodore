@@ -11,7 +11,7 @@ namespace Quark {
 		~TerrainQuadtree();
 
 		static int GetRootNodes();
-		InputStream* GenerateVertexData();
+		void GenerateVertexData(InputStream& stream);
 
 	private:
 		static int rootNodes;

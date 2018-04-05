@@ -19,6 +19,12 @@ namespace Quark {
         static void SetPolygonMode(Enumeration::FillMode value);
         static void Enable(Enumeration::Capabilities value);
         static void Disable(Enumeration::Capabilities value);
+		static void PatchParameter(Enumeration::PatchParameters param, int value);
+		static void PatchParameter(Enumeration::PatchParameters param, float* values);
+
+	private:
+		Graphics();
+		~Graphics();
     };
 }
 

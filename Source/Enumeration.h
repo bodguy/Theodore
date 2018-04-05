@@ -168,6 +168,12 @@ namespace Quark {
             Resizable,
             NonResizeable
         };
+
+		enum PatchParameters {
+			PatchVertices = GL_PATCH_VERTICES,
+			DefaultOuterLevel = GL_PATCH_DEFAULT_OUTER_LEVEL,
+			DefaultInnerLevel = GL_PATCH_DEFAULT_INNER_LEVEL
+		};
     }
     
     inline Enumeration::BufferBits operator|(Enumeration::BufferBits lft, Enumeration::BufferBits rht) {

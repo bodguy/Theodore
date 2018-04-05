@@ -29,6 +29,7 @@
 #include "AssetManager.h"
 #include "Enumeration.h"
 #include "Random.h"
+#include "StringUtil.h"
 
 #include "TerrainConfig.h"
 

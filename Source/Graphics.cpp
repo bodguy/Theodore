@@ -5,6 +5,12 @@
 #include "Debug.h"
 
 namespace Quark {
+	Graphics::Graphics() {
+	}
+
+	Graphics::~Graphics() {
+	}
+
     void Graphics::Clear(const Color& color, Enumeration::BufferBits bits) {
         glClearColor(color.r, color.g, color.b, color.a);
         glClear(bits);
@@ -89,4 +95,12 @@ namespace Quark {
     void Graphics::Disable(Enumeration::Capabilities value) {
         glDisable(value);
     }
+
+	void Graphics::PatchParameter(Enumeration::PatchParameters param, int value) {
+		glPatchParameteri(param, value);
+	}
+	
+	void Graphics::PatchParameter(Enumeration::PatchParameters param, float* values) {
+		glPatchParameterfv(param, values);
+	}
 }
