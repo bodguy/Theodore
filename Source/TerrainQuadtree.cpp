@@ -23,7 +23,7 @@ namespace Quark {
 		for (int i = 0; i < TerrainQuadtree::rootNodes; i++) {
 			for (int j = 0; j < TerrainQuadtree::rootNodes; j++) {
 				AddChild(new TerrainNode(vao, config, 
-					Vector2d(i / static_cast<float>(rootNodes), j /static_cast<float>(rootNodes)), 0, Vector2d(i, j)));
+					Vector2d(i / static_cast<float>(rootNodes), j /static_cast<float>(rootNodes)), 0, Vector2d(static_cast<float>(i), static_cast<float>(j))));
 			}
 		}
 

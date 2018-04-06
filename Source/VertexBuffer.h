@@ -44,10 +44,13 @@ namespace Quark {
         unsigned int GetBufferID() const;
         
         void Data(const void* data, size_t length, Enumeration::BufferUsage usage);
-        void SubData(const void* data, size_t offset, size_t length);
+        // this redefines some or all of the data store for the specified buffer object.
+		void SubData(const void* data, size_t offset, size_t length);
         void GetSubData(void* data, size_t offset, size_t length);
         void BindBase(unsigned int index);
+		// map a portion of the buffer.
         void BindRange(unsigned int index, unsigned int offset, unsigned int size);
+		// map the whole buffer
         void* Lock(Enumeration::LockMode mode);
         void UnLock();
         
