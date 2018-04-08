@@ -1,11 +1,17 @@
 #ifndef Debug_h
 #define Debug_h
 
+#include <string>
+
 namespace Quark {
     class Matrix4x4; class Vector4d; class Vector3d; class Vector2d; class Color; class Quaternion; class Ray; class Texture;
     class Debug {
     public:
         static void Log(const char* format, ...);
+		static void Log(const std::string& str);
+		static void Log(int i);
+		static void Log(float f);
+		static void Log(double d);
         static void Log(const Matrix4x4& matrix, unsigned int precision = 6);
         static void Log(const Vector4d& vector4);
         static void Log(const Vector3d& vector3);

@@ -32,6 +32,7 @@
 #include "StringUtil.h"
 
 #include "TerrainConfig.h"
+#include "Cloth.h"
 
 using namespace Quark;
 using namespace Enumeration;

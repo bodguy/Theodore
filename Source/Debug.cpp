@@ -18,7 +18,23 @@ namespace Quark {
         vprintf(format, args);
         va_end(args);
     }
+
+	void Debug::Log(const std::string& str) {
+		Debug::Log("%s\n", str.c_str());
+	}
     
+	void Debug::Log(int i) {
+		Debug::Log("%d\n", i);
+	}
+
+	void Debug::Log(float f) {
+		Debug::Log("%f\n", f);
+	}
+
+	void Debug::Log(double d) {
+		Debug::Log("%lf\n", d);
+	}
+
     void Debug::Log(const Matrix4x4& matrix, unsigned int precision) {
         static const char* presition_table[7] = { "%.0f ", "%.1f ", "%.2f ", "%.3f ", "%.4f ", "%.5f ", "%.6f " };
         
