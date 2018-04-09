@@ -119,7 +119,8 @@ namespace Quark {
 			FragmentShader = GL_FRAGMENT_SHADER,
 			GeometryShader = GL_GEOMETRY_SHADER,
 			TessControlShader = GL_TESS_CONTROL_SHADER,
-			TessEvalShader = GL_TESS_EVALUATION_SHADER
+			TessEvalShader = GL_TESS_EVALUATION_SHADER,
+			ComputeShader = GL_COMPUTE_SHADER
 		};
         
         enum VertexSemantic {
