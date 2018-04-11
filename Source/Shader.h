@@ -33,12 +33,13 @@ namespace Quark {
         Program(const Shader& vertex, const Shader& fragment);
         Program(const Shader& vertex, const Shader& fragment, const Shader& geometry);
 		Program(const Shader& vertex, const Shader& fragment, const Shader& geometry, const Shader& tessControl, const Shader& tessEval);
-        ~Program();
+		~Program();
         
         void AttachShader(const Shader& shader);
         void DetachShader(const Shader& shader);
         int Link();
         void Use();
+		void UnUse();
         unsigned int GetProgramID() const;
         
         Attribute GetAttribute(const std::string& name);

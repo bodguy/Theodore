@@ -1,10 +1,6 @@
 #include "QuarkEngine.h"
 
 int main() {
-	Platform platform;
-	Input input;
-	Time time;
-
 	platform.Initialize("Verlet Integration", 800, 600, false, 4, 3);
 	platform.SetVSync(true);
 
@@ -38,7 +34,7 @@ int main() {
 	
 	while (platform.IsRunning()) {
 		platform.Update();
-		time.Update();
+		timer.Update();
 		input.Update();
 
 		if (Input::GetKeyDown(KEY_ESCAPE)) {

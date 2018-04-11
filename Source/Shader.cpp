@@ -153,6 +153,10 @@ namespace Quark {
     void Program::Use() {
         glUseProgram(mProgramID);
     }
+
+	void Program::UnUse() {
+		glUseProgram(NULL);
+	}
     
     unsigned int Program::GetProgramID() const {
         return mProgramID;
