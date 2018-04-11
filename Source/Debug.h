@@ -2,8 +2,19 @@
 #define Debug_h
 
 #include <string>
+#include <iostream>
 
 namespace Quark {
+	#define LOG(x) if(Debug::__logSwitch) { std::cout << __tabString << x << std::endl; }
+	#define TAB() if(Debug::__logSwitch) { __tabCount++; __tabString = std::string(__tabCount, '\t'); }
+	#define UNTAB() if(Debug::__logSwitch) { __tabCount--; __tabString = std::string(__tabCount, '\t'); }
+
+	#ifdef _DEBUG
+	#define FUNCNAME() Debug::LogFuncName __logFuncName(__FUNCTION__)
+	#elif
+	#define FUNCNAME() do { } while(0)
+	#endif
+
     class Matrix4x4; class Vector4d; class Vector3d; class Vector2d; class Color; class Quaternion; class Ray; class Texture;
     class Debug {
     public:
@@ -20,6 +31,23 @@ namespace Quark {
         static void Log(const Quaternion& quat);
         static void Log(const Ray& ray);
         static void Log(const Texture* object);
+
+		static struct LogFuncName {
+			LogFuncName(const char* fname) {
+				LOG(fname)
+				TAB()
+			}
+
+			~LogFuncName() { UNTAB() }
+		};
+
+		static void LogOnOff(bool b);
+		static bool GetLogSwitch();
+
+	private:
+		static int __tabCount;
+		static std::string __tabString;
+		static bool __logSwitch;
     };
 }
 

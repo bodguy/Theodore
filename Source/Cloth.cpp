@@ -77,7 +77,7 @@ namespace Quark {
 				mStream.Vec3(GetParticle(x, y + 1)->GetPosition());
 			}
 		}
-		mBuffer.Data(mStream.Pointer(), mStream.Size(), Enumeration::StreamDraw);
+		mBuffer.Data(mStream.Pointer(), mStream.Size(), Enumeration::BufferUsage::DynamicDraw);
 		mVao.BindAttribute(mProgram.GetAttribute("position"), mBuffer, 3, 3 * sizeof(float), 0);
 
 		mTransform.SetPosition(Vector3d(-0.8f, 0.5f, 0.f));

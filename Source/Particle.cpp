@@ -51,7 +51,7 @@ namespace Quark {
 	void Particle::Update(float dt) {
 		if (mMovable) {
 			Vector3d temp = mPosition;
-			mPosition = mPosition + (mPosition - mOldPosition) * (1.0f - Cloth::GetDamping()) + mAcceleration * dt;
+			mPosition = mPosition + (mPosition - mOldPosition) * (1.0f - Cloth::GetDamping()) + mAcceleration * dt * 3.f;
 			mOldPosition = temp;
 			ResetAcceleration();
 		}

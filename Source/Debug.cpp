@@ -12,6 +12,9 @@
 #include <stdio.h> // for vprintf
 
 namespace Quark {
+	int Debug::__tabCount = 0;
+	std::string Debug::__tabString = "";
+	bool Debug::__logSwitch = false;
     void Debug::Log(const char* format, ...) {
         va_list args;
         va_start(args, format);
@@ -110,4 +113,12 @@ namespace Quark {
         Debug::Log("Color Key Value: ");
         Debug::Log(object->mColorKey);
     }
+
+	void Debug::LogOnOff(bool b) {
+		Debug::__logSwitch = b;
+	}
+
+	bool Debug::GetLogSwitch() {
+		return Debug::__logSwitch;
+	}
 }
