@@ -59,7 +59,8 @@ namespace Quark {
         enum BufferType {
             BufferVertex = GL_ARRAY_BUFFER,
             BufferIndex = GL_ELEMENT_ARRAY_BUFFER,
-            BufferUniform = GL_UNIFORM_BUFFER
+            BufferUniform = GL_UNIFORM_BUFFER,
+			BufferStorage = GL_SHADER_STORAGE_BUFFER
         };
         
         enum FilterMode {
