@@ -229,4 +229,8 @@ namespace Quark {
     void Program::SetUniformBlock(const Uniform& uniform, const unsigned int bindingPoint) {
         glUniformBlockBinding(mProgramID, uniform, bindingPoint);
     }
+
+	void Program::DispatchCompute(unsigned int x, unsigned int y, unsigned int z) {
+		glDispatchCompute(x, y, z);
+	}
 }

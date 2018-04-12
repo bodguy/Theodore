@@ -4,7 +4,7 @@ int main() {
 	Platform platform;
 	Input input;
 	Time timer;
-	platform.Initialize("Verlet Integration", 800, 600, false, 4, 3);
+	platform.Initialize("Verlet Integration", 800, 600);
 	platform.SetVSync(true);
 
 	Shader vs(VertexShader), fs(FragmentShader), cs(ComputeShader);
@@ -41,10 +41,10 @@ int main() {
 	stream.Vec2(Vector2d(0.5f, -0.5f));
 
 	Buffer vertex(BufferStorage);
-	vertex.Data(stream.Pointer(), stream.Size(), StaticDraw);
+	vertex.Data(stream.Pointer(), stream.Size(), DynamicDraw);
 	VertexArray vao;
 	vao.BindAttribute(program.GetAttribute("position"), vertex, 2, sizeof(Vector2d), 0);
-	
+
 	while (platform.IsRunning()) {
 		platform.Update();
 		timer.Update();
@@ -58,8 +58,7 @@ int main() {
 		
 		program2.Use();
 		vertex.BindRange(0, 0, 3 * sizeof(Vector2d));
-		vertex.BindRange(1, 0, 3 * sizeof(Vector2d));
-		glDispatchCompute(32, 32, 1);
+		program2.DispatchCompute(1, 1, 1);
 		glMemoryBarrier(GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT);
 		program2.UnUse();
 

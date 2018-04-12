@@ -60,7 +60,8 @@ namespace Quark {
         void SetUniform(const Uniform& uniform, const Color* values, int count);
         void SetUniform(const Uniform& uniform, const Matrix4x4& value);	
         void SetUniformBlock(const Uniform& uniform, const unsigned int bindingPoint);
-        
+        void DispatchCompute(unsigned int x, unsigned int y, unsigned int z);
+
     private:
         unsigned int mProgramID;
     };
