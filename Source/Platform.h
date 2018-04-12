@@ -19,7 +19,7 @@ namespace Quark {
         
         static Platform* GetInstance() { return instance; }
         bool Initialize(const std::string& title, int width, int height,
-                        bool fullscreen = false, int majorVersion = 0, int minorVersion = 0, Enumeration::WindowStyle style = Enumeration::Resizable);
+                        bool fullscreen = false, int majorVersion = 0, int minorVersion = 0, int multisample = 4, Enumeration::WindowStyle style = Enumeration::Resizable);
         void Update();
         void SwapBuffer();
         void WindowSizeChanged(int width, int height);
@@ -47,6 +47,7 @@ namespace Quark {
         bool mMouseButtons[MOUSE_BUTTON_MAX];
 		bool mIsRunning;
         Vector3d mMousePosition;
+		bool mIsMultisampleSupported;
     };
 }
 

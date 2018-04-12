@@ -4,7 +4,7 @@ int main() {
 	Platform platform;
 	Input input;
 	Time timer;
-	platform.Initialize("Verlet Integration", 800, 600);
+	platform.Initialize("Verlet Integration", 800, 600, false);
 	platform.SetVSync(true);
 
 	Shader vs(VertexShader), fs(FragmentShader), cs(ComputeShader);
@@ -44,7 +44,7 @@ int main() {
 	vertex.Data(stream.Pointer(), stream.Size(), DynamicDraw);
 	VertexArray vao;
 	vao.BindAttribute(program.GetAttribute("position"), vertex, 2, sizeof(Vector2d), 0);
-
+	
 	while (platform.IsRunning()) {
 		platform.Update();
 		timer.Update();

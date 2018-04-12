@@ -24,7 +24,7 @@ namespace Quark {
 
     }
 
-    bool LinuxPlatform::CreatePlatformLinux(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, Enumeration::WindowStyle style) {
+    bool LinuxPlatform::CreatePlatformLinux(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, Enumeration::WindowStyle style) {
         platform->mWidth = width;
         platform->mHeight = height;
 		platform->mTitle = title;

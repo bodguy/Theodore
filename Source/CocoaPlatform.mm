@@ -26,7 +26,7 @@ namespace Quark {
         
     }
     
-    bool CocoaPlatform::CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, Enumeration::WindowStyle style) {
+    bool CocoaPlatform::CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, Enumeration::WindowStyle style) {
         @autoreleasepool {
             platform->mWidth = width;
             platform->mHeight = height;

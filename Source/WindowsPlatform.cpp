@@ -26,7 +26,7 @@ namespace Quark {
 
 	}
 
-	bool WindowsPlatform::CreatePlatformWindows(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, Enumeration::WindowStyle style) {
+	bool WindowsPlatform::CreatePlatformWindows(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, Enumeration::WindowStyle style) {
 		mhInstance = GetModuleHandle(NULL);
 		if (!mhInstance) return false;
 
@@ -143,25 +143,49 @@ namespace Quark {
 			HDC hdc = GetDC(handle);
 			if (!hdc) return false;
 
-			const int pixelAttribs[] = {
-				WGL_SAMPLES_ARB, 16,
-				WGL_SAMPLE_BUFFERS_ARB, GL_TRUE,
-				WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
-				WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
-				WGL_ACCELERATION_ARB, WGL_FULL_ACCELERATION_ARB,
-				WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
-				WGL_RED_BITS_ARB, 8,
-				WGL_GREEN_BITS_ARB, 8,
-				WGL_BLUE_BITS_ARB, 8,
-				WGL_ALPHA_BITS_ARB, 8,
-				WGL_DEPTH_BITS_ARB, 24,
-				WGL_STENCIL_BITS_ARB, 8,
-				WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
-				0
-			};
+			if (WindowsPlatform::QueryWGLExtensionSupported("WGL_ARB_multisample")) {
+				platform->mIsMultisampleSupported = true;
+			}
 
-			int pixelFormatID; UINT numFormats;
-			int nPixelFormat2 = wglChoosePixelFormatARB(hdc, pixelAttribs, NULL, 1, &pixelFormatID, &numFormats);
+			int pixelFormatID; UINT numFormats; int nPixelFormat2;
+			if (platform->mIsMultisampleSupported) {
+				// with multisampling
+				const int pixelAttribs[] = {
+					WGL_SAMPLES_ARB, multisample,
+					WGL_SAMPLE_BUFFERS_ARB, GL_TRUE,
+					WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
+					WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
+					WGL_ACCELERATION_ARB, WGL_FULL_ACCELERATION_ARB,
+					WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+					WGL_RED_BITS_ARB, 8,
+					WGL_GREEN_BITS_ARB, 8,
+					WGL_BLUE_BITS_ARB, 8,
+					WGL_ALPHA_BITS_ARB, 8,
+					WGL_DEPTH_BITS_ARB, 24,
+					WGL_STENCIL_BITS_ARB, 8,
+					WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
+					0
+				};
+				nPixelFormat2 = wglChoosePixelFormatARB(hdc, pixelAttribs, NULL, 1, &pixelFormatID, &numFormats);
+			} else {
+				// without multisampling
+				const int pixelAttribs[] = {
+					WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
+					WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
+					WGL_ACCELERATION_ARB, WGL_FULL_ACCELERATION_ARB,
+					WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+					WGL_RED_BITS_ARB, 8,
+					WGL_GREEN_BITS_ARB, 8,
+					WGL_BLUE_BITS_ARB, 8,
+					WGL_ALPHA_BITS_ARB, 8,
+					WGL_DEPTH_BITS_ARB, 24,
+					WGL_STENCIL_BITS_ARB, 8,
+					WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
+					0
+				};
+				nPixelFormat2 = wglChoosePixelFormatARB(hdc, pixelAttribs, NULL, 1, &pixelFormatID, &numFormats);
+			}
+			
 			if (!nPixelFormat2 || numFormats == 0) return false;
 
 			PIXELFORMATDESCRIPTOR pfd2;
@@ -266,7 +290,7 @@ namespace Quark {
 	// Platform definition
 
 	Platform* Platform::instance = NULL;
-	Platform::Platform() :mWidth(0), mHeight(0), mIsShowCursor(true), mIsRunning(true), mMousePosition() {
+	Platform::Platform() :mWidth(0), mHeight(0), mIsShowCursor(true), mIsRunning(true), mMousePosition(), mIsMultisampleSupported(false) {
 		WindowsPlatform::instance = new WindowsPlatform();
 		instance = this;
 		WindowsPlatform::instance->platform = this;
@@ -405,8 +429,8 @@ namespace Quark {
 		}
 	}
 
-	bool Platform::Initialize(const std::string& name, int width, int height, bool fullscreen, int majorVersion, int minorVersion, Enumeration::WindowStyle style) {
-		return WindowsPlatform::instance->CreatePlatformWindows(name, width, height, fullscreen, majorVersion, minorVersion, style);
+	bool Platform::Initialize(const std::string& name, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, Enumeration::WindowStyle style) {
+		return WindowsPlatform::instance->CreatePlatformWindows(name, width, height, fullscreen, majorVersion, minorVersion, multisample, style);
 	}
 
 	void Platform::Update() {
