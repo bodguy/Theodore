@@ -17,6 +17,7 @@ namespace Quark {
         static Color Lerp(const Color& a, const Color& b, float t);
         static unsigned char ConvertToByte(float value);
         static float ConvertToFloat(unsigned char value);
+		static Color ConvertToColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
         
         static Color white;
         static Color grey;

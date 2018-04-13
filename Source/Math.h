@@ -10,6 +10,7 @@ namespace Quark {
         static float Lerp(float a, float b, float t);
         static float Radians(float degrees);
         static float Degrees(float radians);
+		static float PingPong(float t, float len);
         
         static float Sin(float angle);
         static float Cos(float angle);
@@ -17,6 +18,11 @@ namespace Quark {
         static float Asin(float angle);
         static float Acos(float angle);
         static float Atan(float angle);
+
+		static float Ceil(float a);
+		static float Floor(float a);
+		static float Round(float a);
+		static float Abs(float a);
         
         static const float pi;
         static const int degrees;

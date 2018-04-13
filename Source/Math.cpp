@@ -1,6 +1,7 @@
 #include "Math.h"
 #include <cmath>
 #include <float.h>
+#include <limits>
 
 namespace Quark {
     const float Math::pi = 3.1415926f;
@@ -8,11 +9,11 @@ namespace Quark {
     const float Math::degrees_to_radians = Math::pi / 180.f;
     
     bool Math::IsEqual(const float a, const float b) {
-        return std::abs(a - b) < FLT_EPSILON;
+       return std::fabs(a - b) < std::numeric_limits<float>::epsilon();
     }
     
     bool Math::IsZero(const float a) {
-        return std::abs(a) <= 0.000001f;
+        return std::fabsf(a) <= 0.000001f;
     }
     
     float Math::Clamp(float x, float a, float b) {
@@ -30,6 +31,17 @@ namespace Quark {
     float Math::Degrees(float radians) {
         return radians * (1 / degrees_to_radians);
     }
+
+	float Math::PingPong(float t, float len) {
+		float L = 2 * len;
+		float T = fmodf(t, L);
+
+		if(0 <= T && T < len) {
+			return T;
+		} else {
+			return (L - T);
+		}
+	}
     
     float Math::Sin(float angle) {
         return std::sin(angle);
@@ -54,4 +66,20 @@ namespace Quark {
     float Math::Atan(float angle) {
         return std::atan(angle);
     }
+
+	float Math::Ceil(float a) {
+		return std::ceilf(a);
+	}
+
+	float Math::Floor(float a) {
+		return std::floorf(a);
+	}
+
+	float Math::Round(float a) {
+		return a < 0.0 ? std::ceilf(a - 0.5) : std::floorf(a + 0.5);
+	}
+
+	float Math::Abs(float a) {
+		return std::fabsf(a);
+	}
 }

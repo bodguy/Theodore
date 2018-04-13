@@ -147,7 +147,7 @@ namespace Quark {
     }
     
     bool Vector3d::operator ==(const Vector3d& other) const {
-        return (x == other.x && y == other.y && z == other.z);
+        return (Math::IsEqual(x, other.x) && Math::IsEqual(y, other.y) && Math::IsEqual(z, other.z));
     }
     
     bool Vector3d::operator !=(const Vector3d& other) const {
@@ -171,7 +171,7 @@ namespace Quark {
     }
     
     bool Vector3d::operator ==(const float scalar) const {
-        return x == scalar && y == scalar && z == scalar;
+        return (Math::IsEqual(x, scalar) && Math::IsEqual(y, scalar) && Math::IsEqual(z, scalar));
     }
     
     bool Vector3d::operator !=(const float scalar) const {
@@ -201,7 +201,7 @@ namespace Quark {
     
     Vector3d& Vector3d::Normalize() {
         float len = std::sqrt(x * x + y * y + z * z);
-        if (len == 0.f || len == 1.f)
+        if (Math::IsZero(len) || Math::IsEqual(len, 1.f))
             return *this;
         
         float inv = 1 / len;

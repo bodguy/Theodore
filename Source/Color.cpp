@@ -1,4 +1,5 @@
 #include "Color.h"
+#include "Math.h"
 #include <algorithm> // for std::max, std::min
 #include <cmath> // for std::floor
 
@@ -12,11 +13,11 @@ namespace Quark {
     }
     
     bool Color::operator==(const Color& rhs) {
-        return ((r == rhs.r) && (g == rhs.g) && (b == rhs.b) && (a == rhs.a));
+        return (Math::IsEqual(r, rhs.r) && Math::IsEqual(g, rhs.g) && Math::IsEqual(b, rhs.b) && Math::IsEqual(a, rhs.a));
     }
     
     bool Color::operator!=(const Color& rhs) {
-        return ((r != rhs.r) || (g != rhs.g) || (b != rhs.b) || (a != rhs.a));
+        return !(*this == rhs);
     }
     
     float& Color::operator[] (unsigned int i) {
@@ -27,10 +28,13 @@ namespace Quark {
             default: return a;
         }
     }
-    
+
     Color Color::Lerp(const Color& a, const Color& b, float t) {
         // c = a+(b-a)*t
-        return Color(a.r + (b.r - a.r) * t, a.g + (b.g - a.g) * t, a.b + (b.b - a.b) * t, a.a + (b.a - a.a) * t);
+        return Color(std::max(0.f, std::min(1.f, a.r + (b.r - a.r) * t)), 
+			std::max(0.f, std::min(1.f, a.g + (b.g - a.g) * t)), 
+			std::max(0.f, std::min(1.f, a.b + (b.b - a.b) * t)), 
+			std::max(0.f, std::min(1.f, a.a + (b.a - a.a) * t)));
     }
     
     unsigned char Color::ConvertToByte(float value) {
@@ -41,6 +45,10 @@ namespace Quark {
     float Color::ConvertToFloat(unsigned char value) {
         return value * (1.f / 255.f);
     }
+
+	Color Color::ConvertToColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
+		return Color(ConvertToFloat(r), ConvertToFloat(g), ConvertToFloat(b), ConvertToFloat(a));
+	}
     
     Color Color::white = Color(1.f, 1.f, 1.f, 1.f);
     Color Color::grey = Color(0.5f, 0.5f, 0.5f, 1.0f);

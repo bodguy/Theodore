@@ -39,6 +39,6 @@ namespace Quark {
     }
     
     void Time::SetTimeScale(float value) {
-        instance->scale = value;
+        instance->scale = value / 1000.f;
     }
 }

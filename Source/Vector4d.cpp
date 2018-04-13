@@ -1,6 +1,7 @@
 #include "Vector4d.h"
 #include "Vector2d.h"
 #include "Vector3d.h"
+#include "Math.h"
 #include <cmath>
 #include <algorithm> // until c++11 for std::swap
 #include <utility> // since c++11 for std::swap
@@ -185,10 +186,7 @@ namespace Quark {
     }
     
     bool Vector4d::operator ==(const Vector4d& other) const {
-        return x == other.x &&
-        y == other.y &&
-        z == other.z &&
-        w == other.w;
+        return (Math::IsEqual(x, other.x) && Math::IsEqual(y, other.y) && Math::IsEqual(z, other.z) && Math::IsEqual(w, other.w));
     }
     
     bool Vector4d::operator !=(const Vector4d& other) const {
@@ -220,9 +218,8 @@ namespace Quark {
     }
     
     bool Vector4d::operator ==(const float scalar) const {
-        return x == scalar &&
-        y == scalar &&
-        z == scalar;
+		// scalar only equal with vector components.
+        return (Math::IsEqual(x, scalar) && Math::IsEqual(y, scalar) && Math::IsEqual(z, scalar));
     }
     
     bool Vector4d::operator !=(const float scalar) const {
@@ -231,7 +228,7 @@ namespace Quark {
     
     Vector4d& Vector4d::Normalize() {
         float len = std::sqrt(x * x + y * y + z * z + w * w);
-        if (len == 0.f || len == 1.f)
+		if (Math::IsZero(len) || Math::IsEqual(len, 1.f))
             return *this;
         
         float inv = 1 / len;

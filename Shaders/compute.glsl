@@ -11,6 +11,5 @@ layout (std430, binding = 0) writeOnly buffer buffer_OutPos {
 };
 
 void main() {
-	vec2 temp = InPos[gl_GlobalInvocationID.x];
-	OutPos[gl_GlobalInvocationID.x] = vec2(temp.x, temp.y);
+	OutPos[gl_GlobalInvocationID.x] = InPos[gl_GlobalInvocationID.x];
 }

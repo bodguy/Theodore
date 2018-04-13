@@ -1,4 +1,5 @@
 #include "Vector2d.h"
+#include "Math.h"
 #include <cmath>
 #include <algorithm> // until c++11 for std::swap
 #include <utility> // since c++11 for std::swap
@@ -120,7 +121,7 @@ namespace Quark {
     }
     
     bool Vector2d::operator ==(const Vector2d& other) const {
-        return x == other.x && y == other.y;
+        return (Math::IsEqual(x, other.x) && Math::IsEqual(y, other.y));
     }
     
     bool Vector2d::operator !=(const Vector2d& other) const {
@@ -144,7 +145,7 @@ namespace Quark {
     }
     
     bool Vector2d::operator ==(const float scalar) const {
-        return x == scalar && y == scalar;
+        return (Math::IsEqual(x, scalar) && Math::IsEqual(y, scalar));
     }
     
     bool Vector2d::operator !=(const float scalar) const {
@@ -165,7 +166,7 @@ namespace Quark {
     
     Vector2d& Vector2d::Normalize() {
         float len = std::sqrt(x * x + y * y);
-        if (len == 0.f || len == 1.f)
+        if (Math::IsZero(len) || Math::IsEqual(len, 1.f))
             return *this;
         
         float inv = 1 / len;

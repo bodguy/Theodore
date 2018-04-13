@@ -184,6 +184,7 @@ namespace Quark {
 					0
 				};
 				nPixelFormat2 = wglChoosePixelFormatARB(hdc, pixelAttribs, NULL, 1, &pixelFormatID, &numFormats);
+				Debug::Log("does not support multisampling\n");
 			}
 			
 			if (!nPixelFormat2 || numFormats == 0) return false;
