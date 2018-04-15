@@ -12,6 +12,8 @@ namespace Quark {
 
 		static int GetRootNodes();
 		void GenerateVertexData(InputStream& stream);
+		virtual void UpdateQuadtree() override;
+
 
 	private:
 		static int rootNodes;

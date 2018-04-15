@@ -31,6 +31,10 @@
 #include "Random.h"
 #include "StringUtil.h"
 
+#include "TranslateGizmo.h"
+#include "RotateGizmo.h"
+#include "ScaleGizmo.h"
+
 #include "TerrainConfig.h"
 #include "Cloth.h"
 

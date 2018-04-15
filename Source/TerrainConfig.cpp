@@ -3,6 +3,7 @@
 #include "Enumeration.h"
 #include "TerrainQuadtree.h"
 #include "StringUtil.h"
+#include "Utility.h"
 #include <algorithm>
 
 namespace Quark {
@@ -11,8 +12,8 @@ namespace Quark {
 	}
 
 	TerrainConfig::~TerrainConfig() {
-		delete[] mLodRange;
-		delete[] mLodMorphingArea;
+		SafeArrayDealloc(mLodRange);
+		SafeArrayDealloc(mLodMorphingArea);
 	}
 
 	void TerrainConfig::LoadFile(const std::string& file) {

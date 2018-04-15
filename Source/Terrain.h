@@ -10,7 +10,8 @@ namespace Quark {
 		Terrain();
 		~Terrain();
 
-		void init(const std::string& file);
+		void init(const std::string& fileName);
+		void UpdateQuadtree();
 
 	private:
 		TerrainConfig* mConfig;

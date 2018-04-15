@@ -59,4 +59,7 @@ namespace Quark {
     Color Color::yellow = Color(1.f, 1.f, 0.f, 1.f);
     Color Color::orange = Color(1.0f, 0.5f, 0.0f, 1.0f);
     Color Color::purple = Color(0.5f, 0.0f, 1.0f, 1.0f);
+	Color Color::GizmoRed = Color(0.65f, 0.2f, 0.11f, 1.0f);
+	Color Color::GizmoGreen = Color(0.47f, 0.8f, 0.29f, 1.0f);
+	Color Color::GizmoBlue = Color(0.2f, 0.39f, 0.84f, 1.0f);
 }

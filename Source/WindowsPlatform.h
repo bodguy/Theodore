@@ -19,6 +19,7 @@ namespace Quark {
 		void KillPlatformWindows();
 		static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 		static bool QueryWGLExtensionSupported(const std::string& extionsion_name);
+		static bool QueryExtentionSupported(const std::string& extionsion_name);
 
 	private:
 		static WindowsPlatform* instance;

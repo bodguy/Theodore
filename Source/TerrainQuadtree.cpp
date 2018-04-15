@@ -27,8 +27,8 @@ namespace Quark {
 			}
 		}
 
-		GetWorldTransform()->SetScale(Vector3d(config->GetScaleXZ(), config->GetScaleY(), config->GetScaleXZ()));
-		GetWorldTransform()->SetPosition(Vector3d(-config->GetScaleXZ()/2.f, 0.f, -config->GetScaleXZ() / 2.f));
+		GetWorldTransform().SetScale(Vector3d(config->GetScaleXZ(), config->GetScaleY(), config->GetScaleXZ()));
+		GetWorldTransform().SetPosition(Vector3d(-config->GetScaleXZ()/2.f, 0.f, -config->GetScaleXZ() / 2.f));
 	}
 
 	TerrainQuadtree::~TerrainQuadtree() {
@@ -61,6 +61,12 @@ namespace Quark {
 		int stride = 2;
 		for (int i = 0; i < 16; i++) {
 			stream.Vec2(Vector2d(terrainVerts[i * stride], terrainVerts[i * stride + 1]));
+		}
+	}
+
+	void TerrainQuadtree::UpdateQuadtree() {
+		for (Node* child : GetChildren()) {
+			static_cast<TerrainNode*>(child)->UpdateQuadtree();
 		}
 	}
 }

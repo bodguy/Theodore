@@ -42,6 +42,10 @@ namespace Quark {
 			return (L - T);
 		}
 	}
+
+	float Math::KBtoMB(int kb) {
+		return kb / 1024.f;
+	}
     
     float Math::Sin(float angle) {
         return std::sin(angle);
@@ -76,7 +80,7 @@ namespace Quark {
 	}
 
 	float Math::Round(float a) {
-		return a < 0.0 ? std::ceilf(a - 0.5) : std::floorf(a + 0.5);
+		return a < 0.f ? std::ceilf(a - 0.5f) : std::floorf(a + 0.5f);
 	}
 
 	float Math::Abs(float a) {

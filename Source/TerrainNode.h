@@ -13,8 +13,9 @@ namespace Quark {
 		TerrainNode(VertexArray& vao, TerrainConfig* config, Vector2d& location, int lod, Vector2d& index);
 		~TerrainNode();
 
-		virtual void Render() override;
-		virtual void Update() override;
+		void Render();
+		virtual void UpdateQuadtree() override;
+		void UpdateChildNodes();
 
 	private:
 		VertexArray mVao;

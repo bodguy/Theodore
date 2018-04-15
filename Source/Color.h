@@ -28,6 +28,9 @@ namespace Quark {
         static Color yellow;
         static Color orange;
         static Color purple;
+		static Color GizmoRed;
+		static Color GizmoGreen;
+		static Color GizmoBlue;
     };
 }
 

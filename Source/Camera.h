@@ -9,6 +9,7 @@
 namespace Quark {
 	class Camera {
 	public:
+		Camera();
 		Camera(const Vector3d& position);
 
 		void ResetAspect() const;
@@ -21,8 +22,8 @@ namespace Quark {
 
 		Ray ScreenPointToRay(const Vector3d& position);
 		Vector3d ScreenToWorldPoint(const Vector3d& position);
-
-		Transform mTransform;
+		void SetOrthographic(bool isOrtho);
+		Transform& GetTransform();
 	
 	private:
 		mutable float mFieldOfView;
@@ -31,6 +32,7 @@ namespace Quark {
 		mutable float mPixelWidth;
 		mutable float mPixelHeight;
 		mutable float mAspect;
+		Transform mTransform;
 
 		mutable Matrix4x4 mProjectionMatrix;
 		mutable Matrix4x4 mWorldToCameraMatrix;

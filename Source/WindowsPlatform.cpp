@@ -10,6 +10,8 @@
 #include "Platform.h"
 #include "WindowsPlatform.h"
 #include "Debug.h"
+#include "StringUtil.h"
+#include "Math.h"
 
 namespace Quark {
 
@@ -198,7 +200,7 @@ namespace Quark {
 				WGL_CONTEXT_MAJOR_VERSION_ARB, major_min,
 				WGL_CONTEXT_MINOR_VERSION_ARB, minor_min,
 				WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
-				//		WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_DEBUG_BIT_ARB,
+				//WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_DEBUG_BIT_ARB,
 				0
 			};
 
@@ -219,9 +221,31 @@ namespace Quark {
 		// now we can init glew lib
 		if (glewInit() != GLEW_OK) return false;
 
-		Debug::Log("Renderer: %s\n", glGetString(GL_RENDERER));
-		Debug::Log("OpenGL version supported by this platform (%s) \n", glGetString(GL_VERSION));
-		Debug::Log("GLSL version = %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+		GLint nTotalMemoryInKB = 0;
+		GLint nCurAvailMemoryInKB = 0;
+		if (QueryExtentionSupported("GL_NVX_gpu_memory_info")) {
+			glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &nTotalMemoryInKB);
+			glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &nCurAvailMemoryInKB);
+		}
+
+		if (QueryExtentionSupported("GL_ATI_meminfo")) {
+			GLuint uNoOfGPUs = wglGetGPUIDsAMD(0, 0);
+			GLuint* uGPUIDs = new GLuint[uNoOfGPUs];
+			wglGetGPUIDsAMD(uNoOfGPUs, uGPUIDs);
+			wglGetGPUInfoAMD(uGPUIDs[0], WGL_GPU_RAM_AMD, GL_UNSIGNED_INT, sizeof(GLuint), &nTotalMemoryInKB);
+			glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, &nCurAvailMemoryInKB);
+		}
+
+		Debug::Log("Vendor              : %s\n", glGetString(GL_VENDOR));
+		Debug::Log("Renderer            : %s\n", glGetString(GL_RENDERER));
+		Debug::Log("Version             : %s\n", glGetString(GL_VERSION));
+		Debug::Log("GLSL                : %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+		Debug::Log("GPU Total Memory    : %.0f MB\n", Math::Round(Math::KBtoMB(nTotalMemoryInKB)));
+		Debug::Log("GPU Available Memory: %.0f MB\n", Math::Round(Math::KBtoMB(nCurAvailMemoryInKB)));
+
+		//if (QueryExtentionSupported("GL_ARB_get_program_binary")) {
+		//	Debug::Log("program binary supported!\n");
+		//}
 
 		ShowWindow(mHandle, SW_SHOWDEFAULT);
 		UpdateWindow(mHandle);
@@ -269,22 +293,33 @@ namespace Quark {
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	bool WindowsPlatform::QueryWGLExtensionSupported(const std::string& extionsion_name)
-	{
+	bool WindowsPlatform::QueryWGLExtensionSupported(const std::string& extionsion_name) {
 		// this is pointer to function which returns pointer to string with list of all wgl extensions
 		PFNWGLGETEXTENSIONSSTRINGEXTPROC _wglGetExtensionsStringEXT = NULL;
 
 		// determine pointer to wglGetExtensionsStringEXT function
 		_wglGetExtensionsStringEXT = (PFNWGLGETEXTENSIONSSTRINGEXTPROC)wglGetProcAddress("wglGetExtensionsStringEXT");
 
-		if (strstr(_wglGetExtensionsStringEXT(), extionsion_name.c_str()) == NULL)
-		{
+		if (strstr(_wglGetExtensionsStringEXT(), extionsion_name.c_str()) == NULL) {
 			// string was not found
 			return false;
 		}
 
 		// extension is supported
 		return true;
+	}
+
+	bool WindowsPlatform::QueryExtentionSupported(const std::string& extionsion_name) {
+		GLint n;
+		glGetIntegerv(GL_NUM_EXTENSIONS, &n);
+		for (int i = 0; i < n; i++) {
+			std::string ext = (const char*)glGetStringi(GL_EXTENSIONS, i);
+			if (ext == extionsion_name) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -5,8 +5,15 @@
 #include GLEW_INCLUDE_DIR
 
 namespace Quark {
+	Camera::Camera() : mNearClipPlane(0.1f), mFarClipPlane(1000.f), mOrthographic(false), mTransform() {
+		ResetAspect();
+		ResetFieldOfView();
+	}
+
 	Camera::Camera(const Vector3d& position) : mNearClipPlane(0.1f), mFarClipPlane(1000.f), mOrthographic(false) {
 		mTransform.SetPosition(position);
+		ResetAspect();
+		ResetFieldOfView();
 	}
 
 	void Camera::ResetAspect() const {
@@ -26,7 +33,11 @@ namespace Quark {
 
 	Matrix4x4 Camera::GetProjectionMatrix() const {
 		ResetProjectionMatrix();
-		mProjectionMatrix = Matrix4x4::Perspective(Math::Radians(mFieldOfView), mAspect, mNearClipPlane, mFarClipPlane);
+		if (mOrthographic) {
+			mProjectionMatrix = Matrix4x4::Orthogonal(1.f, -1.f, 1.f, -1.f, mNearClipPlane, mFarClipPlane);
+		} else {
+			mProjectionMatrix = Matrix4x4::Perspective(Math::Radians(mFieldOfView), mAspect, mNearClipPlane, mFarClipPlane);
+		}
 		return mProjectionMatrix;
 	}
 
@@ -59,5 +70,13 @@ namespace Quark {
 		screenCoords.z = 2 * screenCoords.z - 1;
 
 		return invProjectionView * screenCoords;
+	}
+
+	void Camera::SetOrthographic(bool isOrtho) {
+		mOrthographic = isOrtho;
+	}
+
+	Transform& Camera::GetTransform() {
+		return mTransform;
 	}
 }
