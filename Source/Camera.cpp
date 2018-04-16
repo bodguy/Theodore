@@ -6,6 +6,7 @@
 
 namespace Quark {
 	Camera::Camera() : mNearClipPlane(0.1f), mFarClipPlane(1000.f), mOrthographic(false), mTransform() {
+		mTransform.SetPosition(Vector3d(-0.101061f, 0.632650f, 2.383647f));
 		ResetAspect();
 		ResetFieldOfView();
 	}
@@ -34,7 +35,7 @@ namespace Quark {
 	Matrix4x4 Camera::GetProjectionMatrix() const {
 		ResetProjectionMatrix();
 		if (mOrthographic) {
-			mProjectionMatrix = Matrix4x4::Orthogonal(1.f, -1.f, 1.f, -1.f, mNearClipPlane, mFarClipPlane);
+			mProjectionMatrix = Matrix4x4::Orthogonal(-2.f, 2.f, -2.f, 2.f, -mNearClipPlane, mFarClipPlane);
 		} else {
 			mProjectionMatrix = Matrix4x4::Perspective(Math::Radians(mFieldOfView), mAspect, mNearClipPlane, mFarClipPlane);
 		}

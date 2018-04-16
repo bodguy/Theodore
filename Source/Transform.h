@@ -30,10 +30,11 @@ namespace Quark {
 		void SetScale(const Vector3d& scale);
 		void SetEulerAngles(const Vector3d& euler);
 
+		Quaternion mRotation;
 	private:
 		Vector3d mPosition;
 		Vector3d mScale;
-		Quaternion mRotation;
+		
 
 		mutable Vector3d mForward;
 		mutable Vector3d mUp;

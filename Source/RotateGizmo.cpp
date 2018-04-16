@@ -3,50 +3,50 @@
 #include "Math.h"
 #include "File.h"
 #include "Graphics.h"
+#include "Time.h"
+#include "Quaternion.h"
 
 namespace Quark {
-	RotateGizmo::RotateGizmo() : Gizmo(), mDegree(5) {
+	RotateGizmo::RotateGizmo() : Gizmo(), mDegree(5), mHalfCircleSegmentCount(64) {
 		InputStream verts;
-		for (int i = 0; i <= Math::degrees; i += mDegree) {
-			// x axis
-			verts.Vec3(Vector3d(Math::Cos(Math::Radians(i)), 0.f, Math::Sin(Math::Radians(i))));
-			verts.Vec3(Vector3d(Math::Cos(Math::Radians(i + mDegree)), 0.f, Math::Sin(Math::Radians(i + mDegree))));
-			// y axis
-			verts.Vec3(Vector3d(Math::Cos(Math::Radians(i)), Math::Sin(Math::Radians(i)), 0.f));
-			verts.Vec3(Vector3d(Math::Cos(Math::Radians(i + mDegree)), Math::Sin(Math::Radians(i + mDegree)), 0.f));
-			// z axis
-			verts.Vec3(Vector3d(0.f, Math::Cos(Math::Radians(i)), Math::Sin(Math::Radians(i))));
-			verts.Vec3(Vector3d(0.f, Math::Cos(Math::Radians(i + mDegree)), Math::Sin(Math::Radians(i + mDegree))));
+		for(int axis = 0; axis < 3; axis++) {
+			float angleStart = 0;
+			for (int i = 0; i < mHalfCircleSegmentCount; i ++) {
+				float ng = angleStart + Math::pi * ((float)i / (float)mHalfCircleSegmentCount);
+				Vector3d axisPos = Vector3d(Math::Cos(ng), Math::Sin(ng), 0.f);
+				verts.Vec3(Vector3d(axisPos[axis], axisPos[(axis+1)%3], axisPos[(axis+2)%3]));
+			}
 		}
 
-		InputStream colour;
-		for (int i = 0; i <= Math::degrees; i += mDegree) {
-			colour.Color4(Color::GizmoGreen);
-			colour.Color4(Color::GizmoGreen);
-			colour.Color4(Color::GizmoRed);
-			colour.Color4(Color::GizmoRed);
-			colour.Color4(Color::GizmoBlue);
-			colour.Color4(Color::GizmoBlue);
-		}
-
-		Buffer buffer1(Enumeration::BufferVertex);
-		buffer1.Data(verts.Pointer(), verts.Size(), Enumeration::StaticDraw);
-		Buffer buffer2(Enumeration::BufferVertex);
-		buffer2.Data(colour.Pointer(), colour.Size(), Enumeration::StaticDraw);
-
-		mVao.BindAttribute(mProgram.GetAttribute("position"), buffer1, 3, sizeof(Vector3d), 0);
-		mVao.BindAttribute(mProgram.GetAttribute("color"), buffer2, 4, sizeof(Color), 0);
+		Buffer buffer(Enumeration::BufferVertex);
+		buffer.Data(verts.Pointer(), verts.Size(), Enumeration::StaticDraw);
+		mVao.BindAttribute(mProgram.GetAttribute("position"), buffer, 3, sizeof(Vector3d), 0);
 	}
 
 	RotateGizmo::~RotateGizmo() {
 	}
 
 	void RotateGizmo::Render(const Camera& cam) {
+		// x axis
+		mTransform.Rotate(Vector3d(1.f, 0.f, 0.f), Math::Radians(90.f));
 		mProgram.Use();
 		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());
 		mProgram.SetUniform(mProgram.GetUniform("view"), cam.GetWorldToCameraMatrix());
 		mProgram.SetUniform(mProgram.GetUniform("projection"), cam.GetProjectionMatrix());
-		Graphics::DrawArrays(mVao, Enumeration::Lines, 0, Math::degrees / mDegree * 6);
+		mProgram.SetUniform(mProgram.GetUniform("color"), Color::GizmoRed);
+		Graphics::DrawArrays(mVao, Enumeration::LineStrip, 0, mHalfCircleSegmentCount);
+		mProgram.UnUse();
+
+		mTransform.Rotate(Vector3d::backward, Math::Radians(90.f));
+		Quaternion originalRot = mTransform.mRotation;
+		mTransform.mRotation = originalRot * Quaternion::AngleAxis(Math::Radians(180), Vector3d::backward);
+
+		mProgram.Use();
+		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("view"), cam.GetWorldToCameraMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("projection"), cam.GetProjectionMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("color"), Color::GizmoGreen);
+		Graphics::DrawArrays(mVao, Enumeration::LineStrip, 0, mHalfCircleSegmentCount);
 		mProgram.UnUse();
 	}
 }

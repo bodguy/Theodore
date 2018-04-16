@@ -14,21 +14,9 @@ namespace Quark {
 		verts.Vec3(Vector3d(0.f, 0.f, 0.f));
 		verts.Vec3(Vector3d(0.f, 0.f, 1.f));
 
-		InputStream colour;
-		colour.Color4(Color::GizmoRed);
-		colour.Color4(Color::GizmoRed);
-		colour.Color4(Color::GizmoGreen);
-		colour.Color4(Color::GizmoGreen);
-		colour.Color4(Color::GizmoBlue);
-		colour.Color4(Color::GizmoBlue);
-
-		Buffer buffer1(Enumeration::BufferVertex);
-		buffer1.Data(verts.Pointer(), verts.Size(), Enumeration::StaticDraw);
-		Buffer buffer2(Enumeration::BufferVertex);
-		buffer2.Data(colour.Pointer(), colour.Size(), Enumeration::StaticDraw);
-
-		mVao.BindAttribute(mProgram.GetAttribute("position"), buffer1, 3, sizeof(Vector3d), 0);
-		mVao.BindAttribute(mProgram.GetAttribute("color"), buffer2, 4, sizeof(Color), 0);
+		Buffer buffer(Enumeration::BufferVertex);
+		buffer.Data(verts.Pointer(), verts.Size(), Enumeration::StaticDraw);
+		mVao.BindAttribute(mProgram.GetAttribute("position"), buffer, 3, sizeof(Vector3d), 0);
 	}
 
 	TranslateGizmo::~TranslateGizmo() {
@@ -36,11 +24,29 @@ namespace Quark {
 	}
 
 	void TranslateGizmo::Render(const Camera& cam) {
+		mTransform.Rotate(Vector3d(0.f, 1.f, 0.f), Math::Radians(45));
 		mProgram.Use();
 		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());
 		mProgram.SetUniform(mProgram.GetUniform("view"), cam.GetWorldToCameraMatrix());
 		mProgram.SetUniform(mProgram.GetUniform("projection"), cam.GetProjectionMatrix());
-		Graphics::DrawArrays(mVao, Enumeration::Lines, 0, 6);
+		mProgram.SetUniform(mProgram.GetUniform("color"), Color::GizmoRed);
+		Graphics::DrawArrays(mVao, Enumeration::Lines, 0, 2);
+		mProgram.UnUse();
+
+		mProgram.Use();
+		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("view"), cam.GetWorldToCameraMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("projection"), cam.GetProjectionMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("color"), Color::GizmoGreen);
+		Graphics::DrawArrays(mVao, Enumeration::Lines, 2, 2);
+		mProgram.UnUse();
+
+		mProgram.Use();
+		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("view"), cam.GetWorldToCameraMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("projection"), cam.GetProjectionMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("color"), Color::GizmoBlue);
+		Graphics::DrawArrays(mVao, Enumeration::Lines, 4, 2);
 		mProgram.UnUse();
 	}
 }

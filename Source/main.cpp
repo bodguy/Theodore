@@ -6,15 +6,13 @@ int main() {
 	Time timer;
 	AssetManager manager;
 	Camera camera;
-	platform.Initialize("Lighting", 800, 600);
+	platform.Initialize("Lighting", 800, 600, false, 4, 3, 16);
 	platform.SetVSync(true);
 	Graphics::Enable(DepthTest);
-	Graphics::SetPolygonMode(WireFrame);
 
 	TranslateGizmo gizmo1;
 	RotateGizmo gizmo2;
 	
-	camera.GetTransform().SetPosition(Vector3d(0.1254f, 0.2907f, 1.6509f));
 	while (platform.IsRunning()) {
 		platform.Update();
 		timer.Update();

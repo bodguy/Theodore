@@ -17,6 +17,7 @@ namespace Quark {
 
 	private:
 		int mDegree;
+		int mHalfCircleSegmentCount;
 	};
 }
 
