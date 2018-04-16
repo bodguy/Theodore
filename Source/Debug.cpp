@@ -71,7 +71,7 @@ namespace Quark {
     }
     
     void Debug::Log(const Ray& ray) {
-        Debug::Log("Ray start: %f %f %f\nRay end: %f %f %f\n",
+        Debug::Log("Origin: (%f, %f, %f), Dir: (%f, %f, %f)\n",
                    ray.mOrigin.x, ray.mOrigin.y, ray.mOrigin.z, ray.mDirection.x, ray.mDirection.y, ray.mDirection.z);
     }
     

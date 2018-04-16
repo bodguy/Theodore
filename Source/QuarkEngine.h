@@ -19,6 +19,7 @@
 #include "Material.h"
 #include "Camera.h"
 #include "Ray.h"
+#include "Plane.h"
 
 #include "Utility.h"
 #include "Debug.h"
