@@ -22,6 +22,7 @@ namespace Quark {
 
 		Ray ScreenPointToRay(const Vector3d& position);
 		Vector3d ScreenToWorldPoint(const Vector3d& position);
+		Vector3d WorldToScreenPoint(const Vector3d& position);
 		void SetOrthographic(bool isOrtho);
 		Transform& GetTransform();
 	

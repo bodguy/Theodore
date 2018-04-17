@@ -24,7 +24,7 @@ namespace Quark {
 		float numer = Vector3d::DotProduct(mNormal, r.mOrigin) - d;
 		float denom = Vector3d::DotProduct(mNormal, r.mDirection);
 
-		if (Math::IsZero(denom)) { // normal is orthogonal to vector, cant intersect
+		if (denom < Math::flt_epsilon) { // normal is orthogonal to vector, cant intersect
 			*enter = -1.f;
 			return false;
 		}

@@ -49,7 +49,6 @@ int main() {
 			Ray ray = camera.ScreenPointToRay(Input::GetMousePosition());
 			float enter = 0.f;
 
-			Debug::Log(ray);
 			if (plane.Raycast(ray, &enter)) {
 				Vector3d hitPoint = ray.GetPoint(enter);
 				gizmo1.GetTransform().SetPosition(hitPoint);

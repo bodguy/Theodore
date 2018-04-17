@@ -28,6 +28,7 @@ namespace Quark {
         static const float pi;
         static const int degrees;
         static const float degrees_to_radians;
+		static const float flt_epsilon;
     };
 }
 

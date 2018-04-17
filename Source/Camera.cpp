@@ -73,6 +73,10 @@ namespace Quark {
 		return invProjectionView * screenCoords;
 	}
 
+	Vector3d Camera::WorldToScreenPoint(const Vector3d& position) {
+		return Vector3d();
+	}
+
 	void Camera::SetOrthographic(bool isOrtho) {
 		mOrthographic = isOrtho;
 	}
