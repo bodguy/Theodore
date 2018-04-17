@@ -43,7 +43,7 @@ namespace Quark {
 	}
 
 	Matrix4x4 Camera::GetWorldToCameraMatrix() const {
-		mWorldToCameraMatrix = Matrix4x4::LookAt(mTransform.GetPosition(), mTransform.GetPosition() + mTransform.GetForward(), Vector3d::up);
+		mWorldToCameraMatrix = Matrix4x4::LookAt(mTransform.GetPosition(), mTransform.GetPosition() + mTransform.GetForward(), mTransform.GetUp());
 		return mWorldToCameraMatrix;
 	}
 	
