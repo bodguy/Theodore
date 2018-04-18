@@ -31,6 +31,7 @@ namespace Quark {
         }
         
         mMouseDelta = Platform::GetInstance()->mMousePosition - mlastMousePos;
+		mMouseDelta.z = 0.f; // mouse wheel(z position) must be always 0 for Magnitude calculation
         if (mMouseDelta.Magnitude() > 50.0f) { // threshold value is 50.0f
             // renew old mouse position then wait for next frame when entering this function again
             mlastMousePos = Platform::GetInstance()->mMousePosition;

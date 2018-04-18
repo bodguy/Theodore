@@ -24,7 +24,12 @@ namespace Quark {
 		Vector3d ScreenToWorldPoint(const Vector3d& position);
 		Vector3d WorldToScreenPoint(const Vector3d& position);
 		void SetOrthographic(bool isOrtho);
+
 		Transform& GetTransform();
+		float GetNearClipPlane() const;
+		float GetFarClipPlane() const;
+		void SetNearClipPlane(float near);
+		void SetFarClipPlane(float far);
 	
 	private:
 		mutable float mFieldOfView;

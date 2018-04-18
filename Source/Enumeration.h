@@ -176,6 +176,11 @@ namespace Quark {
 			DefaultOuterLevel = GL_PATCH_DEFAULT_OUTER_LEVEL,
 			DefaultInnerLevel = GL_PATCH_DEFAULT_INNER_LEVEL
 		};
+
+		enum Space {
+			Self = 0,
+			World
+		};
     }
     
     inline Enumeration::BufferBits operator|(Enumeration::BufferBits lft, Enumeration::BufferBits rht) {

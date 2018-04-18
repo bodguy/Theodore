@@ -5,13 +5,13 @@
 #include GLEW_INCLUDE_DIR
 
 namespace Quark {
-	Camera::Camera() : mNearClipPlane(0.1f), mFarClipPlane(1000.f), mOrthographic(false), mTransform() {
+	Camera::Camera() : mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false), mTransform() {
 		mTransform.SetPosition(Vector3d(-0.101061f, 0.632650f, 2.383647f));
 		ResetAspect();
 		ResetFieldOfView();
 	}
 
-	Camera::Camera(const Vector3d& position) : mNearClipPlane(0.1f), mFarClipPlane(1000.f), mOrthographic(false) {
+	Camera::Camera(const Vector3d& position) : mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false) {
 		mTransform.SetPosition(position);
 		ResetAspect();
 		ResetFieldOfView();
@@ -83,5 +83,21 @@ namespace Quark {
 
 	Transform& Camera::GetTransform() {
 		return mTransform;
+	}
+
+	float Camera::GetNearClipPlane() const {
+		return mNearClipPlane;
+	}
+
+	float Camera::GetFarClipPlane() const {
+		return mFarClipPlane;
+	}
+
+	void Camera::SetNearClipPlane(float near) {
+		mNearClipPlane = near;
+	}
+		
+	void Camera::SetFarClipPlane(float far) {
+		mFarClipPlane = far;
 	}
 }

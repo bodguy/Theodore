@@ -13,17 +13,29 @@ namespace Quark {
 		mEulerAngles = Vector3d::zero;
 	}
 
-	void Transform::Translate(const Vector3d& translation) {
-		mPosition += translation;
+	void Transform::Translate(const Vector3d& translation, Enumeration::Space relativeTo) {
+		if(relativeTo == Enumeration::Self) {
+			mPosition += translation;
+		} else if(relativeTo == Enumeration::World) {
+
+		}
 	}
 
-	void Transform::Rotate(const Vector3d& axis, float angle) {
-		mRotation = Quaternion::AngleAxis(angle, axis);
+	void Transform::Rotate(const Vector3d& axis, float angle, Enumeration::Space relativeTo) {
+		if(relativeTo == Enumeration::Self) {
+			mRotation = Quaternion::AngleAxis(angle, axis);
+		} else if(relativeTo == Enumeration::World) {
+
+		}
 	}
 
-	void Transform::Rotate(const Vector3d& eulerAngles) {
-		Quaternion rhs = Quaternion::FromEuler(eulerAngles);
-		mRotation *= Quaternion::Inverse(mRotation) * rhs * mRotation;
+	void Transform::Rotate(const Vector3d& eulerAngles, Enumeration::Space relativeTo) {
+		if(relativeTo == Enumeration::Self) {
+			Quaternion rhs = Quaternion::FromEuler(eulerAngles);
+			mRotation *= Quaternion::Inverse(mRotation) * rhs * mRotation;
+		} else if(relativeTo == Enumeration::World) {
+
+		}
 	}
 
 	Vector3d Transform::GetPosition() const {

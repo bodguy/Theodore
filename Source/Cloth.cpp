@@ -5,6 +5,7 @@
 #include "Matrix4x4.h"
 #include "Debug.h"
 #include "Math.h"
+#include "Time.h"
 
 namespace Quark {
 	float Cloth::Damping = 0.01f;
@@ -51,12 +52,12 @@ namespace Quark {
 		using namespace Enumeration;
 		Shader vs(VertexShader), fs(FragmentShader);
 		File shaderFile;
-		shaderFile.Open("Core/Shaders/ClothVS.glsl", Read);
+		shaderFile.Open("Core/Shaders/gizmo/vs.glsl", Read);
 		if (shaderFile.IsOpen()) {
 			vs.Compile(shaderFile.ReadUntilEnd());
 			shaderFile.Close();
 		}
-		shaderFile.Open("Core/Shaders/ClothFS.glsl", Read);
+		shaderFile.Open("Core/Shaders/gizmo/fs.glsl", Read);
 		if (shaderFile.IsOpen()) {
 			fs.Compile(shaderFile.ReadUntilEnd());
 			shaderFile.Close();
@@ -128,9 +129,12 @@ namespace Quark {
 		}
 	}
 
-	void Cloth::Render() {
+	void Cloth::Render(const Camera& cam) {
 		mProgram.Use();
 		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("view"), cam.GetWorldToCameraMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("projection"), cam.GetProjectionMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("color"), Color::Lerp(Color::purple, Color::green, Math::PingPong(Time::ElapsedTime() / 2.f, 1.f)));
 
 		InputStream stream;
 		for (int x = 0; x < mWidth - 1; x++) {

@@ -4,15 +4,16 @@
 #include "Vector3d.h"
 #include "Matrix4x4.h"
 #include "Quaternion.h"
+#include "Enumeration.h"
 
 namespace Quark {
 	class Transform {
 	public:
 		Transform();
 
-		void Translate(const Vector3d& translation);
-		void Rotate(const Vector3d& axis, float angle);
-		void Rotate(const Vector3d& eulerAngles);
+		void Translate(const Vector3d& translation, Enumeration::Space relativeTo = Enumeration::Self);
+		void Rotate(const Vector3d& axis, float angle, Enumeration::Space relativeTo = Enumeration::Self);
+		void Rotate(const Vector3d& eulerAngles, Enumeration::Space relativeTo = Enumeration::Self);
 
 		Vector3d GetPosition() const;
 		Vector3d GetScale() const;
@@ -34,7 +35,6 @@ namespace Quark {
 	private:
 		Vector3d mPosition;
 		Vector3d mScale;
-		
 
 		mutable Vector3d mForward;
 		mutable Vector3d mUp;

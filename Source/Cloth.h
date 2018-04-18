@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "VertexBuffer.h"
 #include "Shader.h"
+#include "Camera.h"
 
 namespace Quark {
 	class Particle;
@@ -23,7 +24,7 @@ namespace Quark {
 		void addWindForcesForTriangle(Particle *p1, Particle *p2, Particle *p3, const Vector3d& direction);
 		void WindForce(const Vector3d& direction);
 
-		void Render();
+		void Render(const Camera& cam);
 		void Update(float dt);
 
 	private:
