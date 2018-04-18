@@ -73,7 +73,7 @@ namespace Quark {
         static Quaternion Inverse(const Quaternion& other);
         static Vector3d ToEuler(const Quaternion& quat);
         static Quaternion FromEuler(const Vector3d& euler);
-        void ToAngleAxis(float& angle, Vector3d& axis);
+        void AxisAngle(Vector3d& axis, float& angle);
         static Quaternion AngleAxis(const float angle, const Vector3d& axis);
         static Matrix4x4 ToRotationMatrix(const Quaternion& other);
         static Quaternion FromRotationMatrix(const Matrix4x4& other);

@@ -23,7 +23,8 @@ namespace Quark {
 
 	void Transform::Rotate(const Vector3d& axis, float angle, Enumeration::Space relativeTo) {
 		if(relativeTo == Enumeration::Self) {
-			mRotation = Quaternion::AngleAxis(angle, axis);
+			// this is problem
+			mRotation *= Quaternion::AngleAxis(Math::Radians(angle), axis);
 		} else if(relativeTo == Enumeration::World) {
 
 		}
@@ -31,8 +32,9 @@ namespace Quark {
 
 	void Transform::Rotate(const Vector3d& eulerAngles, Enumeration::Space relativeTo) {
 		if(relativeTo == Enumeration::Self) {
-			Quaternion rhs = Quaternion::FromEuler(eulerAngles);
-			mRotation *= Quaternion::Inverse(mRotation) * rhs * mRotation;
+			// this is problem
+			Quaternion rhs = Quaternion::FromEuler(Vector3d(Math::Radians(eulerAngles.x), Math::Radians(eulerAngles.y), Math::Radians(eulerAngles.z)));
+			mRotation *= rhs;
 		} else if(relativeTo == Enumeration::World) {
 
 		}
@@ -46,9 +48,8 @@ namespace Quark {
 		return mScale;
 	}
 
-	Vector3d Transform::GetRotation() const {
-		Vector3d euler = Quaternion::ToEuler(mRotation);
-		return euler;
+	Quaternion Transform::GetRotation() const {
+		return mRotation;
 	}
 
 	Vector3d Transform::GetForward() const {
@@ -67,6 +68,7 @@ namespace Quark {
 	}
 
 	Vector3d Transform::GetEulerAngles() const {
+		mEulerAngles = Quaternion::ToEuler(mRotation);
 		return mEulerAngles;
 	}
 
@@ -89,6 +91,10 @@ namespace Quark {
 	}
 
 	void Transform::SetEulerAngles(const Vector3d& euler) {
-		mRotation = Quaternion::FromEuler(euler);
+		mRotation = Quaternion::FromEuler(Vector3d(Math::Radians(euler.x), Math::Radians(euler.y), Math::Radians(euler.z)));
+	}
+
+	void Transform::SetRotation(const Quaternion& quat) {
+		mRotation = quat;
 	}
 }

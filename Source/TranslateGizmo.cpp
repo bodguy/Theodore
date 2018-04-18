@@ -3,6 +3,7 @@
 #include "Math.h"
 #include "File.h"
 #include "Graphics.h"
+#include "Time.h"
 
 namespace Quark {
 	TranslateGizmo::TranslateGizmo() : Gizmo() {
@@ -24,7 +25,7 @@ namespace Quark {
 	}
 
 	void TranslateGizmo::Render(const Camera& cam) {
-		mTransform.Rotate(Vector3d(0.f, 1.f, 0.f), Math::Radians(45));
+		mTransform.SetEulerAngles(Vector3d(0.f, 45.f, 0.f));
 		mProgram.Use();
 		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());
 		mProgram.SetUniform(mProgram.GetUniform("view"), cam.GetWorldToCameraMatrix());

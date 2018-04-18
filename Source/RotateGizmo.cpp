@@ -37,9 +37,9 @@ namespace Quark {
 		Graphics::DrawArrays(mVao, Enumeration::LineStrip, 0, mHalfCircleSegmentCount);
 		mProgram.UnUse();
 
-		mTransform.Rotate(Vector3d::backward, Math::Radians(90.f));
+		/*mTransform.Rotate(Vector3d::backward, Math::Radians(90.f));
 		Quaternion originalRot = mTransform.mRotation;
-		mTransform.mRotation = originalRot * Quaternion::AngleAxis(Math::Radians(180), Vector3d::backward);
+		mTransform.mRotation = originalRot * Quaternion::AngleAxis(Math::Radians(180), Vector3d::backward);*/
 
 		mProgram.Use();
 		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());

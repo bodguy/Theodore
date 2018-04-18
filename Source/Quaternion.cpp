@@ -325,7 +325,7 @@ namespace Quark {
         return qx * qy * qz;
     }
     
-    void Quaternion::ToAngleAxis(float& angle, Vector3d& axis) {
+    void Quaternion::AxisAngle(Vector3d& axis, float& angle) {
         const float scale = std::sqrt(x*x + y*y + z*z);
         
         if (Math::IsZero(scale) || w > 1.0f || w < -1.0f) {

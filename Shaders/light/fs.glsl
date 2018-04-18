@@ -5,7 +5,7 @@ in vec3 fPos;
 out vec4 outColor;
 
 const vec3 lightColor = vec3(1.0, 1.0, 1.0);
-const vec3 objectColor = vec3(1.0, 0.0, 0.0);
+uniform vec4 objectColor;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 
@@ -24,9 +24,9 @@ void main(void) {
 	float specularStrength = 0.5;
 	vec3 viewDir = normalize(viewPos - fPos);
 	vec3 reflectDir = reflect(-lightDir, norm);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16);
 	vec3 specular = specularStrength * spec * lightColor;
 
-	vec3 result = (ambient + diffuse + specular) * objectColor;
+	vec3 result = (ambient + diffuse + specular) * objectColor.xyz;
 	outColor = vec4(result, 1.0);
 }

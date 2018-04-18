@@ -17,7 +17,7 @@ namespace Quark {
 
 		Vector3d GetPosition() const;
 		Vector3d GetScale() const;
-		Vector3d GetRotation() const;
+		Quaternion GetRotation() const;
 
 		Vector3d GetForward() const;
 		Vector3d GetUp() const;
@@ -30,17 +30,18 @@ namespace Quark {
 		void SetPosition(const Vector3d& position);
 		void SetScale(const Vector3d& scale);
 		void SetEulerAngles(const Vector3d& euler);
-
-		Quaternion mRotation;
+		void SetRotation(const Quaternion& quat);
+		
 	private:
 		Vector3d mPosition;
+		Quaternion mRotation;
 		Vector3d mScale;
 
 		mutable Vector3d mForward;
 		mutable Vector3d mUp;
 		mutable Vector3d mRight;
 
-		Vector3d mEulerAngles;
+		mutable Vector3d mEulerAngles;
 		mutable Matrix4x4 mLocalToWorldMatrix;
 		mutable Matrix4x4 mWorldToLocalMatrix;
 	};
