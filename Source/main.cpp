@@ -159,7 +159,7 @@ int main() {
 
 		program.Use();
 		trans.Rotate(Vector3d(0.f, 1.f, 0.f), 20 * Time::DeltaTime());
-		//trans.Rotate(Vector3d(1.f, 0.f, 0.f), 20 * Time::DeltaTime());
+		trans.Rotate(Vector3d(1.f, 0.f, 0.f), 20 * Time::DeltaTime());
 		program.SetUniform(program.GetUniform("model"), trans.GetLocalToWorldMatrix());
 		program.SetUniform(program.GetUniform("view"), camera.GetWorldToCameraMatrix());
 		program.SetUniform(program.GetUniform("projection"), camera.GetProjectionMatrix());

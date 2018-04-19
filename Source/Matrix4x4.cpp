@@ -176,14 +176,6 @@ namespace Quark {
         
         throw std::out_of_range("index is out of range!");
     }
-
-	void Matrix4x4::Decompose(Vector3d& translation, Vector3d& rotation, Vector3d& scale) {
-
-	}
-
-	void Matrix4x4::Recompose(const Vector3d& translation, const Vector3d& rotation, const Vector3d& scale) {
-
-	}
     
     Matrix4x4& Matrix4x4::MakeIdentity() {
         return *this = Identity();

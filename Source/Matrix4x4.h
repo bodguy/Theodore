@@ -50,8 +50,6 @@ namespace Quark {
         const float operator[](unsigned int index) const;
         const float At(int index) const;
         const float At(int row, int col) const;
-		void Decompose(Vector3d& translation, Vector3d& rotation, Vector3d& scale);
-		void Recompose(const Vector3d& translation, const Vector3d& rotation, const Vector3d& scale);
         
         //! Identity matrix
         Matrix4x4& MakeIdentity();
