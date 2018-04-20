@@ -25,7 +25,7 @@ namespace Quark {
 	}
 
 	void TranslateGizmo::Render(const Camera& cam) {
-		mTransform.SetEulerAngles(Vector3d(0.f, 45.f, 0.f));
+		//mTransform.SetEulerAngles(Vector3d(0.f, 45.f, 0.f));
 		mProgram.Use();
 		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());
 		mProgram.SetUniform(mProgram.GetUniform("view"), cam.GetWorldToCameraMatrix());

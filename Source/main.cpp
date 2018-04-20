@@ -50,7 +50,7 @@ int main() {
 	Time timer;
 	AssetManager manager;
 	Camera camera;
-	platform.Initialize("Camera Movement", 1024, 800, false, 4, 3, 16);
+	platform.Initialize("Douzone ICT corp, ERPiU WEB Client", 400, 600, false, 4, 3, 16);
 	platform.SetVSync(true);
 	Graphics::Enable(DepthTest);
 	TranslateGizmo gizmo;
@@ -158,14 +158,14 @@ int main() {
 		gizmo.Render(camera);
 
 		program.Use();
-		trans.Rotate(Vector3d(0.f, 1.f, 0.f), 20 * Time::DeltaTime());
-		trans.Rotate(Vector3d(1.f, 0.f, 0.f), 20 * Time::DeltaTime());
+		trans.Rotate(Vector3d(0.f , 1.f ,0.f), 20 * Time::DeltaTime());
+		//trans.Rotate(Vector3d(1.f, 0.f, 0.f), 20 * Time::DeltaTime());
 		program.SetUniform(program.GetUniform("model"), trans.GetLocalToWorldMatrix());
 		program.SetUniform(program.GetUniform("view"), camera.GetWorldToCameraMatrix());
 		program.SetUniform(program.GetUniform("projection"), camera.GetProjectionMatrix());
 		program.SetUniform(program.GetUniform("lightPos"), Vector3d(1.0f + std::sin(Time::ElapsedTime()) * 2.0f, sin(Time::ElapsedTime() / 2.0f) * 1.0f, 0.f));
 		program.SetUniform(program.GetUniform("viewPos"), camera.GetTransform().GetPosition());
-		program.SetUniform(program.GetUniform("objectColor"), Color::Lerp(Color::purple, Color::yellow, Math::PingPong(Time::ElapsedTime() / 2.f, 1.f)));
+		program.SetUniform(program.GetUniform("objectColor"), Color::blue);
 		Graphics::DrawArrays(vao, Triangles, 0, vtxCount);
 		program.UnUse();
 

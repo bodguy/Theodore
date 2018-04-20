@@ -6,8 +6,8 @@
 #include <cmath>
 
 namespace Quark {
-    const Quaternion zero(0.f, 0.f, 0.f, 0.f);
-    const Quaternion identity(1.f, 0.f, 0.f, 0.f);
+    const Quaternion Quaternion::zero(0.f, 0.f, 0.f, 0.f);
+    const Quaternion Quaternion::identity(1.f, 0.f, 0.f, 0.f);
     
     Quaternion::Quaternion() : x(0.f), y(0.f), z(0.f), w(1.f) {
         
@@ -67,7 +67,7 @@ namespace Quark {
     
     Quaternion& Quaternion::operator *=(const Quaternion& other) {
         Quaternion tmp;
-        
+
         tmp.w = (other.w * w) - (other.x * x) - (other.y * y) - (other.z * z);
         tmp.x = (other.w * x) + (other.x * w) + (other.z * y) - (other.y * z);
         tmp.y = (other.w * y) + (other.y * w) + (other.x * z) - (other.z * x);

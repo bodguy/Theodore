@@ -24,27 +24,24 @@ namespace Quark {
 	void Transform::Rotate(const Vector3d& axis, float angle, Enumeration::Space relativeTo) {
 		if(relativeTo == Enumeration::Self) {
 			// this is problem
-			Quaternion quat = mRotation;
-			Quaternion quatInv = Quaternion::Inverse(mRotation);
-			quat.Normalize();
-			quatInv.Normalize();
-
-			mRotation *= quat * Quaternion::AngleAxis(Math::Radians(angle), axis) * quatInv;
-			mRotation.Normalize();
+			mRotation = Quaternion::AngleAxis(Math::Radians(angle), Vector3d(axis).Normalize()) * mRotation;
+			
 		} else if(relativeTo == Enumeration::World) {
-
+			
 		}
+		mRotation.Normalize();
 	}
 
 	void Transform::Rotate(const Vector3d& eulerAngles, Enumeration::Space relativeTo) {
 		if(relativeTo == Enumeration::Self) {
 			// this is problem
 			Quaternion rhs = Quaternion::FromEuler(Vector3d(Math::Radians(eulerAngles.x), Math::Radians(eulerAngles.y), Math::Radians(eulerAngles.z)));
-			mRotation *= rhs;
-			mRotation.Normalize();
+			mRotation = rhs * mRotation;
+			
 		} else if(relativeTo == Enumeration::World) {
 
 		}
+		mRotation.Normalize();
 	}
 
 	Vector3d Transform::GetPosition() const {
