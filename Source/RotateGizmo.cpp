@@ -26,25 +26,27 @@ namespace Quark {
 	RotateGizmo::~RotateGizmo() {
 	}
 
-	void RotateGizmo::Render(const Camera& cam) {
+	void RotateGizmo::Render() {
 		// x axis
 		mTransform.Rotate(Vector3d(1.f, 0.f, 0.f), Math::Radians(90.f));
 		mProgram.Use();
 		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());
-		mProgram.SetUniform(mProgram.GetUniform("view"), cam.GetWorldToCameraMatrix());
-		mProgram.SetUniform(mProgram.GetUniform("projection"), cam.GetProjectionMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("view"), Camera::GetMainCamera()->GetWorldToCameraMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("projection"), Camera::GetMainCamera()->GetProjectionMatrix());
 		mProgram.SetUniform(mProgram.GetUniform("color"), Color::GizmoRed);
 		Graphics::DrawArrays(mVao, Enumeration::LineStrip, 0, mHalfCircleSegmentCount);
 		mProgram.UnUse();
 
-		/*mTransform.Rotate(Vector3d::backward, Math::Radians(90.f));
+		/*
+		mTransform.Rotate(Vector3d::backward, Math::Radians(90.f));
 		Quaternion originalRot = mTransform.mRotation;
-		mTransform.mRotation = originalRot * Quaternion::AngleAxis(Math::Radians(180), Vector3d::backward);*/
+		mTransform.mRotation = originalRot * Quaternion::AngleAxis(Math::Radians(180), Vector3d::backward);
+		*/
 
 		mProgram.Use();
 		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());
-		mProgram.SetUniform(mProgram.GetUniform("view"), cam.GetWorldToCameraMatrix());
-		mProgram.SetUniform(mProgram.GetUniform("projection"), cam.GetProjectionMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("view"), Camera::GetMainCamera()->GetWorldToCameraMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("projection"), Camera::GetMainCamera()->GetProjectionMatrix());
 		mProgram.SetUniform(mProgram.GetUniform("color"), Color::GizmoGreen);
 		Graphics::DrawArrays(mVao, Enumeration::LineStrip, 0, mHalfCircleSegmentCount);
 		mProgram.UnUse();

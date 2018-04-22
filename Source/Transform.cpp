@@ -1,8 +1,9 @@
 #include "Transform.h"
 #include "Math.h"
+#include "Utility.h"
 
 namespace Quark {
-	Transform::Transform() : mRotation(), mLocalToWorldMatrix(), mWorldToLocalMatrix() {
+	Transform::Transform() : Component("Transform"), mRotation(), mLocalToWorldMatrix(), mWorldToLocalMatrix() {
 		mPosition = Vector3d::zero;
 		mScale = Vector3d::one;
 
@@ -11,6 +12,10 @@ namespace Quark {
 		mForward = mRotation * Vector3d::forward;
 
 		mEulerAngles = Vector3d::zero;
+	}
+
+	Transform::~Transform() {
+
 	}
 
 	void Transform::Translate(const Vector3d& translation, Enumeration::Space relativeTo) {
@@ -101,5 +106,23 @@ namespace Quark {
 
 	void Transform::SetRotation(const Quaternion& quat) {
 		mRotation = quat;
+	}
+
+	// private functions, for consistency with other components.
+
+	void Transform::Update(double deltaTime) {
+		UnUsed(deltaTime);
+	}
+
+	void Transform::Render() {
+		return;
+	}
+
+	bool Transform::CompareEquality(const Object& rhs) const {
+		return false;
+	}
+
+	bool Transform::Destroy() {
+		return false;
 	}
 }

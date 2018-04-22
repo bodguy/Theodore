@@ -4,7 +4,7 @@
 namespace Quark {
 	TextureCube::TextureCube() {
 		mType = Enumeration::TextureType;
-		mDimension = Enumeration::Cube;
+		mDimension = Enumeration::CubeMap;
 		mWrapMode = Enumeration::Clamp;
 		mFilterMode = Enumeration::Bilinear;
 	}

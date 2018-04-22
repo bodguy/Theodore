@@ -13,7 +13,7 @@ namespace Quark {
 		TranslateGizmo();
 		virtual ~TranslateGizmo();
 
-		virtual void Render(const Camera& cam) override;
+		virtual void Render() override;
 	};
 }
 

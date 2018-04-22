@@ -7,7 +7,7 @@
 #include <vector>
 
 namespace Quark {
-	class Texture2D; class Asset; class Color; class MSAATexture2D; class TextureCube; //class Font;
+	class Texture2D; class Asset; class Color; class MSAATexture2D; class TextureCube; class Shader; //class Font;
 	class AssetManager {
 	public:
 		AssetManager();
@@ -21,6 +21,7 @@ namespace Quark {
 		static TextureCube* RequestTexture(unsigned int id, const std::string& filename, Enumeration::TextureFormat format, Enumeration::CubemapFace face);
 		static MSAATexture2D* RequestTexture(unsigned int width, unsigned int height, Enumeration::TextureFormat format, unsigned int sample);
 		//static Font* RequestFont(const std::string& filename);
+		static Shader* RequestShader(const std::string& filename, Enumeration::ShaderType type);
 		static Asset* GetAssetByFilename(const std::string& filename);
 		static void RemoveAsset(Asset* asset);
 

@@ -13,7 +13,7 @@ namespace Quark {
 		ScaleGizmo();
 		virtual ~ScaleGizmo();
 
-		virtual void Render(const Camera& cam) override;
+		virtual void Render() override;
 	};
 }
 

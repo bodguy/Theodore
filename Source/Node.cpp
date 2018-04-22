@@ -13,13 +13,13 @@ namespace Quark {
 		return mParent;
 	}
 
-	Transform Node::GetWorldTransform() const {
-		return mWorldTransform;
-	}
+	//Transform Node::GetWorldTransform() const {
+	//	return mWorldTransform;
+	//}
 
-	Transform Node::GetLocalTransform() const {
-		return mLocalTransform;
-	}
+	//Transform Node::GetLocalTransform() const {
+	//	return mLocalTransform;
+	//}
 	
 	std::list<Node*> Node::GetChildren() const {
 		return mChildren;

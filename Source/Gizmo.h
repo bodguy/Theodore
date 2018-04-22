@@ -12,7 +12,7 @@ namespace Quark {
 		Gizmo();
 		~Gizmo();
 
-		virtual void Render(const Camera& cam) = 0;
+		virtual void Render() = 0;
 		Transform& GetTransform();
 
 	protected:

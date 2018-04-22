@@ -15,6 +15,7 @@ namespace Quark {
     // Shader
     
     Shader::Shader(const Enumeration::ShaderType type) : mIsCompiled(0) {
+		mType = Enumeration::TextShaderType; // BinaryShaderTyp is not implemented yet. Future consideration
         mShaderID = glCreateShader(type);
     }
     
@@ -46,6 +47,10 @@ namespace Quark {
     int Shader::IsCompiled() const {
         return mIsCompiled;
     }
+
+	void Shader::SetName(const std::string& filename) {
+		mName = filename;
+	}
     
     std::string Shader::PreprocessIncludes(const std::string& source, int level) {
         // https://www.opengl.org/discussion_boards/showthread.php/169209-include-in-glsl

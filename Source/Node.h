@@ -11,8 +11,8 @@ namespace Quark {
 		~Node();
 
 		Node* GetParent() const;
-		Transform GetWorldTransform() const;
-		Transform GetLocalTransform() const;
+		/*Transform GetWorldTransform() const;
+		Transform GetLocalTransform() const;*/
 		std::list<Node*> GetChildren() const;
 
 		void AddChild(Node* child);

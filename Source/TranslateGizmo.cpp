@@ -24,28 +24,28 @@ namespace Quark {
 
 	}
 
-	void TranslateGizmo::Render(const Camera& cam) {
-		//mTransform.SetEulerAngles(Vector3d(0.f, 45.f, 0.f));
+	void TranslateGizmo::Render() {
+		mTransform.SetEulerAngles(Vector3d(0.f, 45.f, 0.f));
 		mProgram.Use();
 		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());
-		mProgram.SetUniform(mProgram.GetUniform("view"), cam.GetWorldToCameraMatrix());
-		mProgram.SetUniform(mProgram.GetUniform("projection"), cam.GetProjectionMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("view"), Camera::GetMainCamera()->GetWorldToCameraMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("projection"), Camera::GetMainCamera()->GetProjectionMatrix());
 		mProgram.SetUniform(mProgram.GetUniform("color"), Color::GizmoRed);
 		Graphics::DrawArrays(mVao, Enumeration::Lines, 0, 2);
 		mProgram.UnUse();
 
 		mProgram.Use();
 		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());
-		mProgram.SetUniform(mProgram.GetUniform("view"), cam.GetWorldToCameraMatrix());
-		mProgram.SetUniform(mProgram.GetUniform("projection"), cam.GetProjectionMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("view"), Camera::GetMainCamera()->GetWorldToCameraMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("projection"), Camera::GetMainCamera()->GetProjectionMatrix());
 		mProgram.SetUniform(mProgram.GetUniform("color"), Color::GizmoGreen);
 		Graphics::DrawArrays(mVao, Enumeration::Lines, 2, 2);
 		mProgram.UnUse();
 
 		mProgram.Use();
 		mProgram.SetUniform(mProgram.GetUniform("model"), mTransform.GetLocalToWorldMatrix());
-		mProgram.SetUniform(mProgram.GetUniform("view"), cam.GetWorldToCameraMatrix());
-		mProgram.SetUniform(mProgram.GetUniform("projection"), cam.GetProjectionMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("view"), Camera::GetMainCamera()->GetWorldToCameraMatrix());
+		mProgram.SetUniform(mProgram.GetUniform("projection"), Camera::GetMainCamera()->GetProjectionMatrix());
 		mProgram.SetUniform(mProgram.GetUniform("color"), Color::GizmoBlue);
 		Graphics::DrawArrays(mVao, Enumeration::Lines, 4, 2);
 		mProgram.UnUse();

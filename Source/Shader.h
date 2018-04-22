@@ -4,20 +4,22 @@
 #include "Enumeration.h"
 #include "os_types.h"
 #include GLEW_INCLUDE_DIR
+#include "Asset.h"
 #include <string>
 
 namespace Quark {
     typedef int Attribute;
     typedef int Uniform;
     
-    class Shader {
+    class Shader : public Asset {
         friend class Program;
     public:
         Shader(const Enumeration::ShaderType type);
-        ~Shader();
+        virtual ~Shader();
         
         int Compile(const std::string& source);
         int IsCompiled() const;
+		void SetName(const std::string& filename);
         static std::string PreprocessIncludes(const std::string& source, int level = 0);
         
     private:

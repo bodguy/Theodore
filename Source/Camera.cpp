@@ -5,6 +5,7 @@
 #include GLEW_INCLUDE_DIR
 
 namespace Quark {
+	std::shared_ptr<Camera> Camera::mainCamera = nullptr;
 	Camera::Camera() : mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false), mTransform() {
 		mTransform.SetPosition(Vector3d(-0.101061f, 0.632650f, 2.383647f));
 		ResetAspect();
@@ -99,5 +100,12 @@ namespace Quark {
 		
 	void Camera::SetFarClipPlane(float far) {
 		mFarClipPlane = far;
+	}
+
+	Camera* Camera::GetMainCamera() {
+		if (Camera::mainCamera.get() == nullptr) {
+			mainCamera = std::make_shared<Camera>();
+		}
+		return Camera::mainCamera.get();
 	}
 }

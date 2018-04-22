@@ -80,7 +80,7 @@ namespace Quark {
             Tex2D = GL_TEXTURE_2D,
             Tex3D = GL_TEXTURE_3D,
             MSAATex2D = GL_TEXTURE_2D_MULTISAMPLE,
-            Cube = GL_TEXTURE_CUBE_MAP
+            CubeMap = GL_TEXTURE_CUBE_MAP
         };
         
         enum TextureFormat {
@@ -95,7 +95,9 @@ namespace Quark {
             Undefined = -1,
             TextureType,
             AudioType,
-            FontType
+            FontType,
+			TextShaderType,
+			BinaryShaderType
         };
         
         enum OpenMode {
@@ -180,6 +182,32 @@ namespace Quark {
 		enum Space {
 			Self = 0,
 			World
+		};
+
+		enum PrimitiveType {
+			PlanePrimitive = 0,
+			CubePrimitive,
+			SpherePrimitive,
+			CapsulePrimitive,
+			CylinderPrimitive
+		};
+
+		enum BlendMode {
+			BLEND_ALPHA,
+			BLEND_ADDITIVE,
+			BLEND_MULTIPLY
+		};
+
+		// only for OpenGL 2.1 below compatibility
+		enum MatrixMode {
+			MODELVIEW,
+			PROJECTION
+		};
+
+		enum ImageType {
+			IMAGE_PNG,
+			IMAGE_BMP,
+			IMAGE_TGA
 		};
     }
     

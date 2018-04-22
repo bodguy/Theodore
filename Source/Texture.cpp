@@ -70,7 +70,7 @@ namespace Quark {
         // Set wrap mode
         glTexParameteri(mDimension, GL_TEXTURE_WRAP_S, mWrapMode);
         glTexParameteri(mDimension, GL_TEXTURE_WRAP_T, mWrapMode);
-        if(mDimension == Enumeration::Cube) 
+        if(mDimension == Enumeration::CubeMap)
             glTexParameteri(mDimension, GL_TEXTURE_WRAP_R, mWrapMode);
     }
     

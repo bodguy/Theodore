@@ -65,9 +65,9 @@ namespace Quark {
 		glActiveTexture(GL_TEXTURE0);
 		glDepthFunc(GL_LEQUAL);
 		mCubeProgram->SetUniform(mCubeProgram->GetUniform("cubemap"), (unsigned int)0);
-		glBindTexture(Enumeration::Cube, mCubemapID);
+		glBindTexture(Enumeration::CubeMap, mCubemapID);
 		Graphics::DrawArrays(*mVertexArray, Enumeration::Triangles, 0, sizeof(CubeVertices) / sizeof(float) / 3);
-		glBindTexture(Enumeration::Cube, NULL);
+		glBindTexture(Enumeration::CubeMap, NULL);
 		glDepthFunc(GL_LESS); 
 	}
 

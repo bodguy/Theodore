@@ -5,6 +5,7 @@
 #include "Matrix4x4.h"
 #include "Transform.h"
 #include "Ray.h"
+#include <memory>
 
 namespace Quark {
 	class Camera {
@@ -30,8 +31,12 @@ namespace Quark {
 		float GetFarClipPlane() const;
 		void SetNearClipPlane(float near);
 		void SetFarClipPlane(float far);
+
+		static Camera* GetMainCamera();
 	
 	private:
+		static std::shared_ptr<Camera> mainCamera;
+
 		mutable float mFieldOfView;
 		float mNearClipPlane;
 		float mFarClipPlane;

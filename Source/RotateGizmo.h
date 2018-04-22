@@ -13,7 +13,7 @@ namespace Quark {
 		RotateGizmo();
 		~RotateGizmo();
 
-		virtual void Render(const Camera& cam) override;
+		virtual void Render() override;
 
 	private:
 		int mDegree;

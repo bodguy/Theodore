@@ -39,6 +39,11 @@
 #include "TerrainConfig.h"
 #include "Cloth.h"
 
+#include "SceneManager.h"
+#include "Scene.h"
+#include "GameObject.h"
+#include "Component.h"
+
 using namespace Quark;
 using namespace Enumeration;
 

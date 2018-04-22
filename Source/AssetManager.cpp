@@ -4,6 +4,8 @@
 #include "TextureCube.h"
 #include "MSAATexture2D.h"
 //#include "Font.h"
+#include "Shader.h"
+#include "File.h"
 #include "Color.h"
 #include "Debug.h"
 #include "Utility.h"
@@ -178,6 +180,33 @@ namespace Quark {
 //
 //		return asset;
 //	}
+
+	Shader* AssetManager::RequestShader(const std::string& filename, Enumeration::ShaderType type) {
+		Shader* asset = static_cast<Shader*>(GetAssetByFilename(filename));
+
+		if (!asset) {
+			asset = new Shader(type);
+
+			File file;
+			file.Open(filename, Enumeration::Read);
+			if (file.IsOpen()) {
+				asset->SetName(filename);
+				asset->Compile(file.ReadUntilEnd());
+				instance->StoreAsset(asset);
+				file.Close();
+			} else {
+				SafeDealloc(asset);
+				return static_cast<Shader*>(nullptr);
+			}
+		}
+
+		if (asset) {
+			asset->AddReference();
+			//Debug::Log(asset);
+		}
+
+		return asset;
+	}
 
 	Asset* AssetManager::GetAssetByFilename(const std::string& filename) {
 		for (auto i : instance->mAssets) {
