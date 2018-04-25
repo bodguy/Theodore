@@ -1,6 +1,8 @@
 #ifndef Color_h
 #define Color_h
 
+#include <string>
+
 namespace Quark {
     class Color {
     public:
@@ -16,8 +18,11 @@ namespace Quark {
         
         static Color Lerp(const Color& a, const Color& b, float t);
         static unsigned char ConvertToByte(float value);
-        static float ConvertToFloat(unsigned char value);
-		static Color ConvertToColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+		static Color RGBToColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+		static Color HexToColor(unsigned int hexValue);
+		static Color HexToColor(const std::string& hexString);
+		static Color CMKYToColor(float c, float m, float y, float k);
+		static Color HSVToColor(float h, float s, float v);
         
         static Color white;
         static Color grey;

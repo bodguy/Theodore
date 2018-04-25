@@ -42,12 +42,38 @@ namespace Quark {
         return static_cast<unsigned char>(std::floor(f2 == 1.0 ? 255 : f2 * 256));
     }
     
-    float Color::ConvertToFloat(unsigned char value) {
-        return value * (1.f / 255.f);
-    }
+	Color Color::RGBToColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
+		return Color(r * (1.f / 255.f), g * (1.f / 255.f), b * (1.f / 255.f), a * (1.f / 255.f));
+	}
+   
+	Color Color::HexToColor(unsigned int hexValue) {
+		return Color(((hexValue >> 16) & 0xFF) * (1.f / 255.f), // Extract the R byte
+					 ((hexValue >> 8) & 0xFF) * (1.f / 255.f), // Extract the G byte
+					 ((hexValue) & 0xFF) * (1.f / 255.f), // Extract the B byte
+					 ((hexValue >> 24) & 0xFF) * (1.f / 255.f)); // Extract the A byte
+	}
 
-	Color Color::ConvertToColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
-		return Color(ConvertToFloat(r), ConvertToFloat(g), ConvertToFloat(b), ConvertToFloat(a));
+	Color Color::HexToColor(const std::string& hexString) {
+		int hexValue = std::stoi(hexString.substr(1, hexString.size() - 1), 0, 16);
+		return Color(((hexValue >> 16) & 0xFF) * (1.f / 255.f), // Extract the R byte
+					((hexValue >> 8) & 0xFF) * (1.f / 255.f), // Extract the G byte
+					((hexValue) & 0xFF) * (1.f / 255.f), // Extract the B byte
+					1.f); // alpha is fixed to 1
+	}
+
+	Color Color::CMKYToColor(float c, float m, float y, float k) {
+		float cmyk_scale = 1.f / 100.f;
+		float k2 = std::min(100.f, k);
+
+		return Color((1.f - std::min(100.f, c) * cmyk_scale) * (1.f - k2 * cmyk_scale),
+					 (1.f - std::min(100.f, m) * cmyk_scale) * (1.f - k2 * cmyk_scale),
+					 (1.f - std::min(100.f, y) * cmyk_scale) * (1.f - k2 * cmyk_scale),
+					 1.f);
+	}
+
+	Color Color::HSVToColor(float h, float s, float v) {
+		// TODO
+		return Color();
 	}
     
     Color Color::white = Color(1.f, 1.f, 1.f, 1.f);

@@ -155,6 +155,7 @@ namespace Quark {
 			rotationX += Input::GetMouseDeltaPosition().y * sensitivity * Time::DeltaTime();
 			//rotationX = Math::Clamp(rotationX, minimumX, maximumX);
 
+			// 카메라도 Rotate사용하도록 수정할것!
 			Camera::GetMainCamera()->GetTransform().SetEulerAngles(Vector3d(-rotationX, -rotationY, 0.f));
 		}
 	}
@@ -163,8 +164,8 @@ namespace Quark {
 		//gizmo.Render();
 
 		program.Use();
-		//trans.Rotate(Vector3d(0.f , 1.f ,0.f), 20 * Time::DeltaTime());
-		//trans.Rotate(Vector3d(1.f, 0.f, 0.f), 20 * Time::DeltaTime());
+		trans->Rotate(Vector3d(0.f , 1.f ,0.f), 20 * Time::DeltaTime());
+		trans->Rotate(Vector3d(1.f, 0.f, 0.f), 20 * Time::DeltaTime());
 		program.SetUniform(program.GetUniform("model"), trans->GetLocalToWorldMatrix());
 		program.SetUniform(program.GetUniform("view"), Camera::GetMainCamera()->GetWorldToCameraMatrix());
 		program.SetUniform(program.GetUniform("projection"), Camera::GetMainCamera()->GetProjectionMatrix());

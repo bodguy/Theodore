@@ -389,8 +389,8 @@ namespace Quark {
     Matrix4x4 Quaternion::ToRotationMatrix(const Quaternion& other) {
         /*
          1-2y^2-2z^2		2xy-2wz		 2xz+2wy		0
-         2xy+2wz			1-2x^2-2z^2	 2yz+2wx		0
-         2xz-2wy			2yz-2wx		 1-2x^2-2y^2	0
+         2xy+2wz			1-2x^2-2z^2	 2yz-2wx		0
+         2xz-2wy			2yz+2wx		 1-2x^2-2y^2	0
          0				0			 0				1
          */
         Matrix4x4 result;
@@ -412,11 +412,11 @@ namespace Quark {
         
         result.m44[1][0] = 2.0f * (xy + wz);
         result.m44[1][1] = 1.0f - 2.0f * (xx + zz);
-        result.m44[1][2] = 2.0f * (yz + wx);
+        result.m44[1][2] = 2.0f * (yz - wx);
         result.m44[1][3] = 0.0f;
         
         result.m44[2][0] = 2.0f * (xz - wy);
-        result.m44[2][1] = 2.0f * (yz - wx);
+        result.m44[2][1] = 2.0f * (yz + wx);
         result.m44[2][2] = 1.0f - 2.0f * (xx + yy);
         result.m44[2][3] = 0.0f;
         
