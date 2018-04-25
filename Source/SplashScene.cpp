@@ -68,10 +68,16 @@ namespace Quark {
 
 	void SplashScene::OnAwake() {
 		GameObject* g = new GameObject("asd");
+		GameObject* g2 = new GameObject("asdasdasd");
 		Attach(g);
+		Attach(g2);
 		trans = g->GetTransform();
 		trans->SetPosition(Vector3d(0.f, -0.5f, 0.f));
 		trans->SetScale(Vector3d(20.f, 1.f, 20.f));
+
+		trans2 = g2->GetTransform();
+		trans2->SetPosition(Vector3d(0.f, 2.f, 0.f));
+		trans2->SetScale(Vector3d::one);
 
 		Shader* vs = AssetManager::RequestShader("Core/Shaders/light/vs.glsl", VertexShader);
 		Shader* fs = AssetManager::RequestShader("Core/Shaders/light/fs.glsl", FragmentShader);
@@ -124,9 +130,9 @@ namespace Quark {
 				Camera::GetMainCamera()->GetTransform().Translate(right);
 			}
 			else if (Input::GetKeyHeld(KEY_A)) {
-				Vector3d right = Camera::GetMainCamera()->GetTransform().GetRight();
-				right *= -speed * Time::DeltaTime();
-				Camera::GetMainCamera()->GetTransform().Translate(right);
+				Vector3d left = Camera::GetMainCamera()->GetTransform().GetRight();
+				left *= -speed * Time::DeltaTime();
+				Camera::GetMainCamera()->GetTransform().Translate(left);
 			}
 			else if (Input::GetKeyHeld(KEY_W)) {
 				Vector3d forward = Camera::GetMainCamera()->GetTransform().GetForward();
@@ -134,44 +140,53 @@ namespace Quark {
 				Camera::GetMainCamera()->GetTransform().Translate(forward);
 			}
 			else if (Input::GetKeyHeld(KEY_S)) {
-				Vector3d forward = Camera::GetMainCamera()->GetTransform().GetForward();
-				forward *= -speed * Time::DeltaTime();
-				Camera::GetMainCamera()->GetTransform().Translate(forward);
+				Vector3d backward = Camera::GetMainCamera()->GetTransform().GetForward();
+				backward *= -speed * Time::DeltaTime();
+				Camera::GetMainCamera()->GetTransform().Translate(backward);
 			}
 			else if (Input::GetKeyHeld(KEY_Q)) {
+				Vector3d down = Camera::GetMainCamera()->GetTransform().GetUp();
+				down *= -speed * Time::DeltaTime();
+				Camera::GetMainCamera()->GetTransform().Translate(down);
+			}
+			else if (Input::GetKeyHeld(KEY_E)) {
 				Vector3d up = Camera::GetMainCamera()->GetTransform().GetUp();
 				up *= speed * Time::DeltaTime();
 				Camera::GetMainCamera()->GetTransform().Translate(up);
 			}
-			else if (Input::GetKeyHeld(KEY_E)) {
-				Vector3d up = Camera::GetMainCamera()->GetTransform().GetUp();
-				up *= -speed * Time::DeltaTime();
-				Camera::GetMainCamera()->GetTransform().Translate(up);
-			}
 
-			rotationY += Input::GetMouseDeltaPosition().x * sensitivity * Time::DeltaTime();
-			//rotationY = Math::Clamp(rotationY, minimumY, maximumY);
+			rotationY = Input::GetMouseDeltaPosition().x * sensitivity * Time::DeltaTime();
+			rotationY = Math::Clamp(rotationY, minimumY, maximumY);
 
-			rotationX += Input::GetMouseDeltaPosition().y * sensitivity * Time::DeltaTime();
-			//rotationX = Math::Clamp(rotationX, minimumX, maximumX);
+			rotationX = Input::GetMouseDeltaPosition().y * sensitivity * Time::DeltaTime();
+			rotationX = Math::Clamp(rotationX, minimumX, maximumX);
 
-			// 카메라도 Rotate사용하도록 수정할것!
-			Camera::GetMainCamera()->GetTransform().SetEulerAngles(Vector3d(-rotationX, -rotationY, 0.f));
+			Camera::GetMainCamera()->GetTransform().Rotate(Vector3d::up, -rotationY);
+			Camera::GetMainCamera()->GetTransform().Rotate(Camera::GetMainCamera()->GetTransform().GetRight(), -rotationX);
 		}
 	}
 
 	void SplashScene::OnRender() {
 		//gizmo.Render();
-
 		program.Use();
-		trans->Rotate(Vector3d(0.f , 1.f ,0.f), 20 * Time::DeltaTime());
-		trans->Rotate(Vector3d(1.f, 0.f, 0.f), 20 * Time::DeltaTime());
 		program.SetUniform(program.GetUniform("model"), trans->GetLocalToWorldMatrix());
 		program.SetUniform(program.GetUniform("view"), Camera::GetMainCamera()->GetWorldToCameraMatrix());
 		program.SetUniform(program.GetUniform("projection"), Camera::GetMainCamera()->GetProjectionMatrix());
 		program.SetUniform(program.GetUniform("viewPos"), Camera::GetMainCamera()->GetTransform().GetPosition());
 		program.SetUniform(program.GetUniform("lightPos"), Vector3d(0.f, 10.f, 0.f));
 		program.SetUniform(program.GetUniform("objectColor"), Color::white);
+		Graphics::DrawArrays(vao, Triangles, 0, vtxCount);
+		program.UnUse();
+
+		program.Use();
+		trans2->Rotate(Vector3d(0.f , 1.f ,0.f), 20 * Time::DeltaTime());
+		trans2->Rotate(Vector3d(1.f, 0.f, 0.f), 20 * Time::DeltaTime());
+		program.SetUniform(program.GetUniform("model"), trans2->GetLocalToWorldMatrix());
+		program.SetUniform(program.GetUniform("view"), Camera::GetMainCamera()->GetWorldToCameraMatrix());
+		program.SetUniform(program.GetUniform("projection"), Camera::GetMainCamera()->GetProjectionMatrix());
+		program.SetUniform(program.GetUniform("viewPos"), Camera::GetMainCamera()->GetTransform().GetPosition());
+		program.SetUniform(program.GetUniform("lightPos"), Vector3d(0.f, 10.f, 0.f));
+		program.SetUniform(program.GetUniform("objectColor"), Color::red);
 		Graphics::DrawArrays(vao, Triangles, 0, vtxCount);
 		program.UnUse();
 	}

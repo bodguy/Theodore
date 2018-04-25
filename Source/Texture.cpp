@@ -17,8 +17,7 @@ namespace Quark {
     
     Color Texture::GetPixel(unsigned int x, unsigned int y) {
         GLubyte* colors = (GLubyte*)&mNativeTexturePtr[y * mWidth + x];
-        return Color(Color::ConvertToFloat(colors[0]), Color::ConvertToFloat(colors[1]),
-                     Color::ConvertToFloat(colors[2]), colors[3] ? Color::ConvertToFloat(colors[3]) : 0.f);
+		return Color::RGBToColor(colors[0], colors[1], colors[2], colors[3] ? colors[3] : 0);
     }
     
     void Texture::SetPixel(unsigned int x, unsigned int y, const Color& color) {

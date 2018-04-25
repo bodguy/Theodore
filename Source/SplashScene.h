@@ -18,6 +18,7 @@ namespace Quark {
 		Program program;
 		VertexArray vao;
 		Transform* trans;
+		Transform* trans2;
 		int vtxCount;
 	};
 }

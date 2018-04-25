@@ -72,7 +72,7 @@ namespace Quark {
 	}
 
 	Vector3d Transform::GetRight() const {
-		mRight = mRotation * Vector3d::right;
+		mRight = Vector3d::CrossProduct(GetForward(), GetUp());
 		return mRight;
 	}
 
