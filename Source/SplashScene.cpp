@@ -1,4 +1,5 @@
 #include "SplashScene.h"
+#include "Gizmo.h"
 
 namespace Quark {
 	const float Verts[] = {
@@ -67,17 +68,21 @@ namespace Quark {
 	}
 
 	void SplashScene::OnAwake() {
-		GameObject* g = new GameObject("asd");
-		GameObject* g2 = new GameObject("asdasdasd");
+		GameObject* g = new GameObject("plane");
+		GameObject* g2 = new GameObject("cube");
+		GameObject* g3 = new GameObject("gizmo");
 		Attach(g);
 		Attach(g2);
+		Attach(g3);
 		trans = g->GetTransform();
-		trans->SetPosition(Vector3d(0.f, -0.5f, 0.f));
+		trans->SetPosition(Vector3d(0.f, -1.f, 0.f));
 		trans->SetScale(Vector3d(20.f, 1.f, 20.f));
 
 		trans2 = g2->GetTransform();
 		trans2->SetPosition(Vector3d(0.f, 2.f, 0.f));
 		trans2->SetScale(Vector3d::one);
+
+		g3->AddComponent<Gizmo>(Enumeration::RotationGizmo);
 
 		Shader* vs = AssetManager::RequestShader("Core/Shaders/light/vs.glsl", VertexShader);
 		Shader* fs = AssetManager::RequestShader("Core/Shaders/light/fs.glsl", FragmentShader);
@@ -106,7 +111,7 @@ namespace Quark {
 			Platform::GetInstance()->Quit();
 		}
 
-		if (Input::GetKeyDown(KEY_1)) { // setting ortho or perspective
+		if (Input::GetKeyDown(KEY_2)) { // setting ortho or perspective
 			isOrtho = !isOrtho;
 			Camera::GetMainCamera()->SetOrthographic(isOrtho);
 		}
@@ -123,6 +128,13 @@ namespace Quark {
 
 		// camera rotation
 		if (Input::GetMouseButtonHeld(MOUSE_RIGHT)) {
+			if (Input::GetKeyHeld(KEY_LSHIFT) || Input::GetKeyHeld(KEY_RSHIFT)) {
+				speed = 13.5f;
+			}
+			else {
+				speed = 4.5f;
+			}
+
 			// camera translation
 			if (Input::GetKeyHeld(KEY_D)) {
 				Vector3d right = Camera::GetMainCamera()->GetTransform().GetRight();
@@ -167,7 +179,6 @@ namespace Quark {
 	}
 
 	void SplashScene::OnRender() {
-		//gizmo.Render();
 		program.Use();
 		program.SetUniform(program.GetUniform("model"), trans->GetLocalToWorldMatrix());
 		program.SetUniform(program.GetUniform("view"), Camera::GetMainCamera()->GetWorldToCameraMatrix());

@@ -209,6 +209,12 @@ namespace Quark {
 			IMAGE_BMP,
 			IMAGE_TGA
 		};
+
+		enum GizmoType {
+			TranslationGizmo,
+			ScaleGizmo,
+			RotationGizmo
+		};
     }
     
     inline Enumeration::BufferBits operator|(Enumeration::BufferBits lft, Enumeration::BufferBits rht) {

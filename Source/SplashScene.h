@@ -13,8 +13,7 @@ namespace Quark {
 		virtual void OnUpdate() override;
 		virtual void OnRender() override;
 
-		//TranslateGizmo gizmo;
-
+	private:
 		Program program;
 		VertexArray vao;
 		Transform* trans;

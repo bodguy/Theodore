@@ -3,7 +3,7 @@
 #include "Utility.h"
 
 namespace Quark {
-	Transform::Transform() : mRotation(), mLocalToWorldMatrix(), mWorldToLocalMatrix() {
+	Transform::Transform() : Component("Transform"), mRotation(), mLocalToWorldMatrix(), mWorldToLocalMatrix() {
 		mPosition = Vector3d::zero;
 		mScale = Vector3d::one;
 

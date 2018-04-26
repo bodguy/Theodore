@@ -5,20 +5,28 @@
 #include "Transform.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "Component.h"
+#include "Enumeration.h"
 
 namespace Quark {
-	class Gizmo {
+	class Gizmo : public Component {
 	public:
-		Gizmo();
+		Gizmo(Enumeration::GizmoType type);
 		~Gizmo();
 
-		virtual void Render() = 0;
 		Transform& GetTransform();
 
+	private:
+		virtual void Update(double deltaTime) override;
+		virtual void Render() override;
+		virtual bool CompareEquality(const Object& rhs) const override;
+		virtual bool Destroy() override;
+
 	protected:
-		VertexArray mVao;
+		VertexArray* mVao;
 		Transform mTransform;
-		Program mProgram;
+		Program* mProgram;
+		Enumeration::GizmoType mType;
 	};
 }
 
