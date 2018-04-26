@@ -12,7 +12,10 @@ namespace Quark {
         static float Degrees(float radians);
 		static float PingPong(float t, float len);
 		static float KBtoMB(int kb);
-        
+		static float PerlinNoise(float x);
+		static float PerlinNoise(float x, float y);
+        static float PerlinNoise(float x, float y, float z);
+
         static float Sin(float angle);
         static float Cos(float angle);
         static float Tan(float angle);

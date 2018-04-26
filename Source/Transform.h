@@ -33,6 +33,9 @@ namespace Quark {
 		void SetScale(const Vector3d& scale);
 		void SetEulerAngles(const Vector3d& euler);
 		void SetRotation(const Quaternion& quat);
+
+		void LookAt(const Transform& target, const Vector3d& worldUp = Vector3d::up);
+		Vector3d TransformDirection(const Vector3d& direction);
 		
 	private:
 		virtual void Update(double deltaTime) override;

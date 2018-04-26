@@ -248,6 +248,18 @@ namespace Quark {
         lerp.Normalize();
         return lerp;
     }
+
+	Vector3d Vector3d::Project(const Vector3d& vector, const Vector3d& onNormal) {
+		float num = Vector3d::DotProduct(onNormal, onNormal);
+		if(num < Math::flt_epsilon) {
+			return Vector3d::zero;
+		}
+		return onNormal * Vector3d::DotProduct(vector, onNormal) / num;
+	}
+
+	Vector3d Vector3d::ProjectOnPlane(const Vector3d& vector, const Vector3d& planeNormal) {
+		return vector - Vector3d::Project(vector, planeNormal);
+	}
     
     void Vector3d::Swap(Vector3d& first, Vector3d& second) {
         using std::swap;

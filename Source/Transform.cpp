@@ -3,7 +3,7 @@
 #include "Utility.h"
 
 namespace Quark {
-	Transform::Transform() : Component("Transform"), mRotation(), mLocalToWorldMatrix(), mWorldToLocalMatrix() {
+	Transform::Transform() : mRotation(), mLocalToWorldMatrix(), mWorldToLocalMatrix() {
 		mPosition = Vector3d::zero;
 		mScale = Vector3d::one;
 
@@ -106,6 +106,22 @@ namespace Quark {
 
 	void Transform::SetRotation(const Quaternion& quat) {
 		mRotation = quat;
+	}
+
+	void Transform::LookAt(const Transform& target, const Vector3d& worldUp) {
+		mForward = (target.mPosition - mPosition).Normalize();
+		// Now we get the perpendicular projection of the viewForward vector onto the world up vector
+		// Uperp = U - ( U.V / V.V ) * V
+		mUp = (worldUp - (Vector3d::Project(mForward, worldUp))).Normalize();
+		// Alternatively for getting viewUp you could just use:
+		// viewUp = thisTransform.TransformDirection(thisTransform.up);
+		// viewUp.Normalize();
+		mRight = Vector3d::CrossProduct(mUp, mForward);
+	}
+
+	Vector3d Transform::TransformDirection(const Vector3d& direction) {
+		// TODO
+		return Vector3d();
 	}
 
 	// private functions, for consistency with other components.

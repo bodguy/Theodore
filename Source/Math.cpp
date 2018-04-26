@@ -47,6 +47,21 @@ namespace Quark {
 	float Math::KBtoMB(int kb) {
 		return kb / 1024.f;
 	}
+
+	float Math::PerlinNoise(float x) {
+		// TODO
+		return 0.f;
+	}
+
+    float Math::PerlinNoise(float x, float y, float z) {
+		// TODO
+		return 0.f;
+	}
+
+	float Math::PerlinNoise(float x, float y) {
+		// TODO
+		return 0.f;
+	}
     
     float Math::Sin(float angle) {
         return std::sin(angle);
