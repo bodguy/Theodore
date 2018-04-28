@@ -36,7 +36,7 @@ namespace Quark {
 	Matrix4x4 Camera::GetProjectionMatrix() const {
 		ResetProjectionMatrix();
 		if (mOrthographic) {
-			mProjectionMatrix = Matrix4x4::Orthogonal(-2.f, 2.f, -2.f, 2.f, -mNearClipPlane, mFarClipPlane);
+			mProjectionMatrix = Matrix4x4::Orthogonal(-10.f, 10.f, -10.f, 10.f, -mNearClipPlane, mFarClipPlane);
 		} else {
 			mProjectionMatrix = Matrix4x4::Perspective(Math::Radians(mFieldOfView), mAspect, mNearClipPlane, mFarClipPlane);
 		}

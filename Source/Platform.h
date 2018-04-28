@@ -29,6 +29,7 @@ namespace Quark {
 		int GetScreenDPI();
 		void SetVSync(bool sync);
 		int GetVSync();
+		bool IsFocus() const;
 
         void Quit() { mIsRunning = false; }
         bool IsRunning() const { return mIsRunning; }

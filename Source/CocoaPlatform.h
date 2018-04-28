@@ -13,9 +13,9 @@
 @end
 
 namespace Quark {
-    class Platform;
     class CocoaPlatform {
-    public:
+		friend class Platform;
+    private:
         CocoaPlatform();
         ~CocoaPlatform();
         

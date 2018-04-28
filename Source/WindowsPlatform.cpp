@@ -480,27 +480,23 @@ namespace Quark {
 			DispatchMessage(&msg);
 		}
 
-		// capture the keyboard and mouse input when current window is focused.
-		// because, GetAsyncKeyState always capture the input even if window is not focused.
-		if (GetFocus() == WindowsPlatform::instance->mHandle) {
-			POINT mousePoint;
-			GetCursorPos(&mousePoint);
-			ScreenToClient(WindowsPlatform::instance->mHandle, &mousePoint);
-			
-			RECT rect;
-			GetClientRect(WindowsPlatform::instance->mHandle, &rect);
-			if (mousePoint.x >= rect.left && mousePoint.x <= rect.right && mousePoint.y >= rect.top && mousePoint.y <= rect.bottom) {
-				mMousePosition.x = (float)mousePoint.x;
-				mMousePosition.y = (float)mousePoint.y;
+		POINT mousePoint;
+		GetCursorPos(&mousePoint);
+		ScreenToClient(WindowsPlatform::instance->mHandle, &mousePoint);
 
-				mMouseButtons[MOUSE_LEFT] = static_cast<bool>(GetAsyncKeyState(VK_LBUTTON));
-				mMouseButtons[MOUSE_RIGHT] = static_cast<bool>(GetAsyncKeyState(VK_RBUTTON));
-				mMouseButtons[MOUSE_MIDDLE] = static_cast<bool>(GetAsyncKeyState(VK_MBUTTON));
-			}
+		RECT rect;
+		GetClientRect(WindowsPlatform::instance->mHandle, &rect);
+		if (mousePoint.x >= rect.left && mousePoint.x <= rect.right && mousePoint.y >= rect.top && mousePoint.y <= rect.bottom) {
+			mMousePosition.x = (float)mousePoint.x;
+			mMousePosition.y = (float)mousePoint.y;
 
-			for (int i = 0; i < KEY_MAX; i++) {
-				mKeys[i] = static_cast<bool>(GetAsyncKeyState(mLocalKeymap[i]));
-			}
+			mMouseButtons[MOUSE_LEFT] = static_cast<bool>(GetAsyncKeyState(VK_LBUTTON));
+			mMouseButtons[MOUSE_RIGHT] = static_cast<bool>(GetAsyncKeyState(VK_RBUTTON));
+			mMouseButtons[MOUSE_MIDDLE] = static_cast<bool>(GetAsyncKeyState(VK_MBUTTON));
+		}
+
+		for (int i = 0; i < KEY_MAX; i++) {
+			mKeys[i] = static_cast<bool>(GetAsyncKeyState(mLocalKeymap[i]));
 		}
 	}
 
@@ -565,6 +561,14 @@ namespace Quark {
 		}
 
 		return 0;
+	}
+
+	bool Platform::IsFocus() const {
+		if (GetFocus() == WindowsPlatform::instance->mHandle) {
+			return true;
+		}
+
+		return false;
 	}
 }
 

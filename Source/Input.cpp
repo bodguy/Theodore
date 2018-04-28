@@ -20,24 +20,26 @@ namespace Quark {
     }
     
     void Input::Update() {
-        for (int i = 0; i < KEY_MAX; i++) {
-            mPreviousKeys[i] = mCurrentKeys[i];
-            mCurrentKeys[i] = Platform::GetInstance()->mKeys[i];
-        }
-        
-        for (int i = 0; i < MOUSE_BUTTON_MAX; i++) {
-            mPreviousMouseButtons[i] = mCurrentMouseButtons[i];
-            mCurrentMouseButtons[i] = Platform::GetInstance()->mMouseButtons[i];
-        }
-        
-        mMouseDelta = Platform::GetInstance()->mMousePosition - mlastMousePos;
-		mMouseDelta.z = 0.f; // mouse wheel(z position) must be always 0 for Magnitude calculation
-        if (mMouseDelta.Magnitude() > 50.0f) { // threshold value is 50.0f
-            // renew old mouse position then wait for next frame when entering this function again
-            mlastMousePos = Platform::GetInstance()->mMousePosition;
-            return;
-        }
-        mlastMousePos = Platform::GetInstance()->mMousePosition;
+		if (Platform::GetInstance()->IsFocus()) {
+			for (int i = 0; i < KEY_MAX; i++) {
+				mPreviousKeys[i] = mCurrentKeys[i];
+				mCurrentKeys[i] = Platform::GetInstance()->mKeys[i];
+			}
+
+			for (int i = 0; i < MOUSE_BUTTON_MAX; i++) {
+				mPreviousMouseButtons[i] = mCurrentMouseButtons[i];
+				mCurrentMouseButtons[i] = Platform::GetInstance()->mMouseButtons[i];
+			}
+
+			mMouseDelta = Platform::GetInstance()->mMousePosition - mlastMousePos;
+			mMouseDelta.z = 0.f; // mouse wheel(z position) must be always 0 for Magnitude calculation
+			if (mMouseDelta.Magnitude() > 50.0f) { // threshold value is 50.0f
+												   // renew old mouse position then wait for next frame when entering this function again
+				mlastMousePos = Platform::GetInstance()->mMousePosition;
+				return;
+			}
+			mlastMousePos = Platform::GetInstance()->mMousePosition;
+		}
     }
     
     bool Input::GetKeyDown(KeyCode keyCode) {

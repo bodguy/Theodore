@@ -60,6 +60,7 @@ namespace Quark {
 	}
 
 	void Gizmo::Render() {
+		glDepthRange(0, 0.01);
 		switch (mType) {
 		case Enumeration::TranslationGizmo:
 			mProgram->Use();
@@ -122,6 +123,7 @@ namespace Quark {
 			mProgram->UnUse();
 			break;
 		}
+		glDepthRange(0, 1.0);
 	}
 
 	bool Gizmo::CompareEquality(const Object& rhs) const {

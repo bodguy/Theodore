@@ -5,6 +5,7 @@
 // the including order is matters!
 #include <X11/Xlib.h>
 #include GLEW_INCLUDE_DIR
+#include GLEW_INCLUDE_DIR2
 #include "Platform.h"
 #include "LinuxPlatform.h"
 #include "Default.h"
@@ -314,6 +315,26 @@ namespace Quark {
         width = attribs.width;
         height = attribs.height;
     }
+
+	void Platform::SetMousePos(const int x, const int y) const {
+
+	}
+
+	int Platform::GetScreenDPI() {
+
+	}
+
+	void Platform::SetVSync(bool sync) {
+
+	}
+
+	int Platform::GetVSync() {
+
+	}
+
+	bool Platform::IsFocus() const {
+
+	}
 }
 
 #endif /* Quark_Linux */

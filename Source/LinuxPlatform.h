@@ -8,14 +8,14 @@
 #include <string>
 
 namespace Quark {
-    class Platform;
     class LinuxPlatform {
-    public:
-        LinuxPlatform();
-        ~LinuxPlatform();
+		friend class Platform;
+	private:
+		LinuxPlatform();
+		~LinuxPlatform();
 
-        bool CreatePlatformLinux(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, Enumeration::WindowStyle style);
-        void KillPlatformLinux();
+		bool CreatePlatformLinux(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, Enumeration::WindowStyle style);
+		void KillPlatformLinux();
 
         static LinuxPlatform* instance;
         static Platform *platform;

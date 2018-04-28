@@ -126,46 +126,51 @@ namespace Quark {
 			Camera::GetMainCamera()->GetTransform().Translate(up);
 		}
 
+		if (Input::GetKeyHeld(KEY_LSHIFT) || Input::GetKeyHeld(KEY_RSHIFT)) {
+			speed = 13.5f;
+		}
+		else {
+			speed = 4.5f;
+		}
+
+		// camera translation
+		if (Input::GetKeyHeld(KEY_D)) {
+			Vector3d right = Camera::GetMainCamera()->GetTransform().GetRight();
+			right *= speed * Time::DeltaTime();
+			Camera::GetMainCamera()->GetTransform().Translate(right);
+		}
+		else if (Input::GetKeyHeld(KEY_A)) {
+			Vector3d left = Camera::GetMainCamera()->GetTransform().GetRight();
+			left *= -speed * Time::DeltaTime();
+			Camera::GetMainCamera()->GetTransform().Translate(left);
+		}
+		else if (Input::GetKeyHeld(KEY_W)) {
+			Vector3d forward = Camera::GetMainCamera()->GetTransform().GetForward();
+			forward *= speed * Time::DeltaTime();
+			Camera::GetMainCamera()->GetTransform().Translate(forward);
+		}
+		else if (Input::GetKeyHeld(KEY_S)) {
+			Vector3d backward = Camera::GetMainCamera()->GetTransform().GetForward();
+			backward *= -speed * Time::DeltaTime();
+			Camera::GetMainCamera()->GetTransform().Translate(backward);
+		}
+		else if (Input::GetKeyHeld(KEY_Q)) {
+			Vector3d down = Camera::GetMainCamera()->GetTransform().GetUp();
+			down *= -speed * Time::DeltaTime();
+			Camera::GetMainCamera()->GetTransform().Translate(down);
+		}
+		else if (Input::GetKeyHeld(KEY_E)) {
+			Vector3d up = Camera::GetMainCamera()->GetTransform().GetUp();
+			up *= speed * Time::DeltaTime();
+			Camera::GetMainCamera()->GetTransform().Translate(up);
+		}
+		else if (Input::GetKeyDown(KEY_1)) {
+			Debug::Log(Input::GetMousePosition());
+		}
+
 		// camera rotation
 		if (Input::GetMouseButtonHeld(MOUSE_RIGHT)) {
-			if (Input::GetKeyHeld(KEY_LSHIFT) || Input::GetKeyHeld(KEY_RSHIFT)) {
-				speed = 13.5f;
-			}
-			else {
-				speed = 4.5f;
-			}
 
-			// camera translation
-			if (Input::GetKeyHeld(KEY_D)) {
-				Vector3d right = Camera::GetMainCamera()->GetTransform().GetRight();
-				right *= speed * Time::DeltaTime();
-				Camera::GetMainCamera()->GetTransform().Translate(right);
-			}
-			else if (Input::GetKeyHeld(KEY_A)) {
-				Vector3d left = Camera::GetMainCamera()->GetTransform().GetRight();
-				left *= -speed * Time::DeltaTime();
-				Camera::GetMainCamera()->GetTransform().Translate(left);
-			}
-			else if (Input::GetKeyHeld(KEY_W)) {
-				Vector3d forward = Camera::GetMainCamera()->GetTransform().GetForward();
-				forward *= speed * Time::DeltaTime();
-				Camera::GetMainCamera()->GetTransform().Translate(forward);
-			}
-			else if (Input::GetKeyHeld(KEY_S)) {
-				Vector3d backward = Camera::GetMainCamera()->GetTransform().GetForward();
-				backward *= -speed * Time::DeltaTime();
-				Camera::GetMainCamera()->GetTransform().Translate(backward);
-			}
-			else if (Input::GetKeyHeld(KEY_Q)) {
-				Vector3d down = Camera::GetMainCamera()->GetTransform().GetUp();
-				down *= -speed * Time::DeltaTime();
-				Camera::GetMainCamera()->GetTransform().Translate(down);
-			}
-			else if (Input::GetKeyHeld(KEY_E)) {
-				Vector3d up = Camera::GetMainCamera()->GetTransform().GetUp();
-				up *= speed * Time::DeltaTime();
-				Camera::GetMainCamera()->GetTransform().Translate(up);
-			}
 
 			rotationY = Input::GetMouseDeltaPosition().x * sensitivity * Time::DeltaTime();
 			rotationY = Math::Clamp(rotationY, minimumY, maximumY);

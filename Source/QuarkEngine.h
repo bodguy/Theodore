@@ -39,6 +39,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "Component.h"
+#include "Bounds.h"
 
 using namespace Quark;
 using namespace Enumeration;

@@ -12,75 +12,75 @@
 #include "KeyCode.h"
 
 namespace Quark {
-    
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     // CocoaPlatform definition
-    
+
     CocoaPlatform* CocoaPlatform::instance = NULL;
     Platform* CocoaPlatform::platform = NULL;
     CocoaPlatform::CocoaPlatform() :window(NULL), view(NULL) {
-        
+
     }
-    
+
     CocoaPlatform::~CocoaPlatform() {
-        
+
     }
-    
+
     bool CocoaPlatform::CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, Enumeration::WindowStyle style) {
         @autoreleasepool {
             platform->mWidth = width;
             platform->mHeight = height;
             platform->mTitle = title;
-            
+
             [NSApplication sharedApplication];
             const PointCoord pos = platform->CenterOnWindow();
             NSUInteger windowStyle = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable| NSWindowStyleMaskResizable;
             NSRect windowRect = NSMakeRect(pos.x, pos.y, width, height); // x, y, w, h
             window = [[NSWindow alloc] initWithContentRect:windowRect styleMask:windowStyle backing:NSBackingStoreBuffered defer:NO];
-            
+
             [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-            
+
             // convert from CString to NSString.
             NSString* title_name = [NSString stringWithCString:title.c_str() encoding:[NSString defaultCStringEncoding]];
-            
+
             NSMenu *appleMenu;
             NSString* title;
             NSMenuItem *menuItem;
-            
+
             /* Create the main menu bar */
             [NSApp setMainMenu:[[NSMenu alloc] init]];
-            
+
             /* Create the application menu */
             appleMenu = [[NSMenu alloc] initWithTitle:@""];
-            
+
             /* Add menu items */
             title = [@"About " stringByAppendingString:title_name];
             [appleMenu addItemWithTitle:title action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
-            
+
             title = [@"Hide " stringByAppendingString:title_name];
             [appleMenu addItemWithTitle:title action:@selector(hide:) keyEquivalent:@"h"];
-            
+
             menuItem = (NSMenuItem *)[appleMenu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"];
             [menuItem setKeyEquivalentModifierMask:(NSEventModifierFlagOption|NSEventModifierFlagCommand)];
-            
+
             [appleMenu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""];
-            
+
             [appleMenu addItem:[NSMenuItem separatorItem]];
-            
+
             title = [@"Quit " stringByAppendingString:title_name];
             [appleMenu addItemWithTitle:title action:@selector(terminate:) keyEquivalent:@"q"];
-            
+
             /* Put menu into the menubar */
             menuItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
             [menuItem setSubmenu:appleMenu];
             [[NSApp mainMenu] addItem:menuItem];
-            
+
             /* Tell the application object that this is now the application menu */
             [NSApp setMainMenu:appleMenu];
-            
+
             // no multisampling
             int samples = 0;
-            
+
             NSOpenGLPixelFormatAttribute windowedAttrs[] =
             {
                 NSOpenGLPFAMultisample,
@@ -94,59 +94,59 @@ namespace Quark {
                 NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
                 0
             };
-            
+
             // try to choose a supported pixel format
             NSOpenGLPixelFormat* pf = [[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrs];
             if(!pf) return false;
-            
+
             view = [[View alloc] initWithFrame:windowRect pixelFormat:pf];
             [[view window] setLevel:NSNormalWindowLevel];
             [[view window] makeKeyAndOrderFront:window];
             glewExperimental = GL_TRUE;
-            
+
             // make all the OpenGL calls to setup rendering and build the necessary rendering objects.
             [[view openGLContext] makeCurrentContext];
-            
+
             GLint swapInt = 1;
             [[view openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
             if(glewInit() != GLEW_OK) return false;
-            
+
             printf("OpenGL version supported by this platform (%s) \n", glGetString(GL_VERSION));
-            
+
             [window setAcceptsMouseMovedEvents:YES];
             [window setContentView:view];
             [window setDelegate:view];
-            
+
             [window setTitle:title_name];
             [window setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
             [window orderFrontRegardless];
-            
+
             return true;
         }
     }
-    
+
     void CocoaPlatform::KillPlatformCocoa() {
         [view clearGLContext];
         [NSApp terminate:window];
     }
-    
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Platform definition
-    
+
     Platform* Platform::instance = NULL;
     Platform::Platform() :mWidth(0), mHeight(0), mIsShowCursor(true), mIsRunning(true), mMousePosition() {
         CocoaPlatform::instance = new CocoaPlatform();
         instance = this;
         CocoaPlatform::instance->platform = this;
-        
+
         for (int i = 0; i < KEY_MAX; i++) {
             mKeys[i] = false;
             mLocalKeymap[i] = KEY_UNDEFINED;
         }
-        
+
         for (int i = 0; i < MOUSE_BUTTON_MAX; i++)
             mMouseButtons[i] = false;
-        
+
         { // optimized to Apple Extended Keyboard II (domestic layout)
             mLocalKeymap[KEY_A] = kVK_ANSI_A;
             mLocalKeymap[KEY_B] = kVK_ANSI_B;
@@ -174,7 +174,7 @@ namespace Quark {
             mLocalKeymap[KEY_X] = kVK_ANSI_X;
             mLocalKeymap[KEY_Y] = kVK_ANSI_Y;
             mLocalKeymap[KEY_Z] = kVK_ANSI_Z;
-            
+
             mLocalKeymap[KEY_0] = kVK_ANSI_0;
             mLocalKeymap[KEY_1] = kVK_ANSI_1;
             mLocalKeymap[KEY_2] = kVK_ANSI_2;
@@ -185,7 +185,7 @@ namespace Quark {
             mLocalKeymap[KEY_7] = kVK_ANSI_7;
             mLocalKeymap[KEY_8] = kVK_ANSI_8;
             mLocalKeymap[KEY_9] = kVK_ANSI_9;
-            
+
             mLocalKeymap[KEY_SPACE] = kVK_Space;
             mLocalKeymap[KEY_SEMICOLON] = kVK_ANSI_Semicolon;
             mLocalKeymap[KEY_EQUALS] = kVK_ANSI_Equal;
@@ -198,7 +198,7 @@ namespace Quark {
             mLocalKeymap[KEY_BACKSLASH] = kVK_ANSI_Backslash;
             mLocalKeymap[KEY_RIGHTBRACKET] = kVK_ANSI_RightBracket;
             mLocalKeymap[KEY_GRAVE_ACCENT] = kVK_ANSI_Grave;
-            
+
             mLocalKeymap[KEY_ESCAPE] = kVK_Escape;
             mLocalKeymap[KEY_RETURN] = kVK_Return;
             mLocalKeymap[KEY_TAB] = kVK_Tab;
@@ -218,7 +218,7 @@ namespace Quark {
             mLocalKeymap[KEY_NUMLOCK] = kVK_ANSI_KeypadClear;
             mLocalKeymap[KEY_PRINTSCREEN] = kVK_F13; // F13
             mLocalKeymap[KEY_PAUSE] = kVK_F15; // F15
-            
+
             mLocalKeymap[KEY_F1] = kVK_F1;
             mLocalKeymap[KEY_F2] = kVK_F2;
             mLocalKeymap[KEY_F3] = kVK_F3;
@@ -231,7 +231,7 @@ namespace Quark {
             mLocalKeymap[KEY_F10] = kVK_F10;
             mLocalKeymap[KEY_F11] = kVK_F11;
             mLocalKeymap[KEY_F12] = kVK_F12;
-            
+
             mLocalKeymap[KEY_LSHIFT] = kVK_Shift;
             mLocalKeymap[KEY_LCTRL] = kVK_Control;
             mLocalKeymap[KEY_LALT] = kVK_Option;
@@ -243,7 +243,7 @@ namespace Quark {
             mLocalKeymap[KEY_MENU] = kVK_Function; // maybe?
             mLocalKeymap[KEY_HANGUL] = KEY_UNDEFINED;
             mLocalKeymap[KEY_HANJA] = KEY_UNDEFINED;
-            
+
             mLocalKeymap[KEY_KP_0] = kVK_ANSI_Keypad0;
             mLocalKeymap[KEY_KP_1] = kVK_ANSI_Keypad1;
             mLocalKeymap[KEY_KP_2] = kVK_ANSI_Keypad2;
@@ -254,7 +254,7 @@ namespace Quark {
             mLocalKeymap[KEY_KP_7] = kVK_ANSI_Keypad7;
             mLocalKeymap[KEY_KP_8] = kVK_ANSI_Keypad8;
             mLocalKeymap[KEY_KP_9] = kVK_ANSI_Keypad9;
-            
+
             mLocalKeymap[KEY_KP_DECIMAL] = kVK_ANSI_KeypadDecimal;
             mLocalKeymap[KEY_KP_DIVIDE] = kVK_ANSI_KeypadDivide;
             mLocalKeymap[KEY_KP_MULTIPLY] = kVK_ANSI_KeypadMultiply;
@@ -264,16 +264,16 @@ namespace Quark {
             mLocalKeymap[KEY_KP_EQUAL] = kVK_ANSI_KeypadEquals;
         }
     }
-    
+
     Platform::~Platform() {
         CocoaPlatform::instance->KillPlatformCocoa();
         SafeDealloc(CocoaPlatform::instance);
     }
-    
+
     bool Platform::Initialize(const std::string& name, int width, int height, bool fullscreen, int majorVersion, int minorVersion, Enumeration::WindowStyle style) {
         return CocoaPlatform::instance->CreatePlatformCocoa(name, width, height, fullscreen, majorVersion, minorVersion, style);
     }
-    
+
     void Platform::Update() {
         NSEvent * event;
         do {
@@ -282,27 +282,47 @@ namespace Quark {
         }
         while(event != nil);
     }
-    
+
     void Platform::SwapBuffer() {
         [[NSOpenGLContext currentContext] flushBuffer];
     }
-    
+
     void Platform::WindowSizeChanged(int width, int height) {
         mWidth = width;
         mHeight = height;
         glViewport(0, 0, mWidth, mHeight);
     }
-    
+
     const PointCoord Platform::CenterOnWindow() {
         int w,h;
         GetDesktopSize(w, h);
-        
+
         return PointCoord((w - mWidth) / 2, (h - mHeight) / 2);
     }
-    
+
     void Platform::GetDesktopSize(int& width, int& height) {
         width = static_cast<int>([[NSScreen mainScreen] frame].size.width);
         height = static_cast<int>([[NSScreen mainScreen] frame].size.height);
+    }
+
+    void Platform::SetMousePos(const int x, const int y) const {
+
+    }
+
+    int Platform::GetScreenDPI() {
+
+    }
+
+    void Platform::SetVSync(bool sync) {
+
+    }
+
+    int Platform::GetVSync() {
+
+    }
+
+    bool Platform::IsFocus() const {
+
     }
 }
 
