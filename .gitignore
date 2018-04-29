@@ -1,11 +1,10 @@
-cmake-build-debug/*
-.idea/*
-*.VC.db
-*.VC.*
-*.sln
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user
-.vs/*
-Debug/*
-Release/*
+# exclude all files and folders
+/*
+
+# add exception
+!/.gitignore
+!/CMakeLists.txt
+!/Contents/
+!/Libraries/
+!/Shaders/
+!/Source/
