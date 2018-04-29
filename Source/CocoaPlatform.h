@@ -27,6 +27,9 @@ namespace Quark {
         
         NSWindow* window;
         View* view;
+
+    public:
+        static CocoaPlatform* GetInstance();
     };
 }
 

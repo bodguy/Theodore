@@ -84,8 +84,8 @@ namespace Quark {
 
 		g3->AddComponent<Gizmo>(Enumeration::RotationGizmo);
 
-		Shader* vs = AssetManager::RequestShader("Core/Shaders/light/vs.glsl", VertexShader);
-		Shader* fs = AssetManager::RequestShader("Core/Shaders/light/fs.glsl", FragmentShader);
+		Shader* vs = AssetManager::RequestShader("../Shaders/light/vs.glsl", VertexShader);
+		Shader* fs = AssetManager::RequestShader("../Shaders/light/fs.glsl", FragmentShader);
 		program.AttachShader(*vs);
 		program.AttachShader(*fs);
 		program.Link();

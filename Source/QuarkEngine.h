@@ -32,7 +32,6 @@
 #include "Random.h"
 #include "StringUtil.h"
 
-#include "TerrainConfig.h"
 #include "Cloth.h"
 
 #include "SceneManager.h"

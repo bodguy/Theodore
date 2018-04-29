@@ -13,6 +13,8 @@
 
 namespace Quark {
 	class Transform;
+	class Scene;
+	class Debug;
 	class GameObject : public Object {
 		friend class Scene;
 		friend class Debug;
@@ -46,7 +48,7 @@ namespace Quark {
 		bool SendMessage(Message& msg);
 		bool SendMessageUpwards(Message& msg);
 		bool BroadcastMessage(Message& msg);
-		static GameObject& CreatePrimitive(Enumeration::PrimitiveType type);
+//		static GameObject& CreatePrimitive(Enumeration::PrimitiveType type);
 		Transform* GetTransform() const;
 
 	private:

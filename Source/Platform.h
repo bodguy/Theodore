@@ -18,7 +18,7 @@ namespace Quark {
         ~Platform();
         
         static Platform* GetInstance() { return instance; }
-        bool Initialize(const std::string& title, int width, int height,
+        bool Initialize(const std::string& name, int width, int height,
                         bool fullscreen = false, int majorVersion = 0, int minorVersion = 0, int multisample = 4, Enumeration::WindowStyle style = Enumeration::Resizable);
         void Update();
         void SwapBuffer();
@@ -49,7 +49,7 @@ namespace Quark {
 		bool mIsRunning;
         Vector3d mMousePosition;
 		bool mIsMultisampleSupported;
-    };
+	};
 }
 
 #endif /* Platform_h */

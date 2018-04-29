@@ -11,7 +11,7 @@ namespace Quark {
 
 	#ifdef _DEBUG
 	#define FUNCNAME() Debug::LogFuncName __logFuncName(__FUNCTION__)
-	#elif
+	#elseif
 	#define FUNCNAME() do { } while(0)
 	#endif
 
@@ -39,7 +39,7 @@ namespace Quark {
 			}
 
 			~LogFuncName() { UNTAB() }
-		};
+		} temp;
 
 		static void LogOnOff(bool b);
 		static bool GetLogSwitch();

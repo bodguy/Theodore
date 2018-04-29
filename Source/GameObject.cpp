@@ -100,9 +100,9 @@ namespace Quark {
 		return true;
 	}
 
-	GameObject& GameObject::CreatePrimitive(Enumeration::PrimitiveType type) {
-		return GameObject();
-	}
+//	GameObject& GameObject::CreatePrimitive(Enumeration::PrimitiveType type) {
+//		return GameObject();
+//	}
 
 	Transform* GameObject::GetTransform() const {
 		return mTransform;

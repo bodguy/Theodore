@@ -6,6 +6,8 @@
 #include "Object.h"
 
 namespace Quark {
+    class SceneManager;
+    class GameObject;
 	class Scene : public Object {
 		friend class SceneManager;
 		friend class GameObject;

@@ -10,6 +10,7 @@
 #include "CocoaPlatform.h"
 #include "Utility.h"
 #include "KeyCode.h"
+#include "Debug.h"
 
 namespace Quark {
 
@@ -91,7 +92,7 @@ namespace Quark {
                 NSOpenGLPFAColorSize, 24,
                 NSOpenGLPFADepthSize, 24,
                 NSOpenGLPFAAlphaSize, 8,
-                NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
+                NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion4_1Core, //NSOpenGLProfileVersionLegacy,
                 0
             };
 
@@ -111,7 +112,10 @@ namespace Quark {
             [[view openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
             if(glewInit() != GLEW_OK) return false;
 
-            printf("OpenGL version supported by this platform (%s) \n", glGetString(GL_VERSION));
+            Debug::Log("Vendor              : %s\n", glGetString(GL_VENDOR));
+            Debug::Log("Renderer            : %s\n", glGetString(GL_RENDERER));
+            Debug::Log("Version             : %s\n", glGetString(GL_VERSION));
+            Debug::Log("GLSL                : %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
             [window setAcceptsMouseMovedEvents:YES];
             [window setContentView:view];
@@ -128,6 +132,10 @@ namespace Quark {
     void CocoaPlatform::KillPlatformCocoa() {
         [view clearGLContext];
         [NSApp terminate:window];
+    }
+
+    CocoaPlatform* CocoaPlatform::GetInstance() {
+        return CocoaPlatform::instance;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -270,8 +278,8 @@ namespace Quark {
         SafeDealloc(CocoaPlatform::instance);
     }
 
-    bool Platform::Initialize(const std::string& name, int width, int height, bool fullscreen, int majorVersion, int minorVersion, Enumeration::WindowStyle style) {
-        return CocoaPlatform::instance->CreatePlatformCocoa(name, width, height, fullscreen, majorVersion, minorVersion, style);
+    bool Platform::Initialize(const std::string& name, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, Enumeration::WindowStyle style) {
+        return CocoaPlatform::instance->CreatePlatformCocoa(name, width, height, fullscreen, majorVersion, minorVersion, multisample, style);
     }
 
     void Platform::Update() {
@@ -310,7 +318,7 @@ namespace Quark {
     }
 
     int Platform::GetScreenDPI() {
-
+        return 0;
     }
 
     void Platform::SetVSync(bool sync) {
@@ -318,11 +326,11 @@ namespace Quark {
     }
 
     int Platform::GetVSync() {
-
+        return 0;
     }
 
     bool Platform::IsFocus() const {
-
+        return true;
     }
 }
 
@@ -332,12 +340,12 @@ namespace Quark {
 @implementation View
 - (void)windowDidResize:(NSNotification *)notification {
     NSSize size = [[_window contentView] frame].size;
-    Quark::CocoaPlatform::platform->WindowSizeChanged(size.width, size.height);
+    Quark::Platform::GetInstance()->WindowSizeChanged(size.width, size.height);
 }
 // terminate window when the red X is pressed
 - (void)windowWillClose:(NSNotification *)notification {
-    Quark::Platform::instance->mIsRunning = false;
-    Quark::CocoaPlatform::instance->KillPlatformCocoa();
+    Quark::Platform::GetInstance()->Quit();
+    Quark::CocoaPlatform::GetInstance()->KillPlatformCocoa();
 }
 
 - (BOOL)acceptsFirstResponder {
@@ -349,7 +357,7 @@ namespace Quark {
 }
 
 - (void)keyDown:(NSEvent *)event {
-    //NSLog(@"event monitor: %@", event);
+    NSLog(@"event monitor: %@", event);
     Quark::Platform::GetInstance()->mKeys[[event keyCode]] = true;
 }
 
@@ -359,37 +367,37 @@ namespace Quark {
 
 - (void)scrollWheel:(NSEvent *)event {
     // horizontall [event deltaX], verticall [event deltaY]
-    Quark::CocoaPlatform::platform->mMousePosition.z = [event deltaY];
+    Quark::Platform::GetInstance()->mMousePosition.z = [event deltaY];
 }
 
 - (void)mouseMoved:(NSEvent *)event {
     NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
-    Quark::CocoaPlatform::platform->mMousePosition.x = point.x;
-    Quark::CocoaPlatform::platform->mMousePosition.y = point.y;
+    Quark::Platform::GetInstance()->mMousePosition.x = point.x;
+    Quark::Platform::GetInstance()->mMousePosition.y = point.y;
 }
 
 - (void)mouseDown:(NSEvent *)event {
-    Quark::CocoaPlatform::platform->mMouseButtons[Quark::MOUSE_LEFT] = true;
+    Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_LEFT] = true;
 }
 
 - (void)mouseUp:(NSEvent *)event {
-    Quark::CocoaPlatform::platform->mMouseButtons[Quark::MOUSE_LEFT] = false;
+    Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_LEFT] = false;
 }
 
 - (void)rightMouseDown:(NSEvent *)event {
-    Quark::CocoaPlatform::platform->mMouseButtons[Quark::MOUSE_RIGHT] = true;
+    Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_RIGHT] = true;
 }
 
 - (void)rightMouseUp:(NSEvent *)event {
-    Quark::CocoaPlatform::platform->mMouseButtons[Quark::MOUSE_RIGHT] = false;
+    Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_RIGHT] = false;
 }
 
 - (void)otherMouseDown:(NSEvent *)event {
-    Quark::CocoaPlatform::platform->mMouseButtons[Quark::MOUSE_MIDDLE] = true;
+    Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_MIDDLE] = true;
 }
 
 - (void)otherMouseUp:(NSEvent *)event {
-    Quark::CocoaPlatform::platform->mMouseButtons[Quark::MOUSE_MIDDLE] = false;
+    Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_MIDDLE] = false;
 }
 @end
 

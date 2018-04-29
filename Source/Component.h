@@ -5,6 +5,7 @@
 #include "Message.h"
 
 namespace Quark {
+    class GameObject;
 	class Component : public Object {
 		friend class GameObject;
 	public:
