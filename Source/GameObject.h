@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <set>
 #include <string>
+#include <vector>
 #include "Component.h"
 #include "Object.h"
 #include "Enumeration.h"
@@ -155,7 +156,7 @@ namespace Quark {
 		if (!ret)
 			return false;
 
-		unsigned int base = msg.MyType();
+		unsigned int base = msg.GetType();
 		for (auto i : mSubscriber[base]) {
 			if (i == ret)
 				i->HandleMessage(msg);
