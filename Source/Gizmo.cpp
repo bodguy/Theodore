@@ -8,8 +8,8 @@
 
 namespace Quark { 
 	Gizmo::Gizmo(Enumeration::GizmoType type) :Component("Gizmo"), mVao(nullptr), mTransform(), mProgram(nullptr), mType(type) {
-		Shader* vs = AssetManager::RequestShader("../Shaders/gizmo/vs.glsl", Enumeration::VertexShader);
-		Shader* fs = AssetManager::RequestShader("../Shaders/gizmo/fs.glsl", Enumeration::FragmentShader);
+		Shader* vs = AssetManager::RequestShader("Shaders/gizmo/vs.glsl", Enumeration::VertexShader);
+		Shader* fs = AssetManager::RequestShader("Shaders/gizmo/fs.glsl", Enumeration::FragmentShader);
 		mProgram = new Program(*vs, *fs);
 
 		InputStream verts;

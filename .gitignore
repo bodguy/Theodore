@@ -1,2 +1,11 @@
 cmake-build-debug/*
 .idea/*
+*.VC.db
+*.VC.*
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+.vs/*
+Debug/*
+Release/*

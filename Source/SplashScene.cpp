@@ -71,9 +71,12 @@ namespace Quark {
 		GameObject* g = new GameObject("plane");
 		GameObject* g2 = new GameObject("cube");
 		GameObject* g3 = new GameObject("gizmo");
+		GameObject* g4 = new GameObject("gizmo2");
 		Attach(g);
 		Attach(g2);
 		Attach(g3);
+		Attach(g4);
+
 		trans = g->GetTransform();
 		trans->SetPosition(Vector3d(0.f, -1.f, 0.f));
 		trans->SetScale(Vector3d(20.f, 1.f, 20.f));
@@ -83,9 +86,10 @@ namespace Quark {
 		trans2->SetScale(Vector3d::one);
 
 		g3->AddComponent<Gizmo>(Enumeration::RotationGizmo);
+		g4->AddComponent<Gizmo>(Enumeration::TranslationGizmo);
 
-		Shader* vs = AssetManager::RequestShader("../Shaders/light/vs.glsl", VertexShader);
-		Shader* fs = AssetManager::RequestShader("../Shaders/light/fs.glsl", FragmentShader);
+		Shader* vs = AssetManager::RequestShader("Shaders/light/vs.glsl", VertexShader);
+		Shader* fs = AssetManager::RequestShader("Shaders/light/fs.glsl", FragmentShader);
 		program.AttachShader(*vs);
 		program.AttachShader(*fs);
 		program.Link();

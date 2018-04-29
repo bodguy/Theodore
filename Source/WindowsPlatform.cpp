@@ -10,7 +10,6 @@
 #include "Platform.h"
 #include "WindowsPlatform.h"
 #include "Debug.h"
-#include "StringUtil.h"
 #include "Math.h"
 
 namespace Quark {

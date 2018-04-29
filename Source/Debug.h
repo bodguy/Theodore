@@ -11,7 +11,7 @@ namespace Quark {
 
 	#ifdef _DEBUG
 	#define FUNCNAME() Debug::LogFuncName __logFuncName(__FUNCTION__)
-	#elseif
+	#elif
 	#define FUNCNAME() do { } while(0)
 	#endif
 
