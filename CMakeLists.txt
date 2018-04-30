@@ -1,40 +1,43 @@
 cmake_minimum_required(VERSION 3.9)
-project(CrossPlatform)
+project(CrossPlatform LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_COMPILER "/usr/bin/g++")
 set(GLEW_INCLUDE_DIRS "Libraries/include/GL/")
 set(SOURCE_PREFIX "Source/")
 
+# MacOS lib settings
 if(APPLE)
     message(STATUS ">>>[Platform detected]: Macos")
-    include_directories(/System/Library/Frameworks)
+    include_directories("/System/Library/Frameworks")
     find_library(COCOA_LIBRARY Cocoa)
     find_library(OpenGL_LIBRARY OpenGL)
     mark_as_advanced(COCOA_LIBRARY OpenGL_LIBRARY)
     set(EXTRA_LIBS ${COCOA_LIBRARY} ${OpenGL_LIBRARY})
-    set(GLEW_IBRARIES "Libraries/lib/Mac/")
+    set(GLEW_LIBRARIES "Libraries/lib/Mac/")
+	set(CMAKE_CXX_COMPILER "/usr/bin/g++") # customize plz
 endif(APPLE)
 
+# Linux lib settings
 if(LINUX)
     message(STATUS ">>>[Platform detected]: Linux")
-    include_directories(/usr/X11R6/include/)
-    link_directories(/usr/X11R6/lib)
+    include_directories("/usr/X11R6/include/")
+    link_directories("/usr/X11R6/lib")
     set(EXTRA_LIBS GL X11 GLU)
-    set(GLEW_IBRARIES "Libraries/lib/Linux/")
+    set(GLEW_LIBRARIES "Libraries/lib/Linux/")
+	set(CMAKE_CXX_COMPILER "/usr/bin/g++") # customize plz
 endif(LINUX)
 
+# Windows lib settings
 if(WIN32)
     message(STATUS ">>>[Platform detected]: Windows")
-    set(GLEW_IBRARIES "Libraries/lib/Win32/")
+    set(GLEW_LIBRARIES "Libraries/lib/Win32/")
+	set(CMAKE_CXX_COMPILER "C:/MinGW/bin/g++.exe") # customize plz
 endif(WIN32)
 
-find_package(GLEW REQUIRED)
-if(GLEW_FOUND)
-    message(STATUS ">>>[Library linking]: GLEW linking")
-    include_directories(${GLEW_INCLUDE_DIRS})
-    link_libraries(${GLEW_LIBRARIES})
-endif()
+message(STATUS ">>>[Library linking]: GLEW linking")
+include_directories(${GLEW_INCLUDE_DIRS})
+link_directories(${GLEW_LIBRARIES})
+link_libraries(glew32s.lib) # only for windows
 
 file(GLOB SOURCE_FILES ${SOURCE_PREFIX}*.cpp ${SOURCE_PREFIX}*.h ${SOURCE_PREFIX}*.mm)
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
