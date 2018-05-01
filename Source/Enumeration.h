@@ -184,12 +184,12 @@ namespace Quark {
 			World
 		};
 
-		enum PrimitiveType {
-			PlanePrimitive = 0,
-			CubePrimitive,
-			SpherePrimitive,
-			CapsulePrimitive,
-			CylinderPrimitive
+		enum class PrimitiveType {
+			Plane = 0,
+			Cube,
+			Sphere,
+			Capsule,
+			Cylinder
 		};
 
 		enum BlendMode {

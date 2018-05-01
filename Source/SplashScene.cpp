@@ -27,7 +27,7 @@ namespace Quark {
 		GameObject* gizmo = new GameObject("gizmo", this);
 		gizmo->AddComponent<Gizmo>(Enumeration::TranslationGizmo);
 
-		GameObject* cube = GameObject::CreatePrimitive(Enumeration::CubePrimitive, this);
+		GameObject* cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
 		trans = cube->GetTransform();
 		trans->SetPosition(Vector3d(0.f, 1.f, 0.f));
 
