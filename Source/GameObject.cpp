@@ -3,24 +3,24 @@
 #include "crc32.h"
 #include "Utility.h"
 #include "Transform.h"
+#include "MeshFilter.h"
+#include "MeshRenderer.h"
+#include "Material.h"
+#include "Mesh.h"
 
 namespace Quark {
-	GameObject::GameObject() 
-		: Object("unamed"), mParent(nullptr), mScene(nullptr), mActiveSelf(true), mTagString("untagged"), mTag(0), mTransform(nullptr) {
-		mChildren.clear();
-		mTransform = AddComponent<Transform>();
-	}
-
-	GameObject::GameObject(const std::string& name)
+	GameObject::GameObject(const std::string& name, Scene* scene)
 		: Object(name), mParent(nullptr), mScene(nullptr), mActiveSelf(true), mTagString("untagged"), mTag(0), mTransform(nullptr) {
 		mChildren.clear();
 		mTransform = AddComponent<Transform>();
+		scene->Attach(this);
 	}
 
-	GameObject::GameObject(const std::string& name, GameObject* parent)
+	GameObject::GameObject(const std::string& name, Scene* scene, GameObject* parent)
 		: Object(name), mParent(parent), mScene(nullptr), mActiveSelf(true), mTagString("untagged"), mTag(0), mTransform(nullptr) {
 		mParent->mChildren.push_back(this);
 		mTransform = AddComponent<Transform>();
+		scene->Attach(this);
 	}
 
 	GameObject::~GameObject() {
@@ -100,9 +100,105 @@ namespace Quark {
 		return true;
 	}
 
-//	GameObject& GameObject::CreatePrimitive(Enumeration::PrimitiveType type) {
-//		return GameObject();
-//	}
+	GameObject* GameObject::CreatePrimitive(Enumeration::PrimitiveType type, Scene* scene) {
+		const float Verts[] = {
+			-0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f, -0.5f,
+			0.5f,  0.5f, -0.5f,
+			0.5f,  0.5f, -0.5f,
+			-0.5f,  0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+
+			-0.5f, -0.5f,  0.5f,
+			0.5f, -0.5f,  0.5f,
+			0.5f,  0.5f,  0.5f,
+			0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f,
+			-0.5f, -0.5f,  0.5f,
+
+			-0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+			-0.5f, -0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f,
+
+			0.5f,  0.5f,  0.5f,
+			0.5f,  0.5f, -0.5f,
+			0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f,  0.5f,
+			0.5f,  0.5f,  0.5f,
+
+			-0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f,  0.5f,
+			0.5f, -0.5f,  0.5f,
+			-0.5f, -0.5f,  0.5f,
+			-0.5f, -0.5f, -0.5f,
+
+			-0.5f,  0.5f, -0.5f,
+			0.5f,  0.5f, -0.5f,
+			0.5f,  0.5f,  0.5f,
+			0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f, -0.5f,
+		};
+
+		const float Normals[] = {
+			0.0f,  0.0f, -1.0f,
+			0.0f,  0.0f, -1.0f,
+			0.0f,  0.0f, -1.0f,
+			0.0f,  0.0f, -1.0f,
+			0.0f,  0.0f, -1.0f,
+			0.0f,  0.0f, -1.0f,
+
+			0.0f,  0.0f,  1.0f,
+			0.0f,  0.0f,  1.0f,
+			0.0f,  0.0f,  1.0f,
+			0.0f,  0.0f,  1.0f,
+			0.0f,  0.0f,  1.0f,
+			0.0f,  0.0f,  1.0f,
+
+			-1.0f,  0.0f,  0.0f,
+			-1.0f,  0.0f,  0.0f,
+			-1.0f,  0.0f,  0.0f,
+			-1.0f,  0.0f,  0.0f,
+			-1.0f,  0.0f,  0.0f,
+			-1.0f,  0.0f,  0.0f,
+
+			1.0f,  0.0f,  0.0f,
+			1.0f,  0.0f,  0.0f,
+			1.0f,  0.0f,  0.0f,
+			1.0f,  0.0f,  0.0f,
+			1.0f,  0.0f,  0.0f,
+			1.0f,  0.0f,  0.0f,
+
+			0.0f, -1.0f,  0.0f,
+			0.0f, -1.0f,  0.0f,
+			0.0f, -1.0f,  0.0f,
+			0.0f, -1.0f,  0.0f,
+			0.0f, -1.0f,  0.0f,
+			0.0f, -1.0f,  0.0f,
+
+			0.0f,  1.0f,  0.0f,
+			0.0f,  1.0f,  0.0f,
+			0.0f,  1.0f,  0.0f,
+			0.0f,  1.0f,  0.0f,
+			0.0f,  1.0f,  0.0f,
+			0.0f,  1.0f,  0.0f
+		};
+
+		GameObject* temp = new GameObject("Cube", scene);
+		Mesh* mesh = new Mesh();
+		mesh->SetVertices(Verts);
+		mesh->SetNormals(Normals);
+		temp->AddComponent<MeshFilter>()->SetMesh(mesh);
+
+		Material* material = new Material();
+		temp->AddComponent<MeshRenderer>()->SetMaterial(material);
+		return temp;
+	}
 
 	Transform* GameObject::GetTransform() const {
 		return mTransform;

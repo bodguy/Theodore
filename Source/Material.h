@@ -9,6 +9,10 @@ namespace Quark {
 		Material();
 		~Material();
 
+		Color GetAmbient() const { return mAmbient; }
+		Color GetDiffuse() const { return mDiffuse; }
+		Color GetSpecular() const { return mSpecular; }
+
 	private:
 		Color mAmbient;
 		Color mDiffuse;

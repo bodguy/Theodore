@@ -1,7 +1,7 @@
 #include "Material.h"
 
 namespace Quark {
-	Material::Material() {
+	Material::Material() :mAmbient(), mDiffuse(), mSpecular() {
 
 	}
 

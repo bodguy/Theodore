@@ -19,9 +19,8 @@ namespace Quark {
 		friend class Scene;
 		friend class Debug;
 	public:
-		GameObject();
-		explicit GameObject(const std::string& name);
-		GameObject(const std::string& name, GameObject* parent);
+		explicit GameObject(const std::string& name, Scene* scene);
+		GameObject(const std::string& name, Scene* scene, GameObject* parent);
 		virtual ~GameObject();
 
 		template<typename T, typename ...Ts>
@@ -48,7 +47,7 @@ namespace Quark {
 		bool SendMessage(Message& msg);
 		bool SendMessageUpwards(Message& msg);
 		bool BroadcastMessage(Message& msg);
-//		static GameObject& CreatePrimitive(Enumeration::PrimitiveType type);
+		static GameObject* CreatePrimitive(Enumeration::PrimitiveType type, Scene* scene);
 		Transform* GetTransform() const;
 
 	private:

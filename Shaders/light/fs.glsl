@@ -4,7 +4,7 @@ in vec3 fNormal;
 in vec3 fPos;
 out vec4 outColor;
 
-const vec3 lightColor = vec3(1.0f, 0.84f, 0.0f);
+const vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
 uniform vec4 objectColor;
 uniform vec3 lightPos;
 uniform vec3 viewPos;

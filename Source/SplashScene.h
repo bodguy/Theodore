@@ -11,14 +11,9 @@ namespace Quark {
 
 		virtual void OnAwake() override;
 		virtual void OnUpdate() override;
-		virtual void OnRender() override;
 
 	private:
-		Program program;
-		VertexArray vao;
 		Transform* trans;
-		Transform* trans2;
-		int vtxCount;
 	};
 }
 

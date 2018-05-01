@@ -34,11 +34,15 @@
 
 #include "Cloth.h"
 
+#include "Gizmo.h"
 #include "SceneManager.h"
 #include "Scene.h"
 #include "GameObject.h"
 #include "Component.h"
 #include "Bounds.h"
+#include "Mesh.h"
+#include "MeshFilter.h"
+#include "MeshRenderer.h"
 
 using namespace Quark;
 using namespace Enumeration;

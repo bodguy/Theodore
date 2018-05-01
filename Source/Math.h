@@ -2,6 +2,18 @@
 #define Math_h
 
 namespace Quark {
+	template <int N>
+	struct Factorial
+	{
+		enum { value = N * Factorial<N - 1>::value };
+	};
+
+	template <>
+	struct Factorial<0>
+	{
+		enum { value = 1 };
+	};
+
     class Math {
     public:
         static bool IsEqual(const float a, const float b);

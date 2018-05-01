@@ -215,6 +215,11 @@ namespace Quark {
 			ScaleGizmo,
 			RotationGizmo
 		};
+
+		enum IndexFormat {
+			UInt32 = GL_UNSIGNED_INT,
+			UInt16 = GL_UNSIGNED_SHORT
+		};
     }
     
     inline Enumeration::BufferBits operator|(Enumeration::BufferBits lft, Enumeration::BufferBits rht) {

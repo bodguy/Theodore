@@ -1,51 +1,7 @@
 #include "SplashScene.h"
-#include "Gizmo.h"
+#include "QuarkEngine.h"
 
 namespace Quark {
-	const float Verts[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
-	};
-
 	float speed = 4.5f;
 	float rotationY = 0.f;
 	float rotationX = 0.f;
@@ -59,7 +15,7 @@ namespace Quark {
 	float maximumY = 60.f;
 	bool isOrtho = false;
 
-	SplashScene::SplashScene() : Scene("SplashScene"), program(), vao() {
+	SplashScene::SplashScene() : Scene("SplashScene") {
 
 	}
 
@@ -68,49 +24,19 @@ namespace Quark {
 	}
 
 	void SplashScene::OnAwake() {
-		GameObject* g = new GameObject("plane");
-		GameObject* g2 = new GameObject("cube");
-		GameObject* g3 = new GameObject("gizmo");
-		GameObject* g4 = new GameObject("gizmo2");
-		Attach(g);
-		Attach(g2);
-		Attach(g3);
-		Attach(g4);
+		GameObject* gizmo = new GameObject("gizmo", this);
+		gizmo->AddComponent<Gizmo>(Enumeration::TranslationGizmo);
 
-		trans = g->GetTransform();
-		trans->SetPosition(Vector3d(0.f, -1.f, 0.f));
-		trans->SetScale(Vector3d(20.f, 1.f, 20.f));
-
-		trans2 = g2->GetTransform();
-		trans2->SetPosition(Vector3d(0.f, 2.f, 0.f));
-		trans2->SetScale(Vector3d::one);
-
-		g3->AddComponent<Gizmo>(Enumeration::RotationGizmo);
-		g4->AddComponent<Gizmo>(Enumeration::TranslationGizmo);
-
-		Shader* vs = AssetManager::RequestShader("Shaders/light/vs.glsl", VertexShader);
-		Shader* fs = AssetManager::RequestShader("Shaders/light/fs.glsl", FragmentShader);
-		program.AttachShader(*vs);
-		program.AttachShader(*fs);
-		program.Link();
-
-		InputStream vertexData;
-		int stride = 6;
-		vtxCount = sizeof(Verts) / sizeof(Verts[0]) / stride;
-		for (int i = 0; i < vtxCount; i++) {
-			vertexData.Vec3(Vector3d(Verts[i * stride], Verts[i * stride + 1], Verts[i * stride + 2]));
-			vertexData.Vec3(Vector3d(Verts[i * stride + 3], Verts[i * stride + 4], Verts[i * stride + 5]));
-		}
-		Buffer vertexBuffer(BufferVertex);
-		vertexBuffer.Data(vertexData.Pointer(), vertexData.Size(), StaticDraw);
-
-		vao.BindAttribute(program.GetAttribute("position"), vertexBuffer, 3, 2 * sizeof(Vector3d), 0);
-		vao.BindAttribute(program.GetAttribute("normal"), vertexBuffer, 3, 2 * sizeof(Vector3d), sizeof(Vector3d));
+		GameObject* cube = GameObject::CreatePrimitive(Enumeration::CubePrimitive, this);
+		trans = cube->GetTransform();
+		trans->SetPosition(Vector3d(0.f, 1.f, 0.f));
 
 		Camera::GetMainCamera()->GetTransform().SetPosition(Vector3d(0.f, 2.f, 5.f));
 	}
 
 	void SplashScene::OnUpdate() {
+		trans->Rotate(Vector3d(0.f, 1.f, 0.), 50 * Time::DeltaTime());
+
 		if (Input::GetKeyDown(KEY_ESCAPE)) {
 			Platform::GetInstance()->Quit();
 		}
@@ -174,8 +100,6 @@ namespace Quark {
 
 		// camera rotation
 		if (Input::GetMouseButtonHeld(MOUSE_RIGHT)) {
-
-
 			rotationY = Input::GetMouseDeltaPosition().x * sensitivity * Time::DeltaTime();
 			rotationY = Math::Clamp(rotationY, minimumY, maximumY);
 
@@ -185,29 +109,5 @@ namespace Quark {
 			Camera::GetMainCamera()->GetTransform().Rotate(Vector3d::up, -rotationY);
 			Camera::GetMainCamera()->GetTransform().Rotate(Camera::GetMainCamera()->GetTransform().GetRight(), -rotationX);
 		}
-	}
-
-	void SplashScene::OnRender() {
-		program.Use();
-		program.SetUniform(program.GetUniform("model"), trans->GetLocalToWorldMatrix());
-		program.SetUniform(program.GetUniform("view"), Camera::GetMainCamera()->GetWorldToCameraMatrix());
-		program.SetUniform(program.GetUniform("projection"), Camera::GetMainCamera()->GetProjectionMatrix());
-		program.SetUniform(program.GetUniform("viewPos"), Camera::GetMainCamera()->GetTransform().GetPosition());
-		program.SetUniform(program.GetUniform("lightPos"), Vector3d(0.f, 10.f, 0.f));
-		program.SetUniform(program.GetUniform("objectColor"), Color::white);
-		Graphics::DrawArrays(vao, Triangles, 0, vtxCount);
-		program.UnUse();
-
-		program.Use();
-		trans2->Rotate(Vector3d(0.f , 1.f ,0.f), 20 * Time::DeltaTime());
-		trans2->Rotate(Vector3d(1.f, 0.f, 0.f), 20 * Time::DeltaTime());
-		program.SetUniform(program.GetUniform("model"), trans2->GetLocalToWorldMatrix());
-		program.SetUniform(program.GetUniform("view"), Camera::GetMainCamera()->GetWorldToCameraMatrix());
-		program.SetUniform(program.GetUniform("projection"), Camera::GetMainCamera()->GetProjectionMatrix());
-		program.SetUniform(program.GetUniform("viewPos"), Camera::GetMainCamera()->GetTransform().GetPosition());
-		program.SetUniform(program.GetUniform("lightPos"), Vector3d(0.f, 10.f, 0.f));
-		program.SetUniform(program.GetUniform("objectColor"), Color::red);
-		Graphics::DrawArrays(vao, Triangles, 0, vtxCount);
-		program.UnUse();
 	}
 }
