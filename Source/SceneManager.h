@@ -65,7 +65,7 @@ namespace Quark {
 		GetInstance()->mScenes.push_back(scene); // store new build scene in array.
 		GetInstance()->mSceneCount++; // increment scene counter.
 
-									  // succesfully initialized the scene then return it.
+		// succesfully initialized the scene then return it.
 		return scene;
 	}
 }

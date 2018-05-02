@@ -47,10 +47,6 @@ namespace Quark {
     int Shader::IsCompiled() const {
         return mIsCompiled;
     }
-
-	void Shader::SetName(const std::string& filename) {
-		mName = filename;
-	}
     
     std::string Shader::PreprocessIncludes(const std::string& source, int level) {
         // https://www.opengl.org/discussion_boards/showthread.php/169209-include-in-glsl

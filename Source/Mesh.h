@@ -7,10 +7,11 @@
 #include "Vector2d.h"
 #include "Color.h"
 #include "VertexBuffer.h"
+#include "Asset.h"
 #include <vector>
 
 namespace Quark {
-	class Mesh {
+	class Mesh : public Asset {
 	public:
 		Mesh();
 		virtual ~Mesh();

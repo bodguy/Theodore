@@ -21,7 +21,7 @@ namespace Quark {
 			mNativeTexturePtr = data;
 			mWidth = w;
 			mHeight = h;
-			mName = filename;
+			SetAssetName(filename);
 
 			glBindTexture(mDimension, id);
 			switch (format) {

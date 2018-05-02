@@ -97,7 +97,8 @@ namespace Quark {
             AudioType,
             FontType,
 			TextShaderType,
-			BinaryShaderType
+			BinaryShaderType,
+			MeshType
         };
         
         enum OpenMode {

@@ -24,7 +24,7 @@ namespace Quark {
             mNativeTexturePtr = data;
             mWidth = w;
             mHeight = h;
-            mName = filename;
+			SetAssetName(filename);
             
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -89,7 +89,7 @@ namespace Quark {
             mNativeTexturePtr = data;
             mWidth = w;
             mHeight = h;
-            mName = filename;
+			SetAssetName(filename);
             
             glGenTextures(1, &mTextureID);
             glBindTexture(mDimension, mTextureID);
@@ -131,7 +131,7 @@ namespace Quark {
             mNativeTexturePtr = data;
             mWidth = w;
             mHeight = h;
-            mName = filename;
+			SetAssetName(filename);
             
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -196,7 +196,7 @@ namespace Quark {
             mNativeTexturePtr = data;
             mWidth = (unsigned int)w;
             mHeight = (unsigned int)h;
-            mName = filename;
+			SetAssetName(filename);
             
             glGenTextures(1, &mTextureID);
             glBindTexture(mDimension, mTextureID);

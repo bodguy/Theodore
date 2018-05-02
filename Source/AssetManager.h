@@ -7,7 +7,7 @@
 #include <vector>
 
 namespace Quark {
-	class Texture2D; class Asset; class Color; class MSAATexture2D; class TextureCube; class Shader; //class Font;
+	class Texture2D; class Asset; class Color; class MSAATexture2D; class TextureCube; class Shader; class Mesh; //class Font;
 	class AssetManager {
 	public:
 		AssetManager();
@@ -17,11 +17,12 @@ namespace Quark {
 		static Texture2D* RequestTexture(const std::string& filename, Enumeration::TextureFormat format);
 		static Texture2D* RequestTexture(const std::string& filename, Enumeration::TextureFormat format, std::vector<unsigned char>& data, const Color& colorKey);
 		static Texture2D* RequestTexture(const std::string& filename, Enumeration::TextureFormat format, std::vector<unsigned char>& data);
-		static Texture2D* RequestTexture(unsigned int width, unsigned int height, Enumeration::TextureFormat format, unsigned char* data);
+		static Texture2D* RequestTexture(const std::string& filename, unsigned int width, unsigned int height, Enumeration::TextureFormat format, unsigned char* data);
 		static TextureCube* RequestTexture(unsigned int id, const std::string& filename, Enumeration::TextureFormat format, Enumeration::CubemapFace face);
-		static MSAATexture2D* RequestTexture(unsigned int width, unsigned int height, Enumeration::TextureFormat format, unsigned int sample);
+		static MSAATexture2D* RequestTexture(const std::string& filename, unsigned int width, unsigned int height, Enumeration::TextureFormat format, unsigned int sample);
 		//static Font* RequestFont(const std::string& filename);
 		static Shader* RequestShader(const std::string& filename, Enumeration::ShaderType type);
+		static Mesh* RequestMesh(const std::string& filename);
 		static Asset* GetAssetByFilename(const std::string& filename);
 		static void RemoveAsset(Asset* asset);
 

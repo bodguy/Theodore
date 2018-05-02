@@ -19,7 +19,6 @@ namespace Quark {
         
         int Compile(const std::string& source);
         int IsCompiled() const;
-		void SetName(const std::string& filename);
         static std::string PreprocessIncludes(const std::string& source, int level = 0);
         
     private:

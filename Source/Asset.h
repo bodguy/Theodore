@@ -10,7 +10,9 @@ namespace Quark {
     public:
         Asset();
         virtual ~Asset();
-        
+
+		void SetAssetName(const std::string& filename);
+
     private:
         void AddReference();
         void RemoveReference();
@@ -19,6 +21,7 @@ namespace Quark {
         Enumeration::AssetType mType;
         unsigned int mRefCount;
         std::string mName;
+		std::string mFilePath;
     };
 }
 

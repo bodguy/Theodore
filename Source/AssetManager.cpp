@@ -5,6 +5,7 @@
 #include "MSAATexture2D.h"
 //#include "Font.h"
 #include "Shader.h"
+#include "Mesh.h"
 #include "File.h"
 #include "Color.h"
 #include "Debug.h"
@@ -57,7 +58,6 @@ namespace Quark {
 
 		if (asset) {
 			asset->AddReference();
-			//Debug::Log(asset);
 		}
 
 		return asset;
@@ -105,9 +105,10 @@ namespace Quark {
 		return asset;
 	}
 
-	Texture2D* AssetManager::RequestTexture(unsigned int width, unsigned int height, Enumeration::TextureFormat format, unsigned char* data) {
+	Texture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, Enumeration::TextureFormat format, unsigned char* data) {
 		Texture2D* asset = new Texture2D();
 		if (asset->LoadCustomTexture(width, height, format, data)) {
+			asset->SetAssetName(filename);
 			instance->StoreAsset(asset);
 		} else {
 			SafeDealloc(asset);
@@ -143,9 +144,10 @@ namespace Quark {
 		return asset;
 	}
 
-	MSAATexture2D* AssetManager::RequestTexture(unsigned int width, unsigned int height, Enumeration::TextureFormat format, unsigned int sample) {
+	MSAATexture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, Enumeration::TextureFormat format, unsigned int sample) {
 		MSAATexture2D* asset = new MSAATexture2D();
 		if (asset->LoadMultiSampleTexture(width, height, format, sample)) {
+			asset->SetAssetName(filename);
 			instance->StoreAsset(asset);
 		} else {
 			SafeDealloc(asset);
@@ -190,7 +192,7 @@ namespace Quark {
 			File file;
 			file.Open(filename, Enumeration::Read);
 			if (file.IsOpen()) {
-				asset->SetName(filename);
+				asset->SetAssetName(filename);
 				asset->Compile(file.ReadUntilEnd());
 				instance->StoreAsset(asset);
 				file.Close();
@@ -202,7 +204,20 @@ namespace Quark {
 
 		if (asset) {
 			asset->AddReference();
-			//Debug::Log(asset);
+		}
+
+		return asset;
+	}
+
+	Mesh* AssetManager::RequestMesh(const std::string& filename) {
+		Mesh* asset = static_cast<Mesh*>(GetAssetByFilename(filename));
+
+		if (!asset) {
+			asset = new Mesh();
+		}
+
+		if (asset) {
+			asset->AddReference();
 		}
 
 		return asset;

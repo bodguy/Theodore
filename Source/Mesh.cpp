@@ -3,6 +3,7 @@
 
 namespace Quark {
 	Mesh::Mesh() : mFormat(Enumeration::UInt32), mVertexCount(0), mNormalCount(0), mVertexBufferCount(0), mStream(), mVbo(nullptr), mVao(nullptr) {
+		mType = Enumeration::MeshType;
 		mVbo = new Buffer(Enumeration::BufferVertex);
 		mVao = new VertexArray();
 	}

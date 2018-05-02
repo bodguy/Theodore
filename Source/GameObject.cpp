@@ -96,7 +96,7 @@ namespace Quark {
 					j->HandleMessage(msg);
 			}
 		}
-
+		 
 		return true;
 	}
 
