@@ -125,14 +125,14 @@ namespace Quark {
 			PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB = nullptr;
 			wglChoosePixelFormatARB = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(wglGetProcAddress("wglChoosePixelFormatARB"));
 			if (wglChoosePixelFormatARB == nullptr) {
-				Debug::Log("wglChoosePixelFormatARB() failed.\n");
+				Debug::Log("wglChoosePixelFormatARB() failed.");
 				return false;
 			}
 
 			PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB = nullptr;
 			wglCreateContextAttribsARB = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>(wglGetProcAddress("wglCreateContextAttribsARB"));
 			if (wglCreateContextAttribsARB == nullptr) {
-				Debug::Log("wglCreateContextAttribsARB() failed.\n");
+				Debug::Log("wglCreateContextAttribsARB() failed.");
 				return false;
 			}
 
@@ -185,7 +185,7 @@ namespace Quark {
 					0
 				};
 				nPixelFormat2 = wglChoosePixelFormatARB(hdc, pixelAttribs, NULL, 1, &pixelFormatID, &numFormats);
-				Debug::Log("does not support multisampling\n");
+				Debug::Log("Does not support multisampling");
 			}
 			
 			if (!nPixelFormat2 || numFormats == 0) return false;
@@ -235,12 +235,12 @@ namespace Quark {
 			glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, &nCurAvailMemoryInKB);
 		}
 
-		Debug::Log("Vendor              : %s\n", glGetString(GL_VENDOR));
-		Debug::Log("Renderer            : %s\n", glGetString(GL_RENDERER));
-		Debug::Log("Version             : %s\n", glGetString(GL_VERSION));
-		Debug::Log("GLSL                : %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-		Debug::Log("GPU Total Memory    : %.0f MB\n", Math::Round(Math::KBtoMB(nTotalMemoryInKB)));
-		Debug::Log("GPU Available Memory: %.0f MB\n", Math::Round(Math::KBtoMB(nCurAvailMemoryInKB)));
+		Debug::Log("Vendor : %s", glGetString(GL_VENDOR));
+		Debug::Log("Renderer : %s", glGetString(GL_RENDERER));
+		Debug::Log("Version : %s", glGetString(GL_VERSION));
+		Debug::Log("GLSL : %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+		Debug::Log("GPU Total Memory : %.0f MB", Math::Round(Math::KBtoMB(nTotalMemoryInKB)));
+		Debug::Log("GPU Available Memory : %.0f MB", Math::Round(Math::KBtoMB(nCurAvailMemoryInKB)));
 
 		//if (QueryExtentionSupported("GL_ARB_get_program_binary")) {
 		//	Debug::Log("program binary supported!\n");

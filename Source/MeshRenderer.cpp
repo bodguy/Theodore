@@ -4,11 +4,13 @@
 #include "AssetManager.h"
 #include "Enumeration.h"
 #include "Graphics.h"
-#include "Camera.h"
+#include "SceneManager.h"
 #include "GameObject.h"
 #include "MeshFilter.h"
 #include "Mesh.h"
 #include "Utility.h"
+#include "Transform.h"
+#include "Camera.h"
 
 namespace Quark {
 	MeshRenderer::MeshRenderer() : Component("MeshRenderer"), mMaterial(nullptr), mMeshCache(nullptr), mProgram(nullptr) {
@@ -21,7 +23,7 @@ namespace Quark {
 
 		mMeshCache = mGameObject->GetComponent<MeshFilter>()->GetMesh();
 		mMeshCache->GetVao()->BindAttribute(mProgram->GetAttribute("position"), *mMeshCache->GetVbo(), 3, sizeof(Vector3d), 0);
-		mMeshCache->GetVao()->BindAttribute(mProgram->GetAttribute("normal"), *mMeshCache->GetVbo(), 3, sizeof(Vector3d), sizeof(Vector3d));
+		//mMeshCache->GetVao()->BindAttribute(mProgram->GetAttribute("normal"), *mMeshCache->GetVbo(), 3, sizeof(Vector3d), sizeof(Vector3d));
 	}
 
 	MeshRenderer::~MeshRenderer() {
@@ -40,9 +42,9 @@ namespace Quark {
 		if (mMeshCache) {
 			mProgram->Use();
 			mProgram->SetUniform(mProgram->GetUniform("model"), mGameObject->GetTransform()->GetLocalToWorldMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("view"), Camera::GetMainCamera()->GetWorldToCameraMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("projection"), Camera::GetMainCamera()->GetProjectionMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("viewPos"), Camera::GetMainCamera()->GetTransform().GetPosition());
+			mProgram->SetUniform(mProgram->GetUniform("view"), SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+			mProgram->SetUniform(mProgram->GetUniform("projection"), SceneManager::GetMainCamera()->GetProjectionMatrix());
+			mProgram->SetUniform(mProgram->GetUniform("viewPos"), SceneManager::GetMainCamera()->GetTransform()->GetPosition());
 			mProgram->SetUniform(mProgram->GetUniform("lightPos"), Vector3d(0.f, 10.f, 0.f));
 			mProgram->SetUniform(mProgram->GetUniform("objectColor"), mMaterial->GetAmbient());
 			Graphics::DrawArrays(*mMeshCache->GetVao(), Enumeration::Triangles, 0, mMeshCache->GetVertexCount());

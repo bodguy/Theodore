@@ -17,8 +17,12 @@ namespace Quark {
 		static std::string ReplaceAll(const std::string& str, const std::string& from, const std::string& to);
 		static bool StartsWith(const std::string& str, const std::string& prefix);
 		static bool EndsWith(const std::string& str, const std::string& suffix);
+		static std::string DateToUTCString(std::tm* date);
 		//template<typename ...Args>
 		//static std::string Join(const std::string& delimiter, Args... args);
+
+	private:
+		static std::string monthTable[];
 	};
 
 	//template<typename ... std::enable_if_t<std::is_same<Args, std::string>::value>::type = nullptr>

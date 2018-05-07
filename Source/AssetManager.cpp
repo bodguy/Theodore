@@ -193,6 +193,7 @@ namespace Quark {
 			file.Open(filename, Enumeration::Read);
 			if (file.IsOpen()) {
 				asset->SetAssetName(filename);
+				Debug::Log("'" + filename + "' Compiling shader...");
 				asset->Compile(file.ReadUntilEnd());
 				instance->StoreAsset(asset);
 				file.Close();
@@ -225,8 +226,9 @@ namespace Quark {
 
 	Asset* AssetManager::GetAssetByFilename(const std::string& filename) {
 		for (auto i : instance->mAssets) {
-			// if we find it.
-			if (i->mName == filename)
+			// if I find it. return
+			std::string realName = i->mFilePath + i->mName;
+			if (realName == filename)
 				return i;
 		}
 
@@ -248,5 +250,5 @@ namespace Quark {
 				}
 			}
 		}
-	} // end of function
+	}
 }

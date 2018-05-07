@@ -48,6 +48,7 @@ namespace Quark {
 		static int __tabCount;
 		static std::string __tabString;
 		static bool __logSwitch;
+		static const size_t maxLength;
     };
 }
 

@@ -6,8 +6,7 @@
 #include "Object.h"
 
 namespace Quark {
-    class SceneManager;
-    class GameObject;
+    class SceneManager; class GameObject;
 	class Scene : public Object {
 		friend class SceneManager;
 		friend class GameObject;
@@ -21,7 +20,6 @@ namespace Quark {
 		GameObject* Find(const std::string& name) const;
 		GameObject* FindWithTag(const std::string& tag) const;
 		std::shared_ptr<std::vector<GameObject*> > FindGameObjectsWithTag(const std::string& tag) const;
-		void print(const char* format, ...);
 
 		// Only at once being called when scene object is created
 		virtual void OnAwake() {}

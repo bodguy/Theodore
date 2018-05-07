@@ -1,21 +1,22 @@
 #include "Camera.h"
 #include "Math.h"
 #include "Platform.h"
-#include "os_types.h"
-#include GLEW_INCLUDE_DIR
+#include "GameObject.h"
+#include "Transform.h"
+#include "Graphics.h"
 
 namespace Quark {
-	std::shared_ptr<Camera> Camera::mainCamera = nullptr;
-	Camera::Camera() : mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false), mTransform() {
-		mTransform.SetPosition(Vector3d(-0.101061f, 0.632650f, 2.383647f));
+	Camera::Camera() : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false) {
 		ResetAspect();
 		ResetFieldOfView();
+		mTransform = this->mGameObject->GetTransform();
 	}
 
-	Camera::Camera(const Vector3d& position) : mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false) {
-		mTransform.SetPosition(position);
+	Camera::Camera(const Vector3d& position) : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false) {
 		ResetAspect();
 		ResetFieldOfView();
+		mTransform = this->mGameObject->GetTransform();
+		mTransform->SetPosition(position);
 	}
 
 	void Camera::ResetAspect() const {
@@ -25,7 +26,7 @@ namespace Quark {
 	}
 
 	void Camera::ResetFieldOfView() const {
-		mFieldOfView = 90.0f;
+		mFieldOfView = 60.0f;
 	}
 
 	void Camera::ResetProjectionMatrix() const {
@@ -44,7 +45,7 @@ namespace Quark {
 	}
 
 	Matrix4x4 Camera::GetWorldToCameraMatrix() const {
-		mWorldToCameraMatrix = Matrix4x4::LookAt(mTransform.GetPosition(), mTransform.GetPosition() + mTransform.GetForward(), mTransform.GetUp());
+		mWorldToCameraMatrix = Matrix4x4::LookAt(mTransform->GetPosition(), mTransform->GetPosition() + mTransform->GetForward(), mTransform->GetUp());
 		return mWorldToCameraMatrix;
 	}
 	
@@ -64,7 +65,7 @@ namespace Quark {
 	Vector3d Camera::ScreenToWorldPoint(const Vector3d& position) {
 		Matrix4x4 invProjectionView = Matrix4x4::Inverse(GetProjectionMatrix()) * GetCameraToWorldMatrix();
 		int viewport[4];
-		glGetIntegerv(GL_VIEWPORT, viewport);
+		Graphics::GetViewport(viewport);
 		Vector3d screenCoords(position.x - viewport[0], viewport[3] - position.y - 1 - viewport[1], position.z);
 
 		screenCoords.x = (2 * screenCoords.x) / viewport[2] - 1.f;
@@ -80,10 +81,6 @@ namespace Quark {
 
 	void Camera::SetOrthographic(bool isOrtho) {
 		mOrthographic = isOrtho;
-	}
-
-	Transform& Camera::GetTransform() {
-		return mTransform;
 	}
 
 	float Camera::GetNearClipPlane() const {
@@ -102,10 +99,61 @@ namespace Quark {
 		mFarClipPlane = far;
 	}
 
-	Camera* Camera::GetMainCamera() {
-		if (Camera::mainCamera.get() == nullptr) {
-			mainCamera = std::make_shared<Camera>();
-		}
-		return Camera::mainCamera.get();
+	Transform* Camera::GetTransform() const {
+		return mTransform;
+	}
+
+	void Camera::PrepareFrustum() {
+		float tanAngle = tan(mFieldOfView / 2);
+
+		float yNear = mNearClipPlane * tanAngle;
+		float xNear = mAspect * yNear;
+		float yFar = mFarClipPlane * tanAngle;
+		float xFar = mAspect * yFar;
+
+		Vector3d nearLeftTop(-xNear, yNear, -1.0f * mNearClipPlane);
+		Vector3d nearLeftBottom(-xNear, -yNear, -1.0f * mNearClipPlane);
+		Vector3d nearRightBottom(xNear, -yNear, -1.0f * mNearClipPlane);
+		Vector3d nearRightTop(xNear, yNear, -1.0f * mNearClipPlane);
+
+		Vector3d farLeftTop(-xFar, yFar, -1.0f * mFarClipPlane);
+		Vector3d farLeftBottom(-xFar, -yFar, -1.0f * mFarClipPlane);
+		Vector3d farRightBottom(xFar, -yFar, -1.0f * mFarClipPlane);
+		Vector3d farRightTop(xFar, yFar, -1.0f * mFarClipPlane);
+
+		std::vector<Vector3d> vertices = {
+			nearLeftTop, nearLeftBottom, nearRightBottom, nearRightTop,     // front face
+			farLeftTop, farLeftBottom, farRightBottom, farRightTop,         // far face
+			nearLeftBottom, nearRightBottom, farRightBottom, farLeftBottom, // bottom face
+			nearLeftTop, nearRightTop, farRightTop, farLeftTop,             // top face
+			nearLeftBottom, farLeftBottom, farLeftTop, nearLeftTop,         // left face
+			nearRightBottom, farRightBottom, farRightTop, nearRightTop      // right face
+		};
+
+		//glGenVertexArrays(1, &vao);
+
+		//glGenBuffers(1, &vbo_vertices);
+		//glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+		//unsigned int numBytes = vertices.size() * sizeof(Vector3d);
+		//glBufferData(GL_ARRAY_BUFFER, numBytes, const_cast<float *>(&((vertices.data())->x)), GL_STATIC_DRAW);
+		//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	// private functions, for consistency with other components.
+
+	void Camera::Update(double deltaTime) {
+
+	}
+
+	void Camera::Render() {
+		return;
+	}
+
+	bool Camera::CompareEquality(const Object& rhs) const {
+		return false;
+	}
+
+	bool Camera::Destroy() {
+		return false;
 	}
 }

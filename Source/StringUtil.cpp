@@ -2,6 +2,7 @@
 #include <regex>
 
 namespace Quark {
+	std::string StringUtil::monthTable[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 	StringUtil::StringUtil(void) {
 	}
 
@@ -78,6 +79,11 @@ namespace Quark {
 
 	bool StringUtil::EndsWith(const std::string& str, const std::string& suffix) {
 		return (str.length() >= suffix.length() && str.compare(str.length() - suffix.length(), suffix.length(), suffix) == 0);
+	}
+
+	std::string StringUtil::DateToUTCString(std::tm* date) {
+		return std::string(StringUtil::monthTable[date->tm_mon] + " " + std::to_string(date->tm_mday) + ", " + std::to_string(date->tm_year + 1900) + " " +
+			std::to_string(date->tm_hour) + ":" + std::to_string(date->tm_min) + ":" + std::to_string(date->tm_sec));
 	}
 }
 

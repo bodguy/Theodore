@@ -7,6 +7,7 @@
 #include "MeshRenderer.h"
 #include "Material.h"
 #include "Mesh.h"
+#include "PrimitiveData.h"
 
 namespace Quark {
 	GameObject::GameObject(const std::string& name, Scene* scene)
@@ -16,7 +17,7 @@ namespace Quark {
 		scene->Attach(this);
 	}
 
-	GameObject::GameObject(const std::string& name, Scene* scene, GameObject* parent)
+	GameObject::GameObject(const std::string& name, GameObject* parent, Scene* scene)
 		: Object(name), mParent(parent), mScene(nullptr), mActiveSelf(true), mTagString("untagged"), mTag(0), mTransform(nullptr) {
 		mParent->mChildren.push_back(this);
 		mTransform = AddComponent<Transform>();
@@ -33,10 +34,6 @@ namespace Quark {
 		}
 		mComponents.clear();
 		mChildren.clear();
-	}
-
-	GameObject* GameObject::GetParent() const {
-		return mParent;
 	}
 
 	bool GameObject::IsActive() const {
@@ -101,103 +98,39 @@ namespace Quark {
 	}
 
 	GameObject* GameObject::CreatePrimitive(Enumeration::PrimitiveType type, Scene* scene) {
-		const float Verts[] = {
-			-0.5f, -0.5f, -0.5f,
-			0.5f, -0.5f, -0.5f,
-			0.5f,  0.5f, -0.5f,
-			0.5f,  0.5f, -0.5f,
-			-0.5f,  0.5f, -0.5f,
-			-0.5f, -0.5f, -0.5f,
-
-			-0.5f, -0.5f,  0.5f,
-			0.5f, -0.5f,  0.5f,
-			0.5f,  0.5f,  0.5f,
-			0.5f,  0.5f,  0.5f,
-			-0.5f,  0.5f,  0.5f,
-			-0.5f, -0.5f,  0.5f,
-
-			-0.5f,  0.5f,  0.5f,
-			-0.5f,  0.5f, -0.5f,
-			-0.5f, -0.5f, -0.5f,
-			-0.5f, -0.5f, -0.5f,
-			-0.5f, -0.5f,  0.5f,
-			-0.5f,  0.5f,  0.5f,
-
-			0.5f,  0.5f,  0.5f,
-			0.5f,  0.5f, -0.5f,
-			0.5f, -0.5f, -0.5f,
-			0.5f, -0.5f, -0.5f,
-			0.5f, -0.5f,  0.5f,
-			0.5f,  0.5f,  0.5f,
-
-			-0.5f, -0.5f, -0.5f,
-			0.5f, -0.5f, -0.5f,
-			0.5f, -0.5f,  0.5f,
-			0.5f, -0.5f,  0.5f,
-			-0.5f, -0.5f,  0.5f,
-			-0.5f, -0.5f, -0.5f,
-
-			-0.5f,  0.5f, -0.5f,
-			0.5f,  0.5f, -0.5f,
-			0.5f,  0.5f,  0.5f,
-			0.5f,  0.5f,  0.5f,
-			-0.5f,  0.5f,  0.5f,
-			-0.5f,  0.5f, -0.5f,
-		};
-
-		const float Normals[] = {
-			0.0f,  0.0f, -1.0f,
-			0.0f,  0.0f, -1.0f,
-			0.0f,  0.0f, -1.0f,
-			0.0f,  0.0f, -1.0f,
-			0.0f,  0.0f, -1.0f,
-			0.0f,  0.0f, -1.0f,
-
-			0.0f,  0.0f,  1.0f,
-			0.0f,  0.0f,  1.0f,
-			0.0f,  0.0f,  1.0f,
-			0.0f,  0.0f,  1.0f,
-			0.0f,  0.0f,  1.0f,
-			0.0f,  0.0f,  1.0f,
-
-			-1.0f,  0.0f,  0.0f,
-			-1.0f,  0.0f,  0.0f,
-			-1.0f,  0.0f,  0.0f,
-			-1.0f,  0.0f,  0.0f,
-			-1.0f,  0.0f,  0.0f,
-			-1.0f,  0.0f,  0.0f,
-
-			1.0f,  0.0f,  0.0f,
-			1.0f,  0.0f,  0.0f,
-			1.0f,  0.0f,  0.0f,
-			1.0f,  0.0f,  0.0f,
-			1.0f,  0.0f,  0.0f,
-			1.0f,  0.0f,  0.0f,
-
-			0.0f, -1.0f,  0.0f,
-			0.0f, -1.0f,  0.0f,
-			0.0f, -1.0f,  0.0f,
-			0.0f, -1.0f,  0.0f,
-			0.0f, -1.0f,  0.0f,
-			0.0f, -1.0f,  0.0f,
-
-			0.0f,  1.0f,  0.0f,
-			0.0f,  1.0f,  0.0f,
-			0.0f,  1.0f,  0.0f,
-			0.0f,  1.0f,  0.0f,
-			0.0f,  1.0f,  0.0f,
-			0.0f,  1.0f,  0.0f
-		};
-
-		GameObject* temp = new GameObject("Cube", scene);
+		static std::string primitiveName[] = { "Plane", "Cube", "Sphere", "Capsule", "Cylinder" };
+		GameObject* primitive = new GameObject(primitiveName[static_cast<int>(type)], scene);
 		Mesh* mesh = new Mesh();
-		mesh->SetVertices(Verts);
-		mesh->SetNormals(Normals);
-		temp->AddComponent<MeshFilter>()->SetMesh(mesh);
-
 		Material* material = new Material();
-		temp->AddComponent<MeshRenderer>()->SetMaterial(material);
-		return temp;
+
+		switch (type) {
+		case Enumeration::PrimitiveType::Plane:
+		{
+			//float planeVertices[300] = { 0, };
+			//for (int x = 0; x < 10; x++) {
+			//	for (int y = 0; y < 10; y++) {
+			//		planeVertices[y + x * 10 + 0] = -0.5f + (0.1f * y); // x
+			//		planeVertices[y + x * 10 + 1] = 0.f; // y
+			//		planeVertices[y + x * 10 + 2] = -0.5f + (0.1f * y); // z
+			//	}
+			//}
+			//mesh->SetVertices(planeVertices);
+			break;
+		}
+		case Enumeration::PrimitiveType::Cube:
+			mesh->SetVertices(cubeVertices);
+			break;
+		case Enumeration::PrimitiveType::Sphere:
+			break;
+		case Enumeration::PrimitiveType::Capsule:
+			break;
+		case Enumeration::PrimitiveType::Cylinder:
+			break;
+		}
+
+		primitive->AddComponent<MeshFilter>()->SetMesh(mesh);
+		primitive->AddComponent<MeshRenderer>()->SetMaterial(material);
+		return primitive;
 	}
 
 	Transform* GameObject::GetTransform() const {

@@ -1,4 +1,5 @@
 #include "Time.h"
+#include "StringUtil.h"
 
 namespace Quark {
     Time* Time::instance = nullptr;
@@ -41,4 +42,9 @@ namespace Quark {
     void Time::SetTimeScale(float value) {
         instance->scale = value / 1000.f;
     }
+
+	std::string Time::GetDateTime() {
+		std::time_t now = std::time(nullptr);
+		return StringUtil::DateToUTCString(std::localtime(&now));
+	}
 }

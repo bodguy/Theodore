@@ -3,12 +3,17 @@
 #include "GameObject.h"
 #include "SceneManager.h"
 #include "crc32.h"
+#include "Camera.h"
 #include <stdarg.h>
 
 namespace Quark {
 	Scene::Scene(const std::string& name) : Object(name), mActive(true) {
-		/* does not initialize SceneManager, BuildIndex here! */
+		/* Does not initialize SceneManager, BuildIndex here! */
 		mGameObjects.clear();
+		// Every scene has at least a camera.
+		GameObject* camera = new GameObject("MainCamera", this);
+		Camera* cameraComponent = camera->AddComponent<Camera>();
+		mManager->mMainCamera = cameraComponent;
 	}
 
 	Scene::~Scene() {
@@ -64,13 +69,6 @@ namespace Quark {
 		}
 
 		return std::make_shared<std::vector<GameObject*> >(std::move(vectors));
-	}
-
-	void Scene::print(const char* format, ...) {
-		va_list args;
-		va_start(args, format);
-		vprintf(format, args);
-		va_end(args);
 	}
 
 	void Scene::Update(double deltaTime) {

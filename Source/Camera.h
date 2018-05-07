@@ -3,12 +3,12 @@
 
 #include "Vector3d.h"
 #include "Matrix4x4.h"
-#include "Transform.h"
 #include "Ray.h"
-#include <memory>
+#include "Component.h"
 
 namespace Quark {
-	class Camera {
+	class Transform;
+	class Camera : public Component {
 	public:
 		Camera();
 		Camera(const Vector3d& position);
@@ -26,24 +26,27 @@ namespace Quark {
 		Vector3d WorldToScreenPoint(const Vector3d& position);
 		void SetOrthographic(bool isOrtho);
 
-		Transform& GetTransform();
 		float GetNearClipPlane() const;
 		float GetFarClipPlane() const;
 		void SetNearClipPlane(float near);
 		void SetFarClipPlane(float far);
+		Transform* GetTransform() const;
 
-		static Camera* GetMainCamera();
-	
 	private:
-		static std::shared_ptr<Camera> mainCamera;
+		void PrepareFrustum();
+		virtual void Update(double deltaTime) override;
+		virtual void Render() override;
+		virtual bool CompareEquality(const Object& rhs) const override;
+		virtual bool Destroy() override;
 
+	private:
 		mutable float mFieldOfView;
 		float mNearClipPlane;
 		float mFarClipPlane;
 		mutable float mPixelWidth;
 		mutable float mPixelHeight;
 		mutable float mAspect;
-		Transform mTransform;
+		Transform* mTransform;
 
 		mutable Matrix4x4 mProjectionMatrix;
 		mutable Matrix4x4 mWorldToCameraMatrix;

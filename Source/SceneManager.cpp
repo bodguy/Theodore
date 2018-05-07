@@ -1,10 +1,12 @@
 #include "SceneManager.h"
 #include "crc32.h"
+#include "Camera.h"
+#include "GameObject.h"
 #include "SplashScene.h"
 
 namespace Quark {
 	SceneManager* SceneManager::instance = nullptr;
-	SceneManager::SceneManager() :mCurrentScene(nullptr), mSceneCount(0) {
+	SceneManager::SceneManager() :mCurrentScene(nullptr), mSceneCount(0), mMainCamera(nullptr) {
 		instance = this;
 		mScenes.clear();
 		GetInstance()->SetActiveScene(CreateScene<SplashScene>("SplashScene"));
@@ -35,6 +37,7 @@ namespace Quark {
 			return false;
 
 		GetInstance()->mCurrentScene = scene;
+		SetCurrentCamera();
 		scene->OnStart();
 
 		return true;
@@ -64,6 +67,20 @@ namespace Quark {
 
 	uint32_t SceneManager::GetSceneCount() {
 		return GetInstance()->mSceneCount;
+	}
+
+	Camera* SceneManager::GetMainCamera() {
+		return GetInstance()->mMainCamera;
+	}
+
+	void SceneManager::SetMainCamera(Camera* cam) {
+		if(cam)
+			GetInstance()->mMainCamera = cam;
+	}
+
+	void SceneManager::SetCurrentCamera() {
+		if (GetActiveScene())
+			GetInstance()->mMainCamera = GetActiveScene()->Find("MainCamera")->GetComponent<Camera>();
 	}
 
 	void SceneManager::Update(double deltaTime) const {

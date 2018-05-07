@@ -4,13 +4,21 @@
 #include "Enumeration.h"
 #include "Color.h"
 #include "Vector3d.h"
+#include "Component.h"
 
 namespace Quark {
-	class Light {
+	class Light : public Component {
 	public:
 		Light();
 		~Light();
 
+	private:
+		virtual void Update(double deltaTime) override;
+		virtual void Render() override;
+		virtual bool CompareEquality(const Object& rhs) const override;
+		virtual bool Destroy() override;
+
+	private:
 		Vector3d mPosition;
 		Vector3d mDirection;
 		Color mColor;

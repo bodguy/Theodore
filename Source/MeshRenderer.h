@@ -4,9 +4,7 @@
 #include "Component.h"
 
 namespace Quark {
-	class Material;
-	class Mesh;
-	class Program;
+	class Material; class Mesh; class Program;
 	class MeshRenderer : public Component {
 	public:
 		MeshRenderer();

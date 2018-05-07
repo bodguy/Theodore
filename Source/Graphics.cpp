@@ -140,6 +140,10 @@ namespace Quark {
 		delete data;
 	}
 
+	void Graphics::GetViewport(int* viewport) {
+		glGetIntegerv(GL_VIEWPORT, viewport);
+	}
+
 #if 0
 	// OpenGL 2.1 version rendering functions implements
 	void Graphics::Vertex(const Vector3d& vector) {

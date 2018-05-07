@@ -1,20 +1,15 @@
 #ifndef Gizmo_h
 #define Gizmo_h
 
-#include "VertexBuffer.h"
-#include "Transform.h"
-#include "Shader.h"
-#include "Camera.h"
 #include "Component.h"
 #include "Enumeration.h"
 
 namespace Quark {
+	class VertexArray; class Program; class Transform;
 	class Gizmo : public Component {
 	public:
 		Gizmo(Enumeration::GizmoType type);
 		~Gizmo();
-
-		Transform& GetTransform();
 
 	private:
 		virtual void Update(double deltaTime) override;
@@ -24,8 +19,8 @@ namespace Quark {
 
 	protected:
 		VertexArray* mVao;
-		Transform mTransform;
 		Program* mProgram;
+		Transform* mTransform;
 		Enumeration::GizmoType mType;
 	};
 }

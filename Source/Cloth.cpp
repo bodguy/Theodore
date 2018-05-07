@@ -82,7 +82,7 @@ namespace Quark {
 		mVao.BindAttribute(mProgram.GetAttribute("position"), mBuffer, 3, 3 * sizeof(float), 0);
 
 		mTransform.SetPosition(Vector3d(-0.8f, 0.5f, 0.f));
-		mTransform.SetScale(Vector3d(1.f, 2.f, 1.f));
+		mTransform.SetLossyScale(Vector3d(1.f, 2.f, 1.f));
 	}
 
 	Cloth::~Cloth() {

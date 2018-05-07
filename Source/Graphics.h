@@ -22,6 +22,7 @@ namespace Quark {
 		static void PatchParameter(Enumeration::PatchParameters param, int value);
 		static void PatchParameter(Enumeration::PatchParameters param, float* values);
 		static void ScreenToImage(const std::string& filename, Enumeration::ImageType type);
+		static void GetViewport(int* viewport);
 
 #if 0
 		// OpenGL 2.1 version rendering functions

@@ -12,15 +12,14 @@
 #include "Enumeration.h"
 
 namespace Quark {
-	class Transform;
-	class Scene;
-	class Debug;
+	class Transform; class Scene; class Debug;
 	class GameObject : public Object {
 		friend class Scene;
 		friend class Debug;
+		friend class Transform;
 	public:
 		explicit GameObject(const std::string& name, Scene* scene);
-		GameObject(const std::string& name, Scene* scene, GameObject* parent);
+		GameObject(const std::string& name, GameObject* parent, Scene* scene);
 		virtual ~GameObject();
 
 		template<typename T, typename ...Ts>
@@ -32,7 +31,6 @@ namespace Quark {
 		template<typename T>
 		T* GetComponentInParent();
 
-		GameObject* GetParent() const;
 		bool IsActive() const;
 		void SetActive(bool value);
 		void SetActiveRecursive(bool value);

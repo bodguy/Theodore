@@ -15,7 +15,7 @@ namespace Quark {
     // Shader
     
     Shader::Shader(const Enumeration::ShaderType type) : mIsCompiled(0) {
-		mType = Enumeration::TextShaderType; // BinaryShaderTyp is not implemented yet. Future consideration
+		mType = Enumeration::TextShaderType; // BinaryShaderType is not implemented yet. Future consideration
         mShaderID = glCreateShader(type);
     }
     
@@ -24,7 +24,6 @@ namespace Quark {
     }
     
     int Shader::Compile(const std::string& source) {
-        Debug::Log("Compiling shader\n");
         const char *c_str = source.c_str();
         glShaderSource(mShaderID, 1, &c_str, NULL);
         glCompileShader(mShaderID);
@@ -37,7 +36,7 @@ namespace Quark {
         if (length > 0) {
             GLchar* message = (GLchar*)malloc(sizeof(char)* length + 1);
             glGetShaderInfoLog(mShaderID, length, NULL, message);
-            Debug::Log("%s\n", message);
+            Debug::Log("%s", message);
             free(message);
         }
         
@@ -61,7 +60,7 @@ namespace Quark {
                 
                 File file(include_file, Enumeration::Read);
                 if (!file.IsOpen()) {
-                    Debug::Log("%s : fatal error: cannot open include file\n", include_file.c_str());
+                    Debug::Log("%s : fatal error: cannot open include file", include_file.c_str());
                     return std::string();
                 }
                 include_string = file.ReadUntilEnd();
@@ -133,7 +132,7 @@ namespace Quark {
     }
     
     int Program::Link() {
-        Debug::Log("Linking program\n");
+        Debug::Log("Linking program...");
         glLinkProgram(mProgramID);
         
         GLint result = GL_FALSE;
@@ -144,7 +143,7 @@ namespace Quark {
         if (length > 0) {
             GLchar* message = (GLchar*)malloc(sizeof(char)* length + 1);
             glGetProgramInfoLog(mProgramID, length, NULL, message);
-            Debug::Log("%s\n", message);
+            Debug::Log("%s", message);
             free(message);
         }
         

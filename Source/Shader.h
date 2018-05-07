@@ -20,7 +20,7 @@ namespace Quark {
         int Compile(const std::string& source);
         int IsCompiled() const;
         static std::string PreprocessIncludes(const std::string& source, int level = 0);
-        
+
     private:
         unsigned int mShaderID;
         int mIsCompiled;

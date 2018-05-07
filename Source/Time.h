@@ -2,6 +2,8 @@
 #define Time_h
 
 #include <chrono>
+#include <string>
+#include <ctime>
 
 namespace Quark {
     class Time {
@@ -14,7 +16,8 @@ namespace Quark {
         static float ElapsedTime();
         static int FPS();
         static void SetTimeScale(float value);
-        
+		static std::string GetDateTime();
+
     private:
         typedef std::chrono::high_resolution_clock Clock;
         typedef std::chrono::duration<float, std::milli> milli;
