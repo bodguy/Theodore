@@ -11,6 +11,7 @@
 #include <vector>
 
 namespace Quark {
+	class BoneWeight;
 	class Mesh : public Asset {
 	public:
 		Mesh();
@@ -32,6 +33,8 @@ namespace Quark {
 		VertexArray* GetVao() const { return mVao; }
 		Buffer* GetVbo() const { return mVbo; }
 
+		void SetBoneWeight(BoneWeight* bw);
+
 	private:
 		Enumeration::IndexFormat mFormat;
 		int mVertexCount;
@@ -40,6 +43,7 @@ namespace Quark {
 		InputStream mStream;
 		Buffer* mVbo;
 		VertexArray* mVao;
+		BoneWeight* mBoneWeights;
 	};
 
 	template<typename T, size_t size>

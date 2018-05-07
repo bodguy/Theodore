@@ -39,6 +39,18 @@ namespace Quark {
 		camera->AddComponent<Camera>();
 		camera->GetTransform()->SetPosition(Vector3d(0.f, 5.f, 5.f));
 
+		//Mesh* mesh = new Mesh();
+		//BoneWeight* weights = new BoneWeight[4];
+		//weights[0].boneIndex0 = 0;
+		//weights[0].weight0 = 1.f;
+		//weights[1].boneIndex0 = 0;
+		//weights[1].weight0 = 1.f;
+		//weights[2].boneIndex0 = 1;
+		//weights[2].weight0 = 1.f;
+		//weights[3].boneIndex0 = 1;
+		//weights[3].weight0 = 1.f;
+		//mesh->SetBoneWeight(weights);
+
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
 		Graphics::SetPolygonMode(FillMode::WireFrame);
 	}
