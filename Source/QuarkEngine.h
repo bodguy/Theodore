@@ -44,7 +44,9 @@
 #include "MeshFilter.h"
 #include "MeshRenderer.h"
 #include "BoneWeight.h"
-#include  "SkinnedMeshRenderer.h"
+#include "SkinnedMeshRenderer.h"
+#include "Sprite.h"
+#include "SpriteRenderer.h"
 
 using namespace Quark;
 using namespace Enumeration;

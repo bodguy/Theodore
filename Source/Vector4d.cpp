@@ -253,4 +253,13 @@ namespace Quark {
         swap(first.z, second.z);
         swap(first.w, second.w);
     }
+
+	const Vector4d Vector4d::up = Vector4d(0.f, 1.f, 0.f, 1.f);
+	const Vector4d Vector4d::down = Vector4d(0.f, -1.f, 0.f, 1.f);
+	const Vector4d Vector4d::left = Vector4d(-1.f, 0.f, 0.f, 1.f);
+	const Vector4d Vector4d::right = Vector4d(1.f, 0.f, 0.f, 1.f);
+	const Vector4d Vector4d::forward = Vector4d(0.f, 0.f, -1.f, 1.f);
+	const Vector4d Vector4d::backward = Vector4d(0.f, 0.f, 1.f, 1.f);
+	const Vector4d Vector4d::one = Vector4d(1.f, 1.f, 1.f, 1.f);
+	const Vector4d Vector4d::zero = Vector4d(0.f, 0.f, 0.f, 0.f);
 }

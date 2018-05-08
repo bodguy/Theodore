@@ -59,7 +59,8 @@ namespace Quark {
         void SetUniform(const Uniform& uniform, const Vector3d* values, int count);
         void SetUniform(const Uniform& uniform, const Vector4d* values, int count);
         void SetUniform(const Uniform& uniform, const Color* values, int count);
-        void SetUniform(const Uniform& uniform, const Matrix4x4& value);	
+        void SetUniform(const Uniform& uniform, const Matrix4x4& value);
+		void SetUniform(const Uniform& uniform, bool value);
         void SetUniformBlock(const Uniform& uniform, const unsigned int bindingPoint);
         void DispatchCompute(unsigned int x, unsigned int y, unsigned int z);
 

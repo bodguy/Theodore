@@ -225,6 +225,10 @@ namespace Quark {
     void Program::SetUniform(const Uniform& uniform, const Matrix4x4& value) {
         glUniformMatrix4fv(uniform, 1, GL_FALSE, value.Pointer());
     }
+
+	void Program::SetUniform(const Uniform& uniform, bool value) {
+		glUniform1i(uniform, value);
+	}
     
     void Program::SetUniformBlock(const Uniform& uniform, const unsigned int bindingPoint) {
         glUniformBlockBinding(mProgramID, uniform, bindingPoint);

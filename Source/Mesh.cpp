@@ -10,7 +10,7 @@ namespace Quark {
 	}
 
 	Mesh::~Mesh(){
-		SafeArrayDealloc(mVbo);
+		SafeDealloc(mVbo);
 		SafeDealloc(mVao);
 		SafeArrayDealloc(mBoneWeights);
 	}

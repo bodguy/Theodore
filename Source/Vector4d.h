@@ -72,7 +72,8 @@ namespace Quark {
         static Vector3d ToVector3d(const Vector4d& other);
         
         float x, y, z, w;
-        
+		static const Vector4d up, down, left, right, forward, backward, one, zero;
+
     private:
         void Swap(Vector4d& first, Vector4d& second);
     };

@@ -24,20 +24,24 @@ namespace Quark {
 		gizmo = new GameObject("gizmo", this);
 		gizmo->AddComponent<Gizmo>(Enumeration::TranslationGizmo);
 
-		cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
-		cube->GetTransform()->SetLocalPosition(Vector3d(0.f, 1.f, 0.f));
+		//cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
+		//cube->GetTransform()->SetLocalPosition(Vector3d(0.f, 1.f, 0.f));
 
-		cube2 = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
-		cube2->GetTransform()->SetParent(cube);
-		cube2->GetTransform()->SetLocalPosition(Vector3d(4.f, 1.f, 0.f));
+		//cube2 = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
+		//cube2->GetTransform()->SetParent(cube);
+		//cube2->GetTransform()->SetLocalPosition(Vector3d(4.f, 1.f, 0.f));
 
-		cube3 = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
-		cube3->GetTransform()->SetParent(cube);
-		cube3->GetTransform()->SetLocalPosition(Vector3d(8.f, 1.f, 0.f));
+		//cube3 = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
+		//cube3->GetTransform()->SetParent(cube);
+		//cube3->GetTransform()->SetLocalPosition(Vector3d(8.f, 1.f, 0.f));
 
 		camera = new GameObject("secondCamera", this);
 		camera->AddComponent<Camera>();
 		camera->GetTransform()->SetPosition(Vector3d(0.f, 5.f, 5.f));
+
+		Texture2D* tex = AssetManager::RequestTexture("Contents/stone.jpg", TextureFormat::RGB24);
+		GameObject* test = new GameObject("test", this);
+		test->AddComponent<SpriteRenderer>()->SetSprite(Sprite::Create(tex));
 
 		//Mesh* mesh = new Mesh();
 		//BoneWeight* weights = new BoneWeight[4];
@@ -61,26 +65,26 @@ namespace Quark {
 	}
 
 	void SplashScene::ObjectUpdate() {
-		Transform* trans = cube->GetTransform();
-		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_LCTRL)) {
-			Vector3d right = trans->GetRight();
-			right *= Input::GetMouseDeltaPosition().y * Time::DeltaTime() * 20.f;
-			trans->Rotate(-right);
+		//Transform* trans = cube->GetTransform();
+		//if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_LCTRL)) {
+		//	Vector3d right = trans->GetRight();
+		//	right *= Input::GetMouseDeltaPosition().y * Time::DeltaTime() * 20.f;
+		//	trans->Rotate(-right);
 
-			Vector3d up = trans->GetUp();
-			up *= Input::GetMouseDeltaPosition().x * Time::DeltaTime() * 20.f;
-			trans->Rotate(-up);
-		}
+		//	Vector3d up = trans->GetUp();
+		//	up *= Input::GetMouseDeltaPosition().x * Time::DeltaTime() * 20.f;
+		//	trans->Rotate(-up);
+		//}
 
-		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_TAB)) {
-			Vector3d right = Vector3d::right;
-			right *= Input::GetMouseDeltaPosition().x * Time::DeltaTime();
-			trans->Translate(right);
+		//if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_TAB)) {
+		//	Vector3d right = Vector3d::right;
+		//	right *= Input::GetMouseDeltaPosition().x * Time::DeltaTime();
+		//	trans->Translate(right);
 
-			Vector3d up = Vector3d::up;
-			up *= Input::GetMouseDeltaPosition().y * Time::DeltaTime();
-			trans->Translate(-up);
-		}
+		//	Vector3d up = Vector3d::up;
+		//	up *= Input::GetMouseDeltaPosition().y * Time::DeltaTime();
+		//	trans->Translate(-up);
+		//}
 	}
 
 	void SplashScene::CameraUpdate() {

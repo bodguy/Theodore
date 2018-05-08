@@ -219,4 +219,11 @@ namespace Quark {
         swap(fisrt.x, second.x);
         swap(fisrt.y, second.y);
     }
+
+	const Vector2d Vector2d::up = Vector2d(0.f, 1.f);
+	const Vector2d Vector2d::down = Vector2d(0.f, -1.f);
+	const Vector2d Vector2d::left = Vector2d(-1.f, 0.f);
+	const Vector2d Vector2d::right = Vector2d(1.f, 0.f);
+	const Vector2d Vector2d::one = Vector2d(1.f, 1.f);
+	const Vector2d Vector2d::zero = Vector2d(0.f, 0.f);
 }

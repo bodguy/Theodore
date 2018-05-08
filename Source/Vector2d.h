@@ -78,7 +78,8 @@ namespace Quark {
         static Vector2d Nlerp(const Vector2d& a, const Vector2d& b, float t); // Normalized Linear Interpolation
         
         float x, y;
-        
+		static const Vector2d up, down, left, right, one, zero;
+
     private:
         void Swap(Vector2d& fisrt, Vector2d& second);
     };
