@@ -47,7 +47,7 @@ namespace Quark {
 			mProgram->SetUniform(mProgram->GetUniform("viewPos"), SceneManager::GetMainCamera()->GetTransform()->GetPosition());
 			mProgram->SetUniform(mProgram->GetUniform("lightPos"), Vector3d(0.f, 10.f, 0.f));
 			mProgram->SetUniform(mProgram->GetUniform("objectColor"), mMaterial->GetAmbient());
-			Graphics::DrawArrays(*mMeshCache->GetVao(), Enumeration::Triangles, 0, mMeshCache->GetVertexCount());
+			Graphics::DrawArrays(*mMeshCache->GetVao(), Enumeration::LineStrip, 0, mMeshCache->GetVertexCount());
 			mProgram->UnUse();
 		}
 	}

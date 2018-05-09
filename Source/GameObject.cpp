@@ -118,7 +118,7 @@ namespace Quark {
 			break;
 		}
 		case Enumeration::PrimitiveType::Cube:
-			mesh->SetVertices(cubeVertices);
+			mesh->SetVertices(boneVertices);// cubeVertices);
 			break;
 		case Enumeration::PrimitiveType::Sphere:
 			break;

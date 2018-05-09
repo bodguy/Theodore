@@ -12,6 +12,9 @@ namespace Quark {
 		virtual ~SpriteRenderer();
 
 		void SetSprite(Sprite* sprite);
+		void SetColor(const Color& color);
+		void SetFlipX(const bool flipX);
+		void SetFlipY(const bool flipY);
 
 	private:
 		virtual void Update(double deltaTime) override;

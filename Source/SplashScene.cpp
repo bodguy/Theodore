@@ -24,24 +24,26 @@ namespace Quark {
 		gizmo = new GameObject("gizmo", this);
 		gizmo->AddComponent<Gizmo>(Enumeration::TranslationGizmo);
 
-		//cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
-		//cube->GetTransform()->SetLocalPosition(Vector3d(0.f, 1.f, 0.f));
+		cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
+		cube->GetTransform()->SetLocalPosition(Vector3d(0.f, 1.f, 0.f));
+		cube->GetTransform()->Rotate(Vector3d(0.f, 0.f, 1.f), -90.f, World);
 
-		//cube2 = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
-		//cube2->GetTransform()->SetParent(cube);
-		//cube2->GetTransform()->SetLocalPosition(Vector3d(4.f, 1.f, 0.f));
+		cube2 = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
+		cube2->GetTransform()->SetParent(cube);
+		cube2->GetTransform()->SetLocalPosition(Vector3d(4.f, 1.f, 0.f));
 
-		//cube3 = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
-		//cube3->GetTransform()->SetParent(cube);
-		//cube3->GetTransform()->SetLocalPosition(Vector3d(8.f, 1.f, 0.f));
+		cube3 = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
+		cube3->GetTransform()->SetParent(cube2);
+		cube3->GetTransform()->SetLocalPosition(Vector3d(8.f, 1.f, 0.f));
 
 		camera = new GameObject("secondCamera", this);
 		camera->AddComponent<Camera>();
 		camera->GetTransform()->SetPosition(Vector3d(0.f, 5.f, 5.f));
 
-		Texture2D* tex = AssetManager::RequestTexture("Contents/stone.jpg", TextureFormat::RGB24);
-		GameObject* test = new GameObject("test", this);
-		test->AddComponent<SpriteRenderer>()->SetSprite(Sprite::Create(tex));
+		//Texture2D* tex = AssetManager::RequestTexture("Contents/sprite.png", TextureFormat::RGBA32, Color::white);
+		//test = new GameObject("test", this);
+		//rend = test->AddComponent<SpriteRenderer>();
+		//rend->SetSprite(Sprite::Create(tex));
 
 		//Mesh* mesh = new Mesh();
 		//BoneWeight* weights = new BoneWeight[4];
@@ -56,7 +58,7 @@ namespace Quark {
 		//mesh->SetBoneWeight(weights);
 
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
-		Graphics::SetPolygonMode(FillMode::WireFrame);
+		//Graphics::SetPolygonMode(FillMode::WireFrame);
 	}
 
 	void SplashScene::OnUpdate() {
@@ -65,26 +67,42 @@ namespace Quark {
 	}
 
 	void SplashScene::ObjectUpdate() {
-		//Transform* trans = cube->GetTransform();
-		//if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_LCTRL)) {
-		//	Vector3d right = trans->GetRight();
-		//	right *= Input::GetMouseDeltaPosition().y * Time::DeltaTime() * 20.f;
-		//	trans->Rotate(-right);
+		Transform* trans = cube->GetTransform();
+		if (Input::GetKeyHeld(KEY_0)) {
+			trans->SetLocalPosition(Vector3d::zero);
+			trans->SetLocalRotation(Quaternion::identity);
+			trans->SetLocalScale(Vector3d::one);
+		}
 
-		//	Vector3d up = trans->GetUp();
-		//	up *= Input::GetMouseDeltaPosition().x * Time::DeltaTime() * 20.f;
-		//	trans->Rotate(-up);
-		//}
+		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_LCTRL)) {
+			Vector3d right = trans->GetRight();
+			right *= Input::GetMouseDeltaPosition().y * Time::DeltaTime() * 20.f;
+			trans->Rotate(-right);
 
-		//if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_TAB)) {
-		//	Vector3d right = Vector3d::right;
-		//	right *= Input::GetMouseDeltaPosition().x * Time::DeltaTime();
-		//	trans->Translate(right);
+			Vector3d up = trans->GetUp();
+			up *= Input::GetMouseDeltaPosition().x * Time::DeltaTime() * 20.f;
+			trans->Rotate(-up);
+		}
 
-		//	Vector3d up = Vector3d::up;
-		//	up *= Input::GetMouseDeltaPosition().y * Time::DeltaTime();
-		//	trans->Translate(-up);
-		//}
+		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_TAB)) {
+			Vector3d right = Vector3d::right;
+			right *= Input::GetMouseDeltaPosition().x * Time::DeltaTime();
+			trans->Translate(right);
+
+			Vector3d up = Vector3d::up;
+			up *= Input::GetMouseDeltaPosition().y * Time::DeltaTime();
+			trans->Translate(-up);
+		}
+
+		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_LALT)) {
+			Vector3d right = Vector3d::right;
+			right *= Input::GetMouseDeltaPosition().x * Time::DeltaTime();
+			trans->Scale(right);
+
+			Vector3d up = Vector3d::up;
+			up *= Input::GetMouseDeltaPosition().y * Time::DeltaTime();
+			trans->Scale(up);
+		}
 	}
 
 	void SplashScene::CameraUpdate() {
@@ -103,7 +121,7 @@ namespace Quark {
 			SceneManager::SetMainCamera(camera->GetComponent<Camera>());
 		}
 
-		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && !Input::GetKeyHeld(KEY_LCTRL) && !Input::GetKeyHeld(KEY_TAB)) {
+		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && !Input::GetKeyHeld(KEY_LCTRL) && !Input::GetKeyHeld(KEY_TAB) && !Input::GetKeyHeld(KEY_LALT)) {
 			Vector3d right = SceneManager::GetMainCamera()->GetTransform()->GetRight();
 			right *= Input::GetMouseDeltaPosition().x * moveSensitivity * Time::DeltaTime();
 			SceneManager::GetMainCamera()->GetTransform()->Translate(right);

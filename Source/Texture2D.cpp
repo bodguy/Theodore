@@ -42,12 +42,12 @@ namespace Quark {
                 //Color matches
                 if (colors[0] == Color::ConvertToByte(mColorKey.r) &&
                     colors[1] == Color::ConvertToByte(mColorKey.g) &&
-                    colors[2] == Color::ConvertToByte(mColorKey.b) &&
-                    (0 == mColorKey.a || colors[3] == Color::ConvertToByte(mColorKey.a)) ) {
+                    colors[2] == Color::ConvertToByte(mColorKey.b) && 
+					(0 == mColorKey.a || colors[3] == Color::ConvertToByte(mColorKey.a)) ) {
                     //Make transparent
-                    colors[0] = 255;
-                    colors[1] = 255;
-                    colors[2] = 255;
+                    colors[0] = 000;
+                    colors[1] = 000;
+                    colors[2] = 000;
                     colors[3] = 000;
                 }
             }
@@ -152,9 +152,9 @@ namespace Quark {
                     colors[2] == Color::ConvertToByte(mColorKey.b) &&
                     (0 == mColorKey.a || colors[3] == Color::ConvertToByte(mColorKey.a))) {
                     //Make transparent
-                    colors[0] = 255;
-                    colors[1] = 255;
-                    colors[2] = 255;
+                    colors[0] = 000;
+                    colors[1] = 000;
+                    colors[2] = 000;
                     colors[3] = 000;
                 }
             }

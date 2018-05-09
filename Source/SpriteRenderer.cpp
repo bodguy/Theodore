@@ -33,6 +33,18 @@ namespace Quark {
 		mSprite->mVao->BindElements(*mSprite->mEbo);
 	}
 
+	void SpriteRenderer::SetColor(const Color& color) {
+		mColor = color;
+	}
+
+	void SpriteRenderer::SetFlipX(const bool flipX) {
+		mFlipX = flipX;
+	}
+
+	void SpriteRenderer::SetFlipY(const bool flipY) {
+		mFlipY = flipY;
+	}
+
 	void SpriteRenderer::Update(double deltaTime) {
 	}
 

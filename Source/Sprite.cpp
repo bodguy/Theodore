@@ -36,8 +36,8 @@ namespace Quark {
 			const_cast<Rect&>(rect).right = sprite->mTextureRect.right;
 			const_cast<Rect&>(rect).bottom = sprite->mTextureRect.bottom;
 		}
-		sprite->mTextureRectOffset.x = (rect.right - rect.left) / 2.f / sprite->mTextureRect.right;
-		sprite->mTextureRectOffset.y = (rect.bottom - rect.top) / 2.f / sprite->mTextureRect.bottom;
+		sprite->mTextureRectOffset.x = (rect.right - rect.left) / sprite->mTextureRect.right;
+		sprite->mTextureRectOffset.y = (rect.bottom - rect.top) / sprite->mTextureRect.bottom;
 
 		//	   Vertex		  Texture
 		//	0----------1	0----------1
@@ -62,11 +62,11 @@ namespace Quark {
 		sprite->mUvs[3] = Vector2d(sprite->mRect.left, sprite->mRect.bottom);
 
 		sprite->mIndices[0] = 0;
-		sprite->mIndices[0] = 1;
-		sprite->mIndices[0] = 2;
-		sprite->mIndices[0] = 0;
-		sprite->mIndices[0] = 2;
-		sprite->mIndices[0] = 3;
+		sprite->mIndices[1] = 1;
+		sprite->mIndices[2] = 2;
+		sprite->mIndices[3] = 0;
+		sprite->mIndices[4] = 2;
+		sprite->mIndices[5] = 3;
 
 		for (int i = 0; i < 4; i++) {
 			sprite->mStream.Vec2(sprite->mVertices[i]);

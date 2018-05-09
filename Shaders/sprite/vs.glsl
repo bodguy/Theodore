@@ -14,10 +14,10 @@ uniform bool flipY;
 void main(void) {
 	vec2 resultTexcoord = texcoord;
 	if(flipX) {
-		resultTexcoord = resultTexcoord.st * vec2(-1.0, 1.0);
+		resultTexcoord = vec2(1.0 - resultTexcoord.x, resultTexcoord.y);
 	}
 	if(flipY) {
-		resultTexcoord = resultTexcoord.st * vec2(1.0, -1.0);
+		resultTexcoord = vec2(resultTexcoord.x, 1.0 - resultTexcoord.y);
 	}
 	Texcoord = resultTexcoord;
 	gl_Position =  projection * view * model * vec4(position, 1.0);
