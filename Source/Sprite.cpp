@@ -5,21 +5,13 @@
 
 namespace Quark {
 	Sprite::Sprite() : mFormat(Enumeration::UInt16), mTexture(nullptr), mRect(), mTextureRect(), mTextureRectOffset(), mPivot(){
-		for (int i = 0; i < 4; i++) {
-			mVertices[i] = Vector2d();
-			mUvs[i] = Vector2d();
-		}
-		
+		memset(mVertices, 0, sizeof(Vector2d) * 4);
+		memset(mUvs, 0, sizeof(Vector2d) * 4);
 		memset(mIndices, 0, sizeof(unsigned short) * 6);
-		mVbo = new Buffer(Enumeration::BufferVertex);
-		mEbo = new Buffer(Enumeration::BufferIndex);
-		mVao = new VertexArray();
 	}
 
 	Sprite::~Sprite() {
-		SafeDealloc(mVbo);
-		SafeDealloc(mEbo);
-		SafeDealloc(mVao);
+
 	}
 
 	Sprite* Sprite::Create(Texture2D* texture, const Rect rect) {
@@ -67,14 +59,6 @@ namespace Quark {
 		sprite->mIndices[3] = 0;
 		sprite->mIndices[4] = 2;
 		sprite->mIndices[5] = 3;
-
-		for (int i = 0; i < 4; i++) {
-			sprite->mStream.Vec2(sprite->mVertices[i]);
-			sprite->mStream.Vec2(sprite->mUvs[i]);
-		}
-
-		sprite->mVbo->Data(sprite->mStream.Pointer(), sprite->mStream.Size(), Enumeration::StaticDraw);
-		sprite->mEbo->Data(static_cast<void*>(sprite->mIndices), 6 * sizeof(unsigned short), Enumeration::StaticDraw);
 
 		return sprite;
 	}

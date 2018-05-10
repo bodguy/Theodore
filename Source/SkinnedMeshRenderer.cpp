@@ -1,7 +1,7 @@
 #include "SkinnedMeshRenderer.h"
 
 namespace Quark {
-	SkinnedMeshRenderer::SkinnedMeshRenderer() : Component("SkinnedMeshRenderer") {
+	SkinnedMeshRenderer::SkinnedMeshRenderer() : Renderer("SkinnedMeshRenderer") {
 	}
 
 	SkinnedMeshRenderer::~SkinnedMeshRenderer() {

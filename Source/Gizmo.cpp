@@ -13,9 +13,7 @@
 
 namespace Quark { 
 	Gizmo::Gizmo(Enumeration::GizmoType type) :Component("Gizmo"), mVao(nullptr), mProgram(nullptr), mType(type) {
-		Shader* vs = AssetManager::RequestShader("Shaders/gizmo/vs.glsl", Enumeration::VertexShader);
-		Shader* fs = AssetManager::RequestShader("Shaders/gizmo/fs.glsl", Enumeration::FragmentShader);
-		mProgram = new Program(*vs, *fs);
+		mProgram = Shader::Find("Gizmo");
 
 		InputStream verts;
 		Buffer buffer(Enumeration::BufferVertex);
@@ -54,7 +52,6 @@ namespace Quark {
 
 	Gizmo::~Gizmo() {
 		SafeDealloc(mVao);
-		SafeDealloc(mProgram);
 	}
 
 	void Gizmo::Update(double deltaTime) {

@@ -12,25 +12,30 @@
 #include "Texture2D.h"
 
 namespace Quark {
-	SpriteRenderer::SpriteRenderer() : Component("SpriteRenderer"), mSprite(nullptr), mColor(Color::white), mFlipX(false), mFlipY(false) {
-		Shader* vs = AssetManager::RequestShader("Shaders/sprite/vs.glsl", Enumeration::VertexShader);
-		Shader* fs = AssetManager::RequestShader("Shaders/sprite/fs.glsl", Enumeration::FragmentShader);
-		mProgram = new Program();
-		mProgram->AttachShader(*vs);
-		mProgram->AttachShader(*fs);
-		mProgram->Link();
+	SpriteRenderer::SpriteRenderer() : Renderer("SpriteRenderer"), mSprite(nullptr), mColor(Color::white), mFlipX(false), mFlipY(false) {
+		mProgram = Shader::Find("2D");
 	}
 
 	SpriteRenderer::~SpriteRenderer() {
 		SafeDealloc(mSprite);
-		SafeDealloc(mProgram);
 	}
 
 	void SpriteRenderer::SetSprite(Sprite* sprite) {
 		mSprite = sprite;
-		mSprite->mVao->BindAttribute(mProgram->GetAttribute("position"), *mSprite->mVbo, 2, 2 * sizeof(Vector2d), 0);
-		mSprite->mVao->BindAttribute(mProgram->GetAttribute("texcoord"), *mSprite->mVbo, 2, 2 * sizeof(Vector2d), sizeof(Vector2d));
-		mSprite->mVao->BindElements(*mSprite->mEbo);
+		
+		Buffer* buffer = new Buffer(Enumeration::BufferVertex);
+		buffer->Data(nullptr, sizeof(Vector2d) * 8, Enumeration::StaticDraw);
+		buffer->SubData(mSprite->mVertices, 0, sizeof(Vector2d) * 4);
+		buffer->SubData(mSprite->mUvs, sizeof(Vector2d) * 4, sizeof(Vector2d) * 4);
+		mVbos.push_back(buffer);
+
+		Buffer* index = new Buffer(Enumeration::BufferIndex);
+		index->Data(mSprite->mIndices, sizeof(unsigned short) * 6, Enumeration::StaticDraw);
+		mEbos.push_back(index);
+		
+		mVao->BindAttribute(mProgram->GetAttribute("position"), *mVbos.front(), 2, sizeof(Vector2d), 0);
+		mVao->BindAttribute(mProgram->GetAttribute("texcoord"), *mVbos.front(), 2, sizeof(Vector2d), sizeof(Vector2d) * 4);
+		mVao->BindElements(*mEbos.front());
 	}
 
 	void SpriteRenderer::SetColor(const Color& color) {
@@ -43,6 +48,18 @@ namespace Quark {
 
 	void SpriteRenderer::SetFlipY(const bool flipY) {
 		mFlipY = flipY;
+	}
+
+	Color SpriteRenderer::GetColor() const {
+		return mColor;
+	}
+
+	bool SpriteRenderer::GetFlipX() const {
+		return mFlipX;
+	}
+	
+	bool SpriteRenderer::GetFlipY() const {
+		return mFlipY;
 	}
 
 	void SpriteRenderer::Update(double deltaTime) {
@@ -58,12 +75,11 @@ namespace Quark {
 			mProgram->SetUniform(mProgram->GetUniform("flipY"), mFlipY);
 			mProgram->SetUniform(mProgram->GetUniform("color"), mColor);
 			Graphics::BindTexture(0, mSprite->mTexture);
-			Graphics::DrawElements(*mSprite->mVao, Enumeration::Primitive::Triangles, 0, 6, mSprite->mFormat);
+			Graphics::DrawElements(*mVao, Enumeration::Primitive::Triangles, 0, 6, mSprite->mFormat);
 			Graphics::BindTexture(0, NULL);
 			mProgram->UnUse();
 
 			/*
-			// renew pivot value
 			mSprite->mPivot = Vector3d(
 				mGameObject->mTransform->mPosition.x + (mSprite->mTextureRectOffset.x * mGameObject->mTransform->mScale.x) / 2.f,
 				mGameObject->mTransform->mPosition.y + (mSprite->mTextureRectOffset.y * mGameObject->mTransform->mScale.y) / 2.f);

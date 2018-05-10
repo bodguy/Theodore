@@ -1,11 +1,11 @@
 #ifndef MeshRenderer_h
 #define MeshRenderer_h
 
-#include "Component.h"
+#include "Renderer.h"
 
 namespace Quark {
-	class Material; class Mesh; class Program;
-	class MeshRenderer : public Component {
+	class Material; class Mesh;
+	class MeshRenderer : public Renderer {
 	public:
 		MeshRenderer();
 		virtual ~MeshRenderer();
@@ -20,8 +20,7 @@ namespace Quark {
 
 	private:
 		Material* mMaterial;
-		Mesh* mMeshCache;
-		Program* mProgram;
+		Mesh* mMesh;
 	};
 }
 

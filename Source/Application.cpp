@@ -7,6 +7,7 @@
 #include "Graphics.h"
 #include "Random.h"
 #include "Utility.h"
+#include "Shader.h"
 
 namespace Quark {
 	Application* Application::instance = nullptr;
@@ -15,8 +16,9 @@ namespace Quark {
 	}
 
 	Application::~Application() {
-		SafeDealloc(mAssetManager);
 		SafeDealloc(mSceneManager);
+		SafeDealloc(mShaderManager);
+		SafeDealloc(mAssetManager);
 		SafeDealloc(mTime);
 		SafeDealloc(mInput);
 		SafeDealloc(mPlatform);
@@ -33,7 +35,26 @@ namespace Quark {
 		mInput = new Input();
 		mTime = new Time();
 		mAssetManager = new AssetManager();
+		mShaderManager = new ShaderManager();
+
+		// default program setting and caching
+		Shader* standard_vs = AssetManager::RequestShader("Shaders/light/vs.glsl", Enumeration::VertexShader);
+		Shader* standard_fs = AssetManager::RequestShader("Shaders/light/fs.glsl", Enumeration::FragmentShader);
+		Program* standardProgram = new Program("Standard", *standard_vs, *standard_fs);
+		ShaderManager::Append(standardProgram);
+
+		Shader* twoDimension_vs = AssetManager::RequestShader("Shaders/sprite/vs.glsl", Enumeration::VertexShader);
+		Shader* twoDimension_fs = AssetManager::RequestShader("Shaders/sprite/fs.glsl", Enumeration::FragmentShader);
+		Program* twoDimensionProgram = new Program("2D", *twoDimension_vs, *twoDimension_fs);
+		ShaderManager::Append(twoDimensionProgram);
+
+		Shader* gizmo_vs = AssetManager::RequestShader("Shaders/gizmo/vs.glsl", Enumeration::VertexShader);
+		Shader* gizmo_fs = AssetManager::RequestShader("Shaders/gizmo/fs.glsl", Enumeration::FragmentShader);
+		Program* gizmoProgram = new Program("Gizmo", *gizmo_vs, *gizmo_fs);
+		ShaderManager::Append(gizmoProgram);
+
 		mSceneManager = new SceneManager();
+
 
 		Random::InitState(static_cast<int>(time(NULL)));
 
@@ -46,7 +67,7 @@ namespace Quark {
 			mTime->Update();
 			mInput->Update();
 			Update(Time::DeltaTime());
-			Graphics::Clear(Color(0.f, 0.f, 0.f, 1.f), Enumeration::ColorBits | Enumeration::DepthBits | Enumeration::StencilBits);
+			Graphics::Clear(Color(0.f, 0.f, 0.f, 1.f), Enumeration::ColorBits | Enumeration::DepthBits);
 			Render();
 			mPlatform->SwapBuffer();
 		}

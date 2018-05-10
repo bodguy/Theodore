@@ -5,7 +5,7 @@
 #include "Enumeration.h"
 
 namespace Quark {
-	class Platform; class Input; class Time; class SceneManager; class AssetManager;
+	class Platform; class Input; class Time; class SceneManager; class AssetManager; class ShaderManager;
 	class Application {
 	public:
 		Application();
@@ -25,6 +25,7 @@ namespace Quark {
 		Time* mTime;
 		SceneManager* mSceneManager;
 		AssetManager* mAssetManager;
+		ShaderManager* mShaderManager;
 	};
 }
 

@@ -30,8 +30,6 @@ namespace Quark {
 
 		int GetVertexCount() const { return mVertexCount; }
 		int GetNormalCount() const { return mNormalCount; }
-		VertexArray* GetVao() const { return mVao; }
-		Buffer* GetVbo() const { return mVbo; }
 
 		void SetBoneWeight(BoneWeight* bw);
 
@@ -40,9 +38,6 @@ namespace Quark {
 		int mVertexCount;
 		int mNormalCount;
 		int mVertexBufferCount;
-		InputStream mStream;
-		Buffer* mVbo;
-		VertexArray* mVao;
 		BoneWeight* mBoneWeights;
 	};
 

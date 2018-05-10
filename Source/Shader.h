@@ -6,6 +6,7 @@
 #include GLEW_INCLUDE_DIR
 #include "Asset.h"
 #include <string>
+#include <map>
 
 namespace Quark {
     typedef int Attribute;
@@ -20,6 +21,7 @@ namespace Quark {
         int Compile(const std::string& source);
         int IsCompiled() const;
         static std::string PreprocessIncludes(const std::string& source, int level = 0);
+		static Program* Find(const std::string& name);
 
     private:
         unsigned int mShaderID;
@@ -28,12 +30,13 @@ namespace Quark {
     
     class Vector4d; class Vector3d; class Vector2d; class Matrix4x4; class Color;
     class Program {
+		friend class ShaderManager;
     public:
-        Program();
-        Program(const Shader& vertex);
-        Program(const Shader& vertex, const Shader& fragment);
-        Program(const Shader& vertex, const Shader& fragment, const Shader& geometry);
-		Program(const Shader& vertex, const Shader& fragment, const Shader& geometry, const Shader& tessControl, const Shader& tessEval);
+        Program(const std::string& name);
+        Program(const std::string& name, const Shader& vertex);
+        Program(const std::string& name, const Shader& vertex, const Shader& fragment);
+        Program(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry);
+		Program(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry, const Shader& tessControl, const Shader& tessEval);
 		~Program();
         
         void AttachShader(const Shader& shader);
@@ -66,7 +69,21 @@ namespace Quark {
 
     private:
         unsigned int mProgramID;
+		std::string mName;
     };
+
+	class ShaderManager {
+		friend class Shader;
+	public:
+		ShaderManager();
+		~ShaderManager();
+
+		static bool Append(Program* program);
+
+	private:
+		static ShaderManager* shaderManager;
+		std::map<std::string, Program*> mPrograms;
+	};
 }
 
 #endif /* Shader_h */

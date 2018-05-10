@@ -1,10 +1,10 @@
 #ifndef SkinnedMeshRenderer_h
 #define SkinnedMeshRenderer_h
 
-#include "Component.h"
+#include "Renderer.h"
 
 namespace Quark {
-	class SkinnedMeshRenderer : public Component {
+	class SkinnedMeshRenderer : public Renderer {
 	public:
 		SkinnedMeshRenderer();
 		virtual ~SkinnedMeshRenderer();

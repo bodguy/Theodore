@@ -44,6 +44,7 @@
 #include "MeshFilter.h"
 #include "MeshRenderer.h"
 #include "BoneWeight.h"
+#include "KeyFrame.h"
 #include "SkinnedMeshRenderer.h"
 #include "Sprite.h"
 #include "SpriteRenderer.h"

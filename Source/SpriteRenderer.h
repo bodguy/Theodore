@@ -1,12 +1,12 @@
 #ifndef SpriteRenderer_h
 #define SpriteRenderer_h
 
-#include "Component.h"
+#include "Renderer.h"
 #include "Color.h"
 
 namespace Quark {
-	class Program; class Sprite;
-	class SpriteRenderer : public Component {
+	class Sprite;
+	class SpriteRenderer : public Renderer {
 	public:
 		SpriteRenderer();
 		virtual ~SpriteRenderer();
@@ -15,6 +15,9 @@ namespace Quark {
 		void SetColor(const Color& color);
 		void SetFlipX(const bool flipX);
 		void SetFlipY(const bool flipY);
+		Color GetColor() const;
+		bool GetFlipX() const;
+		bool GetFlipY() const;
 
 	private:
 		virtual void Update(double deltaTime) override;
@@ -23,7 +26,6 @@ namespace Quark {
 		virtual bool Destroy() override;
 
 	private:
-		Program* mProgram;
 		Sprite* mSprite;
 		Color mColor;
 		bool mFlipX, mFlipY;

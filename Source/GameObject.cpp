@@ -100,36 +100,36 @@ namespace Quark {
 	GameObject* GameObject::CreatePrimitive(Enumeration::PrimitiveType type, Scene* scene) {
 		static std::string primitiveName[] = { "Plane", "Cube", "Sphere", "Capsule", "Cylinder" };
 		GameObject* primitive = new GameObject(primitiveName[static_cast<int>(type)], scene);
-		Mesh* mesh = new Mesh();
-		Material* material = new Material();
+		//Mesh* mesh = new Mesh();
+		//Material* material = new Material();
 
-		switch (type) {
-		case Enumeration::PrimitiveType::Plane:
-		{
-			//float planeVertices[300] = { 0, };
-			//for (int x = 0; x < 10; x++) {
-			//	for (int y = 0; y < 10; y++) {
-			//		planeVertices[y + x * 10 + 0] = -0.5f + (0.1f * y); // x
-			//		planeVertices[y + x * 10 + 1] = 0.f; // y
-			//		planeVertices[y + x * 10 + 2] = -0.5f + (0.1f * y); // z
-			//	}
-			//}
-			//mesh->SetVertices(planeVertices);
-			break;
-		}
-		case Enumeration::PrimitiveType::Cube:
-			mesh->SetVertices(boneVertices);// cubeVertices);
-			break;
-		case Enumeration::PrimitiveType::Sphere:
-			break;
-		case Enumeration::PrimitiveType::Capsule:
-			break;
-		case Enumeration::PrimitiveType::Cylinder:
-			break;
-		}
+		//switch (type) {
+		//case Enumeration::PrimitiveType::Plane:
+		//{
+		//	//float planeVertices[300] = { 0, };
+		//	//for (int x = 0; x < 10; x++) {
+		//	//	for (int y = 0; y < 10; y++) {
+		//	//		planeVertices[y + x * 10 + 0] = -0.5f + (0.1f * y); // x
+		//	//		planeVertices[y + x * 10 + 1] = 0.f; // y
+		//	//		planeVertices[y + x * 10 + 2] = -0.5f + (0.1f * y); // z
+		//	//	}
+		//	//}
+		//	//mesh->SetVertices(planeVertices);
+		//	break;
+		//}
+		//case Enumeration::PrimitiveType::Cube:
+		//	mesh->SetVertices(boneVertices);// cubeVertices);
+		//	break;
+		//case Enumeration::PrimitiveType::Sphere:
+		//	break;
+		//case Enumeration::PrimitiveType::Capsule:
+		//	break;
+		//case Enumeration::PrimitiveType::Cylinder:
+		//	break;
+		//}
 
-		primitive->AddComponent<MeshFilter>()->SetMesh(mesh);
-		primitive->AddComponent<MeshRenderer>()->SetMaterial(material);
+		//primitive->AddComponent<MeshFilter>()->SetMesh(mesh);
+		//primitive->AddComponent<MeshRenderer>()->SetMaterial(material);
 		return primitive;
 	}
 

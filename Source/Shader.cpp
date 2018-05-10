@@ -6,6 +6,7 @@
 #include "Color.h"
 #include "Debug.h"
 #include "File.h"
+#include "Utility.h"
 #include <cstdlib>
 #include <regex>
 #include <sstream>
@@ -80,37 +81,46 @@ namespace Quark {
         
         return output.str();
     }
+
+	Program* Shader::Find(const std::string& name) {
+		return ShaderManager::shaderManager->mPrograms.find(name)->second;
+	}
     
     ////////////////////////////////////////////////////////////////////////////////////
     // Program
     
-    Program::Program() {
+    Program::Program(const std::string& name) {
         mProgramID = glCreateProgram();
+		mName = name;
     }
     
-    Program::Program(const Shader& vertex) {
+    Program::Program(const std::string& name, const Shader& vertex) {
         mProgramID = glCreateProgram();
+		mName = name;
         AttachShader(vertex);
         Link();
     }
     
-    Program::Program(const Shader& vertex, const Shader& fragment) {
+    Program::Program(const std::string& name, const Shader& vertex, const Shader& fragment) {
         mProgramID = glCreateProgram();
+		mName = name;
         AttachShader(vertex);
         AttachShader(fragment);
         Link();
     }
     
-    Program::Program(const Shader& vertex, const Shader& fragment, const Shader& geometry) {
+    Program::Program(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry) {
         mProgramID = glCreateProgram();
+		mName = name;
         AttachShader(vertex);
         AttachShader(fragment);
         AttachShader(geometry);
         Link();
     }
 
-	Program::Program(const Shader& vertex, const Shader& fragment, const Shader& geometry, const Shader& tessControl, const Shader& tessEval) {
+	Program::Program(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry, const Shader& tessControl, const Shader& tessEval) {
 		mProgramID = glCreateProgram();
+		mName = name;
 		AttachShader(vertex);
 		AttachShader(fragment);
 		AttachShader(geometry);
@@ -146,6 +156,14 @@ namespace Quark {
             Debug::Log("%s", message);
             free(message);
         }
+
+		if (result) {
+			if (!ShaderManager::Append(this)) {
+				Debug::Log(mName + " is already managed in ShaderManager");
+				glDeleteProgram(mProgramID);
+				return GL_FALSE;
+			}
+		}
         
         return result;
     }
@@ -236,5 +254,24 @@ namespace Quark {
 
 	void Program::DispatchCompute(unsigned int x, unsigned int y, unsigned int z) {
 		glDispatchCompute(x, y, z);
+	}
+
+	ShaderManager* ShaderManager::shaderManager = nullptr;
+	ShaderManager::ShaderManager() {
+		shaderManager = this;
+		shaderManager->mPrograms.clear();
+	}
+
+	ShaderManager::~ShaderManager() {
+		for (auto& i : mPrograms) {
+			SafeDealloc(i.second);
+		}
+		mPrograms.clear();
+	}
+
+	bool ShaderManager::Append(Program* program) {
+		std::pair<std::map<std::string, Program*>::iterator, bool> result;
+		result = shaderManager->mPrograms.insert(std::pair<std::string, Program*>(program->mName, program));
+		return result.second;
 	}
 }

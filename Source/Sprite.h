@@ -21,9 +21,6 @@ namespace Quark {
 	private:
 		Enumeration::IndexFormat mFormat;
 		Texture2D* mTexture;
-		InputStream mStream;
-		Buffer* mVbo, *mEbo;
-		VertexArray* mVao;
 		Rect mRect; // for a sprite with a single texture
 		Rect mTextureRect; // for a sprite from an atlas
 		Vector2d mTextureRectOffset;
