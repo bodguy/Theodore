@@ -19,7 +19,7 @@ namespace Quark {
         
         static Platform* GetInstance() { return instance; }
         bool Initialize(const std::string& name, int width, int height,
-                        bool fullscreen = false, int majorVersion = 0, int minorVersion = 0, int multisample = 4, Enumeration::WindowStyle style = Enumeration::Resizable);
+                        bool fullscreen = false, int majorVersion = 0, int minorVersion = 0, int multisample = 4, WindowStyle style = WindowStyle::Resizable);
         void Update();
         void SwapBuffer();
         void WindowSizeChanged(int width, int height);

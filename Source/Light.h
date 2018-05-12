@@ -3,14 +3,19 @@
 
 #include "Enumeration.h"
 #include "Color.h"
-#include "Vector3d.h"
 #include "Component.h"
 
 namespace Quark {
+	class Transform;
 	class Light : public Component {
 	public:
-		Light();
+		Light(LightType type);
 		~Light();
+
+		Transform* GetTransform() const;
+		Color GetAmbient() const { return mAmbient; }
+		Color GetDiffuse() const { return mDiffuse; }
+		Color GetSpecular() const { return mSpecular; }
 
 	private:
 		virtual void Update(double deltaTime) override;
@@ -19,16 +24,18 @@ namespace Quark {
 		virtual bool Destroy() override;
 
 	private:
-		Vector3d mPosition;
-		Vector3d mDirection;
-		Color mColor;
+		LightType mType;
+		Color mAmbient;
+		Color mDiffuse;
+		Color mSpecular;
+
 		float mIntensity;
 		float mConstant;
 		float mLinear;
 		float mQuadratic;
 		float mCutOff;
 		float mOuterCutOff;
-		Enumeration::LightType mType;
+		Transform* mTransform;
 	};
 }
 

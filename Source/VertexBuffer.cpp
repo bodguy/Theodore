@@ -69,13 +69,13 @@ namespace Quark {
     ////////////////////////////////////////////////////////////////////////////////////
     // Buffer
     
-    Buffer::Buffer(Enumeration::BufferType type) {
+    Buffer::Buffer(BufferType type) {
         mType = type;
         mLength = 0;
         glGenBuffers(1, &mVertexBufferID);
     }
     
-    Buffer::Buffer(const void* data, size_t length, Enumeration::BufferUsage usage, Enumeration::BufferType type) {
+    Buffer::Buffer(const void* data, size_t length, BufferUsage usage, BufferType type) {
         glGenBuffers(1, &mVertexBufferID);
         mType = type;
         Data(data, length, usage);
@@ -114,36 +114,36 @@ namespace Quark {
         return mVertexBufferID;
     }
     
-    void Buffer::Data(const void* data, size_t length, Enumeration::BufferUsage usage) {
+    void Buffer::Data(const void* data, size_t length, BufferUsage usage) {
         mLength = length;
-        glBindBuffer(mType, mVertexBufferID);
-        glBufferData(mType, length, data, usage);
+        glBindBuffer(static_cast<GLenum>(mType), mVertexBufferID);
+        glBufferData(static_cast<GLenum>(mType), length, data, static_cast<GLenum>(usage));
     }
     
     void Buffer::SubData(const void* data, size_t offset, size_t length) {
-        glBindBuffer(mType, mVertexBufferID);
-        glBufferSubData(mType, offset, length, data);
+        glBindBuffer(static_cast<GLenum>(mType), mVertexBufferID);
+        glBufferSubData(static_cast<GLenum>(mType), offset, length, data);
     }
     
     void Buffer::GetSubData(void* data, size_t offset, size_t length) {
-        glBindBuffer(mType, mVertexBufferID);
-        glGetBufferSubData(mType, offset, length, data);
+        glBindBuffer(static_cast<GLenum>(mType), mVertexBufferID);
+        glGetBufferSubData(static_cast<GLenum>(mType), offset, length, data);
     }
     
     void Buffer::BindBase(unsigned int index) {
-        glBindBufferBase(mType, index, mVertexBufferID);
+        glBindBufferBase(static_cast<GLenum>(mType), index, mVertexBufferID);
     }
     
     void Buffer::BindRange(unsigned int index, unsigned int offset, unsigned int size) {
-        glBindBufferRange(mType, index, mVertexBufferID, offset, size);
+        glBindBufferRange(static_cast<GLenum>(mType), index, mVertexBufferID, offset, size);
     }
     
-    void* Buffer::Lock(Enumeration::LockMode mode) {
-        return glMapBuffer(mType, mode);
+    void* Buffer::Lock(LockMode mode) {
+        return glMapBuffer(static_cast<GLenum>(mType), static_cast<GLenum>(mode));
     }
     
     void Buffer::UnLock() {
-        glUnmapBuffer(mType);
+        glUnmapBuffer(static_cast<GLenum>(mType));
     }
     
     ////////////////////////////////////////////////////////////////////////////////////

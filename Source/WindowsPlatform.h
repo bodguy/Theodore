@@ -15,7 +15,7 @@ namespace Quark {
 		WindowsPlatform();
 		~WindowsPlatform();
 
-		bool CreatePlatformWindows(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, Enumeration::WindowStyle style);
+		bool CreatePlatformWindows(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style);
 		void KillPlatformWindows();
 
 		static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);

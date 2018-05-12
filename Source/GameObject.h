@@ -45,7 +45,7 @@ namespace Quark {
 		bool SendMessage(Message& msg);
 		bool SendMessageUpwards(Message& msg);
 		bool BroadcastMessage(Message& msg);
-		static GameObject* CreatePrimitive(Enumeration::PrimitiveType type, Scene* scene);
+		static GameObject* CreatePrimitive(PrimitiveType type, Scene* scene);
 		Transform* GetTransform() const;
 
 	private:

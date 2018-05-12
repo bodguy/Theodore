@@ -11,7 +11,7 @@ namespace Quark {
 		TextureCube();
 		~TextureCube();
 
-		bool LoadCubemapTexture(unsigned int id, const std::string& filename, Enumeration::TextureFormat format, Enumeration::CubemapFace face);
+		bool LoadCubemapTexture(unsigned int id, const std::string& filename, TextureFormat format, CubemapFace face);
 	};
 }
 

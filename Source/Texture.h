@@ -26,11 +26,11 @@ namespace Quark {
         
         void SetMipmapBias(float bias);
         void SetAnisoLevel(float level);
-        void SetFilter(Enumeration::FilterMode mode);
-        void SetWrapMode(Enumeration::WrapMode mode);
+        void SetFilter(FilterMode mode);
+        void SetWrapMode(WrapMode mode);
         void SetMappingType(const std::string& type);
         
-        Enumeration::TextureDimension GetDimension() const;
+        TextureDimension GetDimension() const;
         
     protected:
         unsigned char* mNativeTexturePtr;
@@ -40,9 +40,9 @@ namespace Quark {
         float mMipMapBias;
         std::string mMappingType;
         
-        Enumeration::FilterMode mFilterMode;
-        Enumeration::WrapMode mWrapMode;
-        Enumeration::TextureDimension mDimension;
+        FilterMode mFilterMode;
+        WrapMode mWrapMode;
+        TextureDimension mDimension;
         Color mColorKey;
     };
 }

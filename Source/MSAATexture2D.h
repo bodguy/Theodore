@@ -10,7 +10,7 @@ namespace Quark {
 		MSAATexture2D();
 		virtual ~MSAATexture2D();
 
-		bool LoadMultiSampleTexture(unsigned int width, unsigned int height, Enumeration::TextureFormat format, unsigned int sample);
+		bool LoadMultiSampleTexture(unsigned int width, unsigned int height, TextureFormat format, unsigned int sample);
 	};
 }
 

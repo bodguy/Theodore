@@ -41,7 +41,6 @@
 #include "Component.h"
 #include "Bounds.h"
 #include "Mesh.h"
-#include "MeshFilter.h"
 #include "MeshRenderer.h"
 #include "BoneWeight.h"
 #include "KeyFrame.h"
@@ -50,6 +49,5 @@
 #include "SpriteRenderer.h"
 
 using namespace Quark;
-using namespace Enumeration;
 
 #endif /* QuarkEngine_h */

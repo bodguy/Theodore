@@ -8,12 +8,12 @@ namespace Quark {
     class File {
     public:
         File();
-        File(const std::string& name, Enumeration::OpenMode accessType);
+        File(const std::string& name, OpenMode accessType);
         File(FILE *file);
         ~File();
         
         bool IsOpen();
-        bool Open(const std::string& name, Enumeration::OpenMode accessType);
+        bool Open(const std::string& name, OpenMode accessType);
         void Close(void); // Close file pointer
         void Clear(void); // Close file pointer (if open) and clear file name
         void Write(const char *format, ...);
@@ -45,7 +45,7 @@ namespace Quark {
 #endif
         FILE *fp; // Pointer to file
         const char* mFileName;
-        Enumeration::OpenMode mMode;
+        OpenMode mMode;
     };
     
     template<typename T, size_t size>

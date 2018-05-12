@@ -27,7 +27,7 @@ namespace Quark {
 
 	}
 
-	bool WindowsPlatform::CreatePlatformWindows(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, Enumeration::WindowStyle style) {
+	bool WindowsPlatform::CreatePlatformWindows(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style) {
 		mhInstance = GetModuleHandle(NULL);
 		if (!mhInstance) return false;
 
@@ -52,9 +52,9 @@ namespace Quark {
 		} else {
 			// setting windowed mode
 			mExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
-			if (style == Enumeration::Resizable) {
+			if (style == WindowStyle::Resizable) {
 				mStyle = WS_OVERLAPPEDWINDOW;
-			} else if (style == Enumeration::NonResizeable) {
+			} else if (style == WindowStyle::NonResizeable) {
 				mStyle = WS_CAPTION | WS_SYSMENU;
 			}
 			platform->mWidth = width;
@@ -464,7 +464,7 @@ namespace Quark {
 		}
 	}
 
-	bool Platform::Initialize(const std::string& name, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, Enumeration::WindowStyle style) {
+	bool Platform::Initialize(const std::string& name, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style) {
 		return WindowsPlatform::instance->CreatePlatformWindows(name, width, height, fullscreen, majorVersion, minorVersion, multisample, style);
 	}
 

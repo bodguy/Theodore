@@ -6,8 +6,8 @@
 
 namespace Quark {
     Texture2D::Texture2D() {
-        mType = Enumeration::TextureType;
-        mDimension = Enumeration::Tex2D;
+        mType = AssetType::TextureType;
+        mDimension = TextureDimension::Tex2D;
     }
     
     Texture2D::~Texture2D() {
@@ -15,9 +15,9 @@ namespace Quark {
         glDeleteTextures(1, &mTextureID);
     }
     
-    bool Texture2D::LoadImage(const std::string& filename, Enumeration::TextureFormat format, const Color& colorKey) {
+    bool Texture2D::LoadImage(const std::string& filename, TextureFormat format, const Color& colorKey) {
         int w, h, bpp;
-        unsigned char* data = stbi_load(filename.c_str(), &w, &h, &bpp, format);
+        unsigned char* data = stbi_load(filename.c_str(), &w, &h, &bpp, static_cast<int>(format));
         
         if (data) {
             mColorKey = colorKey;
@@ -53,17 +53,17 @@ namespace Quark {
             }
             
             glGenTextures(1, &mTextureID);
-            glBindTexture(mDimension, mTextureID);
+            glBindTexture(static_cast<GLenum>(mDimension), mTextureID);
             switch (format) {
-                case Enumeration::RGB24:
-                    glTexImage2D(mDimension, 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+				case TextureFormat::RGB24:
+                    glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
                     break;
-                case Enumeration::RGBA32:
-                    glTexImage2D(mDimension, 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+                case TextureFormat::RGBA32:
+                    glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
                     break;
-                case Enumeration::Red8:
-                case Enumeration::Blue8:
-                case Enumeration::Green8:
+                case TextureFormat::Red8:
+                case TextureFormat::Blue8:
+                case TextureFormat::Green8:
                     break;
             }
             
@@ -73,7 +73,7 @@ namespace Quark {
             SetFilter(mFilterMode);
             SetWrapMode(mWrapMode);
             
-            glBindTexture(mDimension, NULL);
+            glBindTexture(static_cast<GLenum>(mDimension), NULL);
             
             return true;
         }
@@ -81,9 +81,9 @@ namespace Quark {
         return false;
     }
     
-    bool Texture2D::LoadImage(const std::string& filename, Enumeration::TextureFormat format) {
+    bool Texture2D::LoadImage(const std::string& filename, TextureFormat format) {
         int w, h, bpp;
-        unsigned char* data = stbi_load(filename.c_str(), &w, &h, &bpp, format);
+        unsigned char* data = stbi_load(filename.c_str(), &w, &h, &bpp, static_cast<int>(format));
         
         if (data) {
             mNativeTexturePtr = data;
@@ -92,19 +92,19 @@ namespace Quark {
 			SetAssetName(filename);
             
             glGenTextures(1, &mTextureID);
-            glBindTexture(mDimension, mTextureID);
+            glBindTexture(static_cast<GLenum>(mDimension), mTextureID);
             switch (format) {
-                case Enumeration::RGB24:
-                    glTexImage2D(mDimension, 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+                case TextureFormat::RGB24:
+                    glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
                     break;
-                case Enumeration::RGBA32:
+                case TextureFormat::RGBA32:
                     glEnable(GL_ALPHA_TEST);
                     glAlphaFunc(GL_GREATER, 0);
-                    glTexImage2D(mDimension, 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+                    glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
                     break;
-                case Enumeration::Red8:
-                case Enumeration::Blue8:
-                case Enumeration::Green8:
+                case TextureFormat::Red8:
+                case TextureFormat::Blue8:
+                case TextureFormat::Green8:
                     break;
             }
             
@@ -114,7 +114,7 @@ namespace Quark {
             SetFilter(mFilterMode);
             SetWrapMode(mWrapMode);
             
-            glBindTexture(mDimension, NULL);
+            glBindTexture(static_cast<GLenum>(mDimension), NULL);
             
             return true;
         }
@@ -122,9 +122,9 @@ namespace Quark {
         return false;
     }
     
-    bool Texture2D::LoadRawTextureData(const std::string& filename, Enumeration::TextureFormat format, std::vector<unsigned char>& native, const Color& colorKey) {
+    bool Texture2D::LoadRawTextureData(const std::string& filename, TextureFormat format, std::vector<unsigned char>& native, const Color& colorKey) {
         int w, h, bpp;
-        unsigned char* data = stbi_load_from_memory(&native.front(), (int)native.size(), &w, &h, &bpp, format);
+        unsigned char* data = stbi_load_from_memory(&native.front(), (int)native.size(), &w, &h, &bpp, static_cast<int>(format));
         
         if (data) {
             mColorKey = colorKey;
@@ -160,17 +160,17 @@ namespace Quark {
             }
             
             glGenTextures(1, &mTextureID);
-            glBindTexture(mDimension, mTextureID);
+            glBindTexture(static_cast<GLenum>(mDimension), mTextureID);
             switch (format) {
-                case Enumeration::RGB24:
-                    glTexImage2D(mDimension, 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+                case TextureFormat::RGB24:
+                    glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
                     break;
-                case Enumeration::RGBA32:
-                    glTexImage2D(mDimension, 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+                case TextureFormat::RGBA32:
+                    glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
                     break;
-                case Enumeration::Red8:
-                case Enumeration::Blue8:
-                case Enumeration::Green8:
+                case TextureFormat::Red8:
+                case TextureFormat::Blue8:
+                case TextureFormat::Green8:
                     break;
             }
             
@@ -180,7 +180,7 @@ namespace Quark {
             SetFilter(mFilterMode);
             SetWrapMode(mWrapMode);
             
-            glBindTexture(mDimension, NULL);
+            glBindTexture(static_cast<GLenum>(mDimension), NULL);
             
             return true;
         }
@@ -188,9 +188,9 @@ namespace Quark {
         return false;
     }
     
-    bool Texture2D::LoadRawTextureData(const std::string& filename, Enumeration::TextureFormat format, std::vector<unsigned char>& native) {
+    bool Texture2D::LoadRawTextureData(const std::string& filename, TextureFormat format, std::vector<unsigned char>& native) {
         int w, h, bpp;
-        unsigned char* data = stbi_load_from_memory(&native.front(), (int)native.size(), &w, &h, &bpp, format);
+        unsigned char* data = stbi_load_from_memory(&native.front(), (int)native.size(), &w, &h, &bpp, static_cast<int>(format));
         
         if (data) {
             mNativeTexturePtr = data;
@@ -199,19 +199,19 @@ namespace Quark {
 			SetAssetName(filename);
             
             glGenTextures(1, &mTextureID);
-            glBindTexture(mDimension, mTextureID);
+            glBindTexture(static_cast<GLenum>(mDimension), mTextureID);
             switch (format) {
-                case Enumeration::RGB24:
-                    glTexImage2D(mDimension, 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+                case TextureFormat::RGB24:
+                    glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
                     break;
-                case Enumeration::RGBA32:
+                case TextureFormat::RGBA32:
                     glEnable(GL_ALPHA_TEST);
                     glAlphaFunc(GL_GREATER, 0);
-                    glTexImage2D(mDimension, 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+                    glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
                     break;
-                case Enumeration::Red8:
-                case Enumeration::Blue8:
-                case Enumeration::Green8:
+                case TextureFormat::Red8:
+                case TextureFormat::Blue8:
+                case TextureFormat::Green8:
                     break;
             }
             
@@ -221,7 +221,7 @@ namespace Quark {
             SetFilter(mFilterMode);
             SetWrapMode(mWrapMode);
             
-            glBindTexture(mDimension, NULL);
+            glBindTexture(static_cast<GLenum>(mDimension), NULL);
             
             return true;
         }
@@ -229,33 +229,33 @@ namespace Quark {
         return false;
     }	
     
-    bool Texture2D::LoadCustomTexture(unsigned int width, unsigned int height, Enumeration::TextureFormat format, unsigned char* data) {
+    bool Texture2D::LoadCustomTexture(unsigned int width, unsigned int height, TextureFormat format, unsigned char* data) {
         glGenTextures(1, &mTextureID);
-        glBindTexture(mDimension, mTextureID);
+        glBindTexture(static_cast<GLenum>(mDimension), mTextureID);
         mWidth = width;
         mHeight = height;
         
         switch (format) {
-            case Enumeration::RGBA32:
-                glTexImage2D(mDimension, 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            case TextureFormat::RGBA32:
+                glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
                 break;
-            case Enumeration::RGB24:
-                glTexImage2D(mDimension, 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            case TextureFormat::RGB24:
+                glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
                 break;
-            case Enumeration::Red8:
-                glTexImage2D(mDimension, 0, GL_RED, mWidth, mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, data);
+            case TextureFormat::Red8:
+                glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RED, mWidth, mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, data);
                 break;
-            case Enumeration::Green8:
-                glTexImage2D(mDimension, 0, GL_GREEN, mWidth, mHeight, 0, GL_GREEN, GL_UNSIGNED_BYTE, data);
+            case TextureFormat::Green8:
+                glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_GREEN, mWidth, mHeight, 0, GL_GREEN, GL_UNSIGNED_BYTE, data);
                 break;
-            case Enumeration::Blue8:
-                glTexImage2D(mDimension, 0, GL_BLUE, mWidth, mHeight, 0, GL_BLUE, GL_UNSIGNED_BYTE, data);
+            case TextureFormat::Blue8:
+                glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_BLUE, mWidth, mHeight, 0, GL_BLUE, GL_UNSIGNED_BYTE, data);
                 break;
         }
         
         SetFilter(mFilterMode);
         SetWrapMode(mWrapMode);
-        glBindTexture(mDimension, NULL);
+        glBindTexture(static_cast<GLenum>(mDimension), NULL);
         
         return true;
     }

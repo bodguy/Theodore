@@ -3,8 +3,8 @@
 #include "BoneWeight.h"
 
 namespace Quark {
-	Mesh::Mesh() : mFormat(Enumeration::UInt32), mVertexCount(0), mNormalCount(0), mVertexBufferCount(0), mBoneWeights(nullptr) {
-		mType = Enumeration::MeshType;
+	Mesh::Mesh() : mFormat(IndexFormat::UInt32), mBoneWeights(nullptr) {
+		mType = AssetType::MeshType;
 	}
 
 	Mesh::~Mesh(){
@@ -19,11 +19,11 @@ namespace Quark {
 
 	}
 
-	void Mesh::SetTriangles(int* triangles, Enumeration::IndexFormat format) {
+	void Mesh::SetTriangles(int* triangles) {
 
 	}
 
-	void Mesh::SetTriangles(const std::vector<int>& triangles, Enumeration::IndexFormat format) {
+	void Mesh::SetTriangles(const std::vector<int>& triangles) {
 
 	}
 

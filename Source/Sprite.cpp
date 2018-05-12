@@ -4,7 +4,7 @@
 #include "Utility.h"
 
 namespace Quark {
-	Sprite::Sprite() : mFormat(Enumeration::UInt16), mTexture(nullptr), mRect(), mTextureRect(), mTextureRectOffset(), mPivot(){
+	Sprite::Sprite() : mFormat(IndexFormat::UInt16), mTexture(nullptr), mRect(), mTextureRect(), mTextureRectOffset(), mPivot(){
 		memset(mVertices, 0, sizeof(Vector2d) * 4);
 		memset(mUvs, 0, sizeof(Vector2d) * 4);
 		memset(mIndices, 0, sizeof(unsigned short) * 6);

@@ -22,7 +22,7 @@ namespace Quark {
 		SafeContDealloc(mAssets);
 	}
 
-	Texture2D* AssetManager::RequestTexture(const std::string& filename, Enumeration::TextureFormat format, const Color& colorKey) {
+	Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format, const Color& colorKey) {
 		Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
 
 		if (!asset) {
@@ -37,13 +37,15 @@ namespace Quark {
 
 		if (asset) {
 			asset->AddReference();
-			//Debug::Log(asset);
+			if (asset->mRefCount != 1) {
+				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			}
 		}
 
 		return asset;
 	}
 
-	Texture2D* AssetManager::RequestTexture(const std::string& filename, Enumeration::TextureFormat format) {
+	Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format) {
 		Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
 
 		if (!asset) {
@@ -58,12 +60,15 @@ namespace Quark {
 
 		if (asset) {
 			asset->AddReference();
+			if (asset->mRefCount != 1) {
+				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			}
 		}
 
 		return asset;
 	}
 	
-	Texture2D* AssetManager::RequestTexture(const std::string& filename, Enumeration::TextureFormat format, std::vector<unsigned char>& data, const Color& colorKey) {
+	Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format, std::vector<unsigned char>& data, const Color& colorKey) {
 		Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
 
 		if (!asset) {
@@ -78,13 +83,15 @@ namespace Quark {
 
 		if (asset) {
 			asset->AddReference();
-			//Debug::Log(asset);
+			if (asset->mRefCount != 1) {
+				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			}
 		}
 
 		return asset;
 	}
 
-	Texture2D* AssetManager::RequestTexture(const std::string& filename, Enumeration::TextureFormat format, std::vector<unsigned char>& data) {
+	Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format, std::vector<unsigned char>& data) {
 		Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
 
 		if (!asset) {
@@ -99,13 +106,15 @@ namespace Quark {
 
 		if (asset) {
 			asset->AddReference();
-			//Debug::Log(asset);
+			if (asset->mRefCount != 1) {
+				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			}
 		}
 
 		return asset;
 	}
 
-	Texture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, Enumeration::TextureFormat format, unsigned char* data) {
+	Texture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, TextureFormat format, unsigned char* data) {
 		Texture2D* asset = new Texture2D();
 		if (asset->LoadCustomTexture(width, height, format, data)) {
 			asset->SetAssetName(filename);
@@ -117,13 +126,15 @@ namespace Quark {
 
 		if (asset) {
 			asset->AddReference();
-			//Debug::Log(asset);
+			if (asset->mRefCount != 1) {
+				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			}
 		}
 
 		return asset;
 	}
 
-	TextureCube* AssetManager::RequestTexture(unsigned int id, const std::string& filename, Enumeration::TextureFormat format, Enumeration::CubemapFace face) {
+	TextureCube* AssetManager::RequestTexture(unsigned int id, const std::string& filename, TextureFormat format, CubemapFace face) {
 		TextureCube* asset = static_cast<TextureCube*>(GetAssetByFilename(filename));
 
 		if (!asset) {
@@ -138,13 +149,15 @@ namespace Quark {
 
 		if (asset) {
 			asset->AddReference();
-            //Debug::Log(asset);
+			if (asset->mRefCount != 1) {
+				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			}
 		}
 
 		return asset;
 	}
 
-	MSAATexture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, Enumeration::TextureFormat format, unsigned int sample) {
+	MSAATexture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, TextureFormat format, unsigned int sample) {
 		MSAATexture2D* asset = new MSAATexture2D();
 		if (asset->LoadMultiSampleTexture(width, height, format, sample)) {
 			asset->SetAssetName(filename);
@@ -156,7 +169,9 @@ namespace Quark {
 
 		if (asset) {
 			asset->AddReference();
-			//Debug::Log(asset);
+			if (asset->mRefCount != 1) {
+				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			}
 		}
 
 		return asset;
@@ -183,14 +198,14 @@ namespace Quark {
 //		return asset;
 //	}
 
-	Shader* AssetManager::RequestShader(const std::string& filename, Enumeration::ShaderType type) {
+	Shader* AssetManager::RequestShader(const std::string& filename, ShaderType type) {
 		Shader* asset = static_cast<Shader*>(GetAssetByFilename(filename));
 
 		if (!asset) {
 			asset = new Shader(type);
 
 			File file;
-			file.Open(filename, Enumeration::Read);
+			file.Open(filename, OpenMode::Read);
 			if (file.IsOpen()) {
 				asset->SetAssetName(filename);
 				Debug::Log("'" + filename + "' Compiling shader...");
@@ -205,6 +220,9 @@ namespace Quark {
 
 		if (asset) {
 			asset->AddReference();
+			if (asset->mRefCount != 1) {
+				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			}
 		}
 
 		return asset;
@@ -219,6 +237,9 @@ namespace Quark {
 
 		if (asset) {
 			asset->AddReference();
+			if (asset->mRefCount != 1) {
+				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			}
 		}
 
 		return asset;

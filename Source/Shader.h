@@ -15,7 +15,7 @@ namespace Quark {
     class Shader : public Asset {
         friend class Program;
     public:
-        Shader(const Enumeration::ShaderType type);
+        Shader(const ShaderType type);
         virtual ~Shader();
         
         int Compile(const std::string& source);
@@ -65,6 +65,23 @@ namespace Quark {
         void SetUniform(const Uniform& uniform, const Matrix4x4& value);
 		void SetUniform(const Uniform& uniform, bool value);
         void SetUniformBlock(const Uniform& uniform, const unsigned int bindingPoint);
+
+		void SetUniform(const std::string& name, int value);
+		void SetUniform(const std::string& name, unsigned int value);
+		void SetUniform(const std::string& name, float value);
+		void SetUniform(const std::string& name, const Vector2d& value);
+		void SetUniform(const std::string& name, const Vector3d& value);
+		void SetUniform(const std::string& name, const Vector4d& value);
+		void SetUniform(const std::string& name, const Color& value);
+		void SetUniform(const std::string& name, const float* values, int count);
+		void SetUniform(const std::string& name, const Vector2d* values, int count);
+		void SetUniform(const std::string& name, const Vector3d* values, int count);
+		void SetUniform(const std::string& name, const Vector4d* values, int count);
+		void SetUniform(const std::string& name, const Color* values, int count);
+		void SetUniform(const std::string& name, const Matrix4x4& value);
+		void SetUniform(const std::string& name, bool value);
+		void SetUniformBlock(const std::string& name, const unsigned int bindingPoint);
+
         void DispatchCompute(unsigned int x, unsigned int y, unsigned int z);
 
     private:

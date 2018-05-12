@@ -22,38 +22,38 @@ namespace Quark {
 
 	}
 
-	void Transform::Translate(const Vector3d& translation, Enumeration::Space relativeTo) {
-		if(relativeTo == Enumeration::Self) {
+	void Transform::Translate(const Vector3d& translation, Space relativeTo) {
+		if(relativeTo == Space::Self) {
 			mLocalPosition += translation;
-		} else if(relativeTo == Enumeration::World) {
+		} else if(relativeTo == Space::World) {
 			mPosition += translation;
 		}
 	}
 
-	void Transform::Rotate(const Vector3d& axis, float angle, Enumeration::Space relativeTo) {
-		if(relativeTo == Enumeration::Self) {
+	void Transform::Rotate(const Vector3d& axis, float angle, Space relativeTo) {
+		if(relativeTo == Space::Self) {
 			mLocalRotation = Quaternion::AngleAxis(Math::Radians(angle), Vector3d(axis).Normalize()) * mLocalRotation;
 			mLocalRotation.Normalize();
-		} else if(relativeTo == Enumeration::World) {
+		} else if(relativeTo == Space::World) {
 			mRotation = Quaternion::AngleAxis(Math::Radians(angle), Vector3d(axis).Normalize()) * mRotation;
 			mRotation.Normalize();
 		}
 	}
 
-	void Transform::Rotate(const Vector3d& eulerAngles, Enumeration::Space relativeTo) {
-		if(relativeTo == Enumeration::Self) {
+	void Transform::Rotate(const Vector3d& eulerAngles, Space relativeTo) {
+		if(relativeTo == Space::Self) {
 			mLocalRotation = Quaternion::FromEuler(Vector3d(Math::Radians(eulerAngles.x), Math::Radians(eulerAngles.y), Math::Radians(eulerAngles.z))) * mLocalRotation;
 			mLocalRotation.Normalize();
-		} else if(relativeTo == Enumeration::World) {
+		} else if(relativeTo == Space::World) {
 			mRotation = Quaternion::FromEuler(Vector3d(Math::Radians(eulerAngles.x), Math::Radians(eulerAngles.y), Math::Radians(eulerAngles.z))) * mRotation;
 			mRotation.Normalize();
 		}
 	}
 
-	void Transform::Scale(const Vector3d& axis, Enumeration::Space relativeTo) {
-		if (relativeTo == Enumeration::Self) {
+	void Transform::Scale(const Vector3d& axis, Space relativeTo) {
+		if (relativeTo == Space::Self) {
 			mLocalScale += axis;
-		} else if (relativeTo == Enumeration::World) {
+		} else if (relativeTo == Space::World) {
 			mLossyScale += axis;
 		}
 	}

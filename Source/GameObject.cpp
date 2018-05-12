@@ -3,10 +3,10 @@
 #include "crc32.h"
 #include "Utility.h"
 #include "Transform.h"
-#include "MeshFilter.h"
 #include "MeshRenderer.h"
 #include "Material.h"
 #include "Mesh.h"
+#include "Shader.h"
 #include "PrimitiveData.h"
 
 namespace Quark {
@@ -97,39 +97,34 @@ namespace Quark {
 		return true;
 	}
 
-	GameObject* GameObject::CreatePrimitive(Enumeration::PrimitiveType type, Scene* scene) {
+	GameObject* GameObject::CreatePrimitive(PrimitiveType type, Scene* scene) {
 		static std::string primitiveName[] = { "Plane", "Cube", "Sphere", "Capsule", "Cylinder" };
 		GameObject* primitive = new GameObject(primitiveName[static_cast<int>(type)], scene);
-		//Mesh* mesh = new Mesh();
-		//Material* material = new Material();
+		Mesh* mesh = new Mesh();
+		Material* material = new Material(Shader::Find("Standard"));
 
-		//switch (type) {
-		//case Enumeration::PrimitiveType::Plane:
-		//{
-		//	//float planeVertices[300] = { 0, };
-		//	//for (int x = 0; x < 10; x++) {
-		//	//	for (int y = 0; y < 10; y++) {
-		//	//		planeVertices[y + x * 10 + 0] = -0.5f + (0.1f * y); // x
-		//	//		planeVertices[y + x * 10 + 1] = 0.f; // y
-		//	//		planeVertices[y + x * 10 + 2] = -0.5f + (0.1f * y); // z
-		//	//	}
-		//	//}
-		//	//mesh->SetVertices(planeVertices);
-		//	break;
-		//}
-		//case Enumeration::PrimitiveType::Cube:
-		//	mesh->SetVertices(boneVertices);// cubeVertices);
-		//	break;
-		//case Enumeration::PrimitiveType::Sphere:
-		//	break;
-		//case Enumeration::PrimitiveType::Capsule:
-		//	break;
-		//case Enumeration::PrimitiveType::Cylinder:
-		//	break;
-		//}
+		switch (type) {
+		case PrimitiveType::Plane:
+			mesh = PrimitiveData::GeneratePlane();
+			break;
+		case PrimitiveType::Cube:
+			mesh = PrimitiveData::GenerateCube();
+			break;
+		case PrimitiveType::Sphere:
+			mesh = PrimitiveData::GenerateSphere();
+			break;
+		case PrimitiveType::Capsule:
+			mesh = PrimitiveData::GenerateCapsule();
+			break;
+		case PrimitiveType::Cylinder:
+			mesh = PrimitiveData::GenerateCylinder();
+			break;
+		}
 
-		//primitive->AddComponent<MeshFilter>()->SetMesh(mesh);
-		//primitive->AddComponent<MeshRenderer>()->SetMaterial(material);
+		MeshRenderer* rend = primitive->AddComponent<MeshRenderer>();
+		rend->SetMesh(mesh);
+		rend->SetMaterial(material);
+
 		return primitive;
 	}
 

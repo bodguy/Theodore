@@ -14,15 +14,15 @@ namespace Quark {
 	Graphics::~Graphics() {
 	}
 
-    void Graphics::Clear(const Color& color, Enumeration::BufferBits bits) {
+    void Graphics::Clear(const Color& color, BufferBits bits) {
         glClearColor(color.r, color.g, color.b, color.a);
-        glClear(bits);
+        glClear(static_cast<GLbitfield>(bits));
     }
     
     void Graphics::BindTexture(unsigned int unit, Texture* texture) {
         glActiveTexture(GL_TEXTURE0 + unit);
         if (texture) {
-            glBindTexture(texture->GetDimension(), texture->GetTextureID());
+            glBindTexture(static_cast<GLenum>(texture->GetDimension()), texture->GetTextureID());
         } else {
             glBindTexture(GL_TEXTURE_2D, NULL);
         }
@@ -37,27 +37,27 @@ namespace Quark {
         }
     }
     
-    void Graphics::DrawArrays(const VertexArray& vao, Enumeration::Primitive mode, unsigned int offset, unsigned int vertices) {
+    void Graphics::DrawArrays(const VertexArray& vao, Primitive mode, unsigned int offset, unsigned int vertices) {
         glBindVertexArray(vao.GetArrayID());
-        glDrawArrays(mode, offset, vertices);
+        glDrawArrays(static_cast<GLenum>(mode), offset, vertices);
         glBindVertexArray(0);
     }
     
-    void Graphics::DrawElements(const VertexArray& vao, Enumeration::Primitive mode, unsigned int offset, unsigned int count, unsigned int type) {
+    void Graphics::DrawElements(const VertexArray& vao, Primitive mode, unsigned int offset, unsigned int count, IndexFormat format) {
         glBindVertexArray(vao.GetArrayID());
-        glDrawElements(mode, count, type, reinterpret_cast<const void*>(offset));
+        glDrawElements(static_cast<GLenum>(mode), count, static_cast<GLenum>(format), reinterpret_cast<const void*>(offset));
         glBindVertexArray(0);
     }
     
-    void Graphics::DrawArraysInstanced(const VertexArray& vao, Enumeration::Primitive mode, unsigned int offset, unsigned int vertices, unsigned int count) {
+    void Graphics::DrawArraysInstanced(const VertexArray& vao, Primitive mode, unsigned int offset, unsigned int vertices, unsigned int count) {
         glBindVertexArray(vao.GetArrayID());
-        glDrawArraysInstanced(mode, offset, vertices, count);
+        glDrawArraysInstanced(static_cast<GLenum>(mode), offset, vertices, count);
         glBindVertexArray(0);
     }
     
-    void Graphics::DrawElementsInstanced(const VertexArray& vao, Enumeration::Primitive mode, unsigned int offset, unsigned int count, unsigned int type, unsigned int primcount) {
+    void Graphics::DrawElementsInstanced(const VertexArray& vao, Primitive mode, unsigned int offset, unsigned int count, unsigned int type, unsigned int primcount) {
         glBindVertexArray(vao.GetArrayID());
-        glDrawElementsInstanced(mode, count, type, reinterpret_cast<const void*>(offset), primcount);
+        glDrawElementsInstanced(static_cast<GLenum>(mode), count, type, reinterpret_cast<const void*>(offset), primcount);
         glBindVertexArray(0);
     }
     
@@ -87,27 +87,27 @@ namespace Quark {
         }
     }
     
-    void Graphics::SetPolygonMode(Enumeration::FillMode value) {
-        glPolygonMode( GL_FRONT_AND_BACK, value );
+    void Graphics::SetPolygonMode(FillMode value) {
+        glPolygonMode(GL_FRONT_AND_BACK, static_cast<GLenum>(value));
     }
     
-    void Graphics::Enable(Enumeration::Capabilities value) {
-        glEnable(value);
+    void Graphics::Enable(Capabilities value) {
+        glEnable(static_cast<GLenum>(value));
     }
     
-    void Graphics::Disable(Enumeration::Capabilities value) {
-        glDisable(value);
+    void Graphics::Disable(Capabilities value) {
+        glDisable(static_cast<GLenum>(value));
     }
 
-	void Graphics::PatchParameter(Enumeration::PatchParameters param, int value) {
-		glPatchParameteri(param, value);
+	void Graphics::PatchParameter(PatchParameters param, int value) {
+		glPatchParameteri(static_cast<GLenum>(param), value);
 	}
 	
-	void Graphics::PatchParameter(Enumeration::PatchParameters param, float* values) {
-		glPatchParameterfv(param, values);
+	void Graphics::PatchParameter(PatchParameters param, float* values) {
+		glPatchParameterfv(static_cast<GLenum>(param), values);
 	}
 
-	void Graphics::ScreenToImage(const std::string& filename, Enumeration::ImageType type) {
+	void Graphics::ScreenToImage(const std::string& filename, ImageType type) {
 		int w = Platform::GetWidth();
 		int	h = Platform::GetHeight();
 		char *data = new char[w * h * 3];
@@ -125,13 +125,13 @@ namespace Quark {
 		//}
 
 		switch (type) {
-		case Enumeration::IMAGE_PNG:
+		case ImageType::IMAGE_PNG:
 			stbi_write_png(filename.data(), w, h, 3, data, w * 3); 
 			break;
-		case Enumeration::IMAGE_BMP:
+		case ImageType::IMAGE_BMP:
 			stbi_write_bmp(filename.data(), w, h, 3, data); 
 			break;
-		case Enumeration::IMAGE_TGA:
+		case ImageType::IMAGE_TGA:
 			stbi_write_tga(filename.data(), w, h, 3, data); 
 			break;
 		}
@@ -142,6 +142,11 @@ namespace Quark {
 
 	void Graphics::GetViewport(int* viewport) {
 		glGetIntegerv(GL_VIEWPORT, viewport);
+	}
+
+	void Graphics::SetFaceCulling(CullFace whichFace, CullMode front) {
+		glCullFace(static_cast<GLenum>(whichFace));
+		glFrontFace(static_cast<GLenum>(front));
 	}
 
 #if 0
@@ -261,12 +266,12 @@ namespace Quark {
 		Set2DGraphics(w, h);
 	}
 
-	void Graphics::SetMatrixMode(Enumeration::MatrixMode mode) {
+	void Graphics::SetMatrixMode(MatrixMode mode) {
 		switch (mode) {
-		case Enumeration::MODELVIEW:
+		case MatrixMode::MODELVIEW:
 			glMatrixMode(GL_MODELVIEW);
 			break;
-		case Enumeration::PROJECTION:
+		case MatrixMode::PROJECTION:
 			glMatrixMode(GL_PROJECTION);
 			break;
 		}
@@ -306,16 +311,16 @@ namespace Quark {
 		glOrtho(0.0, w, h, 0.0, 0.0, 1.0);
 	}
 
-	void Graphics::SetBlendMode(Enumeration::BlendMode type) {
+	void Graphics::SetBlendMode(BlendMode type) {
 		glEnable(GL_BLEND);
 		switch (type) {
-		case Enumeration::BLEND_ALPHA:
+		case BlendMode::BLEND_ALPHA:
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			break;
-		case Enumeration::BLEND_ADDITIVE:
+		case BlendMode::BLEND_ADDITIVE:
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 			break;
-		case Enumeration::BLEND_MULTIPLY:
+		case BlendMode::BLEND_MULTIPLY:
 			glBlendFunc(GL_ZERO, GL_SRC_COLOR);
 			break;
 		}

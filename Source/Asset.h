@@ -18,7 +18,7 @@ namespace Quark {
         void RemoveReference();
         
     protected:
-        Enumeration::AssetType mType;
+        AssetType mType;
         unsigned int mRefCount;
         std::string mName;
 		std::string mFilePath;

@@ -8,21 +8,22 @@ namespace Quark {
     class Color; class VertexArray; class FrameBuffer;
     class Graphics {
     public:
-        static void Clear(const Color& color, Enumeration::BufferBits bits);
+        static void Clear(const Color& color, BufferBits bits);
         static void BindTexture(unsigned int unit, Texture* texture);
         static void BindFrameBuffer(FrameBuffer* buffer);
-        static void DrawArrays(const VertexArray& vao, Enumeration::Primitive mode, unsigned int offset, unsigned int vertices);
-        static void DrawElements(const VertexArray& vao, Enumeration::Primitive mode, unsigned int offset, unsigned int count, unsigned int type);
-        static void DrawArraysInstanced(const VertexArray& vao, Enumeration::Primitive mode, unsigned int offset, unsigned int vertices, unsigned int count);
-        static void DrawElementsInstanced(const VertexArray& vao, Enumeration::Primitive mode, unsigned int offset, unsigned int count, unsigned int type, unsigned int primcount);
+        static void DrawArrays(const VertexArray& vao, Primitive mode, unsigned int offset, unsigned int vertices);
+        static void DrawElements(const VertexArray& vao, Primitive mode, unsigned int offset, unsigned int count, IndexFormat format);
+        static void DrawArraysInstanced(const VertexArray& vao, Primitive mode, unsigned int offset, unsigned int vertices, unsigned int count);
+        static void DrawElementsInstanced(const VertexArray& vao, Primitive mode, unsigned int offset, unsigned int count, unsigned int type, unsigned int primcount);
         static void GetLastError();
-        static void SetPolygonMode(Enumeration::FillMode value);
-        static void Enable(Enumeration::Capabilities value);
-        static void Disable(Enumeration::Capabilities value);
-		static void PatchParameter(Enumeration::PatchParameters param, int value);
-		static void PatchParameter(Enumeration::PatchParameters param, float* values);
-		static void ScreenToImage(const std::string& filename, Enumeration::ImageType type);
+        static void SetPolygonMode(FillMode value);
+        static void Enable(Capabilities value);
+        static void Disable(Capabilities value);
+		static void PatchParameter(PatchParameters param, int value);
+		static void PatchParameter(PatchParameters param, float* values);
+		static void ScreenToImage(const std::string& filename, ImageType type);
 		static void GetViewport(int* viewport);
+		static void SetFaceCulling(CullFace whichFace, CullMode front);
 
 #if 0
 		// OpenGL 2.1 version rendering functions
@@ -38,7 +39,7 @@ namespace Quark {
 		static void Polygon(const std::vector<Vector3d>& verts, const Color& color, float thickness = 1.f);
 
 		static void SetDimensions(unsigned int w, unsigned int h);
-		static void SetMatrixMode(Enumeration::MatrixMode mode);
+		static void SetMatrixMode(MatrixMode mode);
 		static void PopMatrix();
 		static void PushMatirx();
 		static void Translate(const Vector3d& pos);
@@ -47,7 +48,7 @@ namespace Quark {
 		static void SetColor(const Color& color);
 		static void Flush();
 		static void Set2DGraphics(int w, int h);
-		static void SetBlendMode(Enumeration::BlendMode type);
+		static void SetBlendMode(BlendMode type);
 #endif
 
 	private:

@@ -21,34 +21,34 @@ namespace Quark {
 		-1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f
 	};
 
-	Cubemap::Cubemap(std::list<std::string>& filelist, Enumeration::TextureFormat format) {
+	Cubemap::Cubemap(std::list<std::string>& filelist, TextureFormat format) {
 		mVertexData = new InputStream();
 		for (int i = 0; i < sizeof(CubeVertices) / sizeof(float) / 3; i++) {
 			mVertexData->Vec3(Vector3d(CubeVertices[i*3], CubeVertices[i*3+1], CubeVertices[i*3+2]));
 		}
 
-		mVertexBuffer = new Buffer(mVertexData->Pointer(), mVertexData->Size(), Enumeration::StaticDraw, Enumeration::BufferVertex);
+		mVertexBuffer = new Buffer(mVertexData->Pointer(), mVertexData->Size(), BufferUsage::StaticDraw, BufferType::BufferVertex);
 		mVertexArray = new VertexArray();
 		mVertexArray->BindAttribute(0, *mVertexBuffer, 3, 3 * sizeof(float), 0);
 
-		Shader vs(Enumeration::VertexShader), fs(Enumeration::FragmentShader);
+		Shader vs(ShaderType::VertexShader), fs(ShaderType::FragmentShader);
 
-		File shaderSource("Shaders/cube_vs.glsl", Enumeration::Read);
+		File shaderSource("Shaders/cube_vs.glsl", OpenMode::Read);
 		vs.Compile(shaderSource.ReadUntilEnd());
 		shaderSource.Close();
 
-		shaderSource.Open("Shaders/cube_fs.glsl", Enumeration::Read);
+		shaderSource.Open("Shaders/cube_fs.glsl", OpenMode::Read);
 		fs.Compile(shaderSource.ReadUntilEnd());
 		shaderSource.Close();
 
-		mCubeProgram = new Program(vs, fs);
+		mCubeProgram = new Program("Skybox", vs, fs);
 
-		Graphics::Enable(Enumeration::CubemapSeamless);
+		Graphics::Enable(Capabilities::CubemapSeamless);
 		glGenTextures(1, &mCubemapID);
 
 		std::list<std::string>::const_iterator iter = filelist.begin();
-		for (int i = Enumeration::PositiveX; i <= Enumeration::NegativeZ; i++) {
-			AssetManager::RequestTexture(mCubemapID, *iter++, format, static_cast<Enumeration::CubemapFace>(i));
+		for (int i = static_cast<int>(CubemapFace::PositiveX); i <= static_cast<int>(CubemapFace::NegativeZ); i++) {
+			AssetManager::RequestTexture(mCubemapID, *iter++, format, static_cast<CubemapFace>(i));
 		}
 	}
 
@@ -65,9 +65,9 @@ namespace Quark {
 		glActiveTexture(GL_TEXTURE0);
 		glDepthFunc(GL_LEQUAL);
 		mCubeProgram->SetUniform(mCubeProgram->GetUniform("cubemap"), (unsigned int)0);
-		glBindTexture(Enumeration::CubeMap, mCubemapID);
-		Graphics::DrawArrays(*mVertexArray, Enumeration::Triangles, 0, sizeof(CubeVertices) / sizeof(float) / 3);
-		glBindTexture(Enumeration::CubeMap, NULL);
+		glBindTexture(static_cast<GLenum>(TextureDimension::CubeMap), mCubemapID);
+		Graphics::DrawArrays(*mVertexArray, Primitive::Triangles, 0, sizeof(CubeVertices) / sizeof(float) / 3);
+		glBindTexture(static_cast<GLenum>(TextureDimension::CubeMap), NULL);
 		glDepthFunc(GL_LESS); 
 	}
 

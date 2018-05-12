@@ -19,7 +19,7 @@ namespace Quark {
         CocoaPlatform();
         ~CocoaPlatform();
         
-        bool CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, Enumeration::WindowStyle style);
+        bool CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style);
         void KillPlatformCocoa();
         
         static CocoaPlatform* instance;

@@ -23,14 +23,14 @@ namespace Quark {
 	void SpriteRenderer::SetSprite(Sprite* sprite) {
 		mSprite = sprite;
 		
-		Buffer* buffer = new Buffer(Enumeration::BufferVertex);
-		buffer->Data(nullptr, sizeof(Vector2d) * 8, Enumeration::StaticDraw);
+		Buffer* buffer = new Buffer(BufferType::BufferVertex);
+		buffer->Data(nullptr, sizeof(Vector2d) * 8, BufferUsage::StaticDraw);
 		buffer->SubData(mSprite->mVertices, 0, sizeof(Vector2d) * 4);
 		buffer->SubData(mSprite->mUvs, sizeof(Vector2d) * 4, sizeof(Vector2d) * 4);
 		mVbos.push_back(buffer);
 
-		Buffer* index = new Buffer(Enumeration::BufferIndex);
-		index->Data(mSprite->mIndices, sizeof(unsigned short) * 6, Enumeration::StaticDraw);
+		Buffer* index = new Buffer(BufferType::BufferIndex);
+		index->Data(mSprite->mIndices, sizeof(unsigned short) * 6, BufferUsage::StaticDraw);
 		mEbos.push_back(index);
 		
 		mVao->BindAttribute(mProgram->GetAttribute("position"), *mVbos.front(), 2, sizeof(Vector2d), 0);
@@ -75,7 +75,7 @@ namespace Quark {
 			mProgram->SetUniform(mProgram->GetUniform("flipY"), mFlipY);
 			mProgram->SetUniform(mProgram->GetUniform("color"), mColor);
 			Graphics::BindTexture(0, mSprite->mTexture);
-			Graphics::DrawElements(*mVao, Enumeration::Primitive::Triangles, 0, 6, mSprite->mFormat);
+			Graphics::DrawElements(*mVao, Primitive::Triangles, 0, 6, mSprite->mFormat);
 			Graphics::BindTexture(0, NULL);
 			mProgram->UnUse();
 

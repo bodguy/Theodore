@@ -9,7 +9,7 @@ namespace Quark {
 	class Cubemap {
 	public:
 		// right, left, top, bottom, back, front
-		Cubemap(std::list<std::string>& filelist, Enumeration::TextureFormat format);
+		Cubemap(std::list<std::string>& filelist, TextureFormat format);
 		~Cubemap();
 
 		void Render();

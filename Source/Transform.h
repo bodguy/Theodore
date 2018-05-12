@@ -13,10 +13,10 @@ namespace Quark {
 		Transform();
 		virtual ~Transform();
 
-		void Translate(const Vector3d& translation, Enumeration::Space relativeTo = Enumeration::Self);
-		void Rotate(const Vector3d& axis, float angle, Enumeration::Space relativeTo = Enumeration::Self);
-		void Rotate(const Vector3d& eulerAngles, Enumeration::Space relativeTo = Enumeration::Self);
-		void Scale(const Vector3d& axis, Enumeration::Space relativeTo = Enumeration::Self);
+		void Translate(const Vector3d& translation, Space relativeTo = Space::Self);
+		void Rotate(const Vector3d& axis, float angle, Space relativeTo = Space::Self);
+		void Rotate(const Vector3d& eulerAngles, Space relativeTo = Space::Self);
+		void Scale(const Vector3d& axis, Space relativeTo = Space::Self);
 
 		// get world Position, Scale, Rotation
 		Vector3d GetPosition() const;

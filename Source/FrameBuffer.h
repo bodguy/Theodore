@@ -8,7 +8,7 @@
 namespace Quark {
     class FrameBuffer {
     public:
-        FrameBuffer(unsigned int width, unsigned int height, Enumeration::TextureFormat format);
+        FrameBuffer(unsigned int width, unsigned int height, TextureFormat format);
         ~FrameBuffer();
         
         unsigned int GetFrameBufferID() const;

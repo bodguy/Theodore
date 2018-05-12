@@ -2,8 +2,8 @@
 
 namespace Quark {
     Texture::Texture() : mNativeTexturePtr(nullptr), mTextureID(1), mWidth(0), mHeight(0), mMipMapBias(1000.f),
-    mFilterMode(Enumeration::Trilinear), mWrapMode(Enumeration::ClampEdge), mDimension(Enumeration::None), mColorKey(Color::white) {
-        mType = Enumeration::TextureType;
+    mFilterMode(FilterMode::Trilinear), mWrapMode(WrapMode::ClampEdge), mDimension(TextureDimension::None), mColorKey(Color::white) {
+        mType = AssetType::TextureType;
         glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &mAnisoLevel);
     }
     
@@ -46,7 +46,7 @@ namespace Quark {
     
     void Texture::SetMipmapBias(float bias) {
         // Set mipmap bias value
-        if (mFilterMode == Enumeration::Trilinear) {
+        if (mFilterMode == FilterMode::Trilinear) {
             glTexParameterf(GL_TEXTURE_ENV, GL_TEXTURE_MIN_LOD, -mMipMapBias);
             glTexParameterf(GL_TEXTURE_ENV, GL_TEXTURE_MAX_LOD, mMipMapBias);
         }
@@ -54,30 +54,30 @@ namespace Quark {
     
     void Texture::SetAnisoLevel(float level) {
         // Set anisotrophy filtering
-        glTexParameterf(mDimension, GL_TEXTURE_MAX_ANISOTROPY_EXT, mAnisoLevel);
+        glTexParameterf(static_cast<GLenum>(mDimension), GL_TEXTURE_MAX_ANISOTROPY_EXT, mAnisoLevel);
     }
     
-    void Texture::SetFilter(Enumeration::FilterMode mode) {
+    void Texture::SetFilter(FilterMode mode) {
         // Set filtering mode
-        glTexParameteri(mDimension, GL_TEXTURE_MIN_FILTER, mFilterMode);
-        glTexParameteri(mDimension, GL_TEXTURE_MAG_FILTER, mFilterMode);
-        if (mFilterMode == Enumeration::Trilinear)
-            glGenerateMipmap(mDimension);
+        glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(mFilterMode));
+        glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(mFilterMode));
+        if (mFilterMode == FilterMode::Trilinear)
+            glGenerateMipmap(static_cast<GLenum>(mDimension));
     }
     
-    void Texture::SetWrapMode(Enumeration::WrapMode mode) {
+    void Texture::SetWrapMode(WrapMode mode) {
         // Set wrap mode
-        glTexParameteri(mDimension, GL_TEXTURE_WRAP_S, mWrapMode);
-        glTexParameteri(mDimension, GL_TEXTURE_WRAP_T, mWrapMode);
-        if(mDimension == Enumeration::CubeMap)
-            glTexParameteri(mDimension, GL_TEXTURE_WRAP_R, mWrapMode);
+        glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_S, static_cast<GLenum>(mWrapMode));
+        glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_T, static_cast<GLenum>(mWrapMode));
+        if(mDimension == TextureDimension::CubeMap)
+            glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_R, static_cast<GLenum>(mWrapMode));
     }
     
     void Texture::SetMappingType(const std::string& type) {
         mMappingType = type;
     }
     
-    Enumeration::TextureDimension Texture::GetDimension() const {
+    TextureDimension Texture::GetDimension() const {
         return mDimension;
     }
 }

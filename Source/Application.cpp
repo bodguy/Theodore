@@ -24,13 +24,13 @@ namespace Quark {
 		SafeDealloc(mPlatform);
 	}
 
-	bool Application::Initialize(const std::string& name, int width, int height, bool fullmode, int majorVersion, int minorVersion, int multisample, Enumeration::WindowStyle style) {
+	bool Application::Initialize(const std::string& name, int width, int height, bool fullmode, int majorVersion, int minorVersion, int multisample, WindowStyle style) {
 		mPlatform = new Platform();
 		if (!mPlatform->Initialize(name, width, height, fullmode, majorVersion, minorVersion, multisample, style)) {
 			return false;
 		}
 		mPlatform->SetVSync(true);
-		Graphics::Enable(Enumeration::DepthTest);
+		Graphics::Enable(Capabilities::DepthTest);
 
 		mInput = new Input();
 		mTime = new Time();
@@ -38,23 +38,22 @@ namespace Quark {
 		mShaderManager = new ShaderManager();
 
 		// default program setting and caching
-		Shader* standard_vs = AssetManager::RequestShader("Shaders/light/vs.glsl", Enumeration::VertexShader);
-		Shader* standard_fs = AssetManager::RequestShader("Shaders/light/fs.glsl", Enumeration::FragmentShader);
+		Shader* standard_vs = AssetManager::RequestShader("Shaders/light/vs.glsl", ShaderType::VertexShader);
+		Shader* standard_fs = AssetManager::RequestShader("Shaders/light/fs.glsl", ShaderType::FragmentShader);
 		Program* standardProgram = new Program("Standard", *standard_vs, *standard_fs);
 		ShaderManager::Append(standardProgram);
 
-		Shader* twoDimension_vs = AssetManager::RequestShader("Shaders/sprite/vs.glsl", Enumeration::VertexShader);
-		Shader* twoDimension_fs = AssetManager::RequestShader("Shaders/sprite/fs.glsl", Enumeration::FragmentShader);
+		Shader* twoDimension_vs = AssetManager::RequestShader("Shaders/sprite/vs.glsl", ShaderType::VertexShader);
+		Shader* twoDimension_fs = AssetManager::RequestShader("Shaders/sprite/fs.glsl", ShaderType::FragmentShader);
 		Program* twoDimensionProgram = new Program("2D", *twoDimension_vs, *twoDimension_fs);
 		ShaderManager::Append(twoDimensionProgram);
 
-		Shader* gizmo_vs = AssetManager::RequestShader("Shaders/gizmo/vs.glsl", Enumeration::VertexShader);
-		Shader* gizmo_fs = AssetManager::RequestShader("Shaders/gizmo/fs.glsl", Enumeration::FragmentShader);
+		Shader* gizmo_vs = AssetManager::RequestShader("Shaders/gizmo/vs.glsl", ShaderType::VertexShader);
+		Shader* gizmo_fs = AssetManager::RequestShader("Shaders/gizmo/fs.glsl", ShaderType::FragmentShader);
 		Program* gizmoProgram = new Program("Gizmo", *gizmo_vs, *gizmo_fs);
 		ShaderManager::Append(gizmoProgram);
 
 		mSceneManager = new SceneManager();
-
 
 		Random::InitState(static_cast<int>(time(NULL)));
 
@@ -67,7 +66,7 @@ namespace Quark {
 			mTime->Update();
 			mInput->Update();
 			Update(Time::DeltaTime());
-			Graphics::Clear(Color(0.f, 0.f, 0.f, 1.f), Enumeration::ColorBits | Enumeration::DepthBits);
+			Graphics::Clear(Color(0.f, 0.f, 0.f, 1.f), BufferBits::ColorBits | BufferBits::DepthBits);
 			Render();
 			mPlatform->SwapBuffer();
 		}

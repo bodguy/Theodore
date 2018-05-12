@@ -19,7 +19,7 @@ namespace Quark {
 		bool operator !=(const Sprite& rhs);
 
 	private:
-		Enumeration::IndexFormat mFormat;
+		IndexFormat mFormat;
 		Texture2D* mTexture;
 		Rect mRect; // for a sprite with a single texture
 		Rect mTextureRect; // for a sprite from an atlas

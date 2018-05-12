@@ -15,9 +15,9 @@ namespace Quark {
     ////////////////////////////////////////////////////////////////////////////////////
     // Shader
     
-    Shader::Shader(const Enumeration::ShaderType type) : mIsCompiled(0) {
-		mType = Enumeration::TextShaderType; // BinaryShaderType is not implemented yet. Future consideration
-        mShaderID = glCreateShader(type);
+    Shader::Shader(const ShaderType type) : mIsCompiled(0) {
+		mType = AssetType::TextShaderType; // BinaryShaderType is not implemented yet. Future consideration
+        mShaderID = glCreateShader(static_cast<GLenum>(type));
     }
     
     Shader::~Shader() {
@@ -59,7 +59,7 @@ namespace Quark {
                 std::string include_file = matches.str(1);
                 std::string include_string;
                 
-                File file(include_file, Enumeration::Read);
+                File file(include_file, OpenMode::Read);
                 if (!file.IsOpen()) {
                     Debug::Log("%s : fatal error: cannot open include file", include_file.c_str());
                     return std::string();
@@ -251,6 +251,69 @@ namespace Quark {
     void Program::SetUniformBlock(const Uniform& uniform, const unsigned int bindingPoint) {
         glUniformBlockBinding(mProgramID, uniform, bindingPoint);
     }
+
+	// ===
+
+	void Program::SetUniform(const std::string& name, int value) {
+		glUniform1i(GetUniform(name), value);
+	}
+
+	void Program::SetUniform(const std::string& name, unsigned int value) {
+		glUniform1i(GetUniform(name), value);
+	}
+
+	void Program::SetUniform(const std::string& name, float value) {
+		glUniform1f(GetUniform(name), value);
+	}
+
+	void Program::SetUniform(const std::string& name, const Vector2d& value) {
+		glUniform2f(GetUniform(name), value.x, value.y);
+	}
+
+	void Program::SetUniform(const std::string& name, const Vector3d& value) {
+		glUniform3f(GetUniform(name), value.x, value.y, value.z);
+	}
+
+	void Program::SetUniform(const std::string& name, const Vector4d& value) {
+		glUniform4f(GetUniform(name), value.x, value.y, value.z, value.w);
+	}
+
+	void Program::SetUniform(const std::string& name, const Color& value) {
+		glUniform4f(GetUniform(name), value.r, value.g, value.b, value.a);
+	}
+
+	void Program::SetUniform(const std::string& name, const float* values, int count) {
+		glUniform1fv(GetUniform(name), count, values);
+	}
+
+	void Program::SetUniform(const std::string& name, const Vector2d* values, int count) {
+		glUniform2fv(GetUniform(name), count, (float*)values);
+	}
+
+	void Program::SetUniform(const std::string& name, const Vector3d* values, int count) {
+		glUniform3fv(GetUniform(name), count, (float*)values);
+	}
+
+	void Program::SetUniform(const std::string& name, const Vector4d* values, int count) {
+		glUniform4fv(GetUniform(name), count, (float*)values);
+	}
+
+	void Program::SetUniform(const std::string& name, const Color* values, int count) {
+		glUniform4fv(GetUniform(name), count, (float*)values);
+	}
+
+	void Program::SetUniform(const std::string& name, const Matrix4x4& value) {
+		glUniformMatrix4fv(GetUniform(name), 1, GL_FALSE, value.Pointer());
+	}
+
+	void Program::SetUniform(const std::string& name, bool value) {
+		glUniform1i(GetUniform(name), value);
+	}
+
+	void Program::SetUniformBlock(const std::string& name, const unsigned int bindingPoint) {
+		glUniformBlockBinding(mProgramID, GetUniform(name), bindingPoint);
+	}
+	// ===
 
 	void Program::DispatchCompute(unsigned int x, unsigned int y, unsigned int z) {
 		glDispatchCompute(x, y, z);

@@ -2,6 +2,7 @@
 #define MeshRenderer_h
 
 #include "Renderer.h"
+#include "Enumeration.h"
 
 namespace Quark {
 	class Material; class Mesh;
@@ -11,6 +12,7 @@ namespace Quark {
 		virtual ~MeshRenderer();
 
 		void SetMaterial(Material* mat);
+		void SetMesh(Mesh* mesh);
 
 	private:
 		virtual void Update(double deltaTime) override;
@@ -21,6 +23,7 @@ namespace Quark {
 	private:
 		Material* mMaterial;
 		Mesh* mMesh;
+		Primitive mPrimitive;
 	};
 }
 

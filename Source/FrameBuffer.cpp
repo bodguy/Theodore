@@ -2,7 +2,7 @@
 #include "Debug.h"
 
 namespace Quark {
-    FrameBuffer::FrameBuffer(unsigned int width, unsigned int height, Enumeration::TextureFormat format) {
+    FrameBuffer::FrameBuffer(unsigned int width, unsigned int height, TextureFormat format) {
         mWidth = width;
         mHeight = height;
         glGenFramebuffers(1, &mFrameBufferID);

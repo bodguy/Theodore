@@ -2,6 +2,7 @@
 #include "crc32.h"
 #include "Camera.h"
 #include "GameObject.h"
+#include "Light.h"
 #include "SplashScene.h"
 
 namespace Quark {
@@ -38,6 +39,7 @@ namespace Quark {
 
 		GetInstance()->mCurrentScene = scene;
 		SetCurrentCamera();
+		SetCurrentLigh();
 		scene->OnStart();
 
 		return true;
@@ -81,6 +83,20 @@ namespace Quark {
 	void SceneManager::SetCurrentCamera() {
 		if (GetActiveScene())
 			GetInstance()->mMainCamera = GetActiveScene()->Find("MainCamera")->GetComponent<Camera>();
+	}
+
+	Light* SceneManager::GetGlobalLight() {
+		return GetInstance()->mGlobalLight;
+	}
+
+	void SceneManager::SetGlobalLight(Light* light) {
+		if (light)
+			GetInstance()->mGlobalLight = light;
+	}
+
+	void SceneManager::SetCurrentLigh() {
+		if (GetActiveScene())
+			GetInstance()->mGlobalLight = GetActiveScene()->Find("GlobalLight")->GetComponent<Light>();
 	}
 
 	void SceneManager::Update(double deltaTime) const {

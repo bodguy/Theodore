@@ -14,11 +14,14 @@ namespace Quark {
 		Color GetAmbient() const { return mAmbient; }
 		Color GetDiffuse() const { return mDiffuse; }
 		Color GetSpecular() const { return mSpecular; }
+		float GetShininess() const { return mShininess; }
+		Program* GetProgram() const { return mProgram; }
 
 	private:
 		Color mAmbient;
 		Color mDiffuse;
 		Color mSpecular;
+		float mShininess;
 		Program* mProgram;
 		std::map<std::string, Texture*> mTextures;
 	};

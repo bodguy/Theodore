@@ -8,7 +8,7 @@ namespace Quark {
 	class VertexArray; class Program; class Transform;
 	class Gizmo : public Component {
 	public:
-		Gizmo(Enumeration::GizmoType type);
+		Gizmo(GizmoType type);
 		~Gizmo();
 
 	private:
@@ -21,7 +21,7 @@ namespace Quark {
 		VertexArray* mVao;
 		Program* mProgram;
 		Transform* mTransform;
-		Enumeration::GizmoType mType;
+		GizmoType mType;
 	};
 }
 

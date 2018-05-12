@@ -5,7 +5,7 @@
 #include "Scene.h"
 
 namespace Quark {
-	class Camera;
+	class Camera; class Scene; class Light;
 	class SceneManager {
 		friend class Scene;
 	public:
@@ -37,6 +37,12 @@ namespace Quark {
 		static void SetMainCamera(Camera* cam);
 		// Reset to the Main Camera
 		static void SetCurrentCamera();
+		// Get Global Light aht currently active scene
+		static Light* GetGlobalLight();
+		// Set Global light
+		static void SetGlobalLight(Light* light);
+		// Reset to the global light
+		static void SetCurrentLigh();
 
 		// Update current active scene in main game loop.
 		void Update(double deltaTime) const;
@@ -45,12 +51,12 @@ namespace Quark {
 
 	private:
 		bool Remove(const std::string& sceneName);
-		
 
 		std::vector<Scene*> mScenes;
 		Scene* mCurrentScene;
 		uint32_t mSceneCount;
 		Camera* mMainCamera;
+		Light* mGlobalLight;
 		static SceneManager* instance;
 	};
 
@@ -74,6 +80,7 @@ namespace Quark {
 		GetInstance()->mScenes.push_back(scene); // store new build scene in array.
 		GetInstance()->mSceneCount++; // increment scene counter.
 		SetCurrentCamera(); // restore to current scene main camera as the scena manager main camera.
+		SetCurrentLigh(); // retore to current scene global light source.
 
 		// succesfully initialized the scene then return it.
 		return scene;

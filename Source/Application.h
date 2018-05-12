@@ -11,7 +11,7 @@ namespace Quark {
 		Application();
 		~Application();
 
-		bool Initialize(const std::string& name, int width, int height, bool fullmode = false, int majorVersion = 4, int minorVersion = 3, int multisample = 16, Enumeration::WindowStyle style = Enumeration::Resizable);
+		bool Initialize(const std::string& name, int width, int height, bool fullmode = false, int majorVersion = 4, int minorVersion = 3, int multisample = 16, WindowStyle style = WindowStyle::Resizable);
 		void Run();
 
 	private:

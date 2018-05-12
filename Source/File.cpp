@@ -3,10 +3,10 @@
 #pragma warning(disable:4996)
 
 namespace Quark {
-	File::File() : fp(NULL), mFileName(nullptr), mMode(Enumeration::Read) {
+	File::File() : fp(NULL), mFileName(nullptr), mMode(OpenMode::Read) {
 	}
 
-	File::File(const std::string& name, Enumeration::OpenMode accessType) {
+	File::File(const std::string& name, OpenMode accessType) {
 		Open(name, accessType);
 	}
 
@@ -24,36 +24,36 @@ namespace Quark {
 		return true;
 	}
 
-	bool File::Open(const std::string& name, Enumeration::OpenMode access_type) {
+	bool File::Open(const std::string& name, OpenMode access_type) {
 		mFileName = name.c_str();
 		mMode = access_type;
 
 		switch (access_type) {
-		case Enumeration::Read:
+		case OpenMode::Read:
 			fp = fopen(mFileName, "r");
 			//assert(fp && "file is not exist!");
 			break;
-		case Enumeration::Write:
+		case OpenMode::Write:
 			fp = fopen(mFileName, "w");
 			//assert(fp && "file is not exist!");
 			break;
-		case Enumeration::ReadWrite:
+		case OpenMode::ReadWrite:
 			fp = fopen(mFileName, "w+");
 			//assert(fp && "file is not exist!");
 			break;
-		case Enumeration::Append:
+		case OpenMode::Append:
 			fp = fopen(mFileName, "a");
 			//assert(fp && "file is not exist!");
 			break;
-		case Enumeration::ReadBinary:
+		case OpenMode::ReadBinary:
 			fp = fopen(mFileName, "rb");
 			//assert(fp && "file is not exist!");
 			break;
-		case Enumeration::WriteBinary:
+		case OpenMode::WriteBinary:
 			fp = fopen(mFileName, "wb");
 			//assert(fp && "file is not exist!");
 			break;
-		case Enumeration::ReadWriteBinary:
+		case OpenMode::ReadWriteBinary:
 			fp = fopen(mFileName, "wb+");
 			//assert(fp && "file is not exist!");
 			break;
