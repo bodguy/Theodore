@@ -13,17 +13,8 @@ namespace Quark {
 		~Light();
 
 		Transform* GetTransform() const;
-		Color GetAmbient() const { return mAmbient; }
-		Color GetDiffuse() const { return mDiffuse; }
-		Color GetSpecular() const { return mSpecular; }
 
-	private:
-		virtual void Update(double deltaTime) override;
-		virtual void Render() override;
-		virtual bool CompareEquality(const Object& rhs) const override;
-		virtual bool Destroy() override;
-
-	private:
+	public:
 		LightType mType;
 		Color mAmbient;
 		Color mDiffuse;
@@ -35,6 +26,14 @@ namespace Quark {
 		float mQuadratic;
 		float mCutOff;
 		float mOuterCutOff;
+
+	private:
+		virtual void Update(double deltaTime) override;
+		virtual void Render() override;
+		virtual bool CompareEquality(const Object& rhs) const override;
+		virtual bool Destroy() override;
+
+	private:
 		Transform* mTransform;
 	};
 }

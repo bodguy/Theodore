@@ -2,7 +2,6 @@
 #define MeshRenderer_h
 
 #include "Renderer.h"
-#include "Enumeration.h"
 
 namespace Quark {
 	class Material; class Mesh;
@@ -23,7 +22,6 @@ namespace Quark {
 	private:
 		Material* mMaterial;
 		Mesh* mMesh;
-		Primitive mPrimitive;
 	};
 }
 

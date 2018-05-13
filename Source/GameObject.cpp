@@ -102,7 +102,7 @@ namespace Quark {
 		GameObject* primitive = new GameObject(primitiveName[static_cast<int>(type)], scene);
 		Mesh* mesh = new Mesh();
 		Material* material = new Material(Shader::Find("Standard"));
-
+		
 		switch (type) {
 		case PrimitiveType::Plane:
 			mesh = PrimitiveData::GeneratePlane();
@@ -122,8 +122,8 @@ namespace Quark {
 		}
 
 		MeshRenderer* rend = primitive->AddComponent<MeshRenderer>();
-		rend->SetMesh(mesh);
 		rend->SetMaterial(material);
+		rend->SetMesh(mesh);
 
 		return primitive;
 	}

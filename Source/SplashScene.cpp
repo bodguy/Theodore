@@ -25,10 +25,18 @@ namespace Quark {
 		gizmo->AddComponent<Gizmo>(GizmoType::Translation);
 
 		cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
-		cube->GetTransform()->SetLocalPosition(Vector3d(0.f, 1.f, 0.f));
+
+		sprite = new GameObject("sprite", this);
+		Texture2D* tex = AssetManager::RequestTexture("Contents/sprite.png", TextureFormat::RGBA32);
+		sprite->AddComponent<SpriteRenderer>()->SetSprite(Sprite::Create(tex));
+		sprite->SetActive(false);
+
+		MeshRenderer* rend = Find("GlobalLight")->AddComponent<MeshRenderer>();
+		rend->SetMaterial(new Material(Shader::Find("Standard")));
+		rend->SetMesh(PrimitiveData::GenerateCube());
+		SceneManager::GetGlobalLight()->GetTransform()->SetLossyScale(Vector3d(0.3f, 0.3f, 0.3f));
 
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
-		Graphics::SetPolygonMode(FillMode::WireFrame);
 	}
 
 	void SplashScene::OnUpdate() {
@@ -37,7 +45,7 @@ namespace Quark {
 	}
 
 	void SplashScene::ObjectUpdate() {
-		Transform* trans = cube->GetTransform();
+		Transform* trans = SceneManager::GetGlobalLight()->GetTransform();
 		if (Input::GetKeyHeld(KEY_0)) {
 			trans->SetLocalPosition(Vector3d::zero);
 			trans->SetLocalRotation(Quaternion::identity);

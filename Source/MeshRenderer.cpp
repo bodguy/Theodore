@@ -14,8 +14,8 @@
 #include "Utility.h"
 
 namespace Quark {
-	MeshRenderer::MeshRenderer() : Renderer("MeshRenderer"), mMaterial(nullptr), mMesh(nullptr), mPrimitive(Primitive::LineStrip) {
-		
+	MeshRenderer::MeshRenderer() : Renderer("MeshRenderer"), mMaterial(nullptr), mMesh(nullptr) {
+		mPrimitive = Primitive::Triangles;
 	}
 
 	MeshRenderer::~MeshRenderer() {
@@ -32,18 +32,19 @@ namespace Quark {
 		mMesh = mesh;
 
 		Buffer* buffer = new Buffer(BufferType::BufferVertex);
-		buffer->Data(nullptr, mMesh->GetVertexCount() * sizeof(Vector3d) + mMesh->GetUvCount() * sizeof(Vector2d) + mMesh->GetNormalCount() * sizeof(Vector3d), BufferUsage::StaticDraw);
+		buffer->Data(nullptr, mMesh->GetVertexCount() * sizeof(Vector3d) + mMesh->GetNormalCount() * sizeof(Vector3d), BufferUsage::StaticDraw);
 		buffer->SubData(&mMesh->mVertices.front(), 0, mMesh->GetVertexCount() * sizeof(Vector3d));
-		buffer->SubData(&mMesh->mUvs.front(), mMesh->GetVertexCount() * sizeof(Vector3d), mMesh->GetUvCount() * sizeof(Vector2d));
-		buffer->SubData(&mMesh->mNormals.front(), mMesh->GetVertexCount() * sizeof(Vector3d) + mMesh->GetUvCount() * sizeof(Vector2d), mMesh->GetNormalCount() * sizeof(Vector3d));
+		//buffer->SubData(&mMesh->mUvs.front(), mMesh->GetVertexCount() * sizeof(Vector3d), mMesh->GetUvCount() * sizeof(Vector2d));
+		buffer->SubData(&mMesh->mNormals.front(), mMesh->GetVertexCount() * sizeof(Vector3d), mMesh->GetNormalCount() * sizeof(Vector3d));
 		mVbos.push_back(buffer);
 
-		Buffer* index = new Buffer(BufferType::BufferIndex);
-		index->Data(&mMesh->mFaces.front(), sizeof(unsigned int) * mMesh->GetFaceCount(), BufferUsage::StaticDraw);
-		mEbos.push_back(index);
+		//Buffer* index = new Buffer(BufferType::BufferIndex);
+		//index->Data(&mMesh->mFaces.front(), sizeof(unsigned int) * mMesh->GetFaceCount(), BufferUsage::StaticDraw);
+		//mEbos.push_back(index);
 
-		//mVao->BindAttribute(mMaterial->mProgram->GetAttribute("position"), *mMesh->GetVbo(), 3, sizeof(Vector3d), 0);
-		//mVao->BindAttribute(mMaterial->mProgram->GetAttribute("normal"), *mMeshCache->GetVbo(), 3, sizeof(Vector3d), sizeof(Vector3d));
+		mVao->BindAttribute(mProgram->GetAttribute("position"), *mVbos.front(), 3, sizeof(Vector3d), 0);
+		mVao->BindAttribute(mProgram->GetAttribute("normal"), *mVbos.front(), 3, sizeof(Vector3d), mMesh->GetVertexCount() * sizeof(Vector3d));
+		//mVao->BindElements(*mEbos.front());
 	}
 
 	void MeshRenderer::Update(double deltaTime) {
@@ -57,16 +58,16 @@ namespace Quark {
 			mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
 			mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 			mProgram->SetUniform("cameraPosition", SceneManager::GetMainCamera()->GetTransform()->GetPosition());
-
-			mProgram->SetUniform("material.ambient", mMaterial->GetAmbient());
-			mProgram->SetUniform("material.diffuse", mMaterial->GetDiffuse());
-			mProgram->SetUniform("material.specular", mMaterial->GetSpecular());
-			mProgram->SetUniform("material.shininess", mMaterial->GetShininess());
-
-			mProgram->SetUniform("light.position", SceneManager::GetGlobalLight()->GetTransform());
-			mProgram->SetUniform("light.ambient", SceneManager::GetGlobalLight()->GetAmbient());
-			mProgram->SetUniform("light.diffuse", SceneManager::GetGlobalLight()->GetDiffuse());
-			mProgram->SetUniform("light.specular", SceneManager::GetGlobalLight()->GetSpecular());
+			
+			mProgram->SetUniform("material.ambient", mMaterial->mAmbient);
+			mProgram->SetUniform("material.diffuse", mMaterial->mDiffuse);
+			mProgram->SetUniform("material.specular", mMaterial->mSpecular);
+			mProgram->SetUniform("material.shininess", mMaterial->mShininess);
+	
+			mProgram->SetUniform("light.position", SceneManager::GetGlobalLight()->GetTransform()->GetPosition());
+			mProgram->SetUniform("light.ambient", SceneManager::GetGlobalLight()->mAmbient);
+			mProgram->SetUniform("light.diffuse", SceneManager::GetGlobalLight()->mDiffuse);
+			mProgram->SetUniform("light.specular", SceneManager::GetGlobalLight()->mSpecular);
 
 			if (mMesh->GetFaceCount() > 0) {
 				Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());

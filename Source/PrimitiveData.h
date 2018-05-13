@@ -12,10 +12,8 @@ namespace Quark {
 
 		static Mesh* GenerateCube() {
 			Mesh* mesh = new Mesh();
-			float one = 1.f;
 
-			const float cubeVertices[] = {
-				// back face
+			const float vertices[] = {
 				-1.0f, -1.0f, -1.0f,
 				1.0f, -1.0f, -1.0f,
 				1.0f,  1.0f, -1.0f,
@@ -23,7 +21,6 @@ namespace Quark {
 				-1.0f,  1.0f, -1.0f,
 				-1.0f, -1.0f, -1.0f,
 
-				// front face
 				-1.0f, -1.0f,  1.0f,
 				1.0f, -1.0f,  1.0f,
 				1.0f,  1.0f,  1.0f,
@@ -31,7 +28,6 @@ namespace Quark {
 				-1.0f,  1.0f,  1.0f,
 				-1.0f, -1.0f,  1.0f,
 
-				// left face
 				-1.0f,  1.0f,  1.0f,
 				-1.0f,  1.0f, -1.0f,
 				-1.0f, -1.0f, -1.0f,
@@ -39,7 +35,6 @@ namespace Quark {
 				-1.0f, -1.0f,  1.0f,
 				-1.0f,  1.0f,  1.0f,
 
-				// right face
 				1.0f,  1.0f,  1.0f,
 				1.0f,  1.0f, -1.0f,
 				1.0f, -1.0f, -1.0f,
@@ -47,7 +42,6 @@ namespace Quark {
 				1.0f, -1.0f,  1.0f,
 				1.0f,  1.0f,  1.0f,
 
-				// down face
 				-1.0f, -1.0f, -1.0f,
 				1.0f, -1.0f, -1.0f,
 				1.0f, -1.0f,  1.0f,
@@ -55,7 +49,6 @@ namespace Quark {
 				-1.0f, -1.0f,  1.0f,
 				-1.0f, -1.0f, -1.0f,
 
-				// up face
 				-1.0f,  1.0f, -1.0f,
 				1.0f,  1.0f, -1.0f,
 				1.0f,  1.0f,  1.0f,
@@ -64,7 +57,7 @@ namespace Quark {
 				-1.0f,  1.0f, -1.0f,
 			};
 
-			const float cubeNormals[] = {
+			const float normals[] = {
 				0.0f,  0.0f, -1.0f,
 				0.0f,  0.0f, -1.0f,
 				0.0f,  0.0f, -1.0f,
@@ -107,7 +100,10 @@ namespace Quark {
 				0.0f,  1.0f,  0.0f,
 				0.0f,  1.0f,  0.0f
 			};
-			
+
+			mesh->SetVertices(vertices);
+			mesh->SetNormals(normals);
+
 			return mesh;
 		}
 

@@ -2,6 +2,7 @@
 #define Renderer_h
 
 #include "Component.h"
+#include "Enumeration.h"
 #include <vector>
 
 namespace Quark {
@@ -16,6 +17,7 @@ namespace Quark {
 		std::vector<Buffer*> mEbos;
 		VertexArray* mVao;
 		Program* mProgram;
+		Primitive mPrimitive;
 	};
 }
 

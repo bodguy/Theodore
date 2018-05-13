@@ -5,6 +5,7 @@
 #include "crc32.h"
 #include "Camera.h"
 #include "Light.h"
+#include "Transform.h"
 #include <stdarg.h>
 
 namespace Quark {
@@ -19,6 +20,7 @@ namespace Quark {
 		// global light source setting.
 		GameObject* lightSource = new GameObject("GlobalLight", this);
 		Light* lightComponent = lightSource->AddComponent<Light>(LightType::DirectionalLight);
+		lightSource->GetTransform()->SetLocalPosition(Vector3d(0.f, 0.19f, 0.f));
 		mManager->mGlobalLight = lightComponent;
 	}
 

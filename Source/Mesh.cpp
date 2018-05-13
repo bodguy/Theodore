@@ -3,7 +3,7 @@
 #include "BoneWeight.h"
 
 namespace Quark {
-	Mesh::Mesh() : mFormat(IndexFormat::UInt32), mBoneWeights(nullptr) {
+	Mesh::Mesh() : mFormat(IndexFormat::UInt32), mSemantic(VertexSemantic::SemanticNone), mBoneWeights(nullptr) {
 		mType = AssetType::MeshType;
 	}
 
@@ -15,11 +15,11 @@ namespace Quark {
 
 	}
 
-	void Mesh::SetNormals(const std::vector<Vector3d>& normals) {
+	void Mesh::SetUvs(const std::vector<Vector2d>& verts) {
 
 	}
 
-	void Mesh::SetTriangles(int* triangles) {
+	void Mesh::SetNormals(const std::vector<Vector3d>& normals) {
 
 	}
 
@@ -29,5 +29,15 @@ namespace Quark {
 
 	void Mesh::SetBoneWeight(BoneWeight* bw) {
 		mBoneWeights = bw;
+	}
+
+	void Mesh::ReCalculateNormals() {
+		unsigned int stride = 6;
+		for (unsigned int i = 0; i < mFaces.size() / stride; i++) {
+			mNormals.push_back( Vector3d::CrossProduct(Vector3d(mVertices.at(mFaces[i * stride + 1]) - mVertices.at(mFaces[i * stride])), 
+														Vector3d(mVertices.at(mFaces[i * stride + 2]) - mVertices.at(mFaces[i * stride]))
+													  ).Normalize()
+			);
+		}
 	}
 }

@@ -14,6 +14,7 @@
 namespace Quark {
 	SpriteRenderer::SpriteRenderer() : Renderer("SpriteRenderer"), mSprite(nullptr), mColor(Color::white), mFlipX(false), mFlipY(false) {
 		mProgram = Shader::Find("2D");
+		mPrimitive = Primitive::Triangles;
 	}
 
 	SpriteRenderer::~SpriteRenderer() {
@@ -68,14 +69,14 @@ namespace Quark {
 	void SpriteRenderer::Render() {
 		if (mSprite) {
 			mProgram->Use();
-			mProgram->SetUniform(mProgram->GetUniform("model"), mGameObject->GetTransform()->GetLocalToWorldMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("view"), SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("projection"), SceneManager::GetMainCamera()->GetProjectionMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("flipX"), mFlipX);
-			mProgram->SetUniform(mProgram->GetUniform("flipY"), mFlipY);
-			mProgram->SetUniform(mProgram->GetUniform("color"), mColor);
+			mProgram->SetUniform("model", mGameObject->GetTransform()->GetLocalToWorldMatrix());
+			mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+			mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
+			mProgram->SetUniform("flipX", mFlipX);
+			mProgram->SetUniform("flipY", mFlipY);
+			mProgram->SetUniform("color", mColor);
 			Graphics::BindTexture(0, mSprite->mTexture);
-			Graphics::DrawElements(*mVao, Primitive::Triangles, 0, 6, mSprite->mFormat);
+			Graphics::DrawElements(*mVao, mPrimitive, 0, 6, mSprite->mFormat);
 			Graphics::BindTexture(0, NULL);
 			mProgram->UnUse();
 
