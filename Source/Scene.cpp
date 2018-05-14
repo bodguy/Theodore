@@ -20,7 +20,7 @@ namespace Quark {
 		// global light source setting.
 		GameObject* lightSource = new GameObject("GlobalLight", this);
 		Light* lightComponent = lightSource->AddComponent<Light>(LightType::DirectionalLight);
-		lightSource->GetTransform()->SetLocalPosition(Vector3d(0.f, 0.19f, 0.f));
+		lightSource->GetTransform()->SetLocalPosition(Vector3d(0.f, 20.f, 0.f));
 		mManager->mGlobalLight = lightComponent;
 	}
 

@@ -129,11 +129,11 @@ namespace Quark {
     enum class VertexSemantic {
 		SemanticNone = 0,
         SemanticPosition = 1 << 0, // binary 0001
-        SemanticColor = 1 << 1, // binary 0010
+		SemanticColor = 1 << 1, // binary 0010
         SemanticTexCoord = 1 << 2, // binary 0100
         SemanticNormal = 1 << 3, // binary 1000
         SemanticBiNormal = 1 << 4, // binary 0001 0000
-        SemanticTangent = 1 << 5 // binary 0010 0000
+        SemanticTangent = 1 << 5 // binary 0001 0000
     };
         
     enum class TextureUnit {
@@ -233,24 +233,16 @@ namespace Quark {
 		return static_cast<BufferBits>(static_cast<int>(a) | static_cast<int>(b));
 	}
 
-	inline BufferBits operator |=(BufferBits a, const BufferBits b) {
-		return static_cast<BufferBits>(a = a | b);
-	}
-
-	inline BufferBits operator &(const BufferBits a, const BufferBits b) {
-		return static_cast<BufferBits>(static_cast<int>(a) & static_cast<int>(b));
+	inline bool operator &(const BufferBits a, const BufferBits b) {
+		return static_cast<BufferBits>(static_cast<int>(a) & static_cast<int>(b)) == b;
 	}
 
 	inline VertexSemantic operator |(const VertexSemantic a, const VertexSemantic b) {
 		return static_cast<VertexSemantic>(static_cast<int>(a) | static_cast<int>(b));
 	}
 
-	inline VertexSemantic operator |=(VertexSemantic a, const VertexSemantic b) {
-		return static_cast<VertexSemantic>(a = a | b);
-	}
-
-	inline VertexSemantic operator &(const VertexSemantic a, const VertexSemantic b) {
-		return static_cast<VertexSemantic>(static_cast<int>(a) & static_cast<int>(b));
+	inline bool operator &(const VertexSemantic a, const VertexSemantic b) {
+		return static_cast<VertexSemantic>(static_cast<int>(a) & static_cast<int>(b)) == b;
 	}
 }
 

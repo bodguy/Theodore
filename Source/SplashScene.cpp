@@ -31,11 +31,6 @@ namespace Quark {
 		sprite->AddComponent<SpriteRenderer>()->SetSprite(Sprite::Create(tex));
 		sprite->SetActive(false);
 
-		MeshRenderer* rend = Find("GlobalLight")->AddComponent<MeshRenderer>();
-		rend->SetMaterial(new Material(Shader::Find("Standard")));
-		rend->SetMesh(PrimitiveData::GenerateCube());
-		SceneManager::GetGlobalLight()->GetTransform()->SetLossyScale(Vector3d(0.3f, 0.3f, 0.3f));
-
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
 	}
 
@@ -45,7 +40,7 @@ namespace Quark {
 	}
 
 	void SplashScene::ObjectUpdate() {
-		Transform* trans = SceneManager::GetGlobalLight()->GetTransform();
+		Transform* trans = cube->GetTransform();
 		if (Input::GetKeyHeld(KEY_0)) {
 			trans->SetLocalPosition(Vector3d::zero);
 			trans->SetLocalRotation(Quaternion::identity);

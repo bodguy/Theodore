@@ -2,13 +2,17 @@
 #define Mesh_h
 
 #include "Enumeration.h"
+#include "Vector4d.h"
 #include "Vector3d.h"
 #include "Vector2d.h"
+#include "BoneWeight.h"
+#include "Matrix4x4.h"
 #include "Asset.h"
+#include "Bounds.h"
 #include <vector>
 
 namespace Quark {
-	class MeshRenderer; class SkinndedMeshRenderer; class BoneWeight;
+	class MeshRenderer; class SkinndedMeshRenderer;
 	class Mesh : public Asset {
 		friend class MeshRenderer;
 		friend class SkinndedMeshRenderer;
@@ -37,24 +41,34 @@ namespace Quark {
 		int GetNormalCount() const { return mNormals.size(); }
 		int GetFaceCount() const { return mFaces.size(); }
 		IndexFormat GetIndexFormat() const { return mFormat; }
-		VertexSemantic GetSemantic() const { return mSemantic; }
+		VertexSemantic GetVertexSemantic() const { return mSemantic; }
+		BufferUsage GetBufferUsage() const { return mUsage; }
 
 		void SetBoneWeight(BoneWeight* bw);
-		void ReCalculateNormals();
+		void RecalculateNormals();
+		void RecalculateBounds();
+		void MarkDynamic();
 
 	private:
 		IndexFormat mFormat;
 		VertexSemantic mSemantic;
+		BufferUsage mUsage;
 		std::vector<Vector3d> mVertices;
 		std::vector<Vector2d> mUvs;
+		std::vector<Vector2d> mUvs2;
+		std::vector<Vector2d> mUvs3;
+		std::vector<Vector2d> mUvs4;
 		std::vector<Vector3d> mNormals;
+		std::vector<Vector4d> mTangents;
 		std::vector<unsigned int> mFaces;
-		BoneWeight* mBoneWeights;
+		std::vector<BoneWeight> mBoneWeights;
+		std::vector<Matrix4x4> mBindposes;
+		//Bounds mBounds;
 	};
 
 	template<typename T, size_t size>
 	void Mesh::SetVertices(const T(&verts)[size]) {
-		mSemantic |= VertexSemantic::SemanticPosition;
+		mSemantic = mSemantic | VertexSemantic::SemanticPosition;
 
 		unsigned int stride = 3;
 		for (unsigned int i = 0; i < size / stride; i++) {
@@ -64,7 +78,7 @@ namespace Quark {
 
 	template<typename T, size_t size>
 	void Mesh::SetUvs(const T(&uvs)[size]) {
-		mSemantic |= VertexSemantic::SemanticTexCoord;
+		mSemantic = mSemantic | VertexSemantic::SemanticTexCoord;
 
 		unsigned int stride = 2;
 		for (unsigned int i = 0; i < size / stride; i++) {
@@ -74,7 +88,7 @@ namespace Quark {
 
 	template<typename T, size_t size>
 	void Mesh::SetNormals(const T(&normals)[size]) {
-		mSemantic |= VertexSemantic::SemanticNormal;
+		mSemantic = mSemantic | VertexSemantic::SemanticNormal;
 
 		unsigned int stride = 3;
 		for (unsigned int i = 0; i < size / 3; i++) {
