@@ -26,7 +26,7 @@ namespace Quark {
 
 		template<typename T, size_t size>
 		void SetUvs(const T(&uvs)[size]);
-		void SetUvs(const std::vector<Vector2d>& verts);
+		void SetUvs(const std::vector<Vector2d>& uvs);
 
 		template<typename T, size_t size>
 		void SetNormals(const T(&normals)[size]);
@@ -34,7 +34,7 @@ namespace Quark {
 
 		template<typename T, size_t size>
 		void SetTriangles(const T(&faces)[size]);
-		void SetTriangles(const std::vector<int>& triangles);
+		void SetTriangles(const std::vector<unsigned int>& faces);
 
 		int GetVertexCount() const { return mVertices.size(); }
 		int GetUvCount() const { return mUvs.size(); }

@@ -47,7 +47,7 @@
 #include "SkinnedMeshRenderer.h"
 #include "Sprite.h"
 #include "SpriteRenderer.h"
-#include "PrimitiveData.h"
+#include "ShapeGenerator.h"
 
 using namespace Quark;
 

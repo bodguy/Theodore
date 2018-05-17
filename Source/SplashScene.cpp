@@ -24,14 +24,11 @@ namespace Quark {
 		GameObject* gizmo = new GameObject("gizmo", this);
 		gizmo->AddComponent<Gizmo>(GizmoType::Translation);
 
-		cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
-
-		sprite = new GameObject("sprite", this);
-		Texture2D* tex = AssetManager::RequestTexture("Contents/sprite.png", TextureFormat::RGBA32);
-		sprite->AddComponent<SpriteRenderer>()->SetSprite(Sprite::Create(tex));
-		sprite->SetActive(false);
+		cube = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
+		//plane = GameObject::CreatePrimitive(PrimitiveType::Plane, this);
 
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
+		Graphics::SetPolygonMode(FillMode::WireFrame);
 	}
 
 	void SplashScene::OnUpdate() {

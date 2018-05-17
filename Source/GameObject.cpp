@@ -7,7 +7,7 @@
 #include "Material.h"
 #include "Mesh.h"
 #include "Shader.h"
-#include "PrimitiveData.h"
+#include "ShapeGenerator.h"
 
 namespace Quark {
 	GameObject::GameObject(const std::string& name, Scene* scene)
@@ -105,19 +105,19 @@ namespace Quark {
 		
 		switch (type) {
 		case PrimitiveType::Plane:
-			mesh = PrimitiveData::GeneratePlane();
+			mesh = ShapeGenerator::GeneratePlane();
 			break;
 		case PrimitiveType::Cube:
-			mesh = PrimitiveData::GenerateCube();
+			mesh = ShapeGenerator::GenerateCube();
 			break;
 		case PrimitiveType::Sphere:
-			mesh = PrimitiveData::GenerateSphere();
+			mesh = ShapeGenerator::GenerateSphere();
 			break;
 		case PrimitiveType::Capsule:
-			mesh = PrimitiveData::GenerateCapsule();
+			mesh = ShapeGenerator::GenerateCapsule();
 			break;
 		case PrimitiveType::Cylinder:
-			mesh = PrimitiveData::GenerateCylinder();
+			mesh = ShapeGenerator::GenerateCylinder();
 			break;
 		}
 
