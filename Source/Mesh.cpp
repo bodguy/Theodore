@@ -67,7 +67,61 @@ namespace Quark {
 	}
 
 	void Mesh::RecalculateBounds() {
+		/*
+		// Create local variables for the vertices of the model.
+		VertexFormat* vertexArray = model->Vertices();
+		int numVertexArray = model->NumVertices();
 
+		// Create a temporary AABB that uses vec4 for the purposes of matrix multiplication.
+		CalculatorAABB newBox;
+
+		// Set the min and max equal to the first vertex in the object times the transformation matrix.
+		newBox.min = transformation * glm::vec4(vertexArray[0].position, 1.0f);
+		newBox.max = newBox.min;
+
+		// Loop through the rest of the vertices.
+		for (int i = 1; i < numVertexArray; i++)
+		{
+			// Create a temporary vertex that is the vertices at index i turned into a vector4 and modified by the transformation matrix.
+			glm::vec4 tempVert = transformation * glm::vec4(vertexArray[i].position, 1.0f);
+
+			// If this vertex has a value larger than the max value of our newBox, replace the newBox max value with that value.
+			if (tempVert.x > newBox.max.x)
+			{
+				newBox.max.x = tempVert.x;
+			}
+			if (tempVert.y > newBox.max.y)
+			{
+				newBox.max.y = tempVert.y;
+			}
+			if (tempVert.z > newBox.max.z)
+			{
+				newBox.max.z = tempVert.z;
+			}
+
+			// Do the same for the minimum value.
+			if (tempVert.x < newBox.min.x)
+			{
+				newBox.min.x = tempVert.x;
+			}
+			if (tempVert.y < newBox.min.y)
+			{
+				newBox.min.y = tempVert.y;
+			}
+			if (tempVert.z < newBox.min.z)
+			{
+				newBox.min.z = tempVert.z;
+			}
+		}
+
+		// Now set the actual AABB min/max (vec3 instead of vec4) to be stored in this GameObject.
+		box.min.x = newBox.min.x;
+		box.min.y = newBox.min.y;
+		box.min.z = newBox.min.z;
+		box.max.x = newBox.max.x;
+		box.max.y = newBox.max.y;
+		box.max.z = newBox.max.z;
+		*/
 	}
 
 	void Mesh::MarkDynamic() {

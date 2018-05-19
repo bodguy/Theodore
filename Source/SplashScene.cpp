@@ -24,11 +24,14 @@ namespace Quark {
 		GameObject* gizmo = new GameObject("gizmo", this);
 		gizmo->AddComponent<Gizmo>(GizmoType::Translation);
 
-		cube = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
-		//plane = GameObject::CreatePrimitive(PrimitiveType::Plane, this);
+		cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
+		cube->GetTransform()->SetLocalPosition(Vector3d(3.f, 0.f, 0.f));
+		plane = GameObject::CreatePrimitive(PrimitiveType::Plane, this);
+		plane->GetTransform()->SetLocalPosition(Vector3d(0.f, -1.f, 0.f));
+		sphere = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
 
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
-		Graphics::SetPolygonMode(FillMode::WireFrame);
+		//Graphics::SetPolygonMode(FillMode::WireFrame);
 	}
 
 	void SplashScene::OnUpdate() {
@@ -37,7 +40,7 @@ namespace Quark {
 	}
 
 	void SplashScene::ObjectUpdate() {
-		Transform* trans = cube->GetTransform();
+		Transform* trans = sphere->GetTransform();
 		if (Input::GetKeyHeld(KEY_0)) {
 			trans->SetLocalPosition(Vector3d::zero);
 			trans->SetLocalRotation(Quaternion::identity);

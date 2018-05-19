@@ -109,6 +109,7 @@ namespace Quark {
 			} else {
 				Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
 			}
+
 			mProgram->UnUse();
 		}
 	}

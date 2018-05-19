@@ -1,6 +1,5 @@
 #include "ShapeGenerator.h"
 #include "Mesh.h"
-#include <vector>
 
 namespace Quark {
 	const float boneVertices[] = {
@@ -163,60 +162,87 @@ namespace Quark {
 		return mesh;
 	}
 
-	Mesh* ShapeGenerator::GenerateSphere(unsigned int subdivisions = 50) {
+	Mesh* ShapeGenerator::GenerateSphere(unsigned int subdivisions) {
 		Mesh* mesh = new Mesh();
 
-		// https://schneide.wordpress.com/2016/07/15/generating-an-icosphere-in-c/
-		const float X = 0.525731112119133606f;
-		const float Z = 0.850650808352039932f;
-		const float N = 0.f;
-
-		static const float vertices[] = {
-			-X, N, Z, 
-			X, N, Z, 
-			-X, N,-Z, 
-			X, N, -Z, 
-			N, Z, X, 
-			N, Z, -X, 
-			N, -Z, X, 
-			N, -Z, -X,
-			Z, X, N, 
-			-Z, X, N, 
-			Z, -X, N, 
-			-Z, -X, N
+		float t = (1.f + std::sqrtf(5.f) / 2.f);
+		std::vector<Vector3d> vertices = {
+			Vector3d(-1.f, t, 0.f).Normalize(), Vector3d(1.f, t, 0.f).Normalize(), Vector3d(-1.f, -t, 0.f).Normalize(), Vector3d(1.f, -t, 0.f).Normalize(),
+			Vector3d(0.f, -1.f, t).Normalize(), Vector3d(0.f, 1.f, t).Normalize(), Vector3d(0.f, -1.f, -t).Normalize(), Vector3d(0.f, 1.f, -t).Normalize(),
+			Vector3d(t, 0.f, -1.f).Normalize(), Vector3d(t, 0.f, 1.f).Normalize(), Vector3d(-t, 0.f, -1.f).Normalize(), Vector3d(-t, 0.f, 1.f).Normalize()
 		};
 
-		static const unsigned int triangles[] = {
-			0,4,1,
-			0,9,4,
-			9,5,4,
-			4,5,8,
-			4,8,1,
-			8,10,1,
-			8,3,10,
-			5,3,8,
-			5,2,3,
-			2,7,3,
-			7,10,3,
-			7,6,10,
-			7,11,6,
-			11,0,6,
-			0,1,6,
-			6,1,10,
-			9,0,11,
-			9,11,2,
-			9,2,5,
-			7,2,11
+		std::vector<unsigned int> indices = {
+			0, 11, 5,
+			0, 5, 1,
+			0, 1, 7,
+			0, 7, 10,
+			0, 10, 11,
+
+			1, 5, 9,
+			5, 11, 4,
+			11, 10, 2,
+			10, 7, 6,
+			7, 1, 8,
+
+			3, 9, 4,
+			3, 4, 2,
+			3, 2, 6,
+			3, 6, 8,
+			3, 8, 9,
+
+			4, 9, 5,
+			2, 4, 11,
+			6, 2, 10,
+			8, 6, 7,
+			9, 8, 1
 		};
 
-		for (int i = 0; i < subdivisions; i++) {
+		std::vector<Vector3d> normals;
 
+		for (unsigned int i = 0; i < subdivisions; i++) {
+			std::vector<unsigned int> indices2;
+			for (unsigned int j = 0; j < indices.size() / 3; j++) {
+				unsigned int a = Subdivide(indices[j * 3 + 0], indices[j * 3 + 1], vertices);
+				unsigned int b = Subdivide(indices[j * 3 + 1], indices[j * 3 + 2], vertices);
+				unsigned int c = Subdivide(indices[j * 3 + 2], indices[j * 3 + 0], vertices);
+
+				indices2.push_back(indices[j * 3 + 0]);
+				indices2.push_back(a);
+				indices2.push_back(c);
+
+				indices2.push_back(indices[j * 3 + 1]);
+				indices2.push_back(b);
+				indices2.push_back(a);
+
+				indices2.push_back(indices[j * 3 + 2]);
+				indices2.push_back(c);
+				indices2.push_back(b);
+
+				indices2.push_back(a);
+				indices2.push_back(b);
+				indices2.push_back(c);
+			}
+			indices = indices2;
+		}
+
+		Vector3d center = Vector3d(0.f, 0.f, 0.f);
+		for (unsigned int i = 0; i < indices.size(); i++) {
+			Vector3d norm = (vertices.at(indices[i])).Normalize();
+			normals.push_back(norm);
 		}
 
 		mesh->SetVertices(vertices);
-		mesh->SetTriangles(triangles);
+		mesh->SetTriangles(indices);
+		mesh->SetNormals(normals);
 
 		return mesh;
+	}
+
+	unsigned int ShapeGenerator::Subdivide(unsigned int p1, unsigned int p2, std::vector<Vector3d>& positions) {
+		Vector3d middle = (positions[p1] + positions[p2]) / 2.f;
+		positions.push_back(middle.Normalize());
+		return positions.size() - 1;
 	}
 
 	Mesh* ShapeGenerator::GenerateCapsule() {

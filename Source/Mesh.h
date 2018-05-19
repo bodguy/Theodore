@@ -91,7 +91,7 @@ namespace Quark {
 		mSemantic = mSemantic | VertexSemantic::SemanticNormal;
 
 		unsigned int stride = 3;
-		for (unsigned int i = 0; i < size / 3; i++) {
+		for (unsigned int i = 0; i < size / stride; i++) {
 			mNormals.push_back(Vector3d(normals[i * stride], normals[i * stride + 1], normals[i * stride + 2]));
 		}
 	}
