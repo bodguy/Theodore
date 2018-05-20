@@ -29,6 +29,10 @@ namespace Quark {
 		plane = GameObject::CreatePrimitive(PrimitiveType::Plane, this);
 		plane->GetTransform()->SetLocalPosition(Vector3d(0.f, -1.f, 0.f));
 		sphere = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
+		cylinder = GameObject::CreatePrimitive(PrimitiveType::Cylinder, this);
+		cylinder->GetTransform()->SetLocalPosition(Vector3d(-3.f, 0.f, 0.f));
+		torus = GameObject::CreatePrimitive(PrimitiveType::Torus, this);
+		torus->GetTransform()->SetLocalPosition(Vector3d(6.f, 0.f, 0.f));
 
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
 		//Graphics::SetPolygonMode(FillMode::WireFrame);
@@ -40,7 +44,7 @@ namespace Quark {
 	}
 
 	void SplashScene::ObjectUpdate() {
-		Transform* trans = sphere->GetTransform();
+		Transform* trans = torus->GetTransform();
 		if (Input::GetKeyHeld(KEY_0)) {
 			trans->SetLocalPosition(Vector3d::zero);
 			trans->SetLocalRotation(Quaternion::identity);

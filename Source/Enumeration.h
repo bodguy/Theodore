@@ -190,8 +190,12 @@ namespace Quark {
 		Plane = 0,
 		Cube,
 		Sphere,
+		UVSphere,
 		Capsule,
-		Cylinder
+		Cylinder,
+		Torus,
+		UtahTeapot,
+		Knots
 	};
 
 	enum class GizmoType {

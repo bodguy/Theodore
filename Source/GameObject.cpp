@@ -102,7 +102,8 @@ namespace Quark {
 		GameObject* primitive = new GameObject(primitiveName[static_cast<int>(type)], scene);
 		Mesh* mesh = new Mesh();
 		Material* material = new Material(Shader::Find("Standard"));
-		
+		MeshRenderer* rend = primitive->AddComponent<MeshRenderer>();
+
 		switch (type) {
 		case PrimitiveType::Plane:
 			mesh = ShapeGenerator::GeneratePlane();
@@ -111,17 +112,30 @@ namespace Quark {
 			mesh = ShapeGenerator::GenerateCube();
 			break;
 		case PrimitiveType::Sphere:
-			mesh = ShapeGenerator::GenerateSphere();
+			mesh = ShapeGenerator::GenerateIcoSphere();
+			break;
+		case PrimitiveType::UVSphere:
+			mesh = ShapeGenerator::GenerateUVSphere();
 			break;
 		case PrimitiveType::Capsule:
 			mesh = ShapeGenerator::GenerateCapsule();
 			break;
 		case PrimitiveType::Cylinder:
 			mesh = ShapeGenerator::GenerateCylinder();
+			rend->SetPrimitive(Primitive::TriangleStrip);
+			break;
+		case PrimitiveType::Torus:
+			mesh = ShapeGenerator::GenerateTorus();
+			rend->SetPrimitive(Primitive::TriangleStrip);
+			break;
+		case PrimitiveType::UtahTeapot:
+			mesh = ShapeGenerator::GenerateUtahTeapot();
+			break;
+		case PrimitiveType::Knots:
+			mesh = ShapeGenerator::GenerateKnots();
 			break;
 		}
-
-		MeshRenderer* rend = primitive->AddComponent<MeshRenderer>();
+		
 		rend->SetMaterial(material);
 		rend->SetMesh(mesh);
 

@@ -16,7 +16,7 @@ namespace Quark {
 		void ObjectUpdate();
 		void CameraUpdate();
 
-		GameObject* cube, *plane, *sphere;
+		GameObject* cube, *plane, *sphere, *cylinder, *torus;
 
 		float speed;
 		float rotationY;
