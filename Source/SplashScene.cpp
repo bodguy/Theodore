@@ -14,6 +14,7 @@ namespace Quark {
 		minimumY = -60.f;
 		maximumY = 60.f;
 		isOrtho = false;
+		isWire = false;
 	}
 
 	SplashScene::~SplashScene() {
@@ -34,8 +35,13 @@ namespace Quark {
 		torus = GameObject::CreatePrimitive(PrimitiveType::Torus, this);
 		torus->GetTransform()->SetLocalPosition(Vector3d(6.f, 0.f, 0.f));
 
+		cube->GetComponent<MeshRenderer>()->SetDebugRender(true);
+		plane->GetComponent<MeshRenderer>()->SetDebugRender(true);
+		sphere->GetComponent<MeshRenderer>()->SetDebugRender(true);
+		cylinder->GetComponent<MeshRenderer>()->SetDebugRender(true);
+		torus->GetComponent<MeshRenderer>()->SetDebugRender(true);
+
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
-		//Graphics::SetPolygonMode(FillMode::WireFrame);
 	}
 
 	void SplashScene::OnUpdate() {
@@ -44,11 +50,21 @@ namespace Quark {
 	}
 
 	void SplashScene::ObjectUpdate() {
-		Transform* trans = torus->GetTransform();
+		Transform* trans = sphere->GetTransform();
 		if (Input::GetKeyHeld(KEY_0)) {
 			trans->SetLocalPosition(Vector3d::zero);
 			trans->SetLocalRotation(Quaternion::identity);
 			trans->SetLocalScale(Vector3d::one);
+		}
+		else if (Input::GetKeyDown(KEY_1)) {
+			isWire = !isWire;
+		}
+
+		if (isWire) {
+			Graphics::SetPolygonMode(FillMode::WireFrame);
+		}
+		else {
+			Graphics::SetPolygonMode(FillMode::Solid);
 		}
 
 		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_LCTRL)) {

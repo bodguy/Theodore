@@ -22,6 +22,9 @@ namespace Quark {
 	private:
 		Material* mMaterial;
 		Mesh* mMesh;
+#ifdef _DEBUG
+		Program* DEBUG_PROGRAM;
+#endif
 	};
 }
 

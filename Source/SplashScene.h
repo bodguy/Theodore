@@ -30,6 +30,7 @@ namespace Quark {
 		float minimumY;
 		float maximumY;
 		bool isOrtho;
+		bool isWire;
 	};
 }
 

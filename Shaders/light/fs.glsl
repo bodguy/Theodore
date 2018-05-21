@@ -18,9 +18,12 @@ struct Light {
 
 uniform Light light; 
 
-in vec3 fNormal;
-in vec3 fPos;
 out vec4 outColor;
+
+in VS_OUT {
+	vec3 position;
+	vec3 normal;
+} fs_in;
 
 uniform vec3 cameraPosition;
 
@@ -29,13 +32,13 @@ void main(void) {
 	vec4 ambient = light.ambient * material.ambient;
 
 	// diffuse
-	vec3 norm = normalize(fNormal);
-	vec3 lightDir = normalize(light.position - fPos);
+	vec3 norm = normalize(fs_in.normal);
+	vec3 lightDir = normalize(light.position - fs_in.position);
 	float diff = max(dot(norm, lightDir), 0.0);
 	vec4 diffuse = light.diffuse * (diff * material.diffuse);
 
 	// specular
-	vec3 viewDir = normalize(cameraPosition - fPos);
+	vec3 viewDir = normalize(cameraPosition - fs_in.position);
 	vec3 reflectDir = reflect(-lightDir, norm);
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
 	vec4 specular = light.specular * (spec * material.specular);

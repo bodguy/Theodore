@@ -16,6 +16,9 @@
 namespace Quark {
 	MeshRenderer::MeshRenderer() : Renderer("MeshRenderer"), mMaterial(nullptr), mMesh(nullptr) {
 		mPrimitive = Primitive::Triangles;
+#ifdef _DEBUG
+		DEBUG_PROGRAM = Shader::Find("DebugNormal");
+#endif
 	}
 
 	MeshRenderer::~MeshRenderer() {
@@ -89,7 +92,6 @@ namespace Quark {
 		if (mMesh && mMaterial && mProgram) {
 			mProgram->Use();
 			mProgram->SetUniform("model", mGameObject->GetTransform()->GetLocalToWorldMatrix());
-			// to make uniform buffer
 			mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
 			mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 			mProgram->SetUniform("cameraPosition", SceneManager::GetMainCamera()->GetTransform()->GetPosition());
@@ -111,6 +113,21 @@ namespace Quark {
 			}
 
 			mProgram->UnUse();
+
+#ifdef _DEBUG
+			if (mIsDebugRendering) {
+				DEBUG_PROGRAM->Use();
+				DEBUG_PROGRAM->SetUniform("model", mGameObject->GetTransform()->GetLocalToWorldMatrix());
+				DEBUG_PROGRAM->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+				DEBUG_PROGRAM->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
+				if (mMesh->GetFaceCount() > 0) {
+					Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());
+				} else {
+					Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
+				}
+				DEBUG_PROGRAM->UnUse();
+			}
+#endif
 		}
 	}
 

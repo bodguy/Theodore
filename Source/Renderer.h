@@ -13,6 +13,7 @@ namespace Quark {
 		virtual ~Renderer();
 
 		void SetPrimitive(const Primitive primitive) { mPrimitive = primitive; }
+		void SetDebugRender(bool debug) { mIsDebugRendering = debug; }
 
 	protected:
 		std::vector<Buffer*> mVbos;
@@ -20,6 +21,7 @@ namespace Quark {
 		VertexArray* mVao;
 		Program* mProgram;
 		Primitive mPrimitive;
+		bool mIsDebugRendering;
 	};
 }
 

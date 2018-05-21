@@ -375,15 +375,9 @@ namespace Quark {
 			indices = indices2;
 		}
 
-		Vector3d center = Vector3d(0.f, 0.f, 0.f);
-		for (unsigned int i = 0; i < indices.size(); i++) {
-			Vector3d norm = (vertices.at(indices[i])).Normalize();
-			normals.push_back(norm);
-		}
-
 		mesh->SetVertices(vertices);
 		mesh->SetTriangles(indices);
-		mesh->SetNormals(normals);
+		mesh->RecalculateNormals();
 
 		return mesh;
 	}
@@ -471,7 +465,7 @@ namespace Quark {
 	Mesh* ShapeGenerator::GenerateUtahTeapot(unsigned int tesselation) {
 		Mesh* mesh = new Mesh();
 
-		unsigned int numVertices = 32 * (tesselation + 1) * (tesselation + 1);
+		/*unsigned int numVertices = 32 * (tesselation + 1) * (tesselation + 1);
 		unsigned int faces = tesselation * tesselation * 32;
 		std::vector<Vector3d> vertices; vertices.reserve(numVertices);
 		std::vector<Vector2d> uvs; uvs.reserve(numVertices);
@@ -483,199 +477,199 @@ namespace Quark {
 
 		for (unsigned int i = 0; i < numVertices; i++) {
 			v.UV = Vector2d((vertices[i * 3 + 0] + 1.0f) / 2.0f, (vertices[i * 3 + 1] + 1.0f) / 2.0f);
-		}
+		}*/
 
 		return mesh;
 	}
 
-	void ShapeGenerator::GeneratePatches(float * v, float * n, float * tc, unsigned short* el, int grid) {
-		float * B = new float[4 * (grid + 1)];  // Pre-computed Bernstein basis functions
-		float * dB = new float[4 * (grid + 1)]; // Pre-computed derivitives of basis functions
+	//void ShapeGenerator::GeneratePatches(float * v, float * n, float * tc, unsigned short* el, int grid) {
+	//	float * B = new float[4 * (grid + 1)];  // Pre-computed Bernstein basis functions
+	//	float * dB = new float[4 * (grid + 1)]; // Pre-computed derivitives of basis functions
 
-		int idx = 0, elIndex = 0, tcIndex = 0;
+	//	int idx = 0, elIndex = 0, tcIndex = 0;
 
-		// Pre-compute the basis functions  (Bernstein polynomials)
-		// and their derivatives
-		ComputeBasisFunctions(B, dB, grid);
+	//	// Pre-compute the basis functions  (Bernstein polynomials)
+	//	// and their derivatives
+	//	ComputeBasisFunctions(B, dB, grid);
 
-		// Build each patch
-		// The rim
-		BuildPatchReflect(0, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, true, true);
-		// The body
-		BuildPatchReflect(1, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, true, true);
-		BuildPatchReflect(2, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, true, true);
-		// The lid
-		BuildPatchReflect(3, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, true, true);
-		BuildPatchReflect(4, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, true, true);
-		// The bottom
-		BuildPatchReflect(5, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, true, true);
-		// The handle
-		BuildPatchReflect(6, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, false, true);
-		BuildPatchReflect(7, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, false, true);
-		// The spout
-		BuildPatchReflect(8, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, false, true);
-		BuildPatchReflect(9, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, false, true);
+	//	// Build each patch
+	//	// The rim
+	//	BuildPatchReflect(0, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, true, true);
+	//	// The body
+	//	BuildPatchReflect(1, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, true, true);
+	//	BuildPatchReflect(2, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, true, true);
+	//	// The lid
+	//	BuildPatchReflect(3, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, true, true);
+	//	BuildPatchReflect(4, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, true, true);
+	//	// The bottom
+	//	BuildPatchReflect(5, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, true, true);
+	//	// The handle
+	//	BuildPatchReflect(6, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, false, true);
+	//	BuildPatchReflect(7, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, false, true);
+	//	// The spout
+	//	BuildPatchReflect(8, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, false, true);
+	//	BuildPatchReflect(9, B, dB, v, n, tc, el, idx, elIndex, tcIndex, grid, false, true);
 
-		delete[] B;
-		delete[] dB;
-	}
+	//	delete[] B;
+	//	delete[] dB;
+	//}
 
-	void ShapeGenerator::MoveLid(int grid, float *v, Matrix4x4 lidTransform) {
-		int start = 3 * 12 * (grid + 1) * (grid + 1);
-		int end = 3 * 20 * (grid + 1) * (grid + 1);
+	//void ShapeGenerator::MoveLid(int grid, float *v, Matrix4x4 lidTransform) {
+	//	int start = 3 * 12 * (grid + 1) * (grid + 1);
+	//	int end = 3 * 20 * (grid + 1) * (grid + 1);
 
-		for (int i = start; i < end; i += 3) {
-			Vector4d vert = Vector4d(v[i], v[i + 1], v[i + 2], 1.0f);
-			vert = lidTransform * vert;
-			v[i] = vert.x;
-			v[i + 1] = vert.y;
-			v[i + 2] = vert.z;
-		}
-	}
+	//	for (int i = start; i < end; i += 3) {
+	//		Vector4d vert = Vector4d(v[i], v[i + 1], v[i + 2], 1.0f);
+	//		vert = lidTransform * vert;
+	//		v[i] = vert.x;
+	//		v[i + 1] = vert.y;
+	//		v[i + 2] = vert.z;
+	//	}
+	//}
 
-	void ShapeGenerator::BuildPatchReflect(int patchNum, float *B, float *dB, float *v, float *n, float *tc, unsigned short *el, int &index, int &elIndex, int &tcIndex, int grid, bool reflectX, bool reflectY) {
-		Vector3d patch[4][4];
-		Vector3d patchRevV[4][4];
-		GetPatch(patchNum, patch, false);
-		GetPatch(patchNum, patchRevV, true);
+	//void ShapeGenerator::BuildPatchReflect(int patchNum, float *B, float *dB, float *v, float *n, float *tc, unsigned short *el, int &index, int &elIndex, int &tcIndex, int grid, bool reflectX, bool reflectY) {
+	//	Vector3d patch[4][4];
+	//	Vector3d patchRevV[4][4];
+	//	GetPatch(patchNum, patch, false);
+	//	GetPatch(patchNum, patchRevV, true);
 
-		// Patch without modification
-		BuildPatch(patch, B, dB, v, n, tc, el, index, elIndex, tcIndex, grid, glm::mat3(1.0f), true);
+	//	// Patch without modification
+	//	BuildPatch(patch, B, dB, v, n, tc, el, index, elIndex, tcIndex, grid, glm::mat3(1.0f), true);
 
-		// Patch reflected in x
-		if (reflectX) {
-			BuildPatch(patchRevV, B, dB, v, n, tc, el,
-				index, elIndex, tcIndex, grid, glm::mat3(Vector3d(-1.0f, 0.0f, 0.0f),
-					Vector3d(0.0f, 1.0f, 0.0f),
-					Vector3d(0.0f, 0.0f, 1.0f)), false);
-		}
+	//	// Patch reflected in x
+	//	if (reflectX) {
+	//		BuildPatch(patchRevV, B, dB, v, n, tc, el,
+	//			index, elIndex, tcIndex, grid, glm::mat3(Vector3d(-1.0f, 0.0f, 0.0f),
+	//				Vector3d(0.0f, 1.0f, 0.0f),
+	//				Vector3d(0.0f, 0.0f, 1.0f)), false);
+	//	}
 
-		// Patch reflected in y
-		if (reflectY) {
-			BuildPatch(patchRevV, B, dB, v, n, tc, el,
-				index, elIndex, tcIndex, grid, glm::mat3(Vector3d(1.0f, 0.0f, 0.0f),
-					Vector3d(0.0f, -1.0f, 0.0f),
-					Vector3d(0.0f, 0.0f, 1.0f)), false);
-		}
+	//	// Patch reflected in y
+	//	if (reflectY) {
+	//		BuildPatch(patchRevV, B, dB, v, n, tc, el,
+	//			index, elIndex, tcIndex, grid, glm::mat3(Vector3d(1.0f, 0.0f, 0.0f),
+	//				Vector3d(0.0f, -1.0f, 0.0f),
+	//				Vector3d(0.0f, 0.0f, 1.0f)), false);
+	//	}
 
-		// Patch reflected in x and y
-		if (reflectX && reflectY) {
-			BuildPatch(patch, B, dB, v, n, tc, el,
-				index, elIndex, tcIndex, grid, glm::mat3(Vector3d(-1.0f, 0.0f, 0.0f),
-					Vector3d(0.0f, -1.0f, 0.0f),
-					Vector3d(0.0f, 0.0f, 1.0f)), true);
-		}
-	}
+	//	// Patch reflected in x and y
+	//	if (reflectX && reflectY) {
+	//		BuildPatch(patch, B, dB, v, n, tc, el,
+	//			index, elIndex, tcIndex, grid, glm::mat3(Vector3d(-1.0f, 0.0f, 0.0f),
+	//				Vector3d(0.0f, -1.0f, 0.0f),
+	//				Vector3d(0.0f, 0.0f, 1.0f)), true);
+	//	}
+	//}
 
-	void ShapeGenerator::BuildPatch(Vector3d patch[][4], float *B, float *dB, float *v, float *n, float *tc, unsigned short *el, int &index, int &elIndex, int &tcIndex, int grid, glm::mat3 reflect, bool invertNormal) {
-		int startIndex = index / 3;
-		float tcFactor = 1.0f / grid;
+	//void ShapeGenerator::BuildPatch(Vector3d patch[][4], float *B, float *dB, float *v, float *n, float *tc, unsigned short *el, int &index, int &elIndex, int &tcIndex, int grid, glm::mat3 reflect, bool invertNormal) {
+	//	int startIndex = index / 3;
+	//	float tcFactor = 1.0f / grid;
 
-		for (int i = 0; i <= grid; i++) {
-			for (int j = 0; j <= grid; j++) {
-				Vector3d pt = reflect * Evaluate(i, j, B, patch);
-				Vector3d norm = reflect * EvaluateNormal(i, j, B, dB, patch);
-				if (invertNormal)
-					norm = -norm;
+	//	for (int i = 0; i <= grid; i++) {
+	//		for (int j = 0; j <= grid; j++) {
+	//			Vector3d pt = reflect * Evaluate(i, j, B, patch);
+	//			Vector3d norm = reflect * EvaluateNormal(i, j, B, dB, patch);
+	//			if (invertNormal)
+	//				norm = -norm;
 
-				v[index] = pt.x;
-				v[index + 1] = pt.y;
-				v[index + 2] = pt.z;
+	//			v[index] = pt.x;
+	//			v[index + 1] = pt.y;
+	//			v[index + 2] = pt.z;
 
-				n[index] = norm.x;
-				n[index + 1] = norm.y;
-				n[index + 2] = norm.z;
+	//			n[index] = norm.x;
+	//			n[index + 1] = norm.y;
+	//			n[index + 2] = norm.z;
 
-				tc[tcIndex] = i * tcFactor;
-				tc[tcIndex + 1] = j * tcFactor;
+	//			tc[tcIndex] = i * tcFactor;
+	//			tc[tcIndex + 1] = j * tcFactor;
 
-				index += 3;
-				tcIndex += 2;
-			}
-		}
+	//			index += 3;
+	//			tcIndex += 2;
+	//		}
+	//	}
 
-		for (int i = 0; i < grid; i++)
-		{
-			int iStart = i * (grid + 1) + startIndex;
-			int nextiStart = (i + 1) * (grid + 1) + startIndex;
-			for (int j = 0; j < grid; j++)
-			{
-				el[elIndex] = iStart + j;
-				el[elIndex + 1] = nextiStart + j + 1;
-				el[elIndex + 2] = nextiStart + j;
+	//	for (int i = 0; i < grid; i++)
+	//	{
+	//		int iStart = i * (grid + 1) + startIndex;
+	//		int nextiStart = (i + 1) * (grid + 1) + startIndex;
+	//		for (int j = 0; j < grid; j++)
+	//		{
+	//			el[elIndex] = iStart + j;
+	//			el[elIndex + 1] = nextiStart + j + 1;
+	//			el[elIndex + 2] = nextiStart + j;
 
-				el[elIndex + 3] = iStart + j;
-				el[elIndex + 4] = iStart + j + 1;
-				el[elIndex + 5] = nextiStart + j + 1;
+	//			el[elIndex + 3] = iStart + j;
+	//			el[elIndex + 4] = iStart + j + 1;
+	//			el[elIndex + 5] = nextiStart + j + 1;
 
-				elIndex += 6;
-			}
-		}
-	}
+	//			elIndex += 6;
+	//		}
+	//	}
+	//}
 
-	void ShapeGenerator::GetPatch(int patchNum, Vector3d patch[][4], bool reverseV) {
-		for (int u = 0; u < 4; u++) {          // Loop in u direction
-			for (int v = 0; v < 4; v++) {     // Loop in v direction
-				if (reverseV) {
-					patch[u][v] = Vector3d(
-						cpdata[patchdata[patchNum][u * 4 + (3 - v)]][0],
-						cpdata[patchdata[patchNum][u * 4 + (3 - v)]][1],
-						cpdata[patchdata[patchNum][u * 4 + (3 - v)]][2]
-					);
-				}
-				else {
-					patch[u][v] = Vector3d(
-						cpdata[patchdata[patchNum][u * 4 + v]][0],
-						cpdata[patchdata[patchNum][u * 4 + v]][1],
-						cpdata[patchdata[patchNum][u * 4 + v]][2]
-					);
-				}
-			}
-		}
-	}
+	//void ShapeGenerator::GetPatch(int patchNum, Vector3d patch[][4], bool reverseV) {
+	//	for (int u = 0; u < 4; u++) {          // Loop in u direction
+	//		for (int v = 0; v < 4; v++) {     // Loop in v direction
+	//			if (reverseV) {
+	//				patch[u][v] = Vector3d(
+	//					cpdata[patchdata[patchNum][u * 4 + (3 - v)]][0],
+	//					cpdata[patchdata[patchNum][u * 4 + (3 - v)]][1],
+	//					cpdata[patchdata[patchNum][u * 4 + (3 - v)]][2]
+	//				);
+	//			}
+	//			else {
+	//				patch[u][v] = Vector3d(
+	//					cpdata[patchdata[patchNum][u * 4 + v]][0],
+	//					cpdata[patchdata[patchNum][u * 4 + v]][1],
+	//					cpdata[patchdata[patchNum][u * 4 + v]][2]
+	//				);
+	//			}
+	//		}
+	//	}
+	//}
 
-	void ShapeGenerator::ComputeBasisFunctions(float * B, float * dB, int grid) {
-		float inc = 1.0f / grid;
-		for (int i = 0; i <= grid; i++) {
-			float t = i * inc;
-			float tSqr = t * t;
-			float oneMinusT = (1.0f - t);
-			float oneMinusT2 = oneMinusT * oneMinusT;
+	//void ShapeGenerator::ComputeBasisFunctions(float * B, float * dB, int grid) {
+	//	float inc = 1.0f / grid;
+	//	for (int i = 0; i <= grid; i++) {
+	//		float t = i * inc;
+	//		float tSqr = t * t;
+	//		float oneMinusT = (1.0f - t);
+	//		float oneMinusT2 = oneMinusT * oneMinusT;
 
-			B[i * 4 + 0] = oneMinusT * oneMinusT2;
-			B[i * 4 + 1] = 3.0f * oneMinusT2 * t;
-			B[i * 4 + 2] = 3.0f * oneMinusT * tSqr;
-			B[i * 4 + 3] = t * tSqr;
+	//		B[i * 4 + 0] = oneMinusT * oneMinusT2;
+	//		B[i * 4 + 1] = 3.0f * oneMinusT2 * t;
+	//		B[i * 4 + 2] = 3.0f * oneMinusT * tSqr;
+	//		B[i * 4 + 3] = t * tSqr;
 
-			dB[i * 4 + 0] = -3.0f * oneMinusT2;
-			dB[i * 4 + 1] = -6.0f * t * oneMinusT + 3.0f * oneMinusT2;
-			dB[i * 4 + 2] = -3.0f * tSqr + 6.0f * t * oneMinusT;
-			dB[i * 4 + 3] = 3.0f * tSqr;
-		}
-	}
+	//		dB[i * 4 + 0] = -3.0f * oneMinusT2;
+	//		dB[i * 4 + 1] = -6.0f * t * oneMinusT + 3.0f * oneMinusT2;
+	//		dB[i * 4 + 2] = -3.0f * tSqr + 6.0f * t * oneMinusT;
+	//		dB[i * 4 + 3] = 3.0f * tSqr;
+	//	}
+	//}
 
-	Vector3d ShapeGenerator::Evaluate(int gridU, int gridV, float *B, Vector3d patch[][4]) {
-		Vector3d p(0.f, 0.f, 0.f);
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				p += patch[i][j] * B[gridU * 4 + i] * B[gridV * 4 + j];
-			}
-		}
-		return p;
-	}
+	//Vector3d ShapeGenerator::Evaluate(int gridU, int gridV, float *B, Vector3d patch[][4]) {
+	//	Vector3d p(0.f, 0.f, 0.f);
+	//	for (int i = 0; i < 4; i++) {
+	//		for (int j = 0; j < 4; j++) {
+	//			p += patch[i][j] * B[gridU * 4 + i] * B[gridV * 4 + j];
+	//		}
+	//	}
+	//	return p;
+	//}
 
-	Vector3d ShapeGenerator::EvaluateNormal(int gridU, int gridV, float *B, float *dB, Vector3d patch[][4]) {
-		Vector3d du(0.f, 0.f, 0.f);
-		Vector3d dv(0.f, 0.f, 0.f);
+	//Vector3d ShapeGenerator::EvaluateNormal(int gridU, int gridV, float *B, float *dB, Vector3d patch[][4]) {
+	//	Vector3d du(0.f, 0.f, 0.f);
+	//	Vector3d dv(0.f, 0.f, 0.f);
 
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				du += patch[i][j] * dB[gridU * 4 + i] * B[gridV * 4 + j];
-				dv += patch[i][j] * B[gridU * 4 + i] * dB[gridV * 4 + j];
-			}
-		}
-		return Vector3d::CrossProduct(du, dv).Normalize();
-	}
+	//	for (int i = 0; i < 4; i++) {
+	//		for (int j = 0; j < 4; j++) {
+	//			du += patch[i][j] * dB[gridU * 4 + i] * B[gridV * 4 + j];
+	//			dv += patch[i][j] * B[gridU * 4 + i] * dB[gridV * 4 + j];
+	//		}
+	//	}
+	//	return Vector3d::CrossProduct(du, dv).Normalize();
+	//}
 
 	Mesh* ShapeGenerator::GenerateKnots() {
 		Mesh* mesh = new Mesh();

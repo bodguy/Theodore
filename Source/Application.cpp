@@ -53,6 +53,12 @@ namespace Quark {
 		Program* gizmoProgram = new Program("Gizmo", *gizmo_vs, *gizmo_fs);
 		ShaderManager::Append(gizmoProgram);
 
+		Shader* debug_vs1 = AssetManager::RequestShader("Shaders/debug/visualize_normals/vs.glsl", ShaderType::VertexShader);
+		Shader* debug_gs1 = AssetManager::RequestShader("Shaders/debug/visualize_normals/gs.glsl", ShaderType::GeometryShader);
+		Shader* debug_fs1 = AssetManager::RequestShader("Shaders/debug/visualize_normals/fs.glsl", ShaderType::FragmentShader);
+		Program* debug_program1 = new Program("DebugNormal", *debug_vs1, *debug_fs1, *debug_gs1);
+		ShaderManager::Append(debug_program1);
+
 		mSceneManager = new SceneManager();
 
 		Random::InitState(static_cast<int>(time(NULL)));
