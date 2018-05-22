@@ -181,7 +181,9 @@ namespace Quark {
 
 		size_t vertexCount = dimensions * dimensions;
 		std::vector<Vector3d> vertices;
+		std::vector<Vector3d> normals;
 		vertices.reserve(vertexCount);
+		normals.reserve(vertexCount);
 
 		float half = dimensions * 0.5f;
 
@@ -258,7 +260,7 @@ namespace Quark {
 			1.0f,  1.0f,  1.0f,
 			1.0f,  1.0f,  1.0f,
 			-1.0f,  1.0f,  1.0f,
-			-1.0f,  1.0f, -1.0f,
+			-1.0f,  1.0f, -1.0f
 		};
 
 		static const float normals[] = {
@@ -305,8 +307,18 @@ namespace Quark {
 			0.0f,  1.0f,  0.0f
 		};
 
+		static const float uvs[] = {
+			0.f, 1.f, 1.f, 1.f, 1.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f,
+			0.f, 1.f, 1.f, 1.f, 1.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f,
+			0.f, 1.f, 1.f, 1.f, 1.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f,
+			0.f, 1.f, 1.f, 1.f, 1.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f,
+			0.f, 1.f, 1.f, 1.f, 1.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f,
+			0.f, 1.f, 1.f, 1.f, 1.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f
+		};
+
 		mesh->SetVertices(vertices);
 		mesh->SetNormals(normals);
+		mesh->SetUvs(uvs);
 
 		return mesh;
 	}
@@ -375,9 +387,13 @@ namespace Quark {
 			indices = indices2;
 		}
 
+		for (Vector3d& v : vertices) {
+			normals.push_back(v);
+		}
+
 		mesh->SetVertices(vertices);
 		mesh->SetTriangles(indices);
-		mesh->RecalculateNormals();
+		mesh->SetNormals(normals);
 
 		return mesh;
 	}

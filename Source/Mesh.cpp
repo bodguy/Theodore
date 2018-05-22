@@ -59,10 +59,8 @@ namespace Quark {
 
 		unsigned int stride = 3;
 		for (unsigned int i = 0; i < mFaces.size() / stride; i++) {
-			mNormals.push_back( Vector3d::CrossProduct(Vector3d(mVertices.at(mFaces[i * stride + 1]) - mVertices.at(mFaces[i * stride])), 
-														Vector3d(mVertices.at(mFaces[i * stride + 2]) - mVertices.at(mFaces[i * stride]))
-													  ).Normalize()
-			);
+			mNormals.push_back(Vector3d::CrossProduct(Vector3d(mVertices.at(mFaces[i * stride + 1]) - mVertices.at(mFaces[i * stride])),
+													  Vector3d(mVertices.at(mFaces[i * stride + 2]) - mVertices.at(mFaces[i * stride]))).Normalize());
 		}
 	}
 

@@ -9,6 +9,10 @@
 #include "Shader.h"
 #include "ShapeGenerator.h"
 
+#include "AssetManager.h"
+#include "Texture2D.h"
+#include "Texture.h"
+
 namespace Quark {
 	GameObject::GameObject(const std::string& name, Scene* scene)
 		: Object(name), mParent(nullptr), mScene(nullptr), mActiveSelf(true), mTagString("untagged"), mTag(0), mTransform(nullptr) {

@@ -28,7 +28,7 @@ namespace Quark {
 				verts.Vec3(Vector3d(0.f, 1.f, 0.f));
 				verts.Vec3(Vector3d(0.f, 0.f, 0.f));
 				verts.Vec3(Vector3d(0.f, 0.f, 1.f));
-				mTransform->Rotate(Vector3d(0.f, 1.f, 0.f), 45.f);
+				//mTransform->Rotate(Vector3d(0.f, 1.f, 0.f), 45.f);
 				break;
 			case GizmoType::Scale:
 				break;

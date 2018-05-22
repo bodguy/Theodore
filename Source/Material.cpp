@@ -1,11 +1,13 @@
 #include "Material.h"
 
 namespace Quark {
-	Material::Material(Program* program) :mAmbient(), mDiffuse(), mSpecular(), mShininess(64.f), mProgram(program) {
-		mTextures.clear();
+	Material::Material(Program* program) :ambient(), diffuse(), specular(), shininess(64.f), shader(program),
+		texture0(nullptr), texture1(nullptr), texture2(nullptr), texture3(nullptr), texture4(nullptr) {
+	
 	}
 
-	Material::Material(Color ambient, Color diffse, Color specular, float shininess) : mAmbient(ambient), mDiffuse(diffse), mSpecular(specular), mShininess(shininess), mProgram(nullptr) {
+	Material::Material(Color ambient, Color diffse, Color specular, float shininess) : ambient(ambient), diffuse(diffse), specular(specular), shininess(shininess), shader(nullptr),
+		texture0(nullptr), texture1(nullptr), texture2(nullptr), texture3(nullptr), texture4(nullptr) {
 
 	}
 

@@ -82,12 +82,7 @@ namespace Quark {
     }
     
     void Debug::Log(const Texture* object) {
-        Debug::Log("Name: %s", object->mName.c_str());
-        Debug::Log("TextureID: %d", object->mTextureID);
-        Debug::Log("Width, Height: %d, %d", object->mWidth, object->mHeight);
-        Debug::Log("Anisotrophy level: %f", object->mAnisoLevel);
-        Debug::Log("Mipmap bias: %f", object->mMipMapBias);
-        Debug::Log("Ref counts: %d", object->mRefCount);
+        Debug::Log("Texture loaded %s[w=%d, h=%d], ref=%d, id=%d", object->mName.c_str(), object->mWidth, object->mHeight, object->mRefCount, object->mTextureID);
     }
 
 	void Debug::LogOnOff(bool b) {

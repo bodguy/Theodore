@@ -25,8 +25,6 @@ namespace Quark {
 		GameObject* gizmo = new GameObject("gizmo", this);
 		gizmo->AddComponent<Gizmo>(GizmoType::Translation);
 
-		cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
-		cube->GetTransform()->SetLocalPosition(Vector3d(3.f, 0.f, 0.f));
 		plane = GameObject::CreatePrimitive(PrimitiveType::Plane, this);
 		plane->GetTransform()->SetLocalPosition(Vector3d(0.f, -1.f, 0.f));
 		sphere = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
@@ -35,11 +33,16 @@ namespace Quark {
 		torus = GameObject::CreatePrimitive(PrimitiveType::Torus, this);
 		torus->GetTransform()->SetLocalPosition(Vector3d(6.f, 0.f, 0.f));
 
-		cube->GetComponent<MeshRenderer>()->SetDebugRender(true);
-		plane->GetComponent<MeshRenderer>()->SetDebugRender(true);
-		sphere->GetComponent<MeshRenderer>()->SetDebugRender(true);
-		cylinder->GetComponent<MeshRenderer>()->SetDebugRender(true);
-		torus->GetComponent<MeshRenderer>()->SetDebugRender(true);
+		cube = new GameObject("cube", this);
+		cube->GetTransform()->SetLocalPosition(Vector3d(3.f, 0.f, 0.f));
+		Mesh* mesh = new Mesh();
+		mesh = ShapeGenerator::GenerateCube();
+		Material* mat = new Material(Shader::Find("Standard"));
+		mat->texture0 = AssetManager::RequestTexture("Contents/container2.png", TextureFormat::RGBA32);
+		mat->texture1 = AssetManager::RequestTexture("Contents/container2_specular.png", TextureFormat::RGBA32);
+		MeshRenderer* rend = cube->AddComponent<MeshRenderer>();
+		rend->SetMaterial(mat);
+		rend->SetMesh(mesh);
 
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
 	}
@@ -50,7 +53,9 @@ namespace Quark {
 	}
 
 	void SplashScene::ObjectUpdate() {
-		Transform* trans = sphere->GetTransform();
+		cube->GetTransform()->Rotate(Vector3d(1.f, 1.f, 0.f), Time::DeltaTime() * 20.f);
+
+		Transform* trans = SceneManager::GetGlobalLight()->GetTransform();
 		if (Input::GetKeyHeld(KEY_0)) {
 			trans->SetLocalPosition(Vector3d::zero);
 			trans->SetLocalRotation(Quaternion::identity);

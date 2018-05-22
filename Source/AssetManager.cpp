@@ -42,6 +42,8 @@ namespace Quark {
 			}
 		}
 
+		Debug::Log(asset);
+
 		return asset;
 	}
 
@@ -64,6 +66,8 @@ namespace Quark {
 				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
 			}
 		}
+
+		Debug::Log(asset);
 
 		return asset;
 	}
@@ -88,6 +92,8 @@ namespace Quark {
 			}
 		}
 
+		Debug::Log(asset);
+
 		return asset;
 	}
 
@@ -111,6 +117,8 @@ namespace Quark {
 			}
 		}
 
+		Debug::Log(asset);
+
 		return asset;
 	}
 
@@ -130,6 +138,8 @@ namespace Quark {
 				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
 			}
 		}
+
+		Debug::Log(asset);
 
 		return asset;
 	}
@@ -154,6 +164,8 @@ namespace Quark {
 			}
 		}
 
+		Debug::Log(asset);
+
 		return asset;
 	}
 
@@ -173,6 +185,8 @@ namespace Quark {
 				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
 			}
 		}
+
+		Debug::Log(asset);
 
 		return asset;
 	}

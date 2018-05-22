@@ -28,7 +28,7 @@ namespace Quark {
 
 	void MeshRenderer::SetMaterial(Material* mat) {
 		mMaterial = mat;
-		mProgram = mMaterial->GetProgram();
+		mProgram = mMaterial->shader;
 	}
 
 	void MeshRenderer::SetMesh(Mesh* mesh) {
@@ -76,7 +76,7 @@ namespace Quark {
 			offset += mMesh->GetVertexCount() * sizeof(Vector3d);
 		} 
 		if (semantic & VertexSemantic::SemanticTexCoord) {
-			mVao->BindAttribute(mProgram->GetAttribute("texcoord"), *mVbos.front(), 2, sizeof(Vector2d), offset);
+			mVao->BindAttribute(mProgram->GetAttribute("uvs"), *mVbos.front(), 2, sizeof(Vector2d), offset);
 			offset += mMesh->GetUvCount() * sizeof(Vector2d);
 		} 
 		if (semantic & VertexSemantic::SemanticNormal) {
@@ -96,15 +96,34 @@ namespace Quark {
 			mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 			mProgram->SetUniform("cameraPosition", SceneManager::GetMainCamera()->GetTransform()->GetPosition());
 			
-			mProgram->SetUniform("material.ambient", mMaterial->mAmbient);
-			mProgram->SetUniform("material.diffuse", mMaterial->mDiffuse);
-			mProgram->SetUniform("material.specular", mMaterial->mSpecular);
-			mProgram->SetUniform("material.shininess", mMaterial->mShininess);
-	
+			mProgram->SetUniform("material.ambient", mMaterial->ambient);
+			mProgram->SetUniform("material.diffuse", mMaterial->diffuse);
+			mProgram->SetUniform("material.specular", mMaterial->specular);
+			mProgram->SetUniform("material.shininess", mMaterial->shininess);
+
+			mProgram->SetUniform("material.isTexture0", false);
+			mProgram->SetUniform("material.isTexture1", false);
+
+			if (mMaterial->texture0) {
+				mProgram->SetUniform("material.texture0", 0);
+				mProgram->SetUniform("material.isTexture0", true);
+				Graphics::BindTexture(0, mMaterial->texture0);
+			}
+			
+			if (mMaterial->texture1) {
+				mProgram->SetUniform("material.texture1", 1);
+				mProgram->SetUniform("material.isTexture1", true);
+				Graphics::BindTexture(1, mMaterial->texture1);
+			}
+
 			mProgram->SetUniform("light.position", SceneManager::GetGlobalLight()->GetTransform()->GetPosition());
-			mProgram->SetUniform("light.ambient", SceneManager::GetGlobalLight()->mAmbient);
-			mProgram->SetUniform("light.diffuse", SceneManager::GetGlobalLight()->mDiffuse);
-			mProgram->SetUniform("light.specular", SceneManager::GetGlobalLight()->mSpecular);
+			mProgram->SetUniform("light.ambient", SceneManager::GetGlobalLight()->ambient);
+			mProgram->SetUniform("light.diffuse", SceneManager::GetGlobalLight()->diffuse);
+			mProgram->SetUniform("light.specular", SceneManager::GetGlobalLight()->specular);
+
+			mProgram->SetUniform("light.constant", SceneManager::GetGlobalLight()->constant);
+			mProgram->SetUniform("light.linear", SceneManager::GetGlobalLight()->linear);
+			mProgram->SetUniform("light.quadratic", SceneManager::GetGlobalLight()->quadratic);
 
 			if (mMesh->GetFaceCount() > 0) {
 				Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());
@@ -112,6 +131,8 @@ namespace Quark {
 				Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
 			}
 
+			Graphics::BindTexture(0, NULL);
+			Graphics::BindTexture(1, NULL);
 			mProgram->UnUse();
 
 #ifdef _DEBUG

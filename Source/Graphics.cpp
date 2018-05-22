@@ -66,22 +66,22 @@ namespace Quark {
         if (err != GL_NO_ERROR) {
             switch (err) {
                 case GL_INVALID_ENUM: // 0x0500
-                    Debug::Log("GL_INVALID_ENUM\n");
+                    Debug::Log("GL_INVALID_ENUM");
                     break;
                 case GL_INVALID_VALUE: // 0x0501
-                    Debug::Log("GL_INVALID_VALUE\n");
+                    Debug::Log("GL_INVALID_VALUE");
                     break;
                 case GL_INVALID_OPERATION: // 0x0502
-                    Debug::Log("GL_INVALID_OPERATION\n");
+                    Debug::Log("GL_INVALID_OPERATION");
                     break;
                 case GL_STACK_OVERFLOW: // 0x0503
-                    Debug::Log("GL_STACK_OVERFLOW\n");
+                    Debug::Log("GL_STACK_OVERFLOW");
                     break;
                 case GL_STACK_UNDERFLOW: // 0x0504
-                    Debug::Log("GL_STACK_UNDERFLOW\n");
+                    Debug::Log("GL_STACK_UNDERFLOW");
                     break;
                 case GL_OUT_OF_MEMORY: // 0x0505
-                    Debug::Log("GL_OUT_OF_MEMORY\n");
+                    Debug::Log("GL_OUT_OF_MEMORY");
                     break;
             }
         }
