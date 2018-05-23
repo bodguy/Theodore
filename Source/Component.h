@@ -12,6 +12,8 @@ namespace Quark {
 		Component(const std::string& name) :Object(name) {}
 		virtual ~Component() {}
 
+		GameObject* GetGameObject() const { return mGameObject; }
+
 	private:
 		virtual MessageResult HandleMessage(Message& msg) {
 			return MessageResult::Ignored;

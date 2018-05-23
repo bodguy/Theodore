@@ -45,6 +45,8 @@ namespace Quark {
 	}
 
 	void Mesh::SetTriangles(const std::vector<unsigned int>& faces) {
+		mSemantic = mSemantic | VertexSemantic::SemanticFaces;
+
 		for (auto& i : faces) {
 			mFaces.push_back(i);
 		}

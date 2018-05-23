@@ -11,6 +11,7 @@
 #include "Light.h"
 #include "Mesh.h"
 #include "Graphics.h"
+#include "Math.h"
 #include "Utility.h"
 
 namespace Quark {
@@ -53,7 +54,7 @@ namespace Quark {
 		}
 		mVbos.push_back(buffer);
 
-		if (mMesh->GetFaceCount() > 0) {
+		if (semantic & VertexSemantic::SemanticFaces) {
 			Buffer* index = new Buffer(BufferType::BufferIndex);
 			size_t indexSize = 0;
 			switch (mMesh->GetIndexFormat()) {
@@ -89,67 +90,77 @@ namespace Quark {
 	}
 
 	void MeshRenderer::Render() {
-		if (mMesh && mMaterial && mProgram) {
-			mProgram->Use();
-			mProgram->SetUniform("model", mGameObject->GetTransform()->GetLocalToWorldMatrix());
-			mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-			mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
-			mProgram->SetUniform("cameraPosition", SceneManager::GetMainCamera()->GetTransform()->GetPosition());
+		mProgram->Use();
+		mProgram->SetUniform("model", mGameObject->GetTransform()->GetLocalToWorldMatrix());
+		mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+		mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
+		mProgram->SetUniform("viewPos", SceneManager::GetMainCamera()->GetTransform()->GetPosition());
 			
-			mProgram->SetUniform("material.ambient", mMaterial->ambient);
-			mProgram->SetUniform("material.diffuse", mMaterial->diffuse);
-			mProgram->SetUniform("material.specular", mMaterial->specular);
-			mProgram->SetUniform("material.shininess", mMaterial->shininess);
+		mProgram->SetUniform("material.ambient", mMaterial->ambient);
+		mProgram->SetUniform("material.diffuse", mMaterial->diffuse);
+		mProgram->SetUniform("material.specular", mMaterial->specular);
+		mProgram->SetUniform("material.shininess", mMaterial->shininess);
 
+		if (mMaterial->texture0) {
+			mProgram->SetUniform("material.texture0", 0);
+			mProgram->SetUniform("material.isTexture0", true);
+			Graphics::BindTexture(0, mMaterial->texture0);
+		} else {
 			mProgram->SetUniform("material.isTexture0", false);
-			mProgram->SetUniform("material.isTexture1", false);
-
-			if (mMaterial->texture0) {
-				mProgram->SetUniform("material.texture0", 0);
-				mProgram->SetUniform("material.isTexture0", true);
-				Graphics::BindTexture(0, mMaterial->texture0);
-			}
+		}
 			
-			if (mMaterial->texture1) {
-				mProgram->SetUniform("material.texture1", 1);
-				mProgram->SetUniform("material.isTexture1", true);
-				Graphics::BindTexture(1, mMaterial->texture1);
-			}
+		if (mMaterial->texture1) {
+			mProgram->SetUniform("material.texture1", 1);
+			mProgram->SetUniform("material.isTexture1", true);
+			Graphics::BindTexture(1, mMaterial->texture1);
+		} else {
+			mProgram->SetUniform("material.isTexture1", false);
+		}
 
-			mProgram->SetUniform("light.position", SceneManager::GetGlobalLight()->GetTransform()->GetPosition());
-			mProgram->SetUniform("light.ambient", SceneManager::GetGlobalLight()->ambient);
-			mProgram->SetUniform("light.diffuse", SceneManager::GetGlobalLight()->diffuse);
-			mProgram->SetUniform("light.specular", SceneManager::GetGlobalLight()->specular);
+		mProgram->SetUniform("dirLight.direction", Vector3d(-0.2f, -1.0f, -0.3f));
+		mProgram->SetUniform("dirLight.ambient", SceneManager::GetGlobalLight()->ambient);
+		mProgram->SetUniform("dirLight.diffuse", SceneManager::GetGlobalLight()->diffuse);
+		mProgram->SetUniform("dirLight.specular", SceneManager::GetGlobalLight()->specular);
+		
+		mProgram->SetUniform("spotLight.position", SceneManager::GetMainCamera()->GetTransform()->GetPosition());
+		mProgram->SetUniform("spotLight.direction", SceneManager::GetMainCamera()->GetTransform()->GetForward());
+		mProgram->SetUniform("spotLight.ambient", Color(0.0f, 0.0f, 0.0f, 0.f));
+		mProgram->SetUniform("spotLight.diffuse", Color(1.0f, 1.0f, 1.0f, 1.f));
+		mProgram->SetUniform("spotLight.specular", Color(1.0f, 1.0f, 1.0f, 1.f));
+		mProgram->SetUniform("spotLight.constant", 1.0f);
+		mProgram->SetUniform("spotLight.linear", 0.09f);
+		mProgram->SetUniform("spotLight.quadratic", 0.032f);
+		mProgram->SetUniform("spotLight.cutOff", Math::Cos(Math::Radians(30.5f)));
+		mProgram->SetUniform("spotLight.outerCutOff", Math::Cos(Math::Radians(45.0f)));
 
-			mProgram->SetUniform("light.constant", SceneManager::GetGlobalLight()->constant);
-			mProgram->SetUniform("light.linear", SceneManager::GetGlobalLight()->linear);
-			mProgram->SetUniform("light.quadratic", SceneManager::GetGlobalLight()->quadratic);
+		mProgram->SetUniform("light.constant", SceneManager::GetGlobalLight()->constant);
+		mProgram->SetUniform("light.linear", SceneManager::GetGlobalLight()->linear);
+		mProgram->SetUniform("light.quadratic", SceneManager::GetGlobalLight()->quadratic);
 
+		if (mMesh->mSemantic & VertexSemantic::SemanticFaces) {
+			Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());
+		} else {
+			Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
+		}
+
+		Graphics::BindTexture(0, NULL);
+		Graphics::BindTexture(1, NULL);
+		mProgram->UnUse();
+
+#ifdef _DEBUG
+		if (mIsDebugRendering) {
+			DEBUG_PROGRAM->Use();
+			DEBUG_PROGRAM->SetUniform("model", mGameObject->GetTransform()->GetLocalToWorldMatrix());
+			DEBUG_PROGRAM->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+			DEBUG_PROGRAM->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 			if (mMesh->GetFaceCount() > 0) {
 				Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());
 			} else {
 				Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
 			}
-
-			Graphics::BindTexture(0, NULL);
-			Graphics::BindTexture(1, NULL);
-			mProgram->UnUse();
-
-#ifdef _DEBUG
-			if (mIsDebugRendering) {
-				DEBUG_PROGRAM->Use();
-				DEBUG_PROGRAM->SetUniform("model", mGameObject->GetTransform()->GetLocalToWorldMatrix());
-				DEBUG_PROGRAM->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-				DEBUG_PROGRAM->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
-				if (mMesh->GetFaceCount() > 0) {
-					Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());
-				} else {
-					Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
-				}
-				DEBUG_PROGRAM->UnUse();
-			}
-#endif
+			DEBUG_PROGRAM->UnUse();
 		}
+#endif
 	}
 
 	bool MeshRenderer::CompareEquality(const Object& rhs) const {

@@ -133,7 +133,8 @@ namespace Quark {
         SemanticTexCoord = 1 << 2, // binary 0100
         SemanticNormal = 1 << 3, // binary 1000
         SemanticBiNormal = 1 << 4, // binary 0001 0000
-        SemanticTangent = 1 << 5 // binary 0001 0000
+        SemanticTangent = 1 << 5, // binary 0001 0000
+		SemanticFaces = 1 << 6 // binary 0010 0000
     };
         
     enum class TextureUnit {
@@ -247,6 +248,10 @@ namespace Quark {
 
 	inline bool operator &(const VertexSemantic a, const VertexSemantic b) {
 		return static_cast<VertexSemantic>(static_cast<int>(a) & static_cast<int>(b)) == b;
+	}
+
+	inline bool operator &(const LightType a, const LightType b) {
+		return static_cast<LightType>(static_cast<int>(a) & static_cast<int>(b)) == b;
 	}
 }
 

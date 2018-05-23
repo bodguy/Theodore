@@ -19,10 +19,12 @@ namespace Quark {
 		Color diffuse;
 		Color specular;
 
-		float intensity;
+		// point light attenuation
 		float constant;
 		float linear;
 		float quadratic;
+
+		// spot light theta, phi
 		float cutOff;
 		float outerCutOff;
 

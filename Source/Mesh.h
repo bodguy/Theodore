@@ -98,6 +98,8 @@ namespace Quark {
 
 	template<typename T, size_t size>
 	void Mesh::SetTriangles(const T(&faces)[size]) {
+		mSemantic = mSemantic | VertexSemantic::SemanticFaces;
+
 		for (unsigned int i = 0; i < size; i++) {
 			mFaces.push_back(faces[i]);
 		}

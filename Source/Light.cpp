@@ -2,8 +2,8 @@
 #include "GameObject.h"
 
 namespace Quark {
-	Light::Light(LightType type) : Component("Light"), type(type), ambient(Color(0.2f, 0.2f, 0.2f, 0.2f)), diffuse(), specular(),
-		intensity(0.f), constant(0.f), linear(0.f), quadratic(0.f), cutOff(0.f), outerCutOff(0.f) {
+	Light::Light(LightType type) : Component("Light"), type(type), ambient(Color(0.2f, 0.2f, 0.2f, 0.2f)), diffuse(Color(0.5f, 0.5f, 0.5f, 0.5f)), specular(),
+		constant(0.f), linear(0.f), quadratic(0.f), cutOff(0.f), outerCutOff(0.f) {
 		switch (type) {
 		case LightType::DirectionalLight:
 			break;
@@ -13,7 +13,6 @@ namespace Quark {
 			quadratic = 0.032f;
 			break;
 		case LightType::SpotLight:
-			intensity = 0.f;
 			cutOff = 0.f;
 			outerCutOff = 0.f;
 			break;
