@@ -13,10 +13,24 @@
 #include "Graphics.h"
 #include "Math.h"
 #include "Utility.h"
+#include "FrameBuffer.h"
+#include "Platform.h"
+#include "AssetManager.h"
+#include "Texture2D.h"
 
 namespace Quark {
 	MeshRenderer::MeshRenderer() : Renderer("MeshRenderer"), mMaterial(nullptr), mMesh(nullptr) {
 		mPrimitive = Primitive::Triangles;
+
+		frame = new FrameBuffer(Platform::GetWidth(), Platform::GetHeight());
+		Texture2D* rawTex = AssetManager::RequestTexture("DepthMap", Platform::GetWidth(), Platform::GetHeight(), TextureFormat::Depth, nullptr);
+		rawTex->SetFilter(FilterMode::Nearest);
+		rawTex->SetWrapMode(WrapMode::Repeat);
+		frame->AttachTexture(rawTex, Attachment::Depth);
+		frame->Create(false);
+
+		shadowProgram = Shader::Find("Shadow");
+
 #ifdef _DEBUG
 		DEBUG_PROGRAM = Shader::Find("DebugNormal");
 #endif
@@ -25,6 +39,7 @@ namespace Quark {
 	MeshRenderer::~MeshRenderer() {
 		SafeDealloc(mMaterial);
 		SafeDealloc(mMesh);
+		SafeDealloc(frame);
 	}
 
 	void MeshRenderer::SetMaterial(Material* mat) {
@@ -90,6 +105,24 @@ namespace Quark {
 	}
 
 	void MeshRenderer::Render() {
+		Matrix4x4 proj = Matrix4x4::Orthogonal(-10.f, 10.f, -10.f, 10.f, SceneManager::GetMainCamera()->GetNearClipPlane(), SceneManager::GetMainCamera()->GetFarClipPlane());
+		Matrix4x4 view = Matrix4x4::LookAt(SceneManager::GetMainCamera()->GetTransform()->GetPosition(), Vector3d::zero, Vector3d::up);
+		Matrix4x4 viewProj = proj * view;
+
+		shadowProgram->SetUniform("lightSpaceMatrix", viewProj);
+		shadowProgram->SetUniform("model", mGameObject->GetTransform()->GetLocalToWorldMatrix());
+
+		// draw depth map
+		Graphics::BindFrameBuffer(frame);
+		Graphics::Clear(Color::black, BufferBits::DepthBits);
+		if (mMesh->mSemantic & VertexSemantic::SemanticFaces) {
+			Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());
+		}
+		else {
+			Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
+		}
+		Graphics::BindFrameBuffer(nullptr);
+
 		mProgram->Use();
 		mProgram->SetUniform("model", mGameObject->GetTransform()->GetLocalToWorldMatrix());
 		mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
@@ -130,12 +163,34 @@ namespace Quark {
 		mProgram->SetUniform("spotLight.constant", 1.0f);
 		mProgram->SetUniform("spotLight.linear", 0.09f);
 		mProgram->SetUniform("spotLight.quadratic", 0.032f);
-		mProgram->SetUniform("spotLight.cutOff", Math::Cos(Math::Radians(30.5f)));
-		mProgram->SetUniform("spotLight.outerCutOff", Math::Cos(Math::Radians(45.0f)));
+		mProgram->SetUniform("spotLight.cutOff", Math::Cos(Math::Radians(12.5f)));
+		mProgram->SetUniform("spotLight.outerCutOff", Math::Cos(Math::Radians(15.0f)));
+		
+		mProgram->SetUniform("pointLights[0].position", Vector3d::zero);
+		mProgram->SetUniform("pointLights[0].constant", 1.0f);
+		mProgram->SetUniform("pointLights[0].linear", 0.09f);
+		mProgram->SetUniform("pointLights[0].quadratic", 0.032f);
+		mProgram->SetUniform("pointLights[0].ambient", Color(1.f, 0.f, 0.f, 1.f));
+		mProgram->SetUniform("pointLights[0].diffuse", Color(1.f, 0.f, 0.f, 1.f));
+		mProgram->SetUniform("pointLights[0].specular", Color(1.f, 0.f, 0.f, 1.f));
 
-		mProgram->SetUniform("light.constant", SceneManager::GetGlobalLight()->constant);
-		mProgram->SetUniform("light.linear", SceneManager::GetGlobalLight()->linear);
-		mProgram->SetUniform("light.quadratic", SceneManager::GetGlobalLight()->quadratic);
+		mProgram->SetUniform("pointLights[1].position", Vector3d(10.f, 0.f, 0.f));
+		mProgram->SetUniform("pointLights[1].constant", 1.0f);
+		mProgram->SetUniform("pointLights[1].linear", 0.09f);
+		mProgram->SetUniform("pointLights[1].quadratic", 0.032f);
+		mProgram->SetUniform("pointLights[1].ambient", Color(0.f, 1.f, 0.f, 1.f));
+		mProgram->SetUniform("pointLights[1].diffuse", Color(0.f, 1.f, 0.f, 1.f));
+		mProgram->SetUniform("pointLights[1].specular", Color(0.f, 1.f, 0.f, 1.f));
+
+		mProgram->SetUniform("pointLights[2].position", Vector3d(-10.f, 0.f, 0.f));
+		mProgram->SetUniform("pointLights[2].constant", 1.0f);
+		mProgram->SetUniform("pointLights[2].linear", 0.09f);
+		mProgram->SetUniform("pointLights[2].quadratic", 0.032f);
+		mProgram->SetUniform("pointLights[2].ambient", Color(0.f, 0.f, 1.f, 1.f));
+		mProgram->SetUniform("pointLights[2].diffuse", Color(0.f, 0.f, 1.f, 1.f));
+		mProgram->SetUniform("pointLights[2].specular", Color(0.f, 0.f, 1.f, 1.f));
+
+		mProgram->SetUniform("lightSpaceMatrix", viewProj);
 
 		if (mMesh->mSemantic & VertexSemantic::SemanticFaces) {
 			Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());

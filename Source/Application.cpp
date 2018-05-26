@@ -59,6 +59,11 @@ namespace Quark {
 		Program* debug_program1 = new Program("DebugNormal", *debug_vs1, *debug_fs1, *debug_gs1);
 		ShaderManager::Append(debug_program1);
 
+		Shader* shadow_vs = AssetManager::RequestShader("Shaders/light/shadow_vs.glsl", ShaderType::VertexShader);
+		Shader* shadow_fs = AssetManager::RequestShader("Shaders/light/shadow_fs.glsl", ShaderType::FragmentShader);
+		Program* shadow_program = new Program("Shadow", *shadow_vs, *shadow_fs);
+		ShaderManager::Append(shadow_program);
+
 		mSceneManager = new SceneManager();
 
 		Random::InitState(static_cast<int>(time(NULL)));
@@ -72,7 +77,6 @@ namespace Quark {
 			mTime->Update();
 			mInput->Update();
 			Update(Time::DeltaTime());
-			Graphics::Clear(Color(0.f, 0.f, 0.f, 1.f), BufferBits::ColorBits | BufferBits::DepthBits);
 			Render();
 			mPlatform->SwapBuffer();
 		}

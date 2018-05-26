@@ -5,6 +5,7 @@ struct Material {
     vec4 diffuse;
     vec4 specular;
     float shininess;
+	sampler2D shadowMap;
 	sampler2D texture0;
 	sampler2D texture1;
 	bool isTexture0;
@@ -43,11 +44,12 @@ struct SpotLight {
 
 in VS_OUT {
 	vec3 position;
+	vec4 posLightSpace;
 	vec3 normal;
 	vec2 uvs;
 } fs_in;
 
-#define NUM_POINT_LIGHTS 4
+#define NUM_POINT_LIGHTS 3
 
 out vec4 outColor;
 uniform Material material;
@@ -57,6 +59,7 @@ uniform SpotLight spotLight;
 uniform vec3 viewPos;
 
 // function prototypes
+float ShadowCalculation(vec4 position);
 vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 vec4 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
@@ -66,18 +69,25 @@ void main(void) {
 	vec3 viewDir = normalize(viewPos - fs_in.position);
 
 	vec4 result = CalcDirLight(dirLight, norm, viewDir);
-	//for(int i = 0; i < NUM_POINT_LIGHTS; i++) {
-	//	result += CalcPointLight(pointLights[i], norm, fs_in.position, viewDir);
-	//}
-	//result += CalcSpotLight(spotLight, norm, fs_in.position, viewDir);
+	for(int i = 0; i < NUM_POINT_LIGHTS; i++) {
+		result += CalcPointLight(pointLights[i], norm, fs_in.position, viewDir);
+	}
+	result += CalcSpotLight(spotLight, norm, fs_in.position, viewDir);
+
+	// gamma correction
+	result = pow(result, vec4(1.0/2.2));
 	outColor = result;
+}
+
+float ShadowCalculation(vec4 position) {
+	return 0.0;
 }
 
 vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir) {
 	vec3 lightDir = normalize(-light.direction);
-	float diff = max(dot(normal, lightDir), 0.0);
-	vec3 reflectDir = reflect(-lightDir, normal);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+	float diff = max(dot(lightDir, normal), 0.0);
+	vec3 halfwayDir = normalize(lightDir + viewDir);
+	float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
 	
 	vec4 ambient = light.ambient;
 	vec4 diffuse = light.diffuse * diff;
@@ -102,10 +112,10 @@ vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir) {
 
 vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	vec3 lightDir = normalize(light.position - fragPos);
-	float diff = max(dot(normal, lightDir), 0.0);
-	vec3 reflectDir = reflect(-lightDir, normal);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-	
+	float diff = max(dot(lightDir, normal), 0.0);
+	vec3 halfwayDir = normalize(lightDir + viewDir);
+	float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
+
 	float distance = length(light.position - fragPos);
 	float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
 	
@@ -136,9 +146,9 @@ vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 
 vec4 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	vec3 lightDir = normalize(light.position - fragPos);
-	float diff = max(dot(normal, lightDir), 0.0);
-	vec3 reflectDir = reflect(-lightDir, normal);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+	float diff = max(dot(lightDir, normal), 0.0);
+	vec3 halfwayDir = normalize(lightDir + viewDir);
+	float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
 	
 	float distance = length(light.position - fragPos);
 	float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));

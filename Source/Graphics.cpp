@@ -144,6 +144,18 @@ namespace Quark {
 		glGetIntegerv(GL_VIEWPORT, viewport);
 	}
 
+	int Graphics::GetMaxColorBuffer() {
+		int maxAttach = 0;
+		glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &maxAttach);
+		return maxAttach;
+	}
+
+	int Graphics::GetMaxDrawBuffer() {
+		int maxDrawBuf = 0;
+		glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuf);
+		return maxDrawBuf;
+	}
+
 	void Graphics::SetFaceCulling(CullFace whichFace, CullMode front) {
 		glCullFace(static_cast<GLenum>(whichFace));
 		glFrontFace(static_cast<GLenum>(front));

@@ -45,6 +45,7 @@ namespace Quark {
     }
     
     void Texture::SetMipmapBias(float bias) {
+		mMipMapBias = bias;
         // Set mipmap bias value
         if (mFilterMode == FilterMode::Trilinear) {
             glTexParameterf(GL_TEXTURE_ENV, GL_TEXTURE_MIN_LOD, -mMipMapBias);
@@ -53,11 +54,13 @@ namespace Quark {
     }
     
     void Texture::SetAnisoLevel(float level) {
+		mAnisoLevel = level;
         // Set anisotrophy filtering
         glTexParameterf(static_cast<GLenum>(mDimension), GL_TEXTURE_MAX_ANISOTROPY_EXT, mAnisoLevel);
     }
     
     void Texture::SetFilter(FilterMode mode) {
+		mFilterMode = mode;
         // Set filtering mode
         glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(mFilterMode));
         glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(mFilterMode));
@@ -66,6 +69,7 @@ namespace Quark {
     }
     
     void Texture::SetWrapMode(WrapMode mode) {
+		mWrapMode = mode;
         // Set wrap mode
         glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_S, static_cast<GLenum>(mWrapMode));
         glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_T, static_cast<GLenum>(mWrapMode));

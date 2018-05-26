@@ -27,8 +27,10 @@ namespace Quark {
 		virtual void OnStart() {}
 		// every frame
 		virtual void OnUpdate() {}
-		// every frame like OnUpdate function for rendering purpose
-		virtual void OnRender() {}
+		// Pre Rendering function
+		virtual void OnPreRender() {}
+		// Pre Rendering function
+		virtual void OnAfterRender() {}
 		// before being called SetActive function (false -> true)
 		virtual void OnEnable() {}
 		// before being called SetActive function (true -> false)

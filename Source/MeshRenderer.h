@@ -4,7 +4,7 @@
 #include "Renderer.h"
 
 namespace Quark {
-	class Material; class Mesh;
+	class Material; class Mesh; class FrameBuffer; class Program;
 	class MeshRenderer : public Renderer {
 	public:
 		MeshRenderer();
@@ -22,6 +22,8 @@ namespace Quark {
 	private:
 		Material* mMaterial;
 		Mesh* mMesh;
+		FrameBuffer* frame;
+		Program* shadowProgram;
 #ifdef _DEBUG
 		Program* DEBUG_PROGRAM;
 #endif

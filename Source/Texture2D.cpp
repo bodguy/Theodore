@@ -65,6 +65,8 @@ namespace Quark {
                 case TextureFormat::Blue8:
                 case TextureFormat::Green8:
                     break;
+				default:
+					return false;
             }
             
             // set parameters
@@ -83,6 +85,21 @@ namespace Quark {
     
     bool Texture2D::LoadImage(const std::string& filename, TextureFormat format) {
         int w, h, bpp;
+
+//		if (format == TextureFormat::sRGB24) {
+//#define STBI_NO_HDR
+//			stbi_ldr_to_hdr_scale(1.0f);
+//			stbi_ldr_to_hdr_gamma(2.2f);
+//			format = TextureFormat::RGB24;
+//		}
+//
+//		if (format == TextureFormat::sRGBA32) {
+//#define STBI_NO_HDR
+//			stbi_ldr_to_hdr_scale(1.0f);
+//			stbi_ldr_to_hdr_gamma(2.2f);
+//			format = TextureFormat::RGBA32;
+//		}
+
         unsigned char* data = stbi_load(filename.c_str(), &w, &h, &bpp, static_cast<int>(format));
         
         if (data) {
@@ -105,7 +122,14 @@ namespace Quark {
                 case TextureFormat::Red8:
                 case TextureFormat::Blue8:
                 case TextureFormat::Green8:
-                    break;
+				//case TextureFormat::sRGB24:
+				//	glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_SRGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+				//	break;
+				//case TextureFormat::sRGBA32:
+				//	glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_SRGB_ALPHA, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+				//	break;
+				default:
+					return false;
             }
             
             // set parameters
@@ -115,7 +139,7 @@ namespace Quark {
             SetWrapMode(mWrapMode);
             
             glBindTexture(static_cast<GLenum>(mDimension), NULL);
-            
+
             return true;
         }
         
@@ -171,7 +195,8 @@ namespace Quark {
                 case TextureFormat::Red8:
                 case TextureFormat::Blue8:
                 case TextureFormat::Green8:
-                    break;
+				default:
+					return false;
             }
             
             // set parameters
@@ -212,7 +237,8 @@ namespace Quark {
                 case TextureFormat::Red8:
                 case TextureFormat::Blue8:
                 case TextureFormat::Green8:
-                    break;
+				default:
+					return false;
             }
             
             // set parameters
@@ -251,6 +277,11 @@ namespace Quark {
             case TextureFormat::Blue8:
                 glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_BLUE, mWidth, mHeight, 0, GL_BLUE, GL_UNSIGNED_BYTE, data);
                 break;
+			case TextureFormat::Depth:
+				glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_DEPTH_COMPONENT, mWidth, mHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, data);
+				break;
+			default:
+				return false;
         }
         
         SetFilter(mFilterMode);

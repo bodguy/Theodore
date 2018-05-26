@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Transform.h"
+#include "Graphics.h"
 #include <stdarg.h>
 
 namespace Quark {
@@ -88,10 +89,12 @@ namespace Quark {
 	}
 
 	void Scene::Render() {
+		OnPreRender();
+		Graphics::Clear(Color(0.f, 0.f, 0.f, 1.f), BufferBits::ColorBits | BufferBits::DepthBits);
 		for (auto& i : mGameObjects)
 			if (i->mActiveSelf)
 				i->Render();
-		OnRender();
+		OnAfterRender();
 	}
 
 	bool Scene::CompareEquality(const Object& rhs) const {

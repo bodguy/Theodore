@@ -1,37 +1,52 @@
 #include "FrameBuffer.h"
 #include "Debug.h"
+#include "Texture2D.h"
+#include "RenderBuffer.h"
 
 namespace Quark {
-    FrameBuffer::FrameBuffer(unsigned int width, unsigned int height, TextureFormat format) {
-        mWidth = width;
-        mHeight = height;
-        glGenFramebuffers(1, &mFrameBufferID);
-        glBindFramebuffer(GL_FRAMEBUFFER, mFrameBufferID);
-        mTextureColor.LoadCustomTexture(width, height, format, NULL);
-        mDepthStencil.Storage(width, height);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mTextureColor.GetTextureID(), 0);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, mDepthStencil.GetRenderBufferID());
-        glBindFramebuffer(GL_FRAMEBUFFER, NULL);
-        
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-            Debug::Log("Error: Framebuffer is not complete!\n");
-        }
+    FrameBuffer::FrameBuffer(unsigned int width, unsigned int height) :mWidth(width), mHeight(height), mRender(nullptr) {
+		mTextures.clear();
     }
     
     FrameBuffer::~FrameBuffer() {
         glDeleteFramebuffers(1, &mFrameBufferID);
     }
+
+	void FrameBuffer::AttachTexture(Texture2D* tex, Attachment attach) {
+		mTextures.insert(std::make_pair(attach, tex));
+	}
+
+	void FrameBuffer::SetRenderBuffer(RenderBuffer* buffer) {
+		mRender = buffer;
+	}
+
+	bool FrameBuffer::Create(bool writable) {
+		glGenFramebuffers(1, &mFrameBufferID);
+		glBindFramebuffer(GL_FRAMEBUFFER, mFrameBufferID);
+		for (std::pair<Attachment, Texture2D*> p : mTextures) {
+			glFramebufferTexture2D(GL_FRAMEBUFFER, static_cast<GLenum>(p.first), static_cast<int>(p.second->GetDimension()), p.second->GetTextureID(), 0);
+		}
+
+		if (mRender) {
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, mRender->GetRenderBufferID());
+		}
+
+		if (!writable) {
+			glDrawBuffer(GL_NONE);
+			glReadBuffer(GL_NONE);
+		}
+		glBindFramebuffer(GL_FRAMEBUFFER, NULL);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+			Debug::Log("Error: Framebuffer is not complete!");
+			return false;
+		}
+
+		return true;
+	}
     
     unsigned int FrameBuffer::GetFrameBufferID() const {
         return mFrameBufferID;
-    }
-    
-    Texture2D FrameBuffer::GetTexture() const {
-        return mTextureColor;
-    }
-    
-    RenderBuffer FrameBuffer::GetDepthStencil() const {
-        return mDepthStencil;
     }
     
     unsigned int FrameBuffer::GetWidth() const {
@@ -41,4 +56,8 @@ namespace Quark {
     unsigned int FrameBuffer::GetHeight() const {
         return mHeight;
     }
+
+	Texture2D* FrameBuffer::GetTexture(Attachment attach) {
+		return mTextures[attach];
+	}
 }

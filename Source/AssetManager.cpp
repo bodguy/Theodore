@@ -30,6 +30,7 @@ namespace Quark {
 			if (asset->LoadImage(filename, format, colorKey)) {
 				instance->StoreAsset(asset);
 			} else {
+				Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
 				SafeDealloc(asset);
 				return static_cast<Texture2D*>(nullptr);
 			}
@@ -55,6 +56,7 @@ namespace Quark {
 			if (asset->LoadImage(filename, format)) {
 				instance->StoreAsset(asset);
 			} else {
+				Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
 				SafeDealloc(asset);
 				return static_cast<Texture2D*>(nullptr);
 			}
@@ -80,6 +82,7 @@ namespace Quark {
 			if (asset->LoadRawTextureData(filename, format, data, colorKey)) {
 				instance->StoreAsset(asset);
 			} else {
+				Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
 				SafeDealloc(asset);
 				return static_cast<Texture2D*>(nullptr);
 			}
@@ -105,6 +108,7 @@ namespace Quark {
 			if (asset->LoadRawTextureData(filename, format, data)) {
 				instance->StoreAsset(asset);
 			} else {
+				Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
 				SafeDealloc(asset);
 				return static_cast<Texture2D*>(nullptr);
 			}
@@ -123,13 +127,18 @@ namespace Quark {
 	}
 
 	Texture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, TextureFormat format, unsigned char* data) {
-		Texture2D* asset = new Texture2D();
-		if (asset->LoadCustomTexture(width, height, format, data)) {
-			asset->SetAssetName(filename);
-			instance->StoreAsset(asset);
-		} else {
-			SafeDealloc(asset);
-			return static_cast<Texture2D*>(nullptr);
+		Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
+
+		if (!asset) {
+			asset = new Texture2D();
+			if (asset->LoadCustomTexture(width, height, format, data)) {
+				asset->SetAssetName(filename);
+				instance->StoreAsset(asset);
+			} else {
+				Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+				SafeDealloc(asset);
+				return static_cast<Texture2D*>(nullptr);
+			}
 		}
 
 		if (asset) {
@@ -152,6 +161,7 @@ namespace Quark {
 			if (asset->LoadCubemapTexture(id, filename, format, face)) {
 				instance->StoreAsset(asset);
 			} else {
+				Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
 				SafeDealloc(asset);
 				return static_cast<TextureCube*>(nullptr);
 			}
@@ -170,13 +180,18 @@ namespace Quark {
 	}
 
 	MSAATexture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, TextureFormat format, unsigned int sample) {
-		MSAATexture2D* asset = new MSAATexture2D();
-		if (asset->LoadMultiSampleTexture(width, height, format, sample)) {
-			asset->SetAssetName(filename);
-			instance->StoreAsset(asset);
-		} else {
-			SafeDealloc(asset);
-			return static_cast<MSAATexture2D*>(nullptr);
+		MSAATexture2D* asset = static_cast<MSAATexture2D*>(GetAssetByFilename(filename));
+
+		if (!asset) {
+			asset = new MSAATexture2D();
+			if (asset->LoadMultiSampleTexture(width, height, format, sample)) {
+				asset->SetAssetName(filename);
+				instance->StoreAsset(asset);
+			} else {
+				Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+				SafeDealloc(asset);
+				return static_cast<MSAATexture2D*>(nullptr);
+			}
 		}
 
 		if (asset) {

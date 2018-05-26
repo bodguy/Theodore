@@ -18,7 +18,7 @@ namespace Quark {
 	}
 
 	SplashScene::~SplashScene() {
-
+		
 	}
 
 	void SplashScene::OnAwake() {
@@ -55,7 +55,7 @@ namespace Quark {
 	void SplashScene::ObjectUpdate() {
 		cube->GetTransform()->Rotate(Vector3d(1.f, 1.f, 0.f), Time::DeltaTime() * 20.f);
 
-		Transform* trans = SceneManager::GetGlobalLight()->GetTransform();
+		Transform* trans = sphere->GetTransform();
 		if (Input::GetKeyHeld(KEY_0)) {
 			trans->SetLocalPosition(Vector3d::zero);
 			trans->SetLocalRotation(Quaternion::identity);

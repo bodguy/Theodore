@@ -23,6 +23,8 @@ namespace Quark {
 		static void PatchParameter(PatchParameters param, float* values);
 		static void ScreenToImage(const std::string& filename, ImageType type);
 		static void GetViewport(int* viewport);
+		static int GetMaxColorBuffer();
+		static int GetMaxDrawBuffer();
 		static void SetFaceCulling(CullFace whichFace, CullMode front);
 
 #if 0
