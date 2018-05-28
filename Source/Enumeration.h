@@ -90,7 +90,9 @@ namespace Quark {
         Blue8,
 		sRGB24,
 		sRGBA32,
-		Depth
+		Depth,
+		Stencil,
+		Depth24Stencil8
     };
         
     enum class AssetType {
@@ -244,7 +246,8 @@ namespace Quark {
 		Color14 = GL_COLOR_ATTACHMENT14,
 		Color15 = GL_COLOR_ATTACHMENT15,
 		Depth = GL_DEPTH_ATTACHMENT,
-		Stencil = GL_STENCIL_ATTACHMENT
+		Stencil = GL_STENCIL_ATTACHMENT,
+		DepthStencil = GL_DEPTH_STENCIL_ATTACHMENT
 	};
 
 	// only for OpenGL 2.1 below compatibility

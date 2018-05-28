@@ -4,6 +4,7 @@
 # add exception
 !/.gitignore
 !/CMakeLists.txt
+!/readme.md
 !/Contents/
 !/Libraries/
 !/Shaders/

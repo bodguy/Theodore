@@ -77,6 +77,7 @@ namespace Quark {
 			mTime->Update();
 			mInput->Update();
 			Update(Time::DeltaTime());
+			Graphics::ClearColor(Color(0.f, 0.f, 0.f, 1.f), BufferBits::ColorBits | BufferBits::DepthBits);
 			Render();
 			mPlatform->SwapBuffer();
 		}

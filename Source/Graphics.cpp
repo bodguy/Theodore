@@ -14,8 +14,12 @@ namespace Quark {
 	Graphics::~Graphics() {
 	}
 
-    void Graphics::Clear(const Color& color, BufferBits bits) {
-        glClearColor(color.r, color.g, color.b, color.a);
+	void Graphics::ClearColor(const Color& color, BufferBits bits) {
+		glClearColor(color.r, color.g, color.b, color.a);
+		glClear(static_cast<GLbitfield>(bits));
+	}
+
+    void Graphics::Clear(BufferBits bits) {
         glClear(static_cast<GLbitfield>(bits));
     }
     
@@ -30,9 +34,10 @@ namespace Quark {
     
     void Graphics::BindFrameBuffer(FrameBuffer* buffer) {
         if (buffer) {
+			glViewport(0, 0, buffer->GetWidth(), buffer->GetHeight());
             glBindFramebuffer(GL_FRAMEBUFFER, buffer->GetFrameBufferID());
-            glViewport(0, 0, buffer->GetWidth(), buffer->GetHeight());
         } else {
+			glViewport(0, 0, Platform::GetWidth(), Platform::GetHeight());
             glBindFramebuffer(GL_FRAMEBUFFER, NULL);
         }
     }
@@ -118,11 +123,11 @@ namespace Quark {
 		const int linewidth = w * 3;
 
 		//flip the image
-		//for (int y = 0; y < (h / 2); y++) {
-		//	std::copy(data + y * linewidth, data + y * linewidth + linewidth, tmpline);
-		//	std::copy(data + (h - y) * linewidth, data + (h - y) * linewidth + linewidth, data + y * linewidth);
-		//	std::copy(tmpline, tmpline + linewidth, data + (h - y) * linewidth);
-		//}
+		for (int y = 0; y < (h / 2); y++) {
+			std::copy(data + y * linewidth, data + y * linewidth + linewidth, tmpline);
+			std::copy(data + (h - y) * linewidth, data + (h - y) * linewidth + linewidth, data + y * linewidth);
+			std::copy(tmpline, tmpline + linewidth, data + (h - y) * linewidth);
+		}
 
 		switch (type) {
 		case ImageType::IMAGE_PNG:

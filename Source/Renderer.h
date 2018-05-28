@@ -12,8 +12,8 @@ namespace Quark {
 		Renderer(const std::string& name);
 		virtual ~Renderer();
 
-		void SetPrimitive(const Primitive primitive) { mPrimitive = primitive; }
-		void SetDebugRender(bool debug) { mIsDebugRendering = debug; }
+		void SetPrimitive(const Primitive primitive);
+		void SetDebugRender(bool debug);
 
 	protected:
 		std::vector<Buffer*> mVbos;

@@ -37,7 +37,7 @@ namespace Quark {
 	Matrix4x4 Camera::GetProjectionMatrix() const {
 		ResetProjectionMatrix();
 		if (mOrthographic) {
-			mProjectionMatrix = Matrix4x4::Orthogonal(-10.f, 10.f, -10.f, 10.f, -mNearClipPlane, mFarClipPlane);
+			mProjectionMatrix = Matrix4x4::Orthogonal(-10.f, 10.f, -10.f, 10.f, mNearClipPlane, mFarClipPlane);
 		} else {
 			mProjectionMatrix = Matrix4x4::Perspective(Math::Radians(mFieldOfView), mAspect, mNearClipPlane, mFarClipPlane);
 		}
@@ -101,6 +101,14 @@ namespace Quark {
 
 	Transform* Camera::GetTransform() const {
 		return mTransform;
+	}
+
+	FrameBuffer* Camera::GetRenderTexture() const {
+		return mRenderTexture;
+	}
+
+	void Camera::SetRenderTexture(FrameBuffer* texture) {
+		mRenderTexture = texture;
 	}
 
 	void Camera::PrepareFrustum() {

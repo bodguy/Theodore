@@ -6,7 +6,7 @@
 #include "Object.h"
 
 namespace Quark {
-    class SceneManager; class GameObject;
+	class SceneManager; class GameObject; class Light;
 	class Scene : public Object {
 		friend class SceneManager;
 		friend class GameObject;
@@ -47,6 +47,7 @@ namespace Quark {
 
 	protected:
 		std::vector<GameObject*> mGameObjects;
+		std::vector<Light*> mLights;
 		int32_t mBuildIndex;
 		SceneManager* mManager;
 		bool mActive;

@@ -150,6 +150,10 @@ namespace Quark {
 		return mTransform;
 	}
 
+	std::vector<Light*>& GameObject::GetAllLights() const {
+		return mScene->mLights;
+	}
+
 	void GameObject::Update(double deltaTime) {
 		for (auto& i : mComponents)
 			i.second->Update(deltaTime);

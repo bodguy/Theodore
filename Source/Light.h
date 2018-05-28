@@ -6,7 +6,7 @@
 #include "Component.h"
 
 namespace Quark {
-	class Transform;
+	class Transform; class ShadowInfo;
 	class Light : public Component {
 	public:
 		Light(LightType type);
@@ -28,6 +28,8 @@ namespace Quark {
 		float cutOff;
 		float outerCutOff;
 
+		static unsigned int MaxLightCount;
+
 	private:
 		virtual void Update(double deltaTime) override;
 		virtual void Render() override;
@@ -35,6 +37,7 @@ namespace Quark {
 		virtual bool Destroy() override;
 
 		Transform* mTransform;
+		ShadowInfo* mShadowInfo;
 	};
 }
 

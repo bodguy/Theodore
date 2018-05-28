@@ -7,7 +7,7 @@
 #include "Component.h"
 
 namespace Quark {
-	class Transform;
+	class Transform; class FrameBuffer;
 	class Camera : public Component {
 	public:
 		Camera();
@@ -31,6 +31,8 @@ namespace Quark {
 		void SetNearClipPlane(float near);
 		void SetFarClipPlane(float far);
 		Transform* GetTransform() const;
+		FrameBuffer* GetRenderTexture() const;
+		void SetRenderTexture(FrameBuffer* texture);
 
 	private:
 		void PrepareFrustum();
@@ -47,6 +49,7 @@ namespace Quark {
 		mutable float mPixelHeight;
 		mutable float mAspect;
 		Transform* mTransform;
+		FrameBuffer* mRenderTexture;
 
 		mutable Matrix4x4 mProjectionMatrix;
 		mutable Matrix4x4 mWorldToCameraMatrix;

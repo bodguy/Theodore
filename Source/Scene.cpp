@@ -90,10 +90,11 @@ namespace Quark {
 
 	void Scene::Render() {
 		OnPreRender();
-		Graphics::Clear(Color(0.f, 0.f, 0.f, 1.f), BufferBits::ColorBits | BufferBits::DepthBits);
+
 		for (auto& i : mGameObjects)
 			if (i->mActiveSelf)
 				i->Render();
+
 		OnAfterRender();
 	}
 

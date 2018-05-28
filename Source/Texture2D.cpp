@@ -280,6 +280,12 @@ namespace Quark {
 			case TextureFormat::Depth:
 				glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_DEPTH_COMPONENT, mWidth, mHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, data);
 				break;
+			case TextureFormat::Stencil:
+				glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_STENCIL_INDEX, mWidth, mHeight, 0, GL_STENCIL_INDEX, GL_FLOAT, data);
+				break;
+			case TextureFormat::Depth24Stencil8:
+				glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_DEPTH24_STENCIL8, mWidth, mHeight, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, data);
+				break;
 			default:
 				return false;
         }

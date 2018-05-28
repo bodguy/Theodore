@@ -49,14 +49,16 @@ in VS_OUT {
 	vec2 uvs;
 } fs_in;
 
-#define NUM_POINT_LIGHTS 3
+#define MAX_LIGHT_COUNT 50
 
 out vec4 outColor;
 uniform Material material;
 uniform DirLight dirLight;
-uniform PointLight pointLights[NUM_POINT_LIGHTS];
-uniform SpotLight spotLight;
+uniform PointLight pointLights[MAX_LIGHT_COUNT];
+uniform SpotLight spotLights[MAX_LIGHT_COUNT];
 uniform vec3 viewPos;
+uniform int spotLightCount;
+uniform int pointLightCount;
 
 // function prototypes
 float ShadowCalculation(vec4 position);
@@ -69,10 +71,13 @@ void main(void) {
 	vec3 viewDir = normalize(viewPos - fs_in.position);
 
 	vec4 result = CalcDirLight(dirLight, norm, viewDir);
-	for(int i = 0; i < NUM_POINT_LIGHTS; i++) {
+	for(int i = 0; i < pointLightCount; i++) {
 		result += CalcPointLight(pointLights[i], norm, fs_in.position, viewDir);
 	}
-	result += CalcSpotLight(spotLight, norm, fs_in.position, viewDir);
+	
+	for(int j = 0; j < spotLightCount; j++) {
+		result += CalcSpotLight(spotLights[j], norm, fs_in.position, viewDir);
+	}
 
 	// gamma correction
 	result = pow(result, vec4(1.0/2.2));

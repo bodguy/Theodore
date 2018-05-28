@@ -44,12 +44,69 @@ namespace Quark {
 		rend->SetMaterial(mat);
 		rend->SetMesh(mesh);
 
+		GameObject* lightObject[] = {
+			new GameObject("light1", this),
+			new GameObject("light2", this),
+			new GameObject("light3", this),
+			new GameObject("light4", this),
+			new GameObject("light5", this),
+			new GameObject("light6", this)
+		};
+
+		light1 = lightObject[0]->AddComponent<Light>(LightType::PointLight);
+		light2 = lightObject[1]->AddComponent<Light>(LightType::PointLight);
+		light3 = lightObject[2]->AddComponent<Light>(LightType::PointLight);
+		light4 = lightObject[3]->AddComponent<Light>(LightType::SpotLight);
+		light5 = lightObject[4]->AddComponent<Light>(LightType::SpotLight);
+		light6 = lightObject[5]->AddComponent<Light>(LightType::SpotLight);
+
+		light1->GetTransform()->SetPosition(Vector3d(0.f, 0.f, 0.f));
+		light1->ambient = Color::red;
+		light1->diffuse= Color::red;
+		light1->specular = Color::red;
+		
+		light2->GetTransform()->SetPosition(Vector3d(10.f, 0.f, 0.f));
+		light2->ambient = Color::green;
+		light2->diffuse = Color::green;
+		light2->specular = Color::green;
+		
+		light3->GetTransform()->SetPosition(Vector3d(-10.f, 0.f, 0.f));
+		light3->ambient = Color::blue;
+		light3->diffuse = Color::blue;
+		light3->specular = Color::blue;
+
+		light4->ambient = Color::white;
+		light4->diffuse = Color::white;
+		light4->specular = Color::white;
+
+		light5->ambient = Color::orange;
+		light5->diffuse = Color::orange;
+		light5->specular = Color::orange;
+
+		light6->GetTransform()->SetPosition(Vector3d(0.f, 0.f, 15.f));
+		light6->ambient = Color::blue;
+		light6->diffuse = Color::blue;
+		light6->specular = Color::blue;
+
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
 	}
 
 	void SplashScene::OnUpdate() {
 		ObjectUpdate();
 		CameraUpdate();
+
+		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_SPACE)) {
+			Vector3d right = Vector3d::right;
+			right *= Input::GetMouseDeltaPosition().x * Time::DeltaTime();
+			light1->GetTransform()->Translate(right);
+
+			Vector3d up = Vector3d::up;
+			up *= Input::GetMouseDeltaPosition().y * Time::DeltaTime();
+			light1->GetTransform()->Translate(-up);
+		}
+
+		light4->GetTransform()->Rotate(Vector3d::up * Time::DeltaTime() * 20.f);
+		light5->GetTransform()->Rotate(Vector3d::up * Time::DeltaTime() * 10.f);
 	}
 
 	void SplashScene::ObjectUpdate() {
@@ -113,7 +170,7 @@ namespace Quark {
 			SceneManager::GetMainCamera()->SetOrthographic(isOrtho);
 		} 
 
-		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && !Input::GetKeyHeld(KEY_LCTRL) && !Input::GetKeyHeld(KEY_TAB) && !Input::GetKeyHeld(KEY_LALT)) {
+		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && !Input::GetKeyHeld(KEY_LCTRL) && !Input::GetKeyHeld(KEY_TAB) && !Input::GetKeyHeld(KEY_LALT) && !Input::GetKeyHeld(KEY_SPACE)) {
 			Vector3d right = SceneManager::GetMainCamera()->GetTransform()->GetRight();
 			right *= Input::GetMouseDeltaPosition().x * moveSensitivity * Time::DeltaTime();
 			SceneManager::GetMainCamera()->GetTransform()->Translate(right);

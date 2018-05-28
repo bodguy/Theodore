@@ -10,6 +10,7 @@
 #include "Component.h"
 #include "Object.h"
 #include "Enumeration.h"
+#include "Light.h"
 
 namespace Quark {
 	class Transform; class Scene; class Debug;
@@ -47,6 +48,7 @@ namespace Quark {
 		bool BroadcastMessage(Message& msg);
 		static GameObject* CreatePrimitive(PrimitiveType type, Scene* scene);
 		Transform* GetTransform() const;
+		std::vector<Light*>& GetAllLights() const;
 
 	private:
 		virtual void Update(double deltaTime) override;
@@ -88,6 +90,12 @@ namespace Quark {
 		new (component) T(args...);
 		// store to unordered_map(hash map).
 		mComponents.insert(std::make_pair(std::type_index(typeid(T)), component));
+
+		// caching light components
+		Light* comp = this->GetComponent<Light>();
+		if (comp && comp->type != LightType::DirectionalLight) {
+			mScene->mLights.push_back(comp);
+		}
 
 		return component;
 	}

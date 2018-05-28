@@ -40,10 +40,10 @@ namespace Quark {
 			asset->AddReference();
 			if (asset->mRefCount != 1) {
 				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			} else {
+				Debug::Log(asset);
 			}
 		}
-
-		Debug::Log(asset);
 
 		return asset;
 	}
@@ -66,10 +66,10 @@ namespace Quark {
 			asset->AddReference();
 			if (asset->mRefCount != 1) {
 				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			} else {
+				Debug::Log(asset);
 			}
 		}
-
-		Debug::Log(asset);
 
 		return asset;
 	}
@@ -92,10 +92,10 @@ namespace Quark {
 			asset->AddReference();
 			if (asset->mRefCount != 1) {
 				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			} else {
+				Debug::Log(asset);
 			}
 		}
-
-		Debug::Log(asset);
 
 		return asset;
 	}
@@ -118,10 +118,10 @@ namespace Quark {
 			asset->AddReference();
 			if (asset->mRefCount != 1) {
 				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			} else {
+				Debug::Log(asset);
 			}
 		}
-
-		Debug::Log(asset);
 
 		return asset;
 	}
@@ -145,10 +145,10 @@ namespace Quark {
 			asset->AddReference();
 			if (asset->mRefCount != 1) {
 				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			} else {
+				Debug::Log(asset);
 			}
 		}
-
-		Debug::Log(asset);
 
 		return asset;
 	}
@@ -171,10 +171,10 @@ namespace Quark {
 			asset->AddReference();
 			if (asset->mRefCount != 1) {
 				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			} else {
+				Debug::Log(asset);
 			}
 		}
-
-		Debug::Log(asset);
 
 		return asset;
 	}
@@ -198,10 +198,10 @@ namespace Quark {
 			asset->AddReference();
 			if (asset->mRefCount != 1) {
 				Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+			} else {
+				Debug::Log(asset);
 			}
 		}
-
-		Debug::Log(asset);
 
 		return asset;
 	}

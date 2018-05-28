@@ -1,7 +1,12 @@
 #include "Light.h"
 #include "GameObject.h"
+#include "Math.h"
+#include "ShadowInfo.h"
+#include "Debug.h"
+#include "Utility.h"
 
 namespace Quark {
+	unsigned int Light::MaxLightCount = 50;
 	Light::Light(LightType type) : Component("Light"), type(type), ambient(Color(0.01f, 0.01f, 0.01f, 0.01f)), diffuse(Color(0.01f, 0.01f, 0.01f, 0.01f)), specular(Color(0.1f, 0.1f, 0.1f, 0.1f)),
 		constant(0.f), linear(0.f), quadratic(0.f), cutOff(0.f), outerCutOff(0.f) {
 		switch (type) {
@@ -13,14 +18,19 @@ namespace Quark {
 			quadratic = 0.032f;
 			break;
 		case LightType::SpotLight:
-			cutOff = 0.f;
-			outerCutOff = 0.f;
+			cutOff = Math::Cos(Math::Radians(12.5f));
+			outerCutOff = Math::Cos(Math::Radians(15.0f));
+			constant = 1.f;
+			linear = 0.09f;
+			quadratic = 0.032f;
 			break;
 		}
 		mTransform = this->mGameObject->GetTransform();
+		mShadowInfo = new ShadowInfo();
 	}
 
 	Light::~Light() {
+		SafeDealloc(mShadowInfo);
 	}
 
 	Transform* Light::GetTransform() const {
@@ -32,7 +42,7 @@ namespace Quark {
 	}
 
 	void Light::Render() {
-		return;
+
 	}
 
 	bool Light::CompareEquality(const Object& rhs) const {

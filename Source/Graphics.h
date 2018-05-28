@@ -8,7 +8,8 @@ namespace Quark {
     class Color; class VertexArray; class FrameBuffer;
     class Graphics {
     public:
-        static void Clear(const Color& color, BufferBits bits);
+		static void ClearColor(const Color& color, BufferBits bits);
+        static void Clear(BufferBits bits);
         static void BindTexture(unsigned int unit, Texture* texture);
         static void BindFrameBuffer(FrameBuffer* buffer);
         static void DrawArrays(const VertexArray& vao, Primitive mode, unsigned int offset, unsigned int vertices);

@@ -5,7 +5,7 @@
 #include <vector>
 
 namespace Quark {
-	class Program; class Texture;
+	class Program; class Texture; class FrameBuffer;
 	class Material {
 	public:
 		Material(Program* program);
@@ -18,6 +18,8 @@ namespace Quark {
 		Texture* texture2;
 		Texture* texture3;
 		Texture* texture4;
+		FrameBuffer* renderTexture;
+
 		Color ambient;
 		Color diffuse;
 		Color specular;

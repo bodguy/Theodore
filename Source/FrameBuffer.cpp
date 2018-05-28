@@ -12,8 +12,8 @@ namespace Quark {
         glDeleteFramebuffers(1, &mFrameBufferID);
     }
 
-	void FrameBuffer::AttachTexture(Texture2D* tex, Attachment attach) {
-		mTextures.insert(std::make_pair(attach, tex));
+	bool FrameBuffer::AttachTexture(Texture2D* tex, Attachment attach) {
+		return mTextures.insert(std::make_pair(attach, tex)).second;
 	}
 
 	void FrameBuffer::SetRenderBuffer(RenderBuffer* buffer) {
@@ -42,6 +42,8 @@ namespace Quark {
 			return false;
 		}
 
+		Debug::Log("FrameBuffer successfully created [id=%d]", mFrameBufferID);
+
 		return true;
 	}
     
@@ -59,5 +61,10 @@ namespace Quark {
 
 	Texture2D* FrameBuffer::GetTexture(Attachment attach) {
 		return mTextures[attach];
+	}
+
+	void FrameBuffer::SetDimension(unsigned int w, unsigned int h) {
+		mWidth = w;
+		mHeight = h;
 	}
 }

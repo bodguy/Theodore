@@ -15,4 +15,12 @@ namespace Quark {
 		SafeDealloc(mVao);
 		// DO NOT DEALLOCATE mProgram.
 	}
+
+	void Renderer::SetPrimitive(const Primitive primitive) {
+		mPrimitive = primitive; 
+	}
+
+	void Renderer::SetDebugRender(bool debug) {
+		mIsDebugRendering = debug; 
+	}
 }
