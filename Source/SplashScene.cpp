@@ -15,6 +15,7 @@ namespace Quark {
 		maximumY = 60.f;
 		isOrtho = false;
 		isWire = false;
+		camChange = false;
 	}
 
 	SplashScene::~SplashScene() {
@@ -33,11 +34,16 @@ namespace Quark {
 		torus = GameObject::CreatePrimitive(PrimitiveType::Torus, this);
 		torus->GetTransform()->SetLocalPosition(Vector3d(6.f, 0.f, 0.f));
 
+		FrameBuffer* frameBuffer = new FrameBuffer(Platform::GetWidth(), Platform::GetHeight());
+		frameBuffer->AttachTexture(AssetManager::RequestTexture("raw", Platform::GetWidth(), Platform::GetHeight(), TextureFormat::RGBA32, nullptr), Attachment::Color0);
+		frameBuffer->Create(true);
+
 		cube = new GameObject("cube", this);
 		cube->GetTransform()->SetLocalPosition(Vector3d(3.f, 0.f, 0.f));
 		Mesh* mesh = new Mesh();
 		mesh = ShapeGenerator::GenerateCube();
 		Material* mat = new Material(Shader::Find("Standard"));
+		mat->renderTexture = frameBuffer;
 		mat->texture0 = AssetManager::RequestTexture("Contents/container2.png", TextureFormat::RGBA32);
 		mat->texture1 = AssetManager::RequestTexture("Contents/container2_specular.png", TextureFormat::RGBA32);
 		MeshRenderer* rend = cube->AddComponent<MeshRenderer>();
@@ -88,6 +94,11 @@ namespace Quark {
 		light6->diffuse = Color::blue;
 		light6->specular = Color::blue;
 
+		cam2 = new GameObject("cam2", this);
+		Camera* c = cam2->AddComponent<Camera>();
+		c->SetRenderTexture(frameBuffer);
+		c->GetTransform()->SetPosition(Vector3d(0.f, 0.f, 20.f));
+		
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
 	}
 
@@ -168,7 +179,18 @@ namespace Quark {
 		if (Input::GetKeyDown(KEY_2)) { // setting ortho or perspective
 			isOrtho = !isOrtho;
 			SceneManager::GetMainCamera()->SetOrthographic(isOrtho);
-		} 
+		}
+		else if (Input::GetKeyDown(KEY_3)) {
+			camChange = !camChange;
+
+			if(camChange) {
+				SceneManager::SetMainCamera(cam2->GetComponent<Camera>());
+			}
+			else {
+				SceneManager::SetCurrentCamera();
+			}
+			
+		}
 
 		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && !Input::GetKeyHeld(KEY_LCTRL) && !Input::GetKeyHeld(KEY_TAB) && !Input::GetKeyHeld(KEY_LALT) && !Input::GetKeyHeld(KEY_SPACE)) {
 			Vector3d right = SceneManager::GetMainCamera()->GetTransform()->GetRight();

@@ -14,12 +14,15 @@ namespace Quark {
 		bool Create(bool writable);
 
 		bool AttachTexture(Texture2D* tex, Attachment attach);
+		Texture2D* GetRenderTexture(Attachment attach);
 		void SetRenderBuffer(RenderBuffer* buffer);
         
+		bool IsCreated() const;
         unsigned int GetFrameBufferID() const;
         unsigned int GetWidth() const;
         unsigned int GetHeight() const;
 		Texture2D* GetTexture(Attachment attach);
+		void GetBufferInfo();
 
 		void SetDimension(unsigned int w, unsigned int h);
 
@@ -29,6 +32,7 @@ namespace Quark {
         unsigned int mHeight;
 		std::map<Attachment, Texture2D*> mTextures;
 		RenderBuffer* mRender;
+		bool mIsCreated;
     };
 }
 

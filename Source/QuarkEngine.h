@@ -13,6 +13,7 @@
 #include "VertexBuffer.h"
 #include "Cubemap.h"
 #include "FrameBuffer.h"
+#include "RenderBuffer.h"
 #include "Texture.h"
 #include "Texture2D.h"
 #include "MSAATexture2D.h"

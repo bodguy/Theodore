@@ -5,9 +5,10 @@ struct Material {
     vec4 diffuse;
     vec4 specular;
     float shininess;
-	sampler2D shadowMap;
+	sampler2D renderTexture;
 	sampler2D texture0;
 	sampler2D texture1;
+	bool isRenderTexture;
 	bool isTexture0;
 	bool isTexture1;
 }; 
@@ -67,21 +68,25 @@ vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 vec4 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
 void main(void) {
-	vec3 norm = normalize(fs_in.normal);
-	vec3 viewDir = normalize(viewPos - fs_in.position);
+	if(material.isRenderTexture) {
+		outColor = vec4(texture(material.renderTexture, fs_in.uvs));
+	} else {
+		vec3 norm = normalize(fs_in.normal);
+		vec3 viewDir = normalize(viewPos - fs_in.position);
 
-	vec4 result = CalcDirLight(dirLight, norm, viewDir);
-	for(int i = 0; i < pointLightCount; i++) {
-		result += CalcPointLight(pointLights[i], norm, fs_in.position, viewDir);
-	}
-	
-	for(int j = 0; j < spotLightCount; j++) {
-		result += CalcSpotLight(spotLights[j], norm, fs_in.position, viewDir);
-	}
+		vec4 result = CalcDirLight(dirLight, norm, viewDir);
+		for(int i = 0; i < pointLightCount; i++) {
+			result += CalcPointLight(pointLights[i], norm, fs_in.position, viewDir);
+		}
+		
+		for(int j = 0; j < spotLightCount; j++) {
+			result += CalcSpotLight(spotLights[j], norm, fs_in.position, viewDir);
+		}
 
-	// gamma correction
-	result = pow(result, vec4(1.0/2.2));
-	outColor = result;
+		// gamma correction
+		result = pow(result, vec4(1.0/2.2));
+		outColor = result;
+	}
 }
 
 float ShadowCalculation(vec4 position) {

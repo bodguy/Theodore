@@ -27,7 +27,7 @@ namespace Quark {
 
 	}
 
-	bool WindowsPlatform::CreatePlatformWindows(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style) {
+	bool WindowsPlatform::CreatePlatformWindows(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style, ContextProfile profile) {
 		mhInstance = GetModuleHandle(NULL);
 		if (!mhInstance) return false;
 
@@ -198,7 +198,7 @@ namespace Quark {
 			int  contextAttribs[] = {
 				WGL_CONTEXT_MAJOR_VERSION_ARB, major_min,
 				WGL_CONTEXT_MINOR_VERSION_ARB, minor_min,
-				WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+				WGL_CONTEXT_PROFILE_MASK_ARB, static_cast<int>(profile),
 				//WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_DEBUG_BIT_ARB,
 				0
 			};
@@ -235,10 +235,18 @@ namespace Quark {
 			glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, &nCurAvailMemoryInKB);
 		}
 
+		int param;
+		glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &param);
+
 		Debug::Log("Vendor : %s", glGetString(GL_VENDOR));
 		Debug::Log("Renderer : %s", glGetString(GL_RENDERER));
 		Debug::Log("Version : %s", glGetString(GL_VERSION));
 		Debug::Log("GLSL : %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+		if (param == GL_CONTEXT_CORE_PROFILE_BIT) {
+			Debug::Log("Context Profile: Core");
+		} else {
+			Debug::Log("Context Profile: Compatibility");
+		}
 		Debug::Log("GPU Total Memory : %.0f MB", Math::Round(Math::KBtoMB(nTotalMemoryInKB)));
 		Debug::Log("GPU Available Memory : %.0f MB", Math::Round(Math::KBtoMB(nCurAvailMemoryInKB)));
 
@@ -464,8 +472,8 @@ namespace Quark {
 		}
 	}
 
-	bool Platform::Initialize(const std::string& name, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style) {
-		return WindowsPlatform::instance->CreatePlatformWindows(name, width, height, fullscreen, majorVersion, minorVersion, multisample, style);
+	bool Platform::Initialize(const PlatformContext& param) {
+		return WindowsPlatform::instance->CreatePlatformWindows(param.name, param.width, param.height, param.fullscreen, param.majorVersion, param.minorVersion, param.multisample, param.style, param.profile);
 	}
 
 	void Platform::Update() {

@@ -9,7 +9,7 @@ namespace Quark {
 	class Gizmo : public Component {
 	public:
 		Gizmo(GizmoType type);
-		~Gizmo();
+		virtual ~Gizmo();
 
 	private:
 		virtual void Update(double deltaTime) override;

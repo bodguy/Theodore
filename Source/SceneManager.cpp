@@ -39,7 +39,7 @@ namespace Quark {
 
 		GetInstance()->mCurrentScene = scene;
 		SetCurrentCamera();
-		SetCurrentLigh();
+		SetCurrentLight();
 		scene->OnStart();
 
 		return true;
@@ -94,7 +94,7 @@ namespace Quark {
 			GetInstance()->mGlobalLight = light;
 	}
 
-	void SceneManager::SetCurrentLigh() {
+	void SceneManager::SetCurrentLight() {
 		if (GetActiveScene())
 			GetInstance()->mGlobalLight = GetActiveScene()->Find("GlobalLight")->GetComponent<Light>();
 	}

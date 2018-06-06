@@ -19,6 +19,8 @@ namespace Quark {
 		virtual bool CompareEquality(const Object& rhs) const override;
 		virtual bool Destroy() override;
 
+		void InternalRender();
+
 	private:
 		Material* mMaterial;
 		Mesh* mMesh;

@@ -150,15 +150,39 @@ namespace Quark {
 	}
 
 	int Graphics::GetMaxColorBuffer() {
-		int maxAttach = 0;
-		glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &maxAttach);
-		return maxAttach;
+		int res = 0;
+		glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &res);
+		return res;
 	}
 
 	int Graphics::GetMaxDrawBuffer() {
-		int maxDrawBuf = 0;
-		glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuf);
-		return maxDrawBuf;
+		int res = 0;
+		glGetIntegerv(GL_MAX_DRAW_BUFFERS, &res);
+		return res;
+	}
+
+	int Graphics::GetMaxFrameBufferWidth() {
+		int res = 0;
+		glGetIntegerv(GL_MAX_FRAMEBUFFER_WIDTH, &res);
+		return res;
+	}
+
+	int Graphics::GetMaxFrameBufferHeight() {
+		int res = 0;
+		glGetIntegerv(GL_MAX_FRAMEBUFFER_HEIGHT, &res);
+		return res;
+	}
+
+	int Graphics::GetMaxFrameBufferSamples() {
+		int res = 0;
+		glGetIntegerv(GL_MAX_FRAMEBUFFER_SAMPLES, &res);
+		return res;
+	}
+
+	int Graphics::GetMaxFrameBufferLayers() {
+		int res = 0;
+		glGetIntegerv(GL_MAX_FRAMEBUFFER_LAYERS, &res);
+		return res;
 	}
 
 	void Graphics::SetFaceCulling(CullFace whichFace, CullMode front) {

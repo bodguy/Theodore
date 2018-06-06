@@ -261,6 +261,11 @@ namespace Quark {
 		IMAGE_BMP,
 		IMAGE_TGA
 	};
+
+	enum class ContextProfile {
+		Core = 0x00000001,
+		Compatibility = 0x00000002
+	};
     
 	inline BufferBits operator |(const BufferBits a, const BufferBits b) {
 		return static_cast<BufferBits>(static_cast<int>(a) | static_cast<int>(b));

@@ -14,7 +14,7 @@ namespace Quark {
 		LinuxPlatform();
 		~LinuxPlatform();
 
-		bool CreatePlatformLinux(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style);
+		bool CreatePlatformLinux(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style, ContextProfile profile);
 		void KillPlatformLinux();
 
         static LinuxPlatform* instance;

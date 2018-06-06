@@ -12,6 +12,7 @@ namespace Quark {
 	public:
 		Camera();
 		Camera(const Vector3d& position);
+		virtual ~Camera();
 
 		void ResetAspect() const;
 		void ResetFieldOfView() const;
@@ -33,9 +34,9 @@ namespace Quark {
 		Transform* GetTransform() const;
 		FrameBuffer* GetRenderTexture() const;
 		void SetRenderTexture(FrameBuffer* texture);
+		void PrepareFrustum();
 
 	private:
-		void PrepareFrustum();
 		virtual void Update(double deltaTime) override;
 		virtual void Render() override;
 		virtual bool CompareEquality(const Object& rhs) const override;

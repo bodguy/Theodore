@@ -10,7 +10,7 @@ namespace Quark {
 	class Light : public Component {
 	public:
 		Light(LightType type);
-		~Light();
+		virtual ~Light();
 
 		Transform* GetTransform() const;
 

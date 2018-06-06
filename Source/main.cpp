@@ -2,7 +2,9 @@
 
 int main(int argc, char** argv) {
 	Quark::Application app;
-	if (!app.Initialize("test", 800, 600, false)) {
+	Quark::PlatformContext pc;
+	pc.name = "test";
+	if (!app.Initialize(pc)) {
 		return 0;
 	}
 	app.Run();

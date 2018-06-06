@@ -27,7 +27,7 @@ namespace Quark {
 
     }
 
-    bool CocoaPlatform::CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style) {
+    bool CocoaPlatform::CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style, ContextProfile profile) {
         @autoreleasepool {
             platform->mWidth = width;
             platform->mHeight = height;
@@ -278,8 +278,8 @@ namespace Quark {
         SafeDealloc(CocoaPlatform::instance);
     }
 
-    bool Platform::Initialize(const std::string& name, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style) {
-        return CocoaPlatform::instance->CreatePlatformCocoa(name, width, height, fullscreen, majorVersion, minorVersion, multisample, style);
+    bool Platform::Initialize(const PlatformContext& param) {
+        return CocoaPlatform::instance->CreatePlatformCocoa(param.name, param.width, param.height, param.fullscreen, param.majorVersion, param.minorVersion, param.multisample, param.style, param.profile);
     }
 
     void Platform::Update() {

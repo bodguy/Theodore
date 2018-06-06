@@ -26,6 +26,10 @@ namespace Quark {
 		static void GetViewport(int* viewport);
 		static int GetMaxColorBuffer();
 		static int GetMaxDrawBuffer();
+		static int GetMaxFrameBufferWidth();
+		static int GetMaxFrameBufferHeight();
+		static int GetMaxFrameBufferSamples();
+		static int GetMaxFrameBufferLayers();
 		static void SetFaceCulling(CullFace whichFace, CullMode front);
 
 #if 0

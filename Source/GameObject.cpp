@@ -8,7 +8,6 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "ShapeGenerator.h"
-
 #include "AssetManager.h"
 #include "Texture2D.h"
 #include "Texture.h"
@@ -150,10 +149,6 @@ namespace Quark {
 		return mTransform;
 	}
 
-	std::vector<Light*>& GameObject::GetAllLights() const {
-		return mScene->mLights;
-	}
-
 	void GameObject::Update(double deltaTime) {
 		for (auto& i : mComponents)
 			i.second->Update(deltaTime);
@@ -191,5 +186,13 @@ namespace Quark {
 			return mScene->Remove(this);
 
 		return true;
-	}	
+	}
+
+	std::vector<Light*>& GameObject::GetAllLights() const {
+		return mScene->mLights;
+	}
+
+	std::vector<Camera*>& GameObject::GetAllCameras() const {
+		return mScene->mCameras;
+	}
 }

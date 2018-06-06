@@ -3,6 +3,7 @@
 
 #include <string>
 #include "Enumeration.h"
+#include "Platform.h"
 
 namespace Quark {
 	class Platform; class Input; class Time; class SceneManager; class AssetManager; class ShaderManager;
@@ -11,7 +12,7 @@ namespace Quark {
 		Application();
 		~Application();
 
-		bool Initialize(const std::string& name, int width, int height, bool fullmode = false, int majorVersion = 4, int minorVersion = 3, int multisample = 16, WindowStyle style = WindowStyle::Resizable);
+		bool Initialize(const PlatformContext& param);
 		void Run();
 
 	private:

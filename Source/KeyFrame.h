@@ -11,7 +11,6 @@ namespace Quark {
 		float mTime;
 		float mValue;
 	};
-
 }
 
 #endif /* KeyFrame_h */

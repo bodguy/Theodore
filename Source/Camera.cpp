@@ -4,19 +4,29 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "Graphics.h"
+#include "Mesh.h"
+#include "MeshRenderer.h"
+#include "Material.h"
+#include "Shader.h"
+#include "Utility.h"
+#include "FrameBuffer.h"
 
 namespace Quark {
-	Camera::Camera() : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false) {
+	Camera::Camera() : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false), mRenderTexture(nullptr) {
 		ResetAspect();
 		ResetFieldOfView();
 		mTransform = this->mGameObject->GetTransform();
 	}
 
-	Camera::Camera(const Vector3d& position) : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false) {
+	Camera::Camera(const Vector3d& position) : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false), mRenderTexture(nullptr) {
 		ResetAspect();
 		ResetFieldOfView();
 		mTransform = this->mGameObject->GetTransform();
 		mTransform->SetPosition(position);
+	}
+
+	Camera::~Camera() {
+		SafeDealloc(mRenderTexture);
 	}
 
 	void Camera::ResetAspect() const {
@@ -138,13 +148,15 @@ namespace Quark {
 			nearRightBottom, farRightBottom, farRightTop, nearRightTop      // right face
 		};
 
-		//glGenVertexArrays(1, &vao);
+		//MeshRenderer* rend = this->mGameObject->AddComponent<MeshRenderer>();
 
-		//glGenBuffers(1, &vbo_vertices);
-		//glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
-		//unsigned int numBytes = vertices.size() * sizeof(Vector3d);
-		//glBufferData(GL_ARRAY_BUFFER, numBytes, const_cast<float *>(&((vertices.data())->x)), GL_STATIC_DRAW);
-		//glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//Mesh* mesh = new Mesh();
+		//mesh->SetVertices(vertices);
+		//mesh->MarkDynamic();
+		//Material* mat = new Material(Shader::Find("Standard"));
+
+		//rend->SetMaterial(mat);
+		//rend->SetMesh(mesh);
 	}
 
 	// private functions, for consistency with other components.

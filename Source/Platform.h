@@ -8,6 +8,22 @@
 
 namespace Quark {
     typedef Vector3d PointCoord;
+	class PlatformContext {
+	public:
+		PlatformContext() :name("No Title"), width(800), height(600), fullscreen(false), majorVersion(4), minorVersion(3), multisample(16), style(WindowStyle::Resizable), profile(ContextProfile::Core) {}
+		~PlatformContext() {}
+
+		std::string name;
+		int width;
+		int height;
+		bool fullscreen;
+		int majorVersion;
+		int minorVersion;
+		int multisample;
+		WindowStyle style;
+		ContextProfile profile;
+	};
+
     class Platform {
         friend class Input;
         friend class WindowsPlatform;
@@ -18,8 +34,7 @@ namespace Quark {
         ~Platform();
         
         static Platform* GetInstance() { return instance; }
-        bool Initialize(const std::string& name, int width, int height,
-                        bool fullscreen = false, int majorVersion = 0, int minorVersion = 0, int multisample = 4, WindowStyle style = WindowStyle::Resizable);
+        bool Initialize(const PlatformContext& param);
         void Update();
         void SwapBuffer();
         void WindowSizeChanged(int width, int height);

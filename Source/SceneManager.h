@@ -42,7 +42,7 @@ namespace Quark {
 		// Set Global light
 		static void SetGlobalLight(Light* light);
 		// Reset to the global light
-		static void SetCurrentLigh();
+		static void SetCurrentLight();
 
 		// Update current active scene in main game loop.
 		void Update(double deltaTime) const;
@@ -80,7 +80,7 @@ namespace Quark {
 		GetInstance()->mScenes.push_back(scene); // store new build scene in array.
 		GetInstance()->mSceneCount++; // increment scene counter.
 		SetCurrentCamera(); // restore to current scene main camera as the scena manager main camera.
-		SetCurrentLigh(); // retore to current scene global light source.
+		SetCurrentLight(); // retore to current scene global light source.
 
 		// succesfully initialized the scene then return it.
 		return scene;

@@ -25,7 +25,7 @@ namespace Quark {
 
     }
 
-    bool LinuxPlatform::CreatePlatformLinux(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style) {
+    bool LinuxPlatform::CreatePlatformLinux(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style, ContextProfile profile) {
         platform->mWidth = width;
         platform->mHeight = height;
 		platform->mTitle = title;
@@ -223,8 +223,8 @@ namespace Quark {
 		SafeDealloc(LinuxPlatform::instance);
 	}
 
-    bool Platform::Initialize(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, WindowStyle style) {
-        return LinuxPlatform::instance->CreatePlatformLinux(title, width, height, fullscreen, majorVersion, minorVersion, style);
+    bool Platform::Initialize(const PlatformContext& param) {
+        return LinuxPlatform::instance->CreatePlatformLinux(param.title, param.width, param.height, param.fullscreen, param.majorVersion, param.minorVersion, param.style, param.profile);
     }
 
     void Platform::Update() {

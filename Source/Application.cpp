@@ -1,5 +1,4 @@
 #include "Application.h"
-#include "Platform.h"
 #include "Input.h"
 #include "Time.h"
 #include "SceneManager.h"
@@ -24,9 +23,9 @@ namespace Quark {
 		SafeDealloc(mPlatform);
 	}
 
-	bool Application::Initialize(const std::string& name, int width, int height, bool fullmode, int majorVersion, int minorVersion, int multisample, WindowStyle style) {
+	bool Application::Initialize(const PlatformContext& param) {
 		mPlatform = new Platform();
-		if (!mPlatform->Initialize(name, width, height, fullmode, majorVersion, minorVersion, multisample, style)) {
+		if (!mPlatform->Initialize(param)) {
 			return false;
 		}
 		mPlatform->SetVSync(true);

@@ -11,6 +11,7 @@
 #include "Object.h"
 #include "Enumeration.h"
 #include "Light.h"
+#include "Camera.h"
 
 namespace Quark {
 	class Transform; class Scene; class Debug;
@@ -18,6 +19,7 @@ namespace Quark {
 		friend class Scene;
 		friend class Debug;
 		friend class Transform;
+		friend class MeshRenderer;
 	public:
 		explicit GameObject(const std::string& name, Scene* scene);
 		GameObject(const std::string& name, GameObject* parent, Scene* scene);
@@ -48,7 +50,6 @@ namespace Quark {
 		bool BroadcastMessage(Message& msg);
 		static GameObject* CreatePrimitive(PrimitiveType type, Scene* scene);
 		Transform* GetTransform() const;
-		std::vector<Light*>& GetAllLights() const;
 
 	private:
 		virtual void Update(double deltaTime) override;
@@ -60,6 +61,9 @@ namespace Quark {
 		bool SubscribeToMessageType(MessageType msgType);
 		template<typename T>
 		bool SubscribeAllMessageType();
+
+		std::vector<Light*>& GetAllLights() const;
+		std::vector<Camera*>& GetAllCameras() const;
 
 		std::set<Component*> mSubscriber[TheNumberOfMessage];
 		std::unordered_map<std::type_index, Component*> mComponents;
@@ -95,6 +99,12 @@ namespace Quark {
 		Light* comp = this->GetComponent<Light>();
 		if (comp && comp->type != LightType::DirectionalLight) {
 			mScene->mLights.push_back(comp);
+		}
+
+		// caching camera components
+		Camera* comp2 = this->GetComponent<Camera>();
+		if (comp2) {
+			mScene->mCameras.push_back(comp2);
 		}
 
 		return component;
