@@ -17,7 +17,7 @@ namespace Quark {
 		void CameraUpdate();
 
 		GameObject* cube, *plane, *sphere, *cylinder, *torus;
-		GameObject* cam2;
+		GameObject* cam2, *skybox, *skybox2;
 		Light* light1;
 		Light* light2;
 		Light* light3;
@@ -39,6 +39,7 @@ namespace Quark {
 		bool isOrtho;
 		bool isWire;
 		bool camChange;
+		bool skyChange;
 	};
 }
 

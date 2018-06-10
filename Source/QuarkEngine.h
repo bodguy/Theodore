@@ -11,7 +11,6 @@
 
 #include "Graphics.h"
 #include "VertexBuffer.h"
-#include "Cubemap.h"
 #include "FrameBuffer.h"
 #include "RenderBuffer.h"
 #include "Texture.h"
@@ -48,6 +47,7 @@
 #include "BoneWeight.h"
 #include "KeyFrame.h"
 #include "SkinnedMeshRenderer.h"
+#include "CubemapRenderer.h"
 #include "Sprite.h"
 #include "SpriteRenderer.h"
 #include "ShapeGenerator.h"

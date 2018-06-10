@@ -4,6 +4,7 @@
 #include "FrameBuffer.h"
 #include "Debug.h"
 #include "Platform.h"
+#include "Math.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb/stb_image_write.h>
 
@@ -190,7 +191,6 @@ namespace Quark {
 		glFrontFace(static_cast<GLenum>(front));
 	}
 
-#if 0
 	// OpenGL 2.1 version rendering functions implements
 	void Graphics::Vertex(const Vector3d& vector) {
 		glVertex3f(vector.x, vector.y, vector.z);
@@ -366,5 +366,4 @@ namespace Quark {
 			break;
 		}
 	}
-#endif
 }

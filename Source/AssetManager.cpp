@@ -153,12 +153,12 @@ namespace Quark {
 		return asset;
 	}
 
-	TextureCube* AssetManager::RequestTexture(unsigned int id, const std::string& filename, TextureFormat format, CubemapFace face) {
+	TextureCube* AssetManager::RequestTexture(const CubemapRenderer* cubemap, const std::string& filename, TextureFormat format, CubemapFace face) {
 		TextureCube* asset = static_cast<TextureCube*>(GetAssetByFilename(filename));
 
 		if (!asset) {
 			asset = new TextureCube();
-			if (asset->LoadCubemapTexture(id, filename, format, face)) {
+			if (asset->LoadCubemapTexture(cubemap, filename, format, face)) {
 				instance->StoreAsset(asset);
 			} else {
 				Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());

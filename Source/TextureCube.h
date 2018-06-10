@@ -6,12 +6,17 @@
 #include <string>
 
 namespace Quark {
+	class CubemapRenderer;
 	class TextureCube : public Texture {
 	public:
 		TextureCube();
 		~TextureCube();
 
-		bool LoadCubemapTexture(unsigned int id, const std::string& filename, TextureFormat format, CubemapFace face);
+		bool LoadCubemapTexture(const CubemapRenderer* cubemap, const std::string& filename, TextureFormat format, CubemapFace face);
+		CubemapFace GetFace() const;
+
+	private:
+		CubemapFace mFace;
 	};
 }
 

@@ -1,8 +1,10 @@
 #include "Application.h"
 
+using namespace Quark;
+
 int main(int argc, char** argv) {
-	Quark::Application app;
-	Quark::PlatformContext pc;
+	Application app;
+	PlatformContext pc;
 	pc.name = "test";
 	if (!app.Initialize(pc)) {
 		return 0;

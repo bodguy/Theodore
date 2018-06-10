@@ -93,12 +93,20 @@ namespace Quark {
 		mOrthographic = isOrtho;
 	}
 
+	float Camera::GetFieldOfView() const {
+		return mFieldOfView;
+	}
+
 	float Camera::GetNearClipPlane() const {
 		return mNearClipPlane;
 	}
 
 	float Camera::GetFarClipPlane() const {
 		return mFarClipPlane;
+	}
+
+	float Camera::GetAspectRatio() const {
+		return mAspect;
 	}
 
 	void Camera::SetNearClipPlane(float near) {

@@ -27,7 +27,6 @@ namespace Quark {
 	MeshRenderer::~MeshRenderer() {
 		SafeDealloc(mMaterial);
 		SafeDealloc(mMesh);
-		
 	}
 
 	void MeshRenderer::SetMaterial(Material* mat) {
@@ -93,6 +92,7 @@ namespace Quark {
 	}
 
 	void MeshRenderer::Render() {
+		/*
 		std::vector<Camera*>& cameras = this->mGameObject->GetAllCameras();
 		for (Camera* cam : cameras) {
 			FrameBuffer* frameBuffer = cam->GetRenderTexture();
@@ -104,6 +104,7 @@ namespace Quark {
 		}
 
 		Graphics::BindFrameBuffer(NULL);
+		*/
 		InternalRender();
 	}
 

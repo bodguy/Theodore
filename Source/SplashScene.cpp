@@ -16,6 +16,7 @@ namespace Quark {
 		isOrtho = false;
 		isWire = false;
 		camChange = false;
+		skyChange = false;
 	}
 
 	SplashScene::~SplashScene() {
@@ -43,7 +44,7 @@ namespace Quark {
 		Mesh* mesh = new Mesh();
 		mesh = ShapeGenerator::GenerateCube();
 		Material* mat = new Material(Shader::Find("Standard"));
-		mat->renderTexture = frameBuffer;
+		//mat->renderTexture = frameBuffer;
 		mat->texture0 = AssetManager::RequestTexture("Contents/container2.png", TextureFormat::RGBA32);
 		mat->texture1 = AssetManager::RequestTexture("Contents/container2_specular.png", TextureFormat::RGBA32);
 		MeshRenderer* rend = cube->AddComponent<MeshRenderer>();
@@ -98,7 +99,26 @@ namespace Quark {
 		Camera* c = cam2->AddComponent<Camera>();
 		c->SetRenderTexture(frameBuffer);
 		c->GetTransform()->SetPosition(Vector3d(0.f, 0.f, 20.f));
-		
+
+		skybox = new GameObject("Skybox", this);
+		CubemapRenderer* cubemap = skybox->AddComponent<CubemapRenderer>();
+		AssetManager::RequestTexture(cubemap, "Contents/swedish/posx.jpg", TextureFormat::RGBA32, CubemapFace::PositiveX); // Right
+		AssetManager::RequestTexture(cubemap, "Contents/swedish/negx.jpg", TextureFormat::RGBA32, CubemapFace::NegativeX); // Left
+		AssetManager::RequestTexture(cubemap, "Contents/swedish/posy.jpg", TextureFormat::RGBA32, CubemapFace::PositiveY); // Top
+		AssetManager::RequestTexture(cubemap, "Contents/swedish/negy.jpg", TextureFormat::RGBA32, CubemapFace::NegativeY); // Bottom
+		AssetManager::RequestTexture(cubemap, "Contents/swedish/posz.jpg", TextureFormat::RGBA32, CubemapFace::PositiveZ); // Back
+		AssetManager::RequestTexture(cubemap, "Contents/swedish/negz.jpg", TextureFormat::RGBA32, CubemapFace::NegativeZ); // Front
+
+		skybox2 = new GameObject("Skybox", this);
+		CubemapRenderer* cubemap2 = skybox2->AddComponent<CubemapRenderer>();
+		AssetManager::RequestTexture(cubemap2, "Contents/hotel/posx.jpg", TextureFormat::RGBA32, CubemapFace::PositiveX); // Right
+		AssetManager::RequestTexture(cubemap2, "Contents/hotel/negx.jpg", TextureFormat::RGBA32, CubemapFace::NegativeX); // Left
+		AssetManager::RequestTexture(cubemap2, "Contents/hotel/posy.jpg", TextureFormat::RGBA32, CubemapFace::PositiveY); // Top
+		AssetManager::RequestTexture(cubemap2, "Contents/hotel/negy.jpg", TextureFormat::RGBA32, CubemapFace::NegativeY); // Bottom
+		AssetManager::RequestTexture(cubemap2, "Contents/hotel/posz.jpg", TextureFormat::RGBA32, CubemapFace::PositiveZ); // Back
+		AssetManager::RequestTexture(cubemap2, "Contents/hotel/negz.jpg", TextureFormat::RGBA32, CubemapFace::NegativeZ); // Front
+		skybox2->SetActive(false);
+
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
 	}
 
@@ -118,6 +138,12 @@ namespace Quark {
 
 		light4->GetTransform()->Rotate(Vector3d::up * Time::DeltaTime() * 20.f);
 		light5->GetTransform()->Rotate(Vector3d::up * Time::DeltaTime() * 10.f);
+
+		if (Input::GetKeyDown(KEY_F1)) {
+			skyChange = !skyChange;
+			skybox->SetActive(!skyChange);
+			skybox2->SetActive(skyChange);
+		}
 	}
 
 	void SplashScene::ObjectUpdate() {

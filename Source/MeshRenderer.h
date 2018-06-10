@@ -21,7 +21,7 @@ namespace Quark {
 
 		void InternalRender();
 
-	private:
+	protected:
 		Material* mMaterial;
 		Mesh* mMesh;
 #ifdef _DEBUG

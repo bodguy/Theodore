@@ -1,5 +1,6 @@
 #include "TextureCube.h"
 #include <stb/stb_image.h>
+#include "CubemapRenderer.h"
 
 namespace Quark {
 	TextureCube::TextureCube() {
@@ -13,7 +14,7 @@ namespace Quark {
 		stbi_image_free(mNativeTexturePtr);
 	}
 
-	bool TextureCube::LoadCubemapTexture(unsigned int id, const std::string& filename, TextureFormat format, CubemapFace face) {
+	bool TextureCube::LoadCubemapTexture(const CubemapRenderer* cubemap, const std::string& filename, TextureFormat format, CubemapFace face) {
 		int w, h, bpp;
 		unsigned char* data = stbi_load(filename.c_str(), &w, &h, &bpp, static_cast<int>(format));
 
@@ -23,7 +24,7 @@ namespace Quark {
 			mHeight = h;
 			SetAssetName(filename);
 
-			glBindTexture(static_cast<GLenum>(mDimension), id);
+			glBindTexture(static_cast<GLenum>(mDimension), cubemap->GetTextureID());
 			switch (format) {
 			case TextureFormat::RGB24:
 				glTexImage2D(static_cast<GLenum>(face), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -42,6 +43,7 @@ namespace Quark {
 			// set parameters
 			SetFilter(mFilterMode);
 			SetWrapMode(mWrapMode);
+			mFace = face;
 
 			glBindTexture(static_cast<GLenum>(mDimension), NULL);
 
@@ -49,5 +51,9 @@ namespace Quark {
 		}
 
 		return false;
+	}
+
+	CubemapFace TextureCube::GetFace() const {
+		return mFace;
 	}
 }

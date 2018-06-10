@@ -63,6 +63,11 @@ namespace Quark {
 		Program* shadow_program = new Program("Shadow", *shadow_vs, *shadow_fs);
 		ShaderManager::Append(shadow_program);
 
+		Shader* cubemap_vs = AssetManager::RequestShader("Shaders/cubemap/cubemap_vs.glsl", ShaderType::VertexShader);
+		Shader* cubemap_fs = AssetManager::RequestShader("Shaders/cubemap/cubemap_fs.glsl", ShaderType::FragmentShader);
+		Program* cubemap_program = new Program("Cubemap", *cubemap_vs, *cubemap_fs);
+		ShaderManager::Append(cubemap_program);
+
 		mSceneManager = new SceneManager();
 
 		Random::InitState(static_cast<int>(time(NULL)));

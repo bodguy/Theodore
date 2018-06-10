@@ -10,7 +10,7 @@ namespace Quark {
     typedef Vector3d PointCoord;
 	class PlatformContext {
 	public:
-		PlatformContext() :name("No Title"), width(800), height(600), fullscreen(false), majorVersion(4), minorVersion(3), multisample(16), style(WindowStyle::Resizable), profile(ContextProfile::Core) {}
+		PlatformContext() :name("No Title"), width(800), height(600), fullscreen(false), majorVersion(4), minorVersion(3), multisample(0), style(WindowStyle::Resizable), profile(ContextProfile::Core) {}
 		~PlatformContext() {}
 
 		std::string name;
