@@ -34,6 +34,8 @@ namespace Quark {
 		cylinder->GetTransform()->SetLocalPosition(Vector3d(-3.f, 0.f, 0.f));
 		torus = GameObject::CreatePrimitive(PrimitiveType::Torus, this);
 		torus->GetTransform()->SetLocalPosition(Vector3d(6.f, 0.f, 0.f));
+		cone = GameObject::CreatePrimitive(PrimitiveType::Cone, this);
+		cone->GetTransform()->SetLocalPosition(Vector3d(9.f, 0.f, 0.f));
 
 		FrameBuffer* frameBuffer = new FrameBuffer(Platform::GetWidth(), Platform::GetHeight());
 		frameBuffer->AttachTexture(AssetManager::RequestTexture("raw", Platform::GetWidth(), Platform::GetHeight(), TextureFormat::RGBA32, nullptr), Attachment::Color0);
@@ -109,16 +111,6 @@ namespace Quark {
 		AssetManager::RequestTexture(cubemap, "Contents/swedish/posz.jpg", TextureFormat::RGBA32, CubemapFace::PositiveZ); // Back
 		AssetManager::RequestTexture(cubemap, "Contents/swedish/negz.jpg", TextureFormat::RGBA32, CubemapFace::NegativeZ); // Front
 
-		skybox2 = new GameObject("Skybox", this);
-		CubemapRenderer* cubemap2 = skybox2->AddComponent<CubemapRenderer>();
-		AssetManager::RequestTexture(cubemap2, "Contents/hotel/posx.jpg", TextureFormat::RGBA32, CubemapFace::PositiveX); // Right
-		AssetManager::RequestTexture(cubemap2, "Contents/hotel/negx.jpg", TextureFormat::RGBA32, CubemapFace::NegativeX); // Left
-		AssetManager::RequestTexture(cubemap2, "Contents/hotel/posy.jpg", TextureFormat::RGBA32, CubemapFace::PositiveY); // Top
-		AssetManager::RequestTexture(cubemap2, "Contents/hotel/negy.jpg", TextureFormat::RGBA32, CubemapFace::NegativeY); // Bottom
-		AssetManager::RequestTexture(cubemap2, "Contents/hotel/posz.jpg", TextureFormat::RGBA32, CubemapFace::PositiveZ); // Back
-		AssetManager::RequestTexture(cubemap2, "Contents/hotel/negz.jpg", TextureFormat::RGBA32, CubemapFace::NegativeZ); // Front
-		skybox2->SetActive(false);
-
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
 	}
 
@@ -138,18 +130,12 @@ namespace Quark {
 
 		light4->GetTransform()->Rotate(Vector3d::up * Time::DeltaTime() * 20.f);
 		light5->GetTransform()->Rotate(Vector3d::up * Time::DeltaTime() * 10.f);
-
-		if (Input::GetKeyDown(KEY_F1)) {
-			skyChange = !skyChange;
-			skybox->SetActive(!skyChange);
-			skybox2->SetActive(skyChange);
-		}
 	}
 
 	void SplashScene::ObjectUpdate() {
 		cube->GetTransform()->Rotate(Vector3d(1.f, 1.f, 0.f), Time::DeltaTime() * 20.f);
 
-		Transform* trans = sphere->GetTransform();
+		Transform* trans = cone->GetTransform();
 		if (Input::GetKeyHeld(KEY_0)) {
 			trans->SetLocalPosition(Vector3d::zero);
 			trans->SetLocalRotation(Quaternion::identity);

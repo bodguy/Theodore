@@ -53,14 +53,19 @@ namespace Quark {
 		return 0.f;
 	}
 
+	float Math::PerlinNoise(float x, float y) {
+		// TODO
+		return 0.f;
+	}
+
     float Math::PerlinNoise(float x, float y, float z) {
 		// TODO
 		return 0.f;
 	}
 
-	float Math::PerlinNoise(float x, float y) {
-		// TODO
-		return 0.f;
+	float Math::SmoothStep(float min, float max, float value) {
+		float x = std::fmaxf(0.f, std::fminf(1.f, (value - min) / (max - min)));
+		return x * x * (3 - 2 * x);
 	}
     
     float Math::Sin(float angle) {

@@ -478,6 +478,30 @@ namespace Quark {
 		return mesh;
 	}
 
+	Mesh* ShapeGenerator::GenerateCone(float radius, float height) {
+		Mesh* mesh = new Mesh();
+
+		std::vector<Vector3d> vertices;
+		std::vector<Vector3d> normals;
+		
+		float phi = 0.f;
+		int nPhi = 100;
+		float dPhi = 2.f * Math::pi / (nPhi - 1);
+
+		vertices.push_back(Vector3d(0.f, height, 0.f));
+		normals.push_back(Vector3d(0.f, height, 0.f));
+		for (int i = 0; i < nPhi; i++) {
+			vertices.push_back(Vector3d(cos(phi) * radius, -height, sin(phi) * radius));
+			normals.push_back(Vector3d(height * cos(phi), radius, height * sin(phi)));
+			phi += dPhi;
+		}
+
+		mesh->SetVertices(vertices);
+		mesh->SetNormals(normals);
+
+		return mesh;
+	}
+
 	Mesh* ShapeGenerator::GenerateUtahTeapot(unsigned int tesselation) {
 		Mesh* mesh = new Mesh();
 

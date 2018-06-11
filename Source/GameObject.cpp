@@ -131,6 +131,10 @@ namespace Quark {
 			mesh = ShapeGenerator::GenerateTorus();
 			rend->SetPrimitive(Primitive::TriangleStrip);
 			break;
+		case PrimitiveType::Cone:
+			mesh = ShapeGenerator::GenerateCone();
+			rend->SetPrimitive(Primitive::TriangleFan);
+			break;
 		case PrimitiveType::UtahTeapot:
 			mesh = ShapeGenerator::GenerateUtahTeapot();
 			break;

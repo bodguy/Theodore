@@ -27,6 +27,8 @@ namespace Quark {
 		static float PerlinNoise(float x);
 		static float PerlinNoise(float x, float y);
         static float PerlinNoise(float x, float y, float z);
+		static float SmoothStep(float min, float max, float value);
+		//static float EaseIn();
 
         static float Sin(float angle);
         static float Cos(float angle);

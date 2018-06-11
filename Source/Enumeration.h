@@ -201,6 +201,7 @@ namespace Quark {
 		Capsule,
 		Cylinder,
 		Torus,
+		Cone,
 		UtahTeapot,
 		Knots
 	};

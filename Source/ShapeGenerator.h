@@ -20,6 +20,7 @@ namespace Quark {
 		static Mesh* GenerateCapsule();
 		static Mesh* GenerateCylinder();
 		static Mesh* GenerateTorus(int numc = 8, int numt = 25);
+		static Mesh* GenerateCone(float radius = 1.f, float height = 1.f);
 		static Mesh* GenerateUtahTeapot(unsigned int tesselation = 10);
 		static Mesh* GenerateKnots();
 
