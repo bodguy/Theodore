@@ -22,7 +22,7 @@ namespace Quark {
 		static MSAATexture2D* RequestTexture(const std::string& filename, unsigned int width, unsigned int height, TextureFormat format, unsigned int sample);
 		//static Font* RequestFont(const std::string& filename);
 		static Shader* RequestShader(const std::string& filename, ShaderType type);
-		static Mesh* RequestMesh(const std::string& filename);
+		static Mesh* RequestMesh(const std::string& filename, MeshFormat format = MeshFormat::WaveFrontObj);
 		static Asset* GetAssetByFilename(const std::string& filename);
 		static void RemoveAsset(Asset* asset);
 

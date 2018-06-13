@@ -5,11 +5,11 @@
 #include "MSAATexture2D.h"
 //#include "Font.h"
 #include "Shader.h"
-#include "Mesh.h"
 #include "File.h"
 #include "Color.h"
 #include "Debug.h"
 #include "Utility.h"
+#include "WaveFrontObjMesh.h"
 
 namespace Quark {
 	AssetManager* AssetManager::instance = nullptr;
@@ -242,6 +242,7 @@ namespace Quark {
 				instance->StoreAsset(asset);
 				file.Close();
 			} else {
+				Debug::Log("Error: [%s] file is not found!", filename.c_str());
 				SafeDealloc(asset);
 				return static_cast<Shader*>(nullptr);
 			}
@@ -257,11 +258,20 @@ namespace Quark {
 		return asset;
 	}
 
-	Mesh* AssetManager::RequestMesh(const std::string& filename) {
-		Mesh* asset = static_cast<Mesh*>(GetAssetByFilename(filename));
+	Mesh* AssetManager::RequestMesh(const std::string& filename, MeshFormat format) {
+		WaveFrontObjMesh* asset = static_cast<WaveFrontObjMesh*>(GetAssetByFilename(filename));
 
 		if (!asset) {
-			asset = new Mesh();
+			asset = new WaveFrontObjMesh();
+
+			if (asset->LoadObj(filename)) {
+				asset->SetAssetName(filename);
+				instance->StoreAsset(asset);
+			} else {
+				Debug::Log("Error: [%s] is not found!", filename.c_str());
+				SafeDealloc(asset);
+				return static_cast<Mesh*>(nullptr);
+			}
 		}
 
 		if (asset) {
@@ -271,7 +281,7 @@ namespace Quark {
 			}
 		}
 
-		return asset;
+		return static_cast<Mesh*>(asset);
 	}
 
 	Asset* AssetManager::GetAssetByFilename(const std::string& filename) {
@@ -288,6 +298,7 @@ namespace Quark {
 
 	void AssetManager::StoreAsset(Asset* asset) {
 		mAssets.push_back(asset);
+		asset->mIsManaged = true;
 	}
 
 	void AssetManager::RemoveAsset(Asset* asset) {

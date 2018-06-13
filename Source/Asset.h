@@ -12,6 +12,7 @@ namespace Quark {
         virtual ~Asset();
 
 		void SetAssetName(const std::string& filename);
+		bool IsManaged();
 
     private:
         void AddReference();
@@ -22,6 +23,7 @@ namespace Quark {
         unsigned int mRefCount;
         std::string mName;
 		std::string mFilePath;
+		bool mIsManaged;
     };
 }
 

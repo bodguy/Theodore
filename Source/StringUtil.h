@@ -18,6 +18,9 @@ namespace Quark {
 		static bool StartsWith(const std::string& str, const std::string& prefix);
 		static bool EndsWith(const std::string& str, const std::string& suffix);
 		static std::string DateToUTCString(std::tm* date);
+		static float ParseFloat(const std::string& str);
+		static double ParseDouble(const std::string& str);
+		static int ParseInteger(const std::string& str);
 		//template<typename ...Args>
 		//static std::string Join(const std::string& delimiter, Args... args);
 

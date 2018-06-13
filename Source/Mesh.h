@@ -49,7 +49,7 @@ namespace Quark {
 		void RecalculateBounds();
 		void MarkDynamic();
 
-	private:
+	protected:
 		IndexFormat mFormat;
 		VertexSemantic mSemantic;
 		BufferUsage mUsage;

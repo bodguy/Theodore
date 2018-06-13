@@ -267,6 +267,11 @@ namespace Quark {
 		Core = 0x00000001,
 		Compatibility = 0x00000002
 	};
+
+	enum class MeshFormat {
+		WaveFrontObj,
+		Collada
+	};
     
 	inline BufferBits operator |(const BufferBits a, const BufferBits b) {
 		return static_cast<BufferBits>(static_cast<int>(a) | static_cast<int>(b));

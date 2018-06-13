@@ -47,4 +47,12 @@ namespace Quark {
 		std::time_t now = std::time(nullptr);
 		return StringUtil::DateToUTCString(std::localtime(&now));
 	}
+
+	TimePoint Time::GetTime() {
+		return Clock::now();
+	}
+
+	float Time::GetInterval(TimePoint start, TimePoint end) {
+		return std::chrono::duration_cast<milli>(end - start).count();
+	}
 }

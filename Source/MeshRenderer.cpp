@@ -26,7 +26,9 @@ namespace Quark {
 
 	MeshRenderer::~MeshRenderer() {
 		SafeDealloc(mMaterial);
-		SafeDealloc(mMesh);
+		if (!mMesh->IsManaged()) {
+			SafeDealloc(mMesh);
+		}
 	}
 
 	void MeshRenderer::SetMaterial(Material* mat) {

@@ -29,6 +29,7 @@ namespace Quark {
 
 		plane = GameObject::CreatePrimitive(PrimitiveType::Plane, this);
 		plane->GetTransform()->SetLocalPosition(Vector3d(0.f, -1.f, 0.f));
+
 		sphere = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
 		cylinder = GameObject::CreatePrimitive(PrimitiveType::Cylinder, this);
 		cylinder->GetTransform()->SetLocalPosition(Vector3d(-3.f, 0.f, 0.f));
@@ -36,6 +37,25 @@ namespace Quark {
 		torus->GetTransform()->SetLocalPosition(Vector3d(6.f, 0.f, 0.f));
 		cone = GameObject::CreatePrimitive(PrimitiveType::Cone, this);
 		cone->GetTransform()->SetLocalPosition(Vector3d(9.f, 0.f, 0.f));
+
+		dragon = new GameObject("dragon", this);
+		dragon->GetTransform()->SetLocalPosition(Vector3d(-6.f, 0.f, 0.f));
+		dragon->GetTransform()->SetLocalScale(Vector3d(0.2f, 0.2f, 0.2f));
+		Mesh* obj = AssetManager::RequestMesh("Contents/dragon.obj");
+		Material* mat = new Material(Shader::Find("Standard"));
+		MeshRenderer* rend1 = dragon->AddComponent<MeshRenderer>();
+		rend1->SetMaterial(mat);
+		rend1->SetMesh(obj);
+
+		for (int i = 0; i < 10; i++) {
+			GameObject* gg = new GameObject("gg" + std::to_string(i), this);
+			gg->GetTransform()->SetLocalPosition(Vector3d(0.f, 3.f * i, 0.f));
+			gg->GetTransform()->SetLocalScale(Vector3d(0.2f, 0.2f, 0.2f));
+			MeshRenderer* rr = gg->AddComponent<MeshRenderer>();
+			Material* m = new Material(Shader::Find("Standard"));
+			rr->SetMaterial(m);
+			rr->SetMesh(obj);
+		}
 
 		FrameBuffer* frameBuffer = new FrameBuffer(Platform::GetWidth(), Platform::GetHeight());
 		frameBuffer->AttachTexture(AssetManager::RequestTexture("raw", Platform::GetWidth(), Platform::GetHeight(), TextureFormat::RGBA32, nullptr), Attachment::Color0);
@@ -45,13 +65,13 @@ namespace Quark {
 		cube->GetTransform()->SetLocalPosition(Vector3d(3.f, 0.f, 0.f));
 		Mesh* mesh = new Mesh();
 		mesh = ShapeGenerator::GenerateCube();
-		Material* mat = new Material(Shader::Find("Standard"));
+		Material* mat2 = new Material(Shader::Find("Standard"));
 		//mat->renderTexture = frameBuffer;
-		mat->texture0 = AssetManager::RequestTexture("Contents/container2.png", TextureFormat::RGBA32);
-		mat->texture1 = AssetManager::RequestTexture("Contents/container2_specular.png", TextureFormat::RGBA32);
-		MeshRenderer* rend = cube->AddComponent<MeshRenderer>();
-		rend->SetMaterial(mat);
-		rend->SetMesh(mesh);
+		mat2->texture0 = AssetManager::RequestTexture("Contents/container2.png", TextureFormat::RGBA32);
+		mat2->texture1 = AssetManager::RequestTexture("Contents/container2_specular.png", TextureFormat::RGBA32);
+		MeshRenderer* rend2 = cube->AddComponent<MeshRenderer>();
+		rend2->SetMaterial(mat2);
+		rend2->SetMesh(mesh);
 
 		GameObject* lightObject[] = {
 			new GameObject("light1", this),
@@ -135,7 +155,7 @@ namespace Quark {
 	void SplashScene::ObjectUpdate() {
 		cube->GetTransform()->Rotate(Vector3d(1.f, 1.f, 0.f), Time::DeltaTime() * 20.f);
 
-		Transform* trans = cone->GetTransform();
+		Transform* trans = dragon->GetTransform();
 		if (Input::GetKeyHeld(KEY_0)) {
 			trans->SetLocalPosition(Vector3d::zero);
 			trans->SetLocalRotation(Quaternion::identity);

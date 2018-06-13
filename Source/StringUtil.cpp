@@ -85,5 +85,17 @@ namespace Quark {
 		return std::string(StringUtil::monthTable[date->tm_mon] + " " + std::to_string(date->tm_mday) + ", " + std::to_string(date->tm_year + 1900) + " " +
 			std::to_string(date->tm_hour) + ":" + std::to_string(date->tm_min) + ":" + std::to_string(date->tm_sec));
 	}
+
+	float StringUtil::ParseFloat(const std::string& str) {
+		return std::stof(str);
+	}
+
+	double StringUtil::ParseDouble(const std::string& str) {
+		return std::stod(str);
+	}
+
+	int StringUtil::ParseInteger(const std::string& str) {
+		return std::stoi(str);
+	}
 }
 

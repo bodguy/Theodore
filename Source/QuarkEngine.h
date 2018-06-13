@@ -43,6 +43,7 @@
 #include "Component.h"
 #include "Bounds.h"
 #include "Mesh.h"
+#include "WaveFrontObjMesh.h"
 #include "MeshRenderer.h"
 #include "BoneWeight.h"
 #include "KeyFrame.h"
