@@ -1,0 +1,24 @@
+#
+# Wavefront material file: d:\upload\converted\happy\happy1.mtl
+#
+# Converted by the PolyTrans geometry converter from Okino Computer Graphics, Inc.
+# Date/time of export: 07/13/2008 13:25:00
+#
+# Bounding box of geometry = (-0.0461,0.049757,-0.047399) to (0.035222,0.247767,0.034019).
+
+newmtl default
+	Ns 32
+	d 1
+	illum 2
+	Kd 0.4 0.4 0.4
+	Ks 0.7 0.7 0.7
+	Ka 0.3 0.3 0.3
+
+newmtl default__2
+	Ns 32
+	d 1
+	illum 2
+	Kd 0.4 0.4 0.4
+	Ks 0.7 0.7 0.7
+	Ka 0.3 0.3 0.3
+

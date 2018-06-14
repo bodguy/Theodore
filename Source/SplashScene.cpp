@@ -39,23 +39,30 @@ namespace Quark {
 		cone->GetTransform()->SetLocalPosition(Vector3d(9.f, 0.f, 0.f));
 
 		dragon = new GameObject("dragon", this);
-		dragon->GetTransform()->SetLocalPosition(Vector3d(-6.f, 0.f, 0.f));
-		dragon->GetTransform()->SetLocalScale(Vector3d(0.2f, 0.2f, 0.2f));
+		dragon->GetTransform()->SetLocalPosition(Vector3d(-7.f, -1.f, 0.f));
+		dragon->GetTransform()->SetLocalScale(Vector3d(0.3f, 0.3f, 0.3f));
 		Mesh* obj = AssetManager::RequestMesh("Contents/dragon.obj");
 		Material* mat = new Material(Shader::Find("Standard"));
 		MeshRenderer* rend1 = dragon->AddComponent<MeshRenderer>();
 		rend1->SetMaterial(mat);
 		rend1->SetMesh(obj);
 
-		for (int i = 0; i < 10; i++) {
-			GameObject* gg = new GameObject("gg" + std::to_string(i), this);
-			gg->GetTransform()->SetLocalPosition(Vector3d(0.f, 3.f * i, 0.f));
-			gg->GetTransform()->SetLocalScale(Vector3d(0.2f, 0.2f, 0.2f));
-			MeshRenderer* rr = gg->AddComponent<MeshRenderer>();
-			Material* m = new Material(Shader::Find("Standard"));
-			rr->SetMaterial(m);
-			rr->SetMesh(obj);
-		}
+		monkey = new GameObject("monkey", this);
+		monkey->GetTransform()->SetLocalPosition(Vector3d(-12.f, 0.f, 0.f));
+		Mesh* obj2 = AssetManager::RequestMesh("Contents/monkey.obj");
+		Material* mat2 = new Material(Shader::Find("Standard"));
+		MeshRenderer* rend2 = monkey->AddComponent<MeshRenderer>();
+		rend2->SetMaterial(mat2);
+		rend2->SetMesh(obj2);
+
+		budda = new GameObject("budda", this);
+		budda->GetTransform()->SetLocalPosition(Vector3d(-18.f, -3.f, 0.f));
+		budda->GetTransform()->SetLocalScale(Vector3d(40.f, 40.f, 40.f));
+		Mesh* obj3 = AssetManager::RequestMesh("Contents/budda.obj");
+		Material* mat3 = new Material(Shader::Find("Standard"));
+		MeshRenderer* rend3 = budda->AddComponent<MeshRenderer>();
+		rend3->SetMaterial(mat3);
+		rend3->SetMesh(obj3);
 
 		FrameBuffer* frameBuffer = new FrameBuffer(Platform::GetWidth(), Platform::GetHeight());
 		frameBuffer->AttachTexture(AssetManager::RequestTexture("raw", Platform::GetWidth(), Platform::GetHeight(), TextureFormat::RGBA32, nullptr), Attachment::Color0);
@@ -65,13 +72,13 @@ namespace Quark {
 		cube->GetTransform()->SetLocalPosition(Vector3d(3.f, 0.f, 0.f));
 		Mesh* mesh = new Mesh();
 		mesh = ShapeGenerator::GenerateCube();
-		Material* mat2 = new Material(Shader::Find("Standard"));
+		Material* mat4 = new Material(Shader::Find("Standard"));
 		//mat->renderTexture = frameBuffer;
-		mat2->texture0 = AssetManager::RequestTexture("Contents/container2.png", TextureFormat::RGBA32);
-		mat2->texture1 = AssetManager::RequestTexture("Contents/container2_specular.png", TextureFormat::RGBA32);
-		MeshRenderer* rend2 = cube->AddComponent<MeshRenderer>();
-		rend2->SetMaterial(mat2);
-		rend2->SetMesh(mesh);
+		mat4->texture0 = AssetManager::RequestTexture("Contents/container2.png", TextureFormat::RGBA32);
+		mat4->texture1 = AssetManager::RequestTexture("Contents/container2_specular.png", TextureFormat::RGBA32);
+		MeshRenderer* rend4 = cube->AddComponent<MeshRenderer>();
+		rend4->SetMaterial(mat4);
+		rend4->SetMesh(mesh);
 
 		GameObject* lightObject[] = {
 			new GameObject("light1", this),

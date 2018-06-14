@@ -1,9 +1,8 @@
 #include "WaveFrontObjMesh.h"
-#include "File.h"
-#include "StringUtil.h"
 #include "Time.h"
 #include "Debug.h"
-#include <string>
+#include "Utility.h"
+#include <stdio.h>
 
 namespace Quark {
 	WaveFrontObjMesh::WaveFrontObjMesh() : Mesh() {
@@ -13,88 +12,114 @@ namespace Quark {
 	}
 
 	bool WaveFrontObjMesh::LoadObj(const std::string& filepath) {
-		File file;
-		file.Open(filepath, OpenMode::Read);
-		if (!file.IsOpen()) {
+		FILE* file = fopen(filepath.c_str(), "r");
+		if (file == NULL) {
 			return false;
 		}
 
-		std::string line;
-		std::vector<std::string> currentLine;
 		std::vector<Vector2d> temp_uvs;
 		std::vector<Vector3d> temp_normals;
+		States states = States::NONE;
+		mSemantic = mSemantic | VertexSemantic::SemanticPosition;
 
-		std::vector<std::string> vertex1;
-		std::vector<std::string> vertex2;
-		std::vector<std::string> vertex3;
-
-		TimePoint start1 = Time::GetTime();
-
+		TimePoint start = Time::GetTime();
 		while (true) {
-			line = file.GetLine();
-			currentLine.clear();
-			StringUtil::Split(line, currentLine, ' ');
+			char word[256];
+			int res = fscanf(file, "%s", word);
+			if (res == EOF) {
+				break;
+			}
 
-			if (StringUtil::StartsWith(line, "v ")) {
-				mVertices.push_back(Vector3d(StringUtil::ParseFloat(currentLine[1]), StringUtil::ParseFloat(currentLine[2]), StringUtil::ParseFloat(currentLine[3])));
-			} else if (StringUtil::StartsWith(line, "vt ")) {
-				temp_uvs.push_back(Vector2d(StringUtil::ParseFloat(currentLine[1]), StringUtil::ParseFloat(currentLine[2])));
-			} else if (StringUtil::StartsWith(line, "vn ")) {
-				temp_normals.push_back(Vector3d(StringUtil::ParseFloat(currentLine[1]), StringUtil::ParseFloat(currentLine[2]), StringUtil::ParseFloat(currentLine[3])));
-			} else if (StringUtil::StartsWith(line, "f ")) {
-				// moving to the next section
-				mUvs.resize(mVertices.size());
-				mNormals.resize(mVertices.size());
+			if (strcmp(word, "v") == 0) {
+				Vector3d vertex;
+				fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
+				mVertices.push_back(vertex);
+			} else if (strcmp(word, "vt") == 0) {
+				Vector2d uv;
+				mSemantic = mSemantic | VertexSemantic::SemanticTexCoord;
+				fscanf(file, "%f %f\n", &uv.x, &uv.y);
+				temp_uvs.push_back(uv);
+			} else if (strcmp(word, "vn") == 0) {
+				Vector3d normal;
+				mSemantic = mSemantic | VertexSemantic::SemanticNormal;
+				fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
+				temp_normals.push_back(normal);
+			} else if (strcmp(word, "f") == 0) {
+				mSemantic = mSemantic | VertexSemantic::SemanticFaces;
+				if (mSemantic & VertexSemantic::SemanticTexCoord) {
+					mUvs.resize(mVertices.size());
+					states = States::ONLY_A;
+				}
+
+				if (mSemantic & VertexSemantic::SemanticNormal) {
+					mNormals.resize(mVertices.size());
+					states = States::ONLY_B;
+				}
+
+				if (mSemantic & VertexSemantic::SemanticTexCoord && mSemantic & VertexSemantic::SemanticNormal) {
+					states = States::BOTH;
+				}
+				
+				ProcessVertex(file, temp_uvs, temp_normals, states);
 				break;
 			}
 		}
 
-		TimePoint end1 = Time::GetTime();
-		Debug::Log("first while loop %fms", Time::GetInterval(start1, end1));
-		TimePoint start2 = Time::GetTime();
-
-		while (!line.empty()) {
-			if (!StringUtil::StartsWith(line, "f ")) {
-				line = file.GetLine();
-				continue;
+		while (true) {
+			char word[256];
+			int res = fscanf(file, "%s", word);
+			if (res == EOF) {
+				break;
 			}
 
-			currentLine.clear();
-			vertex1.clear();
-			vertex2.clear();
-			vertex3.clear();
-			StringUtil::Split(line, currentLine, ' ');
-			StringUtil::Split(currentLine[1], vertex1, '/');
-			StringUtil::Split(currentLine[2], vertex2, '/');
-			StringUtil::Split(currentLine[3], vertex3, '/');
-
-			ProcessVertex(vertex1, temp_uvs, temp_normals);
-			ProcessVertex(vertex2, temp_uvs, temp_normals);
-			ProcessVertex(vertex3, temp_uvs, temp_normals);
-			line = file.GetLine();
+			if (strcmp(word, "f") == 0) {
+				ProcessVertex(file, temp_uvs, temp_normals, states);
+			}
 		}
 
-		TimePoint end2 = Time::GetTime();
-		Debug::Log("second while loop %fms", Time::GetInterval(start2, end2));
+		TimePoint end = Time::GetTime();
+		Debug::Log("Model loading elapsed time: %fsec", Time::GetInterval(start, end) / 1000.f);
+		Debug::Log("Material count: %d", 0);
+		Debug::Log("Vertex count: %d", GetVertexCount());
+		Debug::Log("Uv count: %d", GetUvCount());
+		Debug::Log("Normal count: %d", GetNormalCount());
+		Debug::Log("Triangle count: %d", GetFaceCount() / 3);
 
-		file.Close();
-		mSemantic = VertexSemantic::SemanticPosition | VertexSemantic::SemanticNormal | VertexSemantic::SemanticFaces;
-
+		fclose(file);
 		return true;
 	}
 
-	void WaveFrontObjMesh::ProcessVertex(const std::vector<std::string>& splitStr, const std::vector<Vector2d>& uvsIn, const std::vector<Vector3d>& normalsIn) {
-		int currentVertexIndex = StringUtil::ParseInteger(splitStr[0]) - 1; // obj index start with 1 not 0
-		mFaces.push_back(currentVertexIndex);
-		
-		if (!splitStr[1].empty()) {
-			Vector2d currentUv = uvsIn[StringUtil::ParseInteger(splitStr[1]) - 1];
-			mUvs[currentVertexIndex] = Vector2d(currentUv.x, 1.f - currentUv.y);
+	void WaveFrontObjMesh::ProcessVertex(FILE* file, const std::vector<Vector2d>& uvsIn, const std::vector<Vector3d>& normalsIn, States states) {
+		unsigned int vertexIndex[3];
+		unsigned int uvIndex[3];
+		unsigned int normalIndex[3];
+
+		// I know this is UGLY, but this code shows quite good performance.
+		if (states == States::NONE) {
+			fscanf(file, "%d %d %d\n", &vertexIndex[0], &vertexIndex[1], &vertexIndex[2]);
+		} else if (states == States::ONLY_A) {
+			fscanf(file, "%d/%d %d/%d %d/%d\n", &vertexIndex[0], &uvIndex[0], &vertexIndex[1], &uvIndex[1], &vertexIndex[2], &uvIndex[2]);
+			mUvs[vertexIndex[0] - 1] = uvsIn[uvIndex[0] - 1];
+			mUvs[vertexIndex[1] - 1] = uvsIn[uvIndex[1] - 1];
+			mUvs[vertexIndex[2] - 1] = uvsIn[uvIndex[2] - 1];
+		} else if (states == States::ONLY_B) {
+			fscanf(file, "%d//%d %d//%d %d//%d\n", &vertexIndex[0], &normalIndex[0], &vertexIndex[1], &normalIndex[1], &vertexIndex[2], &normalIndex[2]);
+			mNormals[vertexIndex[0] - 1] = normalsIn[normalIndex[0] - 1];
+			mNormals[vertexIndex[1] - 1] = normalsIn[normalIndex[1] - 1];
+			mNormals[vertexIndex[2] - 1] = normalsIn[normalIndex[2] - 1];
+		} else if (states == States::BOTH) {
+			fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+			mUvs[vertexIndex[0] - 1] = uvsIn[uvIndex[0] - 1];
+			mUvs[vertexIndex[1] - 1] = uvsIn[uvIndex[1] - 1];
+			mUvs[vertexIndex[2] - 1] = uvsIn[uvIndex[2] - 1];
+
+			mNormals[vertexIndex[0] - 1] = normalsIn[normalIndex[0] - 1];
+			mNormals[vertexIndex[1] - 1] = normalsIn[normalIndex[1] - 1];
+			mNormals[vertexIndex[2] - 1] = normalsIn[normalIndex[2] - 1];
 		}
-		
-		if (splitStr.size() == 3 && !splitStr[2].empty()) {
-			Vector3d currentNormal = normalsIn[StringUtil::ParseInteger(splitStr[2]) - 1];
-			mNormals[currentVertexIndex] = currentNormal;
-		}
+
+		mFaces.push_back(vertexIndex[0] - 1);
+		mFaces.push_back(vertexIndex[1] - 1);
+		mFaces.push_back(vertexIndex[2] - 1);
 	}
 }

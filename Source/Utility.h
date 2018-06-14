@@ -7,13 +7,6 @@ namespace Quark {
 	#define SafeContDealloc(p) { for(auto i : p) SafeDealloc(i); p.clear(); }
 	#define UnUsed(p) ((void)p)
 
-	enum States {
-		NONE = 0,
-		ONLY_A,
-		ONLY_B,
-		BOTH
-	};
-
 	class Utility {
 	public:
 		struct KeyAndValueCompare {
@@ -46,11 +39,11 @@ namespace Quark {
 					rhs.begin(), ValueCompare());
 		}
 
-		inline static bool SortLayer(unsigned int a, unsigned int b) {
+		static bool SortLayer(unsigned int a, unsigned int b) {
 			return a < b;
 		}
 
-		inline static int States(int X, int Y) { return (X << 1) | Y; } // switch (STATES(a,b))
+		static int States(int X, int Y) { return (X << 1) | Y; } // switch (STATES(a,b))
 
 	private:
 		Utility() {}

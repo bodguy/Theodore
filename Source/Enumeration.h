@@ -272,6 +272,13 @@ namespace Quark {
 		WaveFrontObj,
 		Collada
 	};
+
+	enum class States {
+		NONE = 0,
+		ONLY_A,
+		ONLY_B,
+		BOTH
+	};
     
 	inline BufferBits operator |(const BufferBits a, const BufferBits b) {
 		return static_cast<BufferBits>(static_cast<int>(a) | static_cast<int>(b));
