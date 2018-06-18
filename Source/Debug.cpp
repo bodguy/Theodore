@@ -18,6 +18,15 @@ namespace Quark {
 	bool Debug::__logSwitch = false;
 	const size_t Debug::maxLength = 256;
 
+	void Debug::Trace(const char* format, ...) {
+		char fmt[Debug::maxLength];
+		va_list args;
+		va_start(args, format);
+		snprintf(fmt, Debug::maxLength, "%s [STACK TRACE] %s\n", Time::GetDateTime().c_str(), format);
+		vprintf(fmt, args);
+		va_end(args);
+	}
+
     void Debug::Log(const char* format, ...) {
 		char fmt[Debug::maxLength];
         va_list args;

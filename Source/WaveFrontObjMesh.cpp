@@ -78,12 +78,13 @@ namespace Quark {
 		}
 
 		TimePoint end = Time::GetTime();
-		Debug::Log("Model loading elapsed time: %fsec", Time::GetInterval(start, end) / 1000.f);
-		Debug::Log("Material count: %d", 0);
-		Debug::Log("Vertex count: %d", GetVertexCount());
-		Debug::Log("Uv count: %d", GetUvCount());
-		Debug::Log("Normal count: %d", GetNormalCount());
-		Debug::Log("Triangle count: %d", GetFaceCount() / 3);
+		Debug::Trace("Model loading: %s", filepath.c_str());
+		Debug::Log("\tElapsed time: %fsec", Time::GetInterval(start, end) / 1000.f);
+		Debug::Log("\tMaterial count: %d", 0);
+		Debug::Log("\tVertex count: %d", GetVertexCount());
+		Debug::Log("\tUv count: %d", GetUvCount());
+		Debug::Log("\tNormal count: %d", GetNormalCount());
+		Debug::Log("\tTriangle count: %d", GetFaceCount() / 3);
 
 		fclose(file);
 		return true;
@@ -99,9 +100,10 @@ namespace Quark {
 			fscanf(file, "%d %d %d\n", &vertexIndex[0], &vertexIndex[1], &vertexIndex[2]);
 		} else if (states == States::ONLY_A) {
 			fscanf(file, "%d/%d %d/%d %d/%d\n", &vertexIndex[0], &uvIndex[0], &vertexIndex[1], &uvIndex[1], &vertexIndex[2], &uvIndex[2]);
-			mUvs[vertexIndex[0] - 1] = uvsIn[uvIndex[0] - 1];
-			mUvs[vertexIndex[1] - 1] = uvsIn[uvIndex[1] - 1];
-			mUvs[vertexIndex[2] - 1] = uvsIn[uvIndex[2] - 1];
+			// flip the uv coordinate
+			mUvs[vertexIndex[0] - 1] = Vector2d(uvsIn[uvIndex[0] - 1].x, 1.f - uvsIn[uvIndex[0] - 1].y);
+			mUvs[vertexIndex[1] - 1] = Vector2d(uvsIn[uvIndex[1] - 1].x, 1.f - uvsIn[uvIndex[1] - 1].y);
+			mUvs[vertexIndex[2] - 1] = Vector2d(uvsIn[uvIndex[2] - 1].x, 1.f - uvsIn[uvIndex[2] - 1].y);
 		} else if (states == States::ONLY_B) {
 			fscanf(file, "%d//%d %d//%d %d//%d\n", &vertexIndex[0], &normalIndex[0], &vertexIndex[1], &normalIndex[1], &vertexIndex[2], &normalIndex[2]);
 			mNormals[vertexIndex[0] - 1] = normalsIn[normalIndex[0] - 1];
@@ -109,9 +111,10 @@ namespace Quark {
 			mNormals[vertexIndex[2] - 1] = normalsIn[normalIndex[2] - 1];
 		} else if (states == States::BOTH) {
 			fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
-			mUvs[vertexIndex[0] - 1] = uvsIn[uvIndex[0] - 1];
-			mUvs[vertexIndex[1] - 1] = uvsIn[uvIndex[1] - 1];
-			mUvs[vertexIndex[2] - 1] = uvsIn[uvIndex[2] - 1];
+			// flip the uv coordinate
+			mUvs[vertexIndex[0] - 1] = Vector2d(uvsIn[uvIndex[0] - 1].x, 1.f - uvsIn[uvIndex[0] - 1].y);
+			mUvs[vertexIndex[1] - 1] = Vector2d(uvsIn[uvIndex[1] - 1].x, 1.f - uvsIn[uvIndex[1] - 1].y);
+			mUvs[vertexIndex[2] - 1] = Vector2d(uvsIn[uvIndex[2] - 1].x, 1.f - uvsIn[uvIndex[2] - 1].y);
 
 			mNormals[vertexIndex[0] - 1] = normalsIn[normalIndex[0] - 1];
 			mNormals[vertexIndex[1] - 1] = normalsIn[normalIndex[1] - 1];

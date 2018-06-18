@@ -7,7 +7,6 @@
 #include "Light.h"
 #include "Transform.h"
 #include "Graphics.h"
-#include <stdarg.h>
 
 namespace Quark {
 	Scene::Scene(const std::string& name) : Object(name), mActive(true) {
@@ -21,7 +20,7 @@ namespace Quark {
 		// global light source setting.
 		GameObject* lightSource = new GameObject("GlobalLight", this);
 		Light* lightComponent = lightSource->AddComponent<Light>(LightType::DirectionalLight);
-		lightComponent->GetTransform()->SetLocalPosition(Vector3d(0.f, 10.f, 0.f));
+		lightComponent->GetTransform()->SetLocalPosition(Vector3d(10.f, 10.f, 10.f));
 		mManager->mGlobalLight = lightComponent;
 	}
 

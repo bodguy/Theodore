@@ -13,33 +13,15 @@ namespace Quark {
 		virtual void OnUpdate() override;
 
 	private:
-		void ObjectUpdate();
 		void CameraUpdate();
 
-		GameObject* cube, *plane, *sphere, *cylinder, *torus, *cone;
-		GameObject* cam2, *skybox, *dragon, *monkey, *budda;
-		Light* light1;
-		Light* light2;
-		Light* light3;
-		Light* light4;
-		Light* light5;
-		Light* light6;
+		GameObject *plane, *monkey, *cube;
 
 		float speed;
 		float rotationY;
 		float rotationX;
 		float sensitivity;
 		float moveSensitivity;
-
-		float minimumX;
-		float maximumX;
-
-		float minimumY;
-		float maximumY;
-		bool isOrtho;
-		bool isWire;
-		bool camChange;
-		bool skyChange;
 	};
 }
 

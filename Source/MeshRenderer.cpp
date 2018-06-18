@@ -26,7 +26,7 @@ namespace Quark {
 
 	MeshRenderer::~MeshRenderer() {
 		SafeDealloc(mMaterial);
-		if (!mMesh->IsManaged()) {
+		if (mMesh && !mMesh->IsManaged()) {
 			SafeDealloc(mMesh);
 		}
 	}
@@ -37,6 +37,10 @@ namespace Quark {
 	}
 
 	void MeshRenderer::SetMesh(Mesh* mesh) {
+		if (mesh == NULL) {
+			return;
+		}
+
 		mMesh = mesh;
 
 		Buffer* buffer = new Buffer(BufferType::BufferVertex);
@@ -209,10 +213,13 @@ namespace Quark {
 		mProgram->SetUniform("spotLightCount", spotLightCount);
 		mProgram->SetUniform("pointLightCount", pointLightCount);
 
-		if (mMesh->mSemantic & VertexSemantic::SemanticFaces) {
-			Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());
-		} else {
-			Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
+		if (mMesh) {
+			if (mMesh->mSemantic & VertexSemantic::SemanticFaces) {
+				Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());
+			}
+			else {
+				Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
+			}
 		}
 
 		Graphics::BindTexture(0, NULL);
@@ -225,10 +232,13 @@ namespace Quark {
 			DEBUG_PROGRAM->SetUniform("model", mGameObject->GetTransform()->GetLocalToWorldMatrix());
 			DEBUG_PROGRAM->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
 			DEBUG_PROGRAM->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
-			if (mMesh->GetFaceCount() > 0) {
-				Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());
-			} else {
-				Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
+			if (mMesh) {
+				if (mMesh->GetFaceCount() > 0) {
+					Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());
+				}
+				else {
+					Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
+				}
 			}
 			DEBUG_PROGRAM->UnUse();
 		}

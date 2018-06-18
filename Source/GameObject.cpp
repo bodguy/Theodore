@@ -104,7 +104,7 @@ namespace Quark {
 		static std::string primitiveName[] = { "Plane", "Cube", "Sphere", "Capsule", "Cylinder" };
 		GameObject* primitive = new GameObject(primitiveName[static_cast<int>(type)], scene);
 		Mesh* mesh = new Mesh();
-		Material* material = new Material(Shader::Find("Standard"));
+		Material* material = new Material(Shader::Find("Phong"));
 		MeshRenderer* rend = primitive->AddComponent<MeshRenderer>();
 
 		switch (type) {

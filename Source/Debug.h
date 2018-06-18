@@ -12,12 +12,13 @@ namespace Quark {
 	#ifdef _DEBUG
 	#define FUNCNAME() Debug::LogFuncName __logFuncName(__FUNCTION__)
 	#elif
-	#define FUNCNAME() do { } while(0)
+	#define FUNCNAME() 
 	#endif
 
     class Matrix4x4; class Vector4d; class Vector3d; class Vector2d; class Color; class Quaternion; class Ray; class Texture;
     class Debug {
     public:
+		static void Trace(const char* format, ...);
         static void Log(const char* format, ...);
 		static void Log(const std::string& str);
 		static void Log(int i);

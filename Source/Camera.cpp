@@ -76,7 +76,7 @@ namespace Quark {
 		Matrix4x4 invProjectionView = Matrix4x4::Inverse(GetProjectionMatrix()) * GetCameraToWorldMatrix();
 		int viewport[4];
 		Graphics::GetViewport(viewport);
-		Vector3d screenCoords(position.x - viewport[0], viewport[3] - position.y - 1 - viewport[1], position.z);
+		Vector3d screenCoords(position.x - viewport[0], viewport[3] - position.y - (1 - viewport[1]), position.z);
 
 		screenCoords.x = (2 * screenCoords.x) / viewport[2] - 1.f;
 		screenCoords.y = (2 * screenCoords.y) / viewport[3] - 1.f;

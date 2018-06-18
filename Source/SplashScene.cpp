@@ -7,20 +7,10 @@ namespace Quark {
 		rotationX = 0.f;
 		sensitivity = 8.0f;
 		moveSensitivity = 0.5f;
-
-		minimumX = -360.f;
-		maximumX = 360.f;
-
-		minimumY = -60.f;
-		maximumY = 60.f;
-		isOrtho = false;
-		isWire = false;
-		camChange = false;
-		skyChange = false;
 	}
 
 	SplashScene::~SplashScene() {
-		
+
 	}
 
 	void SplashScene::OnAwake() {
@@ -30,184 +20,35 @@ namespace Quark {
 		plane = GameObject::CreatePrimitive(PrimitiveType::Plane, this);
 		plane->GetTransform()->SetLocalPosition(Vector3d(0.f, -1.f, 0.f));
 
-		sphere = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
-		cylinder = GameObject::CreatePrimitive(PrimitiveType::Cylinder, this);
-		cylinder->GetTransform()->SetLocalPosition(Vector3d(-3.f, 0.f, 0.f));
-		torus = GameObject::CreatePrimitive(PrimitiveType::Torus, this);
-		torus->GetTransform()->SetLocalPosition(Vector3d(6.f, 0.f, 0.f));
-		cone = GameObject::CreatePrimitive(PrimitiveType::Cone, this);
-		cone->GetTransform()->SetLocalPosition(Vector3d(9.f, 0.f, 0.f));
-
-		dragon = new GameObject("dragon", this);
-		dragon->GetTransform()->SetLocalPosition(Vector3d(-7.f, -1.f, 0.f));
-		dragon->GetTransform()->SetLocalScale(Vector3d(0.3f, 0.3f, 0.3f));
-		Mesh* obj = AssetManager::RequestMesh("Contents/dragon.obj");
-		Material* mat = new Material(Shader::Find("Standard"));
-		MeshRenderer* rend1 = dragon->AddComponent<MeshRenderer>();
-		rend1->SetMaterial(mat);
-		rend1->SetMesh(obj);
-
 		monkey = new GameObject("monkey", this);
-		monkey->GetTransform()->SetLocalPosition(Vector3d(-12.f, 0.f, 0.f));
-		Mesh* obj2 = AssetManager::RequestMesh("Contents/monkey.obj");
-		Material* mat2 = new Material(Shader::Find("Standard"));
-		MeshRenderer* rend2 = monkey->AddComponent<MeshRenderer>();
-		rend2->SetMaterial(mat2);
-		rend2->SetMesh(obj2);
-
-		budda = new GameObject("budda", this);
-		budda->GetTransform()->SetLocalPosition(Vector3d(-18.f, -3.f, 0.f));
-		budda->GetTransform()->SetLocalScale(Vector3d(40.f, 40.f, 40.f));
-		Mesh* obj3 = AssetManager::RequestMesh("Contents/budda.obj");
-		Material* mat3 = new Material(Shader::Find("Standard"));
-		MeshRenderer* rend3 = budda->AddComponent<MeshRenderer>();
-		rend3->SetMaterial(mat3);
-		rend3->SetMesh(obj3);
-
-		FrameBuffer* frameBuffer = new FrameBuffer(Platform::GetWidth(), Platform::GetHeight());
-		frameBuffer->AttachTexture(AssetManager::RequestTexture("raw", Platform::GetWidth(), Platform::GetHeight(), TextureFormat::RGBA32, nullptr), Attachment::Color0);
-		frameBuffer->Create(true);
+		MeshRenderer* rend = monkey->AddComponent<MeshRenderer>();
+		Material* mat = new Material(Shader::Find("Phong"));
+		rend->SetMaterial(mat);
+		rend->SetMesh(AssetManager::RequestMesh("Contents/model/monkey.obj"));
 
 		cube = new GameObject("cube", this);
-		cube->GetTransform()->SetLocalPosition(Vector3d(3.f, 0.f, 0.f));
-		Mesh* mesh = new Mesh();
-		mesh = ShapeGenerator::GenerateCube();
-		Material* mat4 = new Material(Shader::Find("Standard"));
-		//mat->renderTexture = frameBuffer;
-		mat4->texture0 = AssetManager::RequestTexture("Contents/container2.png", TextureFormat::RGBA32);
-		mat4->texture1 = AssetManager::RequestTexture("Contents/container2_specular.png", TextureFormat::RGBA32);
-		MeshRenderer* rend4 = cube->AddComponent<MeshRenderer>();
-		rend4->SetMaterial(mat4);
-		rend4->SetMesh(mesh);
+		cube->GetTransform()->SetLocalPosition(Vector3d(5.f, 0.f, 0.f));
+		MeshRenderer* rend2 = cube->AddComponent<MeshRenderer>();
+		Material* mat2 = new Material(Shader::Find("Phong"));
+		mat2->texture0 = AssetManager::RequestTexture("Contents/BlueGrid.png", TextureFormat::RGBA32);
+		Mesh* mesh = ShapeGenerator::GenerateCube();
+		rend2->SetMaterial(mat2);
+		rend2->SetMesh(mesh);
 
-		GameObject* lightObject[] = {
-			new GameObject("light1", this),
-			new GameObject("light2", this),
-			new GameObject("light3", this),
-			new GameObject("light4", this),
-			new GameObject("light5", this),
-			new GameObject("light6", this)
-		};
+		GameObject* pointLight = new GameObject("pointLight", this);
+		Light* pl = pointLight->AddComponent<Light>(LightType::PointLight);
+		pl->ambient = Color::white;
+		pl->diffuse = Color::white;
+		pl->specular = Color::white;
+		pl->GetTransform()->SetLocalPosition(Vector3d::zero);
 
-		light1 = lightObject[0]->AddComponent<Light>(LightType::PointLight);
-		light2 = lightObject[1]->AddComponent<Light>(LightType::PointLight);
-		light3 = lightObject[2]->AddComponent<Light>(LightType::PointLight);
-		light4 = lightObject[3]->AddComponent<Light>(LightType::SpotLight);
-		light5 = lightObject[4]->AddComponent<Light>(LightType::SpotLight);
-		light6 = lightObject[5]->AddComponent<Light>(LightType::SpotLight);
-
-		light1->GetTransform()->SetPosition(Vector3d(0.f, 0.f, 0.f));
-		light1->ambient = Color::red;
-		light1->diffuse= Color::red;
-		light1->specular = Color::red;
-		
-		light2->GetTransform()->SetPosition(Vector3d(10.f, 0.f, 0.f));
-		light2->ambient = Color::green;
-		light2->diffuse = Color::green;
-		light2->specular = Color::green;
-		
-		light3->GetTransform()->SetPosition(Vector3d(-10.f, 0.f, 0.f));
-		light3->ambient = Color::blue;
-		light3->diffuse = Color::blue;
-		light3->specular = Color::blue;
-
-		light4->ambient = Color::white;
-		light4->diffuse = Color::white;
-		light4->specular = Color::white;
-
-		light5->ambient = Color::orange;
-		light5->diffuse = Color::orange;
-		light5->specular = Color::orange;
-
-		light6->GetTransform()->SetPosition(Vector3d(0.f, 0.f, 15.f));
-		light6->ambient = Color::blue;
-		light6->diffuse = Color::blue;
-		light6->specular = Color::blue;
-
-		cam2 = new GameObject("cam2", this);
-		Camera* c = cam2->AddComponent<Camera>();
-		c->SetRenderTexture(frameBuffer);
-		c->GetTransform()->SetPosition(Vector3d(0.f, 0.f, 20.f));
-
-		skybox = new GameObject("Skybox", this);
-		CubemapRenderer* cubemap = skybox->AddComponent<CubemapRenderer>();
-		AssetManager::RequestTexture(cubemap, "Contents/swedish/posx.jpg", TextureFormat::RGBA32, CubemapFace::PositiveX); // Right
-		AssetManager::RequestTexture(cubemap, "Contents/swedish/negx.jpg", TextureFormat::RGBA32, CubemapFace::NegativeX); // Left
-		AssetManager::RequestTexture(cubemap, "Contents/swedish/posy.jpg", TextureFormat::RGBA32, CubemapFace::PositiveY); // Top
-		AssetManager::RequestTexture(cubemap, "Contents/swedish/negy.jpg", TextureFormat::RGBA32, CubemapFace::NegativeY); // Bottom
-		AssetManager::RequestTexture(cubemap, "Contents/swedish/posz.jpg", TextureFormat::RGBA32, CubemapFace::PositiveZ); // Back
-		AssetManager::RequestTexture(cubemap, "Contents/swedish/negz.jpg", TextureFormat::RGBA32, CubemapFace::NegativeZ); // Front
-
-		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 2.f, 10.f));
+		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 5.f, 20.f));
 	}
 
 	void SplashScene::OnUpdate() {
-		ObjectUpdate();
+		monkey->GetTransform()->Rotate(Vector3d(0.f, 1.f, 0.f), Time::DeltaTime() * 40.f);
+		
 		CameraUpdate();
-
-		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_SPACE)) {
-			Vector3d right = Vector3d::right;
-			right *= Input::GetMouseDeltaPosition().x * Time::DeltaTime();
-			light1->GetTransform()->Translate(right);
-
-			Vector3d up = Vector3d::up;
-			up *= Input::GetMouseDeltaPosition().y * Time::DeltaTime();
-			light1->GetTransform()->Translate(-up);
-		}
-
-		light4->GetTransform()->Rotate(Vector3d::up * Time::DeltaTime() * 20.f);
-		light5->GetTransform()->Rotate(Vector3d::up * Time::DeltaTime() * 10.f);
-	}
-
-	void SplashScene::ObjectUpdate() {
-		cube->GetTransform()->Rotate(Vector3d(1.f, 1.f, 0.f), Time::DeltaTime() * 20.f);
-
-		Transform* trans = dragon->GetTransform();
-		if (Input::GetKeyHeld(KEY_0)) {
-			trans->SetLocalPosition(Vector3d::zero);
-			trans->SetLocalRotation(Quaternion::identity);
-			trans->SetLocalScale(Vector3d::one);
-		}
-		else if (Input::GetKeyDown(KEY_1)) {
-			isWire = !isWire;
-		}
-
-		if (isWire) {
-			Graphics::SetPolygonMode(FillMode::WireFrame);
-		}
-		else {
-			Graphics::SetPolygonMode(FillMode::Solid);
-		}
-
-		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_LCTRL)) {
-			Vector3d right = trans->GetRight();
-			right *= Input::GetMouseDeltaPosition().y * Time::DeltaTime() * 20.f;
-			trans->Rotate(-right);
-
-			Vector3d up = trans->GetUp();
-			up *= Input::GetMouseDeltaPosition().x * Time::DeltaTime() * 20.f;
-			trans->Rotate(-up);
-		}
-
-		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_TAB)) {
-			Vector3d right = Vector3d::right;
-			right *= Input::GetMouseDeltaPosition().x * Time::DeltaTime();
-			trans->Translate(right);
-
-			Vector3d up = Vector3d::up;
-			up *= Input::GetMouseDeltaPosition().y * Time::DeltaTime();
-			trans->Translate(-up);
-		}
-
-		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && Input::GetKeyHeld(KEY_LALT)) {
-			Vector3d right = Vector3d::right;
-			right *= Input::GetMouseDeltaPosition().x * Time::DeltaTime();
-			trans->Scale(right);
-
-			Vector3d up = Vector3d::up;
-			up *= Input::GetMouseDeltaPosition().y * Time::DeltaTime();
-			trans->Scale(up);
-		}
 	}
 
 	void SplashScene::CameraUpdate() {
@@ -215,34 +56,22 @@ namespace Quark {
 			Platform::GetInstance()->Quit();
 		}
 
-		if (Input::GetKeyDown(KEY_2)) { // setting ortho or perspective
-			isOrtho = !isOrtho;
-			SceneManager::GetMainCamera()->SetOrthographic(isOrtho);
-		}
-		else if (Input::GetKeyDown(KEY_3)) {
-			camChange = !camChange;
-
-			if(camChange) {
-				SceneManager::SetMainCamera(cam2->GetComponent<Camera>());
-			}
-			else {
-				SceneManager::SetCurrentCamera();
-			}
-			
+		if (Input::GetKeyDown(KEY_1)) {
+			Graphics::SetPolygonMode(FillMode::WireFrame);
 		}
 
-		if (Input::GetMouseButtonHeld(MOUSE_LEFT) && !Input::GetKeyHeld(KEY_LCTRL) && !Input::GetKeyHeld(KEY_TAB) && !Input::GetKeyHeld(KEY_LALT) && !Input::GetKeyHeld(KEY_SPACE)) {
-			Vector3d right = SceneManager::GetMainCamera()->GetTransform()->GetRight();
-			right *= Input::GetMouseDeltaPosition().x * moveSensitivity * Time::DeltaTime();
-			SceneManager::GetMainCamera()->GetTransform()->Translate(right);
+		//if (Input::GetMouseButtonHeld(MOUSE_LEFT)) {
+		//	Vector3d right = SceneManager::GetMainCamera()->GetTransform()->GetRight();
+		//	right *= Input::GetMouseDeltaPosition().x * moveSensitivity * Time::DeltaTime();
+		//	SceneManager::GetMainCamera()->GetTransform()->Translate(right);
 
-			Vector3d up = SceneManager::GetMainCamera()->GetTransform()->GetUp();
-			up *= Input::GetMouseDeltaPosition().y * moveSensitivity * Time::DeltaTime();
-			SceneManager::GetMainCamera()->GetTransform()->Translate(-up);
-		}
+		//	Vector3d up = SceneManager::GetMainCamera()->GetTransform()->GetUp();
+		//	up *= Input::GetMouseDeltaPosition().y * moveSensitivity * Time::DeltaTime();
+		//	SceneManager::GetMainCamera()->GetTransform()->Translate(-up);
+		//}
 
 		if (Input::GetKeyHeld(KEY_LSHIFT) || Input::GetKeyHeld(KEY_RSHIFT)) {
-			speed = 13.5f;
+			speed = 25.5f;
 		}
 		else {
 			speed = 4.5f;
@@ -283,10 +112,7 @@ namespace Quark {
 		// camera rotation
 		if (Input::GetMouseButtonHeld(MOUSE_RIGHT)) {
 			rotationY = Input::GetMouseDeltaPosition().x * sensitivity * Time::DeltaTime();
-			rotationY = Math::Clamp(rotationY, minimumY, maximumY);
-
 			rotationX = Input::GetMouseDeltaPosition().y * sensitivity * Time::DeltaTime();
-			rotationX = Math::Clamp(rotationX, minimumX, maximumX);
 
 			SceneManager::GetMainCamera()->GetTransform()->Rotate(Vector3d::up, -rotationY);
 			SceneManager::GetMainCamera()->GetTransform()->Rotate(SceneManager::GetMainCamera()->GetTransform()->GetRight(), -rotationX);

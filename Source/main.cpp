@@ -4,12 +4,11 @@ using namespace Quark;
 
 int main(int argc, char** argv) {
 	Application app;
-	PlatformContext pc;
-	pc.name = "test";
-	if (!app.Initialize(pc)) {
-		return 0;
+	PlatformContext context;
+
+	if (app.Initialize(context)) {
+		app.Run();
 	}
-	app.Run();
 
 	return 0;
 }
