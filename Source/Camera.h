@@ -23,8 +23,8 @@ namespace Quark {
 		Matrix4x4 GetCameraToWorldMatrix() const;
 
 		Ray ScreenPointToRay(const Vector3d& position);
-		Vector3d ScreenToWorldPoint(const Vector3d& position);
-		Vector3d WorldToScreenPoint(const Vector3d& position);
+		Vector3d ScreenToWorldPoint(const Vector2d& position);
+		Vector2d WorldToScreenPoint(const Vector3d& position);
 		void SetOrthographic(bool isOrtho);
 
 		float GetFieldOfView() const;

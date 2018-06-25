@@ -10,7 +10,7 @@ namespace Quark {
 		mNormal.x = normal.x;
 		mNormal.y = normal.y;
 		mNormal.z = normal.z;
-		d = -Vector3d::DotProduct(inPoint, normal);
+		d = -Vector3d::DotProduct(inPoint, mNormal);
 	}
 
 	Plane::Plane(const Vector3d& a, const Vector3d& b, const Vector3d& c) {
@@ -21,8 +21,8 @@ namespace Quark {
 	}
 
 	bool Plane::Raycast(const Ray& r, float* enter) {
-		float numer = Vector3d::DotProduct(mNormal, r.mOrigin) - d;
-		float denom = Vector3d::DotProduct(mNormal, r.mDirection);
+		float numer = Vector3d::DotProduct(r.Origin, mNormal) + d;
+		float denom = Vector3d::DotProduct(r.Direction, mNormal);
 
 		if (denom < Math::flt_epsilon) { // normal is orthogonal to vector, cant intersect
 			*enter = -1.f;

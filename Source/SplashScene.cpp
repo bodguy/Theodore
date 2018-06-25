@@ -24,7 +24,8 @@ namespace Quark {
 		MeshRenderer* rend = monkey->AddComponent<MeshRenderer>();
 		Material* mat = new Material(Shader::Find("Phong"));
 		rend->SetMaterial(mat);
-		rend->SetMesh(AssetManager::RequestMesh("Contents/model/monkey.obj"));
+		rend->SetMesh(AssetManager::RequestMesh("Contents/model/budda.obj"));
+		monkey->GetTransform()->SetLocalScale(Vector3d(60.f, 60.f, 60.f));
 
 		cube = new GameObject("cube", this);
 		cube->GetTransform()->SetLocalPosition(Vector3d(5.f, 0.f, 0.f));
@@ -43,21 +44,42 @@ namespace Quark {
 		pl->GetTransform()->SetLocalPosition(Vector3d::zero);
 
 		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 5.f, 20.f));
+
+		float distanceZ = -10.f;
+		Vector3d distanceFromCamera = Vector3d(SceneManager::GetMainCamera()->GetTransform()->GetPosition().x,
+			SceneManager::GetMainCamera()->GetTransform()->GetPosition().y, distanceZ);
+		planes = new Plane(Vector3d::forward, distanceFromCamera);
 	}
 
 	void SplashScene::OnUpdate() {
 		monkey->GetTransform()->Rotate(Vector3d(0.f, 1.f, 0.f), Time::DeltaTime() * 40.f);
+
+		// ray casting
+		if (Input::GetMouseButtonHeld(MOUSE_LEFT)) {
+			Ray ray = SceneManager::GetMainCamera()->ScreenPointToRay(Input::GetMousePosition());
+			float enter = 0.f;
+
+			if (planes->Raycast(ray, &enter)) {
+				Vector3d hitPoint = ray.GetPoint(enter);
+				Debug::Log(hitPoint);
+				monkey->GetTransform()->SetLocalPosition(hitPoint);
+			}
+		}
+
+		if (Input::GetKeyDown(KEY_1)) {
+			SceneManager::GetMainCamera()->SetOrthographic(true);
+		}
 		
+		if(Input::GetKeyDown(KEY_2)) {
+			SceneManager::GetMainCamera()->SetOrthographic(false);
+		}
+
 		CameraUpdate();
 	}
 
 	void SplashScene::CameraUpdate() {
 		if (Input::GetKeyDown(KEY_ESCAPE)) {
 			Platform::GetInstance()->Quit();
-		}
-
-		if (Input::GetKeyDown(KEY_1)) {
-			Graphics::SetPolygonMode(FillMode::WireFrame);
 		}
 
 		//if (Input::GetMouseButtonHeld(MOUSE_LEFT)) {

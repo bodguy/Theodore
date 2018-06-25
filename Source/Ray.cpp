@@ -2,35 +2,35 @@
 #include "Math.h"
 
 namespace Quark {
-	Ray::Ray() : mOrigin(), mDirection() {
+	Ray::Ray() : Origin(), Direction() {
 
 	}
 
-	Ray::Ray(const Vector3d& origin, const Vector3d& direction) : mOrigin(origin), mDirection(direction) {
+	Ray::Ray(const Vector3d& origin, const Vector3d& direction) : Origin(origin), Direction(direction) {
 
 	}
 
 	Ray::Ray(const Ray& other) {
-		mOrigin = other.mOrigin;
-		mDirection = other.mDirection;
+		Origin = other.Origin;
+		Direction = other.Direction;
 	}
 
 	Vector3d Ray::GetPoint(float distance) {
-		return mOrigin + mDirection * distance;
+		return Origin + Direction * distance;
 	}
 
 	Ray& Ray::operator *(Matrix4x4& matrix) {
 		Vector3d tmp;
-		tmp = mOrigin + mDirection;
+		tmp = Origin + Direction;
 		tmp = matrix * tmp;
-		mOrigin = matrix * mOrigin;
-		mDirection = tmp - mOrigin;
+		Origin = matrix * Origin;
+		Direction = tmp - Origin;
 
 		return *this;
 	}
 
 	bool Ray::operator ==(const Ray& other) {
-		return ((mOrigin == other.mOrigin) && (mDirection == other.mDirection));
+		return ((Origin == other.Origin) && (Direction == other.Direction));
 	}
 
 	bool Ray::operator !=(const Ray& other) {

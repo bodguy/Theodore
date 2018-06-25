@@ -66,27 +66,33 @@ namespace Quark {
 
 	Ray Camera::ScreenPointToRay(const Vector3d& position) {
 		Ray ray;
-		ray.mOrigin = ScreenToWorldPoint(Vector3d(position.x, position.y, 0.f));
-		ray.mDirection = ScreenToWorldPoint(Vector3d(position.x, position.y, 1.f));
-		ray.mDirection = (ray.mDirection - ray.mOrigin).Normalize();
+		ray.Origin = this->GetTransform()->GetPosition();
+		ray.Direction = ScreenToWorldPoint(Vector2d(position.x, position.y));
 		return ray;
 	}
 
-	Vector3d Camera::ScreenToWorldPoint(const Vector3d& position) {
-		Matrix4x4 invProjectionView = Matrix4x4::Inverse(GetProjectionMatrix()) * GetCameraToWorldMatrix();
+	Vector3d Camera::ScreenToWorldPoint(const Vector2d& position) {
 		int viewport[4];
 		Graphics::GetViewport(viewport);
-		Vector3d screenCoords(position.x - viewport[0], viewport[3] - position.y - (1 - viewport[1]), position.z);
+		Vector2d screenCoords(position.x - viewport[0], viewport[3] - position.y - (1 - viewport[1]));
+		Vector4d clipCoords;
 
-		screenCoords.x = (2 * screenCoords.x) / viewport[2] - 1.f;
-		screenCoords.y = (2 * screenCoords.y) / viewport[3] - 1.f;
-		screenCoords.z = 2 * screenCoords.z - 1;
+		clipCoords.x = (2 * screenCoords.x) / viewport[2] - 1.f;
+		clipCoords.y = (2 * screenCoords.y) / viewport[3] - 1.f;
+		clipCoords.z = -1.f; // forward
+		clipCoords.w = 1.f;
 
-		return invProjectionView * screenCoords;
+		Vector4d eyeCoords = Matrix4x4::Inverse(GetProjectionMatrix()) * clipCoords;
+		eyeCoords.z = -1.f;
+		eyeCoords.w = 0.f;
+
+		Vector4d worldCoords = Matrix4x4::Inverse(GetWorldToCameraMatrix()) * eyeCoords;
+
+		return Vector3d(worldCoords.x, worldCoords.y, worldCoords.z).Normalize();
 	}
 
-	Vector3d Camera::WorldToScreenPoint(const Vector3d& position) {
-		return Vector3d();
+	Vector2d Camera::WorldToScreenPoint(const Vector3d& position) {
+		return Vector2d();
 	}
 
 	void Camera::SetOrthographic(bool isOrtho) {

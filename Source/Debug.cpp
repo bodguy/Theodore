@@ -87,7 +87,7 @@ namespace Quark {
     
     void Debug::Log(const Ray& ray) {
         Debug::Log("Origin: (%f, %f, %f), Dir: (%f, %f, %f)",
-                   ray.mOrigin.x, ray.mOrigin.y, ray.mOrigin.z, ray.mDirection.x, ray.mDirection.y, ray.mDirection.z);
+                   ray.Origin.x, ray.Origin.y, ray.Origin.z, ray.Direction.x, ray.Direction.y, ray.Direction.z);
     }
     
     void Debug::Log(const Texture* object) {
