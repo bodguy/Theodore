@@ -55,7 +55,7 @@ namespace Quark {
 	}
 
 	Matrix4x4 Camera::GetWorldToCameraMatrix() const {
-		mWorldToCameraMatrix = Matrix4x4::LookAt(mTransform->GetPosition(), mTransform->GetPosition() + mTransform->GetForward(), mTransform->GetUp());
+		mWorldToCameraMatrix = Matrix4x4::LookAt(mTransform->GetLocalPosition(), mTransform->GetLocalPosition() + mTransform->GetForward(), mTransform->GetUp());
 		return mWorldToCameraMatrix;
 	}
 	
@@ -66,7 +66,7 @@ namespace Quark {
 
 	Ray Camera::ScreenPointToRay(const Vector3d& position) {
 		Ray ray;
-		ray.Origin = this->GetTransform()->GetPosition();
+		ray.Origin = mTransform->GetLocalPosition();
 		ray.Direction = ScreenToWorldPoint(Vector2d(position.x, position.y));
 		return ray;
 	}
@@ -77,16 +77,17 @@ namespace Quark {
 		Vector2d screenCoords(position.x - viewport[0], viewport[3] - position.y - (1 - viewport[1]));
 		Vector4d clipCoords;
 
-		clipCoords.x = (2 * screenCoords.x) / viewport[2] - 1.f;
-		clipCoords.y = (2 * screenCoords.y) / viewport[3] - 1.f;
+		clipCoords.x = (2.f * screenCoords.x) / viewport[2] - 1.f;
+		clipCoords.y = (2.f * screenCoords.y) / viewport[3] - 1.f;
 		clipCoords.z = -1.f; // forward
 		clipCoords.w = 1.f;
 
 		Vector4d eyeCoords = Matrix4x4::Inverse(GetProjectionMatrix()) * clipCoords;
-		eyeCoords.z = -1.f;
+		eyeCoords.z = -1.f; // forward
 		eyeCoords.w = 0.f;
 
-		Vector4d worldCoords = Matrix4x4::Inverse(GetWorldToCameraMatrix()) * eyeCoords;
+		// not the GetCameraToWorldMatrix()
+		Vector4d worldCoords = mTransform->GetLocalToWorldMatrix() * eyeCoords;
 
 		return Vector3d(worldCoords.x, worldCoords.y, worldCoords.z).Normalize();
 	}

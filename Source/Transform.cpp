@@ -113,7 +113,7 @@ namespace Quark {
 	}
 
 	Matrix4x4 Transform::GetWorldToLocalMatrix() const {
-		mWorldToLocalMatrix = Matrix4x4(mLocalToWorldMatrix).MakeInverse();
+		mWorldToLocalMatrix = Matrix4x4::Inverse(GetLocalToWorldMatrix());
 		return mWorldToLocalMatrix;
 	}
 

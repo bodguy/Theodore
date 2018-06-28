@@ -5,9 +5,11 @@
 #include "Enumeration.h"
 
 namespace Quark {
-	class Vector3d; class Color; class VertexArray; class FrameBuffer;
+	class Vector3d; class Color; class VertexArray; class FrameBuffer; class Program; class Buffer;
     class Graphics {
-    public:
+	public:
+		static void SetGraphicsSettings();
+		static void Dispose();
 		static void ClearColor(const Color& color, BufferBits bits);
         static void Clear(BufferBits bits);
         static void BindTexture(unsigned int unit, Texture* texture);
@@ -31,6 +33,7 @@ namespace Quark {
 		static int GetMaxFrameBufferSamples();
 		static int GetMaxFrameBufferLayers();
 		static void SetFaceCulling(CullFace whichFace, CullMode front);
+		static void DrawLine(const Vector3d& start, const Vector3d& end, const Color color);
 
 		// OpenGL 2.1 version rendering functions
 		static void Vertex(const Vector3d& vector);
@@ -59,6 +62,10 @@ namespace Quark {
 	private:
 		Graphics();
 		~Graphics();
+
+		static Program* gizmoProgram;
+		static Buffer* gizmoBuffer;
+		static VertexArray* gizmoVao;
     };
 }
 

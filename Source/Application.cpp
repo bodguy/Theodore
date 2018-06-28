@@ -21,6 +21,7 @@ namespace Quark {
 		SafeDealloc(mTime);
 		SafeDealloc(mInput);
 		SafeDealloc(mPlatform);
+		Graphics::Dispose();
 	}
 
 	bool Application::Initialize(const PlatformContext& param) {
@@ -29,7 +30,6 @@ namespace Quark {
 			return false;
 		}
 		mPlatform->SetVSync(true);
-		Graphics::Enable(Capabilities::DepthTest);
 
 		mInput = new Input();
 		mTime = new Time();
@@ -67,6 +67,8 @@ namespace Quark {
 		ShaderManager::Append(new Program("Cubemap", *cubemap_vs, *cubemap_fs));
 
 		mSceneManager = new SceneManager();
+		Graphics::SetGraphicsSettings();
+		Graphics::Enable(Capabilities::DepthTest);
 
 		Random::InitState(static_cast<int>(time(NULL)));
 
@@ -78,8 +80,8 @@ namespace Quark {
 			mPlatform->Update();
 			mTime->Update();
 			mInput->Update();
-			Update(Time::DeltaTime());
 			Graphics::ClearColor(Color(0.f, 0.f, 0.f, 1.f), BufferBits::ColorBits | BufferBits::DepthBits);
+			Update(Time::DeltaTime());
 			Render();
 			mPlatform->SwapBuffer();
 		}

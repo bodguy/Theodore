@@ -26,6 +26,7 @@ namespace Quark {
 		rend->SetMaterial(mat);
 		rend->SetMesh(AssetManager::RequestMesh("Contents/model/budda.obj"));
 		monkey->GetTransform()->SetLocalScale(Vector3d(60.f, 60.f, 60.f));
+		monkey->GetTransform()->Translate(Vector3d(0.f, -10.f, 0.f), Space::World);
 
 		cube = new GameObject("cube", this);
 		cube->GetTransform()->SetLocalPosition(Vector3d(5.f, 0.f, 0.f));
@@ -42,12 +43,12 @@ namespace Quark {
 		pl->diffuse = Color::white;
 		pl->specular = Color::white;
 		pl->GetTransform()->SetLocalPosition(Vector3d::zero);
-
-		SceneManager::GetMainCamera()->GetTransform()->SetPosition(Vector3d(0.f, 5.f, 20.f));
+		
+		SceneManager::GetMainCamera()->GetTransform()->SetLocalPosition(Vector3d(0.f, 5.f, 20.f));
 
 		float distanceZ = -10.f;
-		Vector3d distanceFromCamera = Vector3d(SceneManager::GetMainCamera()->GetTransform()->GetPosition().x,
-			SceneManager::GetMainCamera()->GetTransform()->GetPosition().y, distanceZ);
+		Vector3d distanceFromCamera = Vector3d(SceneManager::GetMainCamera()->GetTransform()->GetLocalPosition().x,
+			SceneManager::GetMainCamera()->GetTransform()->GetLocalPosition().y, distanceZ);
 		planes = new Plane(Vector3d::forward, distanceFromCamera);
 	}
 
@@ -60,8 +61,10 @@ namespace Quark {
 			float enter = 0.f;
 
 			if (planes->Raycast(ray, &enter)) {
-				Vector3d hitPoint = ray.GetPoint(enter);
+				hitPoint = ray.GetPoint(enter);
 				Debug::Log(hitPoint);
+				camPos = SceneManager::GetMainCamera()->GetTransform()->GetLocalPosition();
+				camPos.z += 0.2f;
 				monkey->GetTransform()->SetLocalPosition(hitPoint);
 			}
 		}
@@ -74,6 +77,7 @@ namespace Quark {
 			SceneManager::GetMainCamera()->SetOrthographic(false);
 		}
 
+		Graphics::DrawLine(camPos, hitPoint, Color::green);
 		CameraUpdate();
 	}
 

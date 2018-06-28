@@ -321,7 +321,7 @@ namespace Quark {
         return Matrix4x4(xaxis.x, yaxis.x, zaxis.x, 0.f,
                          xaxis.y, yaxis.y, zaxis.y, 0.f,
                          xaxis.z, yaxis.z, zaxis.z, 0.f,
-                         Vector3d::DotProduct(-xaxis, eye), Vector3d::DotProduct(-yaxis, eye), Vector3d::DotProduct(-zaxis, eye), 1.f);
+                         -Vector3d::DotProduct(xaxis, eye), -Vector3d::DotProduct(yaxis, eye), -Vector3d::DotProduct(zaxis, eye), 1.f);
     }
     
     Matrix4x4 Matrix4x4::Translate(const Vector3d& translation) {

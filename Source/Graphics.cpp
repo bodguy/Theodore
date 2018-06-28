@@ -5,14 +5,35 @@
 #include "Debug.h"
 #include "Platform.h"
 #include "Math.h"
+#include "Shader.h"
+#include "SceneManager.h"
+#include "Camera.h"
+#include "Utility.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb/stb_image_write.h>
 
 namespace Quark {
+	Program* Graphics::gizmoProgram = NULL;
+	Buffer* Graphics::gizmoBuffer = NULL;
+	VertexArray* Graphics::gizmoVao = NULL;
+
 	Graphics::Graphics() {
 	}
 
 	Graphics::~Graphics() {
+	}
+
+	void Graphics::SetGraphicsSettings() {
+		gizmoProgram = Shader::Find("Gizmo");
+		gizmoBuffer = new Buffer(BufferType::BufferVertex);
+		gizmoBuffer->Data(nullptr, 2 * sizeof(Vector3d), BufferUsage::DynamicDraw);
+		gizmoVao = new VertexArray();
+		gizmoVao->BindAttribute(gizmoProgram->GetAttribute("position"), *gizmoBuffer, 3, sizeof(Vector3d), 0);
+	}
+
+	void Graphics::Dispose() {
+		SafeDealloc(gizmoBuffer);
+		SafeDealloc(gizmoVao);
 	}
 
 	void Graphics::ClearColor(const Color& color, BufferBits bits) {
@@ -189,6 +210,20 @@ namespace Quark {
 	void Graphics::SetFaceCulling(CullFace whichFace, CullMode front) {
 		glCullFace(static_cast<GLenum>(whichFace));
 		glFrontFace(static_cast<GLenum>(front));
+	}
+
+	void Graphics::DrawLine(const Vector3d& start, const Vector3d& end, const Color color) {
+		Vector3d vertices[2] = { start, end };
+
+		gizmoProgram->Use();
+		Camera* cam = SceneManager::GetMainCamera();
+		gizmoProgram->SetUniform("model", Matrix4x4::Identity());
+		gizmoProgram->SetUniform("view", cam->GetWorldToCameraMatrix());
+		gizmoProgram->SetUniform("projection", cam->GetProjectionMatrix());
+		gizmoProgram->SetUniform("color", color);
+		gizmoBuffer->SubData(vertices, 0, 2 * sizeof(Vector3d));
+		Graphics::DrawArrays(*gizmoVao, Primitive::LineLoop, 0, 2);
+		gizmoProgram->UnUse();
 	}
 
 	// OpenGL 2.1 version rendering functions implements
