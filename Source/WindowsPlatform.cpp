@@ -247,8 +247,8 @@ namespace Quark {
 		} else {
 			Debug::Log("Context Profile: Compatibility");
 		}
-		Debug::Log("GPU Total Memory : %.0f MB", Math::Round(Math::KBtoMB(nTotalMemoryInKB)));
-		Debug::Log("GPU Available Memory : %.0f MB", Math::Round(Math::KBtoMB(nCurAvailMemoryInKB)));
+		Debug::Log("GPU Total Memory : %.0f MB", Math::Round(Math::KbToMb(nTotalMemoryInKB)));
+		Debug::Log("GPU Available Memory : %.0f MB", Math::Round(Math::KbToMb(nCurAvailMemoryInKB)));
 
 		//if (QueryExtentionSupported("GL_ARB_get_program_binary")) {
 		//	Debug::Log("program binary supported!\n");

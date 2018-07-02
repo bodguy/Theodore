@@ -14,7 +14,7 @@ namespace Quark {
 		bool Raycast(const Ray& r, float* enter);
 
 	private:
-		Vector3d mNormal;
+		Vector3d n;
 		float d;
 	};
 }

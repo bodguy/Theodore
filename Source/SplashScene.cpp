@@ -10,7 +10,8 @@ namespace Quark {
 	}
 
 	SplashScene::~SplashScene() {
-
+		SafeDealloc(bounds);
+		SafeDealloc(bounds2);
 	}
 
 	void SplashScene::OnAwake() {
@@ -24,11 +25,9 @@ namespace Quark {
 		MeshRenderer* rend = monkey->AddComponent<MeshRenderer>();
 		Material* mat = new Material(Shader::Find("Phong"));
 		rend->SetMaterial(mat);
-		rend->SetMesh(AssetManager::RequestMesh("Contents/model/budda.obj"));
-		monkey->GetTransform()->SetLocalScale(Vector3d(60.f, 60.f, 60.f));
-		monkey->GetTransform()->Translate(Vector3d(0.f, -10.f, 0.f), Space::World);
+		rend->SetMesh(AssetManager::RequestMesh("Contents/model/monkey.obj"));
 
-		cube = new GameObject("cube", this);
+		cube = new GameObject("cube", monkey, this);
 		cube->GetTransform()->SetLocalPosition(Vector3d(5.f, 0.f, 0.f));
 		MeshRenderer* rend2 = cube->AddComponent<MeshRenderer>();
 		Material* mat2 = new Material(Shader::Find("Phong"));
@@ -50,6 +49,10 @@ namespace Quark {
 		Vector3d distanceFromCamera = Vector3d(SceneManager::GetMainCamera()->GetTransform()->GetLocalPosition().x,
 			SceneManager::GetMainCamera()->GetTransform()->GetLocalPosition().y, distanceZ);
 		planes = new Plane(Vector3d::forward, distanceFromCamera);
+		camTrans = SceneManager::GetMainCamera()->GetTransform();
+
+		bounds = new Bounds(Vector3d(0.f, 5.f, 0.f), Vector3d(1.f, 1.f, 1.f));
+		bounds2 = new Bounds(Vector3d(0.5f, 5.5f, 0.f), Vector3d(1.f, 1.f, 1.f));
 	}
 
 	void SplashScene::OnUpdate() {
@@ -61,23 +64,27 @@ namespace Quark {
 			float enter = 0.f;
 
 			if (planes->Raycast(ray, &enter)) {
-				hitPoint = ray.GetPoint(enter);
-				Debug::Log(hitPoint);
-				camPos = SceneManager::GetMainCamera()->GetTransform()->GetLocalPosition();
-				camPos.z += 0.2f;
+				Vector3d hitPoint = ray.GetPoint(enter);
 				monkey->GetTransform()->SetLocalPosition(hitPoint);
+				
+				Graphics::DrawLine(Vector3d(camTrans->GetPosition().x,
+					camTrans->GetPosition().y,
+					camTrans->GetPosition().z + SceneManager::GetMainCamera()->GetNearClipPlane()
+				), hitPoint, Color::red);
 			}
 		}
 
-		if (Input::GetKeyDown(KEY_1)) {
-			SceneManager::GetMainCamera()->SetOrthographic(true);
-		}
-		
-		if(Input::GetKeyDown(KEY_2)) {
-			SceneManager::GetMainCamera()->SetOrthographic(false);
+		Graphics::DrawCube(bounds->center, bounds->size, Color::red);
+		Graphics::DrawCube(bounds2->center, bounds2->size, Color::red);
+
+		if (bounds->Intersect(*bounds2)) {
+			Debug::Log("Intersect");
 		}
 
-		Graphics::DrawLine(camPos, hitPoint, Color::green);
+		if (Input::GetKeyDown(KEY_C)) {
+			bounds2->SetMinMax(Vector3d::zero, Vector3d::one);
+		}
+
 		CameraUpdate();
 	}
 

@@ -26,7 +26,7 @@ namespace Quark {
 	void Graphics::SetGraphicsSettings() {
 		gizmoProgram = Shader::Find("Gizmo");
 		gizmoBuffer = new Buffer(BufferType::BufferVertex);
-		gizmoBuffer->Data(nullptr, 2 * sizeof(Vector3d), BufferUsage::DynamicDraw);
+		gizmoBuffer->Data(nullptr, 24 * sizeof(Vector3d), BufferUsage::DynamicDraw);
 		gizmoVao = new VertexArray();
 		gizmoVao->BindAttribute(gizmoProgram->GetAttribute("position"), *gizmoBuffer, 3, sizeof(Vector3d), 0);
 	}
@@ -145,11 +145,11 @@ namespace Quark {
 		const int linewidth = w * 3;
 
 		//flip the image
-		for (int y = 0; y < (h / 2); y++) {
-			std::copy(data + y * linewidth, data + y * linewidth + linewidth, tmpline);
-			std::copy(data + (h - y) * linewidth, data + (h - y) * linewidth + linewidth, data + y * linewidth);
-			std::copy(tmpline, tmpline + linewidth, data + (h - y) * linewidth);
-		}
+		//for (int y = 0; y < (h / 2); y++) {
+		//	std::copy(data + y * linewidth, data + y * linewidth + linewidth, tmpline);
+		//	std::copy(data + (h - y) * linewidth, data + (h - y) * linewidth + linewidth, data + y * linewidth);
+		//	std::copy(tmpline, tmpline + linewidth, data + (h - y) * linewidth);
+		//}
 
 		switch (type) {
 		case ImageType::IMAGE_PNG:
@@ -223,6 +223,51 @@ namespace Quark {
 		gizmoProgram->SetUniform("color", color);
 		gizmoBuffer->SubData(vertices, 0, 2 * sizeof(Vector3d));
 		Graphics::DrawArrays(*gizmoVao, Primitive::LineLoop, 0, 2);
+		gizmoProgram->UnUse();
+	}
+
+	void Graphics::DrawCube(const Vector3d& center, const Vector3d& size, const Color color) {
+		Vector3d extent = size / 2.f;
+		Vector3d vertices[24] = { 
+			// top
+			center + extent * Vector3d(1.f, 1.f, 1.f),
+			center + extent * Vector3d(-1.f, 1.f, 1.f),
+			center + extent * Vector3d(-1.f, 1.f, 1.f),
+			center + extent * Vector3d(-1.f, 1.f, -1.f),
+			center + extent * Vector3d(-1.f, 1.f, -1.f),
+			center + extent * Vector3d(1.f, 1.f, -1.f),
+			center + extent * Vector3d(1.f, 1.f, -1.f),
+			center + extent * Vector3d(1.f, 1.f, 1.f),
+
+			// vertical
+			center + extent * Vector3d(1.f, 1.f, 1.f),
+			center + extent * Vector3d(1.f, -1.f, 1.f),
+			center + extent * Vector3d(-1.f, 1.f, 1.f),
+			center + extent * Vector3d(-1.f, -1.f, 1.f),
+			center + extent * Vector3d(-1.f, 1.f, -1.f),
+			center + extent * Vector3d(-1.f, -1.f, -1.f),
+			center + extent * Vector3d(1.f, 1.f, -1.f),
+			center + extent * Vector3d(1.f, -1.f, -1.f),
+
+			// bottom
+			center + extent * Vector3d(-1.f, -1.f, -1.f),
+			center + extent * Vector3d(1.f, -1.f, -1.f),
+			center + extent * Vector3d(1.f, -1.f, -1.f),
+			center + extent * Vector3d(1.f, -1.f, 1.f),
+			center + extent * Vector3d(1.f, -1.f, 1.f),
+			center + extent * Vector3d(-1.f, -1.f, 1.f),
+			center + extent * Vector3d(-1.f, -1.f, 1.f),
+			center + extent * Vector3d(-1.f, -1.f, -1.f),
+		};
+
+		gizmoProgram->Use();
+		Camera* cam = SceneManager::GetMainCamera();
+		gizmoProgram->SetUniform("model", Matrix4x4::Identity());
+		gizmoProgram->SetUniform("view", cam->GetWorldToCameraMatrix());
+		gizmoProgram->SetUniform("projection", cam->GetProjectionMatrix());
+		gizmoProgram->SetUniform("color", color);
+		gizmoBuffer->SubData(vertices, 0, 24 * sizeof(Vector3d));
+		Graphics::DrawArrays(*gizmoVao, Primitive::Lines, 0, 24);
 		gizmoProgram->UnUse();
 	}
 

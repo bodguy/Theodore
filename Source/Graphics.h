@@ -34,6 +34,7 @@ namespace Quark {
 		static int GetMaxFrameBufferLayers();
 		static void SetFaceCulling(CullFace whichFace, CullMode front);
 		static void DrawLine(const Vector3d& start, const Vector3d& end, const Color color);
+		static void DrawCube(const Vector3d& center, const Vector3d& size, const Color color);
 
 		// OpenGL 2.1 version rendering functions
 		static void Vertex(const Vector3d& vector);

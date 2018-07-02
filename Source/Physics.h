@@ -1,0 +1,31 @@
+#ifndef Physics_h
+#define Physics_h
+
+#include "Vector3d.h"
+#include "Math.h"
+#include "Ray.h"
+
+namespace Quark {
+	class RaycastHit {
+	public:
+		RaycastHit() {}
+		~RaycastHit() {}
+
+	};
+
+	class Physics {
+	public:
+		Physics();
+		~Physics();
+
+		static bool Raycast(const Vector3d& origin, const Vector3d& directoin, float maxDistance = Math::infinity);
+		static bool Raycast(const Vector3d& origin, const Vector3d& directoin, RaycastHit* hitInfo, float maxDistance = Math::infinity);
+		static bool Raycast(const Ray& ray, float maxDistance = Math::infinity);
+		static bool Raycast(const Ray& ray, RaycastHit* hitInfo, float maxDistance = Math::infinity);
+
+	private:
+
+	};
+}
+
+#endif Physics_h /* Physics_h */

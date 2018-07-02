@@ -66,19 +66,17 @@ namespace Quark {
 
 	Ray Camera::ScreenPointToRay(const Vector3d& position) {
 		Ray ray;
-		ray.Origin = mTransform->GetLocalPosition();
-		ray.Direction = ScreenToWorldPoint(Vector2d(position.x, position.y));
+		ray.origin = mTransform->GetLocalPosition();
+		ray.direction = ScreenToWorldPoint(Vector2d(position.x, position.y));
 		return ray;
 	}
 
 	Vector3d Camera::ScreenToWorldPoint(const Vector2d& position) {
 		int viewport[4];
 		Graphics::GetViewport(viewport);
-		Vector2d screenCoords(position.x - viewport[0], viewport[3] - position.y - (1 - viewport[1]));
 		Vector4d clipCoords;
-
-		clipCoords.x = (2.f * screenCoords.x) / viewport[2] - 1.f;
-		clipCoords.y = (2.f * screenCoords.y) / viewport[3] - 1.f;
+		clipCoords.x = (2.f * (position.x - viewport[0])) / viewport[2] - 1.f;
+		clipCoords.y = (2.f * (viewport[3] - position.y - (1 - viewport[1]))) / viewport[3] - 1.f;
 		clipCoords.z = -1.f; // forward
 		clipCoords.w = 1.f;
 

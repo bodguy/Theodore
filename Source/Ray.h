@@ -16,8 +16,8 @@ namespace Quark {
 		bool operator ==(const Ray& other);
 		bool operator !=(const Ray& other);
 
-		Vector3d Origin;
-		Vector3d Direction;
+		Vector3d origin;
+		Vector3d direction;
 	};
 }
 

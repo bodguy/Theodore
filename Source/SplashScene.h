@@ -17,8 +17,8 @@ namespace Quark {
 
 		GameObject *plane, *monkey, *cube;
 		Plane* planes;
-
-		Vector3d camPos, hitPoint;
+		Transform* camTrans;
+		Bounds* bounds, *bounds2;
 
 		float speed;
 		float rotationY;

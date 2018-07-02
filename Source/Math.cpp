@@ -8,6 +8,7 @@ namespace Quark {
     const int Math::degrees = 360;
     const float Math::degrees_to_radians = Math::pi / 180.f;
     const float Math::flt_epsilon = std::numeric_limits<float>::epsilon();
+	const float Math::infinity = std::numeric_limits<double>::infinity();
     
     bool Math::IsEqual(const float a, const float b) {
        return std::fabs(a - b) < Math::flt_epsilon;
@@ -44,7 +45,7 @@ namespace Quark {
 		}
 	}
 
-	float Math::KBtoMB(int kb) {
+	float Math::KbToMb(int kb) {
 		return kb / 1024.f;
 	}
 
