@@ -43,7 +43,7 @@ namespace Quark {
 		pl->specular = Color::white;
 		pl->GetTransform()->SetLocalPosition(Vector3d::zero);
 		
-		SceneManager::GetMainCamera()->GetTransform()->SetLocalPosition(Vector3d(0.f, 5.f, 20.f));
+		SceneManager::GetMainCamera()->GetTransform()->SetLocalPosition(Vector3d(0.f, 6.5f, 5.f));
 
 		float distanceZ = -10.f;
 		Vector3d distanceFromCamera = Vector3d(SceneManager::GetMainCamera()->GetTransform()->GetLocalPosition().x,
@@ -51,38 +51,45 @@ namespace Quark {
 		planes = new Plane(Vector3d::forward, distanceFromCamera);
 		camTrans = SceneManager::GetMainCamera()->GetTransform();
 
-		bounds = new Bounds(Vector3d(0.f, 5.f, 0.f), Vector3d(1.f, 1.f, 1.f));
-		bounds2 = new Bounds(Vector3d(0.5f, 5.5f, 0.f), Vector3d(1.f, 1.f, 1.f));
+		boxPos = Vector3d(1.f, 5.5f, 0.f);
+		bounds = new Bounds(Vector3d(0.f, 5.f, 0.f), Vector3d::one);
+		bounds2 = new Bounds(boxPos, Vector3d::one);
 	}
 
 	void SplashScene::OnUpdate() {
-		monkey->GetTransform()->Rotate(Vector3d(0.f, 1.f, 0.f), Time::DeltaTime() * 40.f);
+		monkey->GetTransform()->Rotate(Vector3d::up, Time::DeltaTime() * 40.f);
 
 		// ray casting
-		if (Input::GetMouseButtonHeld(MOUSE_LEFT)) {
-			Ray ray = SceneManager::GetMainCamera()->ScreenPointToRay(Input::GetMousePosition());
-			float enter = 0.f;
-
-			if (planes->Raycast(ray, &enter)) {
-				Vector3d hitPoint = ray.GetPoint(enter);
-				monkey->GetTransform()->SetLocalPosition(hitPoint);
-				
-				Graphics::DrawLine(Vector3d(camTrans->GetPosition().x,
-					camTrans->GetPosition().y,
-					camTrans->GetPosition().z + SceneManager::GetMainCamera()->GetNearClipPlane()
-				), hitPoint, Color::red);
-			}
+		if (Input::GetMouseButtonDown(MOUSE_LEFT)) {
+			camPos = camTrans->GetPosition();
+			ray = SceneManager::GetMainCamera()->ScreenPointToRay(Input::GetMousePosition());
 		}
 
+		if (bounds2->IntersectRay(ray)) {
+			Debug::Log("Ray Intersect");
+		}
+		Graphics::DrawLine(Vector3d(camPos.x, camPos.y, camPos.z + SceneManager::GetMainCamera()->GetNearClipPlane()
+		), ray.GetPoint(100.f), Color::yellow);
+
+		bounds2->SetMinMax(boxPos, boxPos + Vector3d::one);
 		Graphics::DrawCube(bounds->center, bounds->size, Color::red);
-		Graphics::DrawCube(bounds2->center, bounds2->size, Color::red);
+		Graphics::DrawCube(bounds2->center, bounds2->size, Color::green);
 
 		if (bounds->Intersect(*bounds2)) {
 			Debug::Log("Intersect");
 		}
 
-		if (Input::GetKeyDown(KEY_C)) {
-			bounds2->SetMinMax(Vector3d::zero, Vector3d::one);
+		if (Input::GetKeyHeld(KEY_Z)) {
+			boxPos.x += 2.f * Time::DeltaTime();
+		}
+		else if (Input::GetKeyHeld(KEY_X)) {
+			boxPos.x -= 2.f * Time::DeltaTime();
+		}
+		else if (Input::GetKeyHeld(KEY_C)) {
+			boxPos.y += 2.f * Time::DeltaTime();
+		}
+		else if (Input::GetKeyHeld(KEY_V)) {
+			boxPos.y -= 2.f * Time::DeltaTime();
 		}
 
 		CameraUpdate();

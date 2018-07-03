@@ -19,6 +19,9 @@ namespace Quark {
 		Plane* planes;
 		Transform* camTrans;
 		Bounds* bounds, *bounds2;
+		Vector3d boxPos;
+		Ray ray;
+		Vector3d camPos;
 
 		float speed;
 		float rotationY;

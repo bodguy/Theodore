@@ -40,12 +40,12 @@ namespace Quark {
         return *this;
     }
 
-	float& Vector3d::operator[] (unsigned int i) {
+	float Vector3d::operator[] (unsigned int i) const {
 		switch (i) {
-		case 0: return x;
-		case 1: return y;
-		case 2: return z;
-		default: return x;
+			case 0: return x;
+			case 1: return y;
+			case 2: return z;
+			default: return x;
 		}
 	}
     

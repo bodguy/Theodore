@@ -41,6 +41,9 @@ namespace Quark {
 		static float Floor(float a);
 		static float Round(float a);
 		static float Abs(float a);
+
+		static float Max(float a, float b);
+		static float Min(float a, float b);
         
         static const float pi;
         static const int degrees;

@@ -18,6 +18,7 @@ namespace Quark {
 
 		Vector3d origin;
 		Vector3d direction;
+		Vector3d invDirection;
 	};
 }
 

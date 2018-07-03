@@ -10,7 +10,7 @@ namespace Quark {
 		Bounds(const Vector3d& center, const Vector3d& size);
 		~Bounds(void);
 
-		bool IntersectRay(const Ray& rat);
+		bool IntersectRay(const Ray& ray);
 		bool Intersect(const Bounds& bounds);
 		bool Contains(const Vector3d& point);
 		void Encapsulate(const Vector3d& point);

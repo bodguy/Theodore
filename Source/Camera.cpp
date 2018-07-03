@@ -68,6 +68,7 @@ namespace Quark {
 		Ray ray;
 		ray.origin = mTransform->GetLocalPosition();
 		ray.direction = ScreenToWorldPoint(Vector2d(position.x, position.y));
+		ray.invDirection = Vector3d::Inverse(ray.direction);
 		return ray;
 	}
 

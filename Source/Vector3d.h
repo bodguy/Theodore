@@ -17,7 +17,7 @@ namespace Quark {
         Vector3d(const Vector3d& other);
         //! assignment operator
         Vector3d& operator = (Vector3d other);
-		float& operator[] (unsigned int i);
+		float operator[] (unsigned int i) const;
 
         //! add, add and assignment operator
         Vector3d operator +(const Vector3d& other) const;
