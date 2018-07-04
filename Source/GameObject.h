@@ -12,6 +12,7 @@
 #include "Enumeration.h"
 #include "Light.h"
 #include "Camera.h"
+#include "Collider.h"
 
 namespace Quark {
 	class Transform; class Scene; class Debug;
@@ -64,6 +65,7 @@ namespace Quark {
 
 		std::vector<Light*>& GetAllLights() const;
 		std::vector<Camera*>& GetAllCameras() const;
+		std::vector<Collider*> GetAllColliders() const;
 
 		std::set<Component*> mSubscriber[TheNumberOfMessage];
 		std::unordered_map<std::type_index, Component*> mComponents;
@@ -96,16 +98,22 @@ namespace Quark {
 		mComponents.insert(std::make_pair(std::type_index(typeid(T)), component));
 
 		// caching light components
-		Light* comp = this->GetComponent<Light>();
-		if (comp && comp->type != LightType::DirectionalLight) {
-			mScene->mLights.push_back(comp);
+		Light* light = this->GetComponent<Light>();
+		if (light && light->type != LightType::DirectionalLight) {
+			mScene->mLights.push_back(light);
 		}
 
 		// caching camera components
-		Camera* comp2 = this->GetComponent<Camera>();
-		if (comp2) {
-			mScene->mCameras.push_back(comp2);
+		Camera* camera = this->GetComponent<Camera>();
+		if (camera) {
+			mScene->mCameras.push_back(camera);
 		}
+
+		// caching collider components
+		//Collider* collider = this->GetComponent<Collider>();
+		//if (collider) {
+		//	mScene->mCollider.push_back(collider);
+		//}
 
 		return component;
 	}

@@ -52,6 +52,8 @@
 #include "Sprite.h"
 #include "SpriteRenderer.h"
 #include "ShapeGenerator.h"
+#include "BoxCollider.h"
+#include "SphereCollider.h"
 
 using namespace Quark;
 

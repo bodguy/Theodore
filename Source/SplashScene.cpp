@@ -1,7 +1,8 @@
 #include "SplashScene.h"
 
 namespace Quark {
-	SplashScene::SplashScene() : Scene("SplashScene") {
+	SplashScene::SplashScene() : Scene("SplashScene"), boxPos(1.f, 5.5f, 0.f), 
+		bounds(Vector3d(0.f, 5.f, 0.f), Vector3d::one), bounds2(boxPos, Vector3d::one) {
 		speed = 4.5f;
 		rotationY = 0.f;
 		rotationX = 0.f;
@@ -10,8 +11,7 @@ namespace Quark {
 	}
 
 	SplashScene::~SplashScene() {
-		SafeDealloc(bounds);
-		SafeDealloc(bounds2);
+		SafeDealloc(planes);
 	}
 
 	void SplashScene::OnAwake() {
@@ -35,6 +35,7 @@ namespace Quark {
 		Mesh* mesh = ShapeGenerator::GenerateCube();
 		rend2->SetMaterial(mat2);
 		rend2->SetMesh(mesh);
+		boxCollider = cube->AddComponent<BoxCollider>();
 
 		GameObject* pointLight = new GameObject("pointLight", this);
 		Light* pl = pointLight->AddComponent<Light>(LightType::PointLight);
@@ -44,16 +45,13 @@ namespace Quark {
 		pl->GetTransform()->SetLocalPosition(Vector3d::zero);
 		
 		SceneManager::GetMainCamera()->GetTransform()->SetLocalPosition(Vector3d(0.f, 6.5f, 5.f));
+		SceneManager::GetMainCamera()->GetTransform()->Rotate(Vector3d::right, -25.f);
 
 		float distanceZ = -10.f;
 		Vector3d distanceFromCamera = Vector3d(SceneManager::GetMainCamera()->GetTransform()->GetLocalPosition().x,
 			SceneManager::GetMainCamera()->GetTransform()->GetLocalPosition().y, distanceZ);
 		planes = new Plane(Vector3d::forward, distanceFromCamera);
 		camTrans = SceneManager::GetMainCamera()->GetTransform();
-
-		boxPos = Vector3d(1.f, 5.5f, 0.f);
-		bounds = new Bounds(Vector3d(0.f, 5.f, 0.f), Vector3d::one);
-		bounds2 = new Bounds(boxPos, Vector3d::one);
 	}
 
 	void SplashScene::OnUpdate() {
@@ -65,17 +63,17 @@ namespace Quark {
 			ray = SceneManager::GetMainCamera()->ScreenPointToRay(Input::GetMousePosition());
 		}
 
-		if (bounds2->IntersectRay(ray)) {
+		if (boxCollider->Raycast(ray, RaycastHit(), 100.f)) {
 			Debug::Log("Ray Intersect");
 		}
 		Graphics::DrawLine(Vector3d(camPos.x, camPos.y, camPos.z + SceneManager::GetMainCamera()->GetNearClipPlane()
 		), ray.GetPoint(100.f), Color::yellow);
 
-		bounds2->SetMinMax(boxPos, boxPos + Vector3d::one);
-		Graphics::DrawCube(bounds->center, bounds->size, Color::red);
-		Graphics::DrawCube(bounds2->center, bounds2->size, Color::green);
+		bounds2.SetMinMax(boxPos, boxPos + Vector3d::one);
+		Graphics::DrawCube(bounds.GetCenter(), bounds.GetSize(), Color::red);
+		Graphics::DrawCube(bounds2.GetCenter(), bounds2.GetSize(), Color::green);
 
-		if (bounds->Intersect(*bounds2)) {
+		if (bounds.Intersect(bounds2)) {
 			Debug::Log("Intersect");
 		}
 

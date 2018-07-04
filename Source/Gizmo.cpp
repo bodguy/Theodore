@@ -36,9 +36,8 @@ namespace Quark {
 			{
 				int mHalfCircleSegmentCount = 64;
 				for (int axis = 0; axis < 3; axis++) {
-					float angleStart = 0;
 					for (int i = 0; i < mHalfCircleSegmentCount; i++) {
-						float ng = angleStart + Math::pi * ((float)i / (float)mHalfCircleSegmentCount);
+						float ng = Math::pi * ((float)i / (float)mHalfCircleSegmentCount);
 						Vector3d axisPos = Vector3d(Math::Cos(ng), Math::Sin(ng), 0.f);
 						verts.Vec3(Vector3d(axisPos[axis], axisPos[(axis + 1) % 3], axisPos[(axis + 2) % 3]));
 					}

@@ -10,6 +10,12 @@ namespace Quark {
 		Bounds(const Vector3d& center, const Vector3d& size);
 		~Bounds(void);
 
+		Vector3d GetMin() const;
+		Vector3d GetMax() const;
+		Vector3d GetCenter() const;
+		Vector3d GetExtents() const;
+		Vector3d GetSize() const;
+
 		bool IntersectRay(const Ray& ray);
 		bool Intersect(const Bounds& bounds);
 		bool Contains(const Vector3d& point);
@@ -20,16 +26,17 @@ namespace Quark {
 		void Expand(float amount);
 		void SetMinMax(const Vector3d& pmin, const Vector3d& pmax);
 
+	private:
 		// The minimal point of the box. This is always equal to center-extents.
-		Vector3d min;
+		Vector3d mMin;
 		// The maximal point of the box.This is always equal to center + extents.
-		Vector3d max;
+		Vector3d mMax;
 		// The center of the bounding box.
-		Vector3d center;
+		Vector3d mCenter;
 		// The extents of the Bounding Box. This is always half of the size of the Bounds.
-		Vector3d extents;
+		Vector3d mExtents;
 		// The total size of the box. This is always twice as large as the extents.
-		Vector3d size;
+		Vector3d mSize;
 	};
 }
 

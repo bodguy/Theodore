@@ -44,6 +44,16 @@ namespace Quark {
         Swap(*this, other);
         return *this;
     }
+
+	float Vector4d::operator[] (unsigned int i) const {
+		switch (i) {
+			case 0: return x;
+			case 1: return y;
+			case 2: return z;
+			case 3: return w;
+			default: return x;
+		}
+	}
     
     Vector4d Vector4d::operator +(const Vector4d& other) const {
         // using op= (more effective c++ section 22)

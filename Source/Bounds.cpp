@@ -2,25 +2,45 @@
 #include <cmath>
 
 namespace Quark {
-	Bounds::Bounds(const Vector3d& center, const Vector3d& size) :center(center), size(size) {
-		extents = size / 2.f;
-		min = center - extents;
-		max = center + extents;
+	Bounds::Bounds(const Vector3d& center, const Vector3d& size) :mCenter(center), mSize(size) {
+		mExtents = size / 2.f;
+		mMin = center - mExtents;
+		mMax = center + mExtents;
 	}
 
 	Bounds::~Bounds(void) {
 	}
 
+	Vector3d Bounds::GetMin() const {
+		return mMin;
+	}
+
+	Vector3d Bounds::GetMax() const {
+		return mMax;
+	}
+
+	Vector3d Bounds::GetCenter() const {
+		return mCenter;
+	}
+
+	Vector3d Bounds::GetExtents() const {
+		return mExtents;
+	}
+
+	Vector3d Bounds::GetSize() const {
+		return mSize;
+	}
+
 	bool Bounds::IntersectRay(const Ray& ray) {
-		float t1 = (min[0] - ray.origin[0]) * ray.invDirection[0];
-		float t2 = (max[0] - ray.origin[0]) * ray.invDirection[0];
+		float t1 = (mMin[0] - ray.origin[0]) * ray.invDirection[0];
+		float t2 = (mMax[0] - ray.origin[0]) * ray.invDirection[0];
 
 		float tmin = std::fminf(t1, t2);
 		float tmax = std::fmaxf(t1, t2);
 
 		for (unsigned int i = 1; i < 3; i++) {
-			t1 = (min[i] - ray.origin[i]) * ray.invDirection[i];
-			t2 = (max[i] - ray.origin[i]) * ray.invDirection[i];
+			t1 = (mMin[i] - ray.origin[i]) * ray.invDirection[i];
+			t2 = (mMax[i] - ray.origin[i]) * ray.invDirection[i];
 
 			tmin = std::fmaxf(tmin, std::fminf(t1, t2));
 			tmax = std::fminf(tmax, std::fmaxf(t1, t2));
@@ -30,9 +50,9 @@ namespace Quark {
 	}
 
 	bool Bounds::Intersect(const Bounds& bounds) {
-		if (max.x < bounds.min.x || min.x > bounds.max.x) return false;
-		if (max.y < bounds.min.y || min.y > bounds.max.y) return false;
-		if (max.z < bounds.min.z || min.z > bounds.max.z) return false;
+		if (mMax.x < bounds.mMin.x || mMin.x > bounds.mMax.x) return false;
+		if (mMax.y < bounds.mMin.y || mMin.y > bounds.mMax.y) return false;
+		if (mMax.z < bounds.mMin.z || mMin.z > bounds.mMax.z) return false;
 
 		return true;
 	}
@@ -62,10 +82,10 @@ namespace Quark {
 	}
 
 	void Bounds::SetMinMax(const Vector3d& pmin, const Vector3d& pmax) {
-		min = pmin;
-		max = pmax;
-		center = (max + min) * 0.5f;
-		extents = center - min;
-		size = extents * 2.f;
+		mMin = pmin;
+		mMax = pmax;
+		mCenter = (mMax + mMin) * 0.5f;
+		mExtents = mCenter - mMin;
+		mSize = mExtents * 2.f;
 	}
 }

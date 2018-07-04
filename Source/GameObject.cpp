@@ -199,4 +199,8 @@ namespace Quark {
 	std::vector<Camera*>& GameObject::GetAllCameras() const {
 		return mScene->mCameras;
 	}
+
+	std::vector<Collider*> GameObject::GetAllColliders() const {
+		return mScene->mCollider;
+	}
 }

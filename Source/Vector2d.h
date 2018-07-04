@@ -11,6 +11,7 @@ namespace Quark {
         Vector2d(const Vector2d& other);
         //! assignment operator
         Vector2d& operator = (Vector2d other);
+		float operator[] (unsigned int i) const;
         
         //! add, add and assignment operator
         Vector2d operator +(const Vector2d& other) const;

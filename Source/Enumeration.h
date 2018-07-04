@@ -251,6 +251,13 @@ namespace Quark {
 		DepthStencil = GL_DEPTH_STENCIL_ATTACHMENT
 	};
 
+	enum class ColliderType {
+		Undefined = -1,
+		Sphere = 0,
+		Box,
+		TheNumberOfCollider
+	};
+
 	// only for OpenGL 2.1 below compatibility
 	enum class MatrixMode {
 		MODELVIEW,
