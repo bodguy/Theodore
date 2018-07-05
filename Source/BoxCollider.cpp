@@ -1,7 +1,10 @@
 #include "BoxCollider.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "Graphics.h"
 
 namespace Quark {
-	BoxCollider::BoxCollider() : Collider("BoxCollider") {
+	BoxCollider::BoxCollider() : Collider("BoxCollider"), mSize(Vector3d(3.f, 5.f, 3.f)) {
 		mType = ColliderType::Box;
 	}
 
@@ -9,9 +12,17 @@ namespace Quark {
 	
 	}
 
+	Vector3d BoxCollider::GetCenter() const {
+		return mCenter;
+	}
+	
+	Vector3d BoxCollider::GetSize() const {
+		return mSize;
+	}
+
 	bool BoxCollider::Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) {
-		Vector3d min = mCenter - mSize * 0.5f;
-		Vector3d max = min - mCenter * 2.f;
+		Vector3d min = mGameObject->GetTransform()->GetWorldToLocalMatrix() * mCenter - mSize * 0.5f;
+		Vector3d max = mGameObject->GetTransform()->GetWorldToLocalMatrix() * mCenter + mSize * 0.5f;
 
 		float t1 = (min[0] - ray.origin[0]) * ray.invDirection[0];
 		float t2 = (max[0] - ray.origin[0]) * ray.invDirection[0];
@@ -35,7 +46,9 @@ namespace Quark {
 	}
 
 	void BoxCollider::Render() {
-
+		if (!mIsRender) {
+			Graphics::DrawCube(mGameObject->GetTransform()->TransformPoint(mCenter), mSize, Color::green);
+		}
 	}
 
 	bool BoxCollider::CompareEquality(const Object& rhs) const {

@@ -49,10 +49,22 @@ namespace Quark {
 		void SetLocalRotation(const Quaternion& quat);
 
 		void LookAt(const Transform& target, const Vector3d& worldUp = Vector3d::up);
-		Vector3d TransformDirection(const Vector3d& direction);
 
 		GameObject* GetParent() const;
 		void SetParent(GameObject* parent);
+
+		Vector3d InverseTransformDirection(const Vector3d& direction);
+		Vector3d InverseTransformPoint(const Vector3d& position);
+		Vector3d InverseTransformVector(const Vector3d& vector);
+		// Transforms direction from local space to world space. 
+		// This operation is not affected by scale or position but only affected by rotate of the transform.
+		Vector3d TransformDirection(const Vector3d& direction);
+		// Transforms position from local space to world space.
+		// This operation is affected by rotate, scale and position of the transform.
+		Vector3d TransformPoint(const Vector3d& position);
+		// Transforms vector from local space to world space.
+		// This operation is affected by rotate and scale of the transform.
+		Vector3d TransformVector(const Vector3d& vector);
 		
 	private:
 		Matrix4x4 GetWorldMatrix() const;

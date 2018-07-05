@@ -1,8 +1,7 @@
 #include "SplashScene.h"
 
 namespace Quark {
-	SplashScene::SplashScene() : Scene("SplashScene"), boxPos(1.f, 5.5f, 0.f), 
-		bounds(Vector3d(0.f, 5.f, 0.f), Vector3d::one), bounds2(boxPos, Vector3d::one) {
+	SplashScene::SplashScene() : Scene("SplashScene"), boxPos(1.f, 5.5f, 0.f) {
 		speed = 4.5f;
 		rotationY = 0.f;
 		rotationX = 0.f;
@@ -56,39 +55,21 @@ namespace Quark {
 
 	void SplashScene::OnUpdate() {
 		monkey->GetTransform()->Rotate(Vector3d::up, Time::DeltaTime() * 40.f);
+		cube->GetTransform()->Rotate(Vector3d::forward, Time::DeltaTime() * 120.f);
 
 		// ray casting
 		if (Input::GetMouseButtonDown(MOUSE_LEFT)) {
 			camPos = camTrans->GetPosition();
 			ray = SceneManager::GetMainCamera()->ScreenPointToRay(Input::GetMousePosition());
 		}
-
+		
 		if (boxCollider->Raycast(ray, RaycastHit(), 100.f)) {
 			Debug::Log("Ray Intersect");
 		}
 		Graphics::DrawLine(Vector3d(camPos.x, camPos.y, camPos.z + SceneManager::GetMainCamera()->GetNearClipPlane()
 		), ray.GetPoint(100.f), Color::yellow);
 
-		bounds2.SetMinMax(boxPos, boxPos + Vector3d::one);
-		Graphics::DrawCube(bounds.GetCenter(), bounds.GetSize(), Color::red);
-		Graphics::DrawCube(bounds2.GetCenter(), bounds2.GetSize(), Color::green);
-
-		if (bounds.Intersect(bounds2)) {
-			Debug::Log("Intersect");
-		}
-
-		if (Input::GetKeyHeld(KEY_Z)) {
-			boxPos.x += 2.f * Time::DeltaTime();
-		}
-		else if (Input::GetKeyHeld(KEY_X)) {
-			boxPos.x -= 2.f * Time::DeltaTime();
-		}
-		else if (Input::GetKeyHeld(KEY_C)) {
-			boxPos.y += 2.f * Time::DeltaTime();
-		}
-		else if (Input::GetKeyHeld(KEY_V)) {
-			boxPos.y -= 2.f * Time::DeltaTime();
-		}
+		
 
 		CameraUpdate();
 	}

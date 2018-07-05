@@ -18,6 +18,7 @@ namespace Quark {
 
 	protected:
 		ColliderType mType;
+		bool mIsRender;
 	};
 }
 

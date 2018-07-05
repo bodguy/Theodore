@@ -84,17 +84,17 @@ namespace Quark {
 
 	Vector3d Transform::GetForward() const {
 		mForward = GetRotation() * Vector3d::forward;
-		return mForward;
+		return mForward.Normalize();
 	}
 
 	Vector3d Transform::GetUp() const {
 		mUp = GetRotation() * Vector3d::up;
-		return mUp;
+		return mUp.Normalize();
 	}
 
 	Vector3d Transform::GetRight() const {
 		mRight = Vector3d::CrossProduct(GetForward(), GetUp());
-		return mRight;
+		return mRight.Normalize();
 	}
 
 	Vector3d Transform::GetEulerAngles() const {
@@ -162,11 +162,6 @@ namespace Quark {
 		mRight = Vector3d::CrossProduct(mUp, mForward);
 	}
 
-	Vector3d Transform::TransformDirection(const Vector3d& direction) {
-		// TODO
-		return Vector3d();
-	}
-
 	Matrix4x4 Transform::GetWorldMatrix() const {
 		return Matrix4x4::Scale(mLossyScale) * Quaternion::ToRotationMatrix(mRotation) * Matrix4x4::Translate(mPosition);
 	}
@@ -208,5 +203,29 @@ namespace Quark {
 	void Transform::SetParent(GameObject* parent) {
 		this->mGameObject->mParent = parent;
 		this->mGameObject->mParent->mChildren.push_back(this->mGameObject);
+	}
+
+	Vector3d Transform::InverseTransformDirection(const Vector3d& direction) {
+		return Vector3d();
+	}
+
+	Vector3d Transform::InverseTransformPoint(const Vector3d& position) {
+		return GetWorldToLocalMatrix() * position;
+	}
+
+	Vector3d Transform::InverseTransformVector(const Vector3d& vector) {
+		return Vector3d();
+	}
+
+	Vector3d Transform::TransformDirection(const Vector3d& direction) {
+		return Vector3d();
+	}
+
+	Vector3d Transform::TransformPoint(const Vector3d& position) {
+		return GetLocalToWorldMatrix() * position;
+	}
+
+	Vector3d Transform::TransformVector(const Vector3d& vector) {
+		return Vector3d();
 	}
 }

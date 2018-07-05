@@ -10,6 +10,9 @@ namespace Quark {
 		BoxCollider();
 		virtual ~BoxCollider();
 
+		Vector3d GetCenter() const;
+		Vector3d GetSize() const;
+
 		virtual bool Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) override;
 
 	private:
