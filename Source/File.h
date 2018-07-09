@@ -18,7 +18,7 @@ namespace Quark {
         void Clear(void); // Close file pointer (if open) and clear file name
         void Write(const char *format, ...);
         void Read(const char *format, ...);
-        std::string ReadUntilEnd();
+        std::string ReadAllText();
         
         template<typename T, size_t size>
         size_t WriteBinary(const T(&buffer)[size]);

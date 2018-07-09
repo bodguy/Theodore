@@ -2,10 +2,13 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "Graphics.h"
+#include "MeshRenderer.h"
+#include "Mesh.h"
 
 namespace Quark {
-	BoxCollider::BoxCollider() : Collider("BoxCollider"), mSize(Vector3d(3.f, 5.f, 3.f)) {
+	BoxCollider::BoxCollider() : Collider("BoxCollider"), mCenter(), mSize() {
 		mType = ColliderType::Box;
+		CalculateBoundingVolumes();
 	}
 
 	BoxCollider::~BoxCollider() {
@@ -15,14 +18,22 @@ namespace Quark {
 	Vector3d BoxCollider::GetCenter() const {
 		return mCenter;
 	}
+
+	void BoxCollider::SetCenter(const Vector3d& center) {
+		mCenter = center;
+	}
 	
 	Vector3d BoxCollider::GetSize() const {
 		return mSize;
 	}
 
+	void BoxCollider::SetSize(const Vector3d& size) {
+		mSize = size;
+	}
+
 	bool BoxCollider::Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) {
-		Vector3d min = mGameObject->GetTransform()->GetWorldToLocalMatrix() * mCenter - mSize * 0.5f;
-		Vector3d max = mGameObject->GetTransform()->GetWorldToLocalMatrix() * mCenter + mSize * 0.5f;
+		Vector3d min = mCenter - mSize * 0.5f;
+		Vector3d max = mCenter + mSize * 0.5f;
 
 		float t1 = (min[0] - ray.origin[0]) * ray.invDirection[0];
 		float t2 = (max[0] - ray.origin[0]) * ray.invDirection[0];
@@ -41,13 +52,68 @@ namespace Quark {
 		return tmax > std::fmaxf(tmin, 0.f);
 	}
 
-	void BoxCollider::Update(double deltaTime) {
+	void BoxCollider::CalculateBoundingVolumes() {
+		MeshRenderer* meshRenderer = mGameObject->GetComponent<MeshRenderer>();
+		if (meshRenderer) {
+			Mesh* mesh = meshRenderer->GetMesh();
 
+			if (mesh) {
+				std::vector<Vector3d>::const_iterator iter;
+				Vector3d min, max;
+
+				for (iter = mesh->GetVertexData().cbegin(); iter < mesh->GetVertexData().cend(); iter++) {
+					if ((*iter).x < min.x) {
+						min.x = (*iter).x;
+					}
+					else if ((*iter).x > max.x) {
+						max.x = (*iter).x;
+					}
+
+					if ((*iter).y < min.y) {
+						min.y = (*iter).y;
+					}
+					else if ((*iter).y > max.y) {
+						max.y = (*iter).y;
+					}
+
+					if ((*iter).z < min.z) {
+						min.z = (*iter).z;
+					}
+					else if ((*iter).z > max.z) {
+						max.z = (*iter).z;
+					}
+				}
+
+				mCenter = (max + min) * 0.5f;
+				mSize = (mCenter - min) * 2.f;
+			}
+		}
+	}
+
+	void BoxCollider::Update(double deltaTime) {
+		// Error!!!!!!!!
+		Matrix4x4 model = Matrix4x4::ToMatrix3x3Right(mTransform->GetLocalToWorldMatrix());
+		Matrix4x4 absModel = Matrix4x4::Absolute(model);
+
+		mCenter = model * mCenter;
+		mSize = absModel * mSize;
+
+		//glm::vec3 center = (_oobb.getMin() + _oobb.getMax()) / 2.0f;
+		//glm::vec3 extent = (_oobb.getMax() - _oobb.getMin()) / 2.0f;
+
+		//glm::vec3 newCenter = glm::vec3(model * glm::vec4(center, 1.0f));
+		//glm::vec3 newExtent = glm::vec3(absModel * glm::vec4(extent, 0.0f));
+
+		//glm::vec3 min = newCenter - newExtent;
+		//glm::vec3 max = newCenter + newExtent;
+
+		//_aabb.setMin(newCenter - newExtent);
+		//_aabb.setMax(newCenter + newExtent);
 	}
 
 	void BoxCollider::Render() {
-		if (!mIsRender) {
-			Graphics::DrawCube(mGameObject->GetTransform()->TransformPoint(mCenter), mSize, Color::green);
+		if (mIsVisible) {
+			Graphics::DrawCube(mCenter, mSize, mColor);
 		}
 	}
 

@@ -16,11 +16,13 @@ namespace Quark {
 		void CameraUpdate();
 
 		GameObject *plane, *monkey, *cube;
+		Mesh* monkeyMesh;
 		Plane* planes;
 		Transform* camTrans;
 		Vector3d boxPos, camPos;
 		Ray ray;
 		BoxCollider* boxCollider;
+		SphereCollider* sphereCollider;
 
 		float speed;
 		float rotationY;

@@ -258,6 +258,20 @@ namespace Quark {
 		TheNumberOfCollider
 	};
 
+	enum MessageType {
+		OnCollisionEnter,
+		OnCollisionExit,
+		OnCollisionStay,
+		TheNumberOfMessage
+	};
+
+	enum class MessageResult {
+		False,
+		True,
+		Ignored,
+		Error
+	};
+
 	// only for OpenGL 2.1 below compatibility
 	enum class MatrixMode {
 		MODELVIEW,

@@ -5,22 +5,21 @@
 #include "Message.h"
 
 namespace Quark {
-    class GameObject;
+	class GameObject; class Transform;
 	class Component : public Object {
 		friend class GameObject;
 	public:
-		Component(const std::string& name) :Object(name) {}
-		virtual ~Component() {}
+		Component(const std::string& name);
+		virtual ~Component();
 
-		GameObject* GetGameObject() const { return mGameObject; }
+		Transform* GetTransform() const;
 
 	private:
-		virtual MessageResult HandleMessage(Message& msg) {
-			return MessageResult::Ignored;
-		}
+		virtual MessageResult HandleMessage(Message& msg);
 
 	protected:
 		GameObject* mGameObject;
+		Transform* mTransform;
 	};
 }
 

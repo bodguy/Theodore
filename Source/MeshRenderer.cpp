@@ -92,6 +92,12 @@ namespace Quark {
 			mVao->BindAttribute(mProgram->GetAttribute("normal"), *mVbos.front(), 3, sizeof(Vector3d), offset);
 			offset += mMesh->GetNormalCount() * sizeof(Vector3d);
 		}
+
+		mMesh->RecalculateBounds();
+	}
+
+	Mesh* MeshRenderer::GetMesh() const {
+		return mMesh;
 	}
 
 	void MeshRenderer::Update(double deltaTime) {
@@ -124,7 +130,7 @@ namespace Quark {
 
 	void MeshRenderer::InternalRender() {
 		mProgram->Use();
-		mProgram->SetUniform("model", mGameObject->GetTransform()->GetLocalToWorldMatrix());
+		mProgram->SetUniform("model", mTransform->GetLocalToWorldMatrix());
 		mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
 		mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 		mProgram->SetUniform("viewPos", SceneManager::GetMainCamera()->GetTransform()->GetPosition());
@@ -229,7 +235,7 @@ namespace Quark {
 #ifdef _DEBUG
 		if (mIsDebugRendering) {
 			DEBUG_PROGRAM->Use();
-			DEBUG_PROGRAM->SetUniform("model", mGameObject->GetTransform()->GetLocalToWorldMatrix());
+			DEBUG_PROGRAM->SetUniform("model", mTransform->GetLocalToWorldMatrix());
 			DEBUG_PROGRAM->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
 			DEBUG_PROGRAM->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 			if (mMesh) {

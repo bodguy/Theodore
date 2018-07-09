@@ -2,7 +2,7 @@
 #define ShadowInfo_h
 
 namespace Quark {
-	class FrameBuffer; class Program;
+	class FrameBuffer; class Pipeline;
 	class ShadowInfo {
 	public:
 		ShadowInfo();
@@ -10,7 +10,7 @@ namespace Quark {
 
 	private:
 		FrameBuffer* frame;
-		Program* shadowProgram;
+		Pipeline* shadowProgram;
 	};
 }
 

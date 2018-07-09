@@ -3,9 +3,10 @@
 
 #include "Texture.h"
 #include "Enumeration.h"
+#include "Matrix4x4.h"
 
 namespace Quark {
-	class Vector3d; class Color; class VertexArray; class FrameBuffer; class Program; class Buffer;
+	class Vector3d; class Color; class VertexArray; class FrameBuffer; class Pipeline; class Buffer;
     class Graphics {
 	public:
 		static void SetGraphicsSettings();
@@ -34,7 +35,8 @@ namespace Quark {
 		static int GetMaxFrameBufferLayers();
 		static void SetFaceCulling(CullFace whichFace, CullMode front);
 		static void DrawLine(const Vector3d& start, const Vector3d& end, const Color color);
-		static void DrawCube(const Vector3d& center, const Vector3d& size, const Color color);
+		static void DrawCube(const Vector3d& center, const Vector3d& size, const Color color, const Matrix4x4 model = Matrix4x4::Identity());
+		static void DrawSphere(const Vector3d& center, float radius, const Color color);
 
 		// OpenGL 2.1 version rendering functions
 		static void Vertex(const Vector3d& vector);
@@ -64,7 +66,8 @@ namespace Quark {
 		Graphics();
 		~Graphics();
 
-		static Program* gizmoProgram;
+		static Pipeline* gizmoProgram;
+		static Pipeline* sphereProgram;
 		static Buffer* gizmoBuffer;
 		static VertexArray* gizmoVao;
     };

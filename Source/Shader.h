@@ -13,7 +13,7 @@ namespace Quark {
     typedef int Uniform;
     
     class Shader : public Asset {
-        friend class Program;
+        friend class Pipeline;
     public:
         Shader(const ShaderType type);
         virtual ~Shader();
@@ -21,7 +21,7 @@ namespace Quark {
         int Compile(const std::string& source);
         int IsCompiled() const;
         static std::string PreprocessIncludes(const std::string& source, int level = 0);
-		static Program* Find(const std::string& name);
+		static Pipeline* Find(const std::string& name);
 
     private:
         unsigned int mShaderID;
@@ -29,15 +29,15 @@ namespace Quark {
     };
     
     class Vector4d; class Vector3d; class Vector2d; class Matrix4x4; class Color;
-    class Program {
+    class Pipeline {
 		friend class ShaderManager;
     public:
-        Program(const std::string& name);
-        Program(const std::string& name, const Shader& vertex);
-        Program(const std::string& name, const Shader& vertex, const Shader& fragment);
-        Program(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry);
-		Program(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry, const Shader& tessControl, const Shader& tessEval);
-		~Program();
+        Pipeline(const std::string& name);
+        Pipeline(const std::string& name, const Shader& vertex);
+        Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment);
+        Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry);
+		Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry, const Shader& tessControl, const Shader& tessEval);
+		~Pipeline();
         
         void AttachShader(const Shader& shader);
         void DetachShader(const Shader& shader);
@@ -95,11 +95,11 @@ namespace Quark {
 		ShaderManager();
 		~ShaderManager();
 
-		static bool Append(Program* program);
+		static bool Append(Pipeline* program);
 
 	private:
 		static ShaderManager* shaderManager;
-		std::map<std::string, Program*> mPrograms;
+		std::map<std::string, Pipeline*> mPrograms;
 	};
 }
 

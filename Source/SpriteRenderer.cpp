@@ -69,7 +69,7 @@ namespace Quark {
 	void SpriteRenderer::Render() {
 		if (mSprite) {
 			mProgram->Use();
-			mProgram->SetUniform("model", mGameObject->GetTransform()->GetLocalToWorldMatrix());
+			mProgram->SetUniform("model", mTransform->GetLocalToWorldMatrix());
 			mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
 			mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 			mProgram->SetUniform("flipX", mFlipX);

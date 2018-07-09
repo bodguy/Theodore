@@ -402,6 +402,22 @@ namespace Quark {
                          other.m16[8], other.m16[9], other.m16[10], other.m16[11],
                          0.f, 0.f, 0.f, 1.f);
     }
+
+	Matrix4x4 Matrix4x4::ToMatrix3x3Right(const Matrix4x4& other) {
+		return Matrix4x4(other.m16[0], other.m16[1], other.m16[2], 0.f,
+						 other.m16[4], other.m16[5], other.m16[6], 0.f,
+						 other.m16[8], other.m16[9], other.m16[10], 0.f,
+						 other.m16[12], other.m16[13], other.m16[14], 1.f);
+	}
+
+	Matrix4x4 Matrix4x4::Absolute(const Matrix4x4& other) {
+		return Matrix4x4(
+			std::fabsf(other.m16[0]), std::fabsf(other.m16[1]), std::fabsf(other.m16[2]), std::fabsf(other.m16[3]),
+			std::fabsf(other.m16[4]), std::fabsf(other.m16[5]), std::fabsf(other.m16[6]), std::fabsf(other.m16[7]),
+			std::fabsf(other.m16[8]), std::fabsf(other.m16[9]), std::fabsf(other.m16[10]), std::fabsf(other.m16[11]),
+			std::fabsf(other.m16[12]), std::fabsf(other.m16[13]), std::fabsf(other.m16[14]), std::fabsf(other.m16[15])
+		);
+	}
     
     void Matrix4x4::Swap(Matrix4x4& first, Matrix4x4& second) {
         using std::swap;

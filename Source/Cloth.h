@@ -40,7 +40,7 @@ namespace Quark {
 		VertexArray mVao;
 		Buffer mBuffer;
 		InputStream mStream;
-		Program mProgram;
+		Pipeline mProgram;
 	};
 }
 

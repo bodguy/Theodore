@@ -14,6 +14,7 @@ namespace Quark {
 
 		bool Initialize(const PlatformContext& param);
 		void Run();
+		std::string GetDataPath();
 
 	private:
 		static Application* instance;
@@ -27,6 +28,7 @@ namespace Quark {
 		SceneManager* mSceneManager;
 		AssetManager* mAssetManager;
 		ShaderManager* mShaderManager;
+		static std::string dataPath;
 	};
 }
 

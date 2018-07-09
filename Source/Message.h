@@ -1,21 +1,9 @@
 #ifndef Message_h
 #define Message_h
 
+#include "Enumeration.h"
+
 namespace Quark {
-	enum MessageType {
-		OnCollisionEnter,
-		OnCollisionExit,
-		OnCollisionStay,
-		TheNumberOfMessage
-	};
-
-	enum class MessageResult {
-		False,
-		True,
-		Ignored,
-		Error
-	};
-
 	class Message {
 	public:
 		Message();

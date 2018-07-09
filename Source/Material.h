@@ -5,14 +5,14 @@
 #include <vector>
 
 namespace Quark {
-	class Program; class Texture; class FrameBuffer;
+	class Pipeline; class Texture; class FrameBuffer;
 	class Material {
 	public:
-		Material(Program* program);
+		Material(Pipeline* program);
 		Material(Color ambient, Color diffse, Color specular, float shininess);
 		~Material();
 
-		Program* shader;
+		Pipeline* shader;
 		Texture* texture0;
 		Texture* texture1;
 		Texture* texture2;

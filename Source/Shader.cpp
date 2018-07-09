@@ -64,7 +64,7 @@ namespace Quark {
                     Debug::Log("%s : fatal error: cannot open include file", include_file.c_str());
                     return std::string();
                 }
-                include_string = file.ReadUntilEnd();
+                include_string = file.ReadAllText();
                 output << PreprocessIncludes(include_string, level + 1) << std::endl;
             } else {
                 output << source << std::endl;
@@ -82,26 +82,26 @@ namespace Quark {
         return output.str();
     }
 
-	Program* Shader::Find(const std::string& name) {
+	Pipeline* Shader::Find(const std::string& name) {
 		return ShaderManager::shaderManager->mPrograms.find(name)->second;
 	}
     
     ////////////////////////////////////////////////////////////////////////////////////
     // Program
     
-    Program::Program(const std::string& name) {
+    Pipeline::Pipeline(const std::string& name) {
         mProgramID = glCreateProgram();
 		mName = name;
     }
     
-    Program::Program(const std::string& name, const Shader& vertex) {
+    Pipeline::Pipeline(const std::string& name, const Shader& vertex) {
         mProgramID = glCreateProgram();
 		mName = name;
         AttachShader(vertex);
         Link();
     }
     
-    Program::Program(const std::string& name, const Shader& vertex, const Shader& fragment) {
+    Pipeline::Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment) {
         mProgramID = glCreateProgram();
 		mName = name;
         AttachShader(vertex);
@@ -109,7 +109,7 @@ namespace Quark {
         Link();
     }
     
-    Program::Program(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry) {
+    Pipeline::Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry) {
         mProgramID = glCreateProgram();
 		mName = name;
         AttachShader(vertex);
@@ -118,7 +118,7 @@ namespace Quark {
         Link();
     }
 
-	Program::Program(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry, const Shader& tessControl, const Shader& tessEval) {
+	Pipeline::Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry, const Shader& tessControl, const Shader& tessEval) {
 		mProgramID = glCreateProgram();
 		mName = name;
 		AttachShader(vertex);
@@ -129,19 +129,19 @@ namespace Quark {
 		Link();
 	}
     
-    Program::~Program() {
+    Pipeline::~Pipeline() {
         glDeleteProgram(mProgramID);
     }
     
-    void Program::AttachShader(const Shader& shader) {
+    void Pipeline::AttachShader(const Shader& shader) {
         glAttachShader(mProgramID, shader.mShaderID);
     }
     
-    void Program::DetachShader(const Shader& shader) {
+    void Pipeline::DetachShader(const Shader& shader) {
         glDetachShader(mProgramID, shader.mShaderID);
     }
     
-    int Program::Link() {
+    int Pipeline::Link() {
         Debug::Log("Linking program...");
         glLinkProgram(mProgramID);
         
@@ -168,154 +168,154 @@ namespace Quark {
         return result;
     }
     
-    void Program::Use() {
+    void Pipeline::Use() {
         glUseProgram(mProgramID);
     }
 
-	void Program::UnUse() {
+	void Pipeline::UnUse() {
 		glUseProgram(NULL);
 	}
     
-    unsigned int Program::GetProgramID() const {
+    unsigned int Pipeline::GetProgramID() const {
         return mProgramID;
     }
     
-    Attribute Program::GetAttribute(const std::string& name) {
+    Attribute Pipeline::GetAttribute(const std::string& name) {
         return glGetAttribLocation(mProgramID, name.c_str());
     }
     
-    Uniform Program::GetUniform(const std::string& name) {
+    Uniform Pipeline::GetUniform(const std::string& name) {
         return glGetUniformLocation(mProgramID, name.c_str());
     }
     
-    Uniform Program::GetUniformBlockIndex(const std::string& name) {
+    Uniform Pipeline::GetUniformBlockIndex(const std::string& name) {
         return glGetUniformBlockIndex(mProgramID, name.c_str());
     }
     
-    void Program::SetUniform(const Uniform& uniform, int value) {
+    void Pipeline::SetUniform(const Uniform& uniform, int value) {
         glUniform1i(uniform, value);
     }
     
-    void Program::SetUniform(const Uniform& uniform, unsigned int value) {
+    void Pipeline::SetUniform(const Uniform& uniform, unsigned int value) {
         glUniform1i(uniform, value);
     }
     
-    void Program::SetUniform(const Uniform& uniform, float value) {
+    void Pipeline::SetUniform(const Uniform& uniform, float value) {
         glUniform1f(uniform, value);
     }
     
-    void Program::SetUniform(const Uniform& uniform, const Vector2d& value) {
+    void Pipeline::SetUniform(const Uniform& uniform, const Vector2d& value) {
         glUniform2f(uniform, value.x, value.y);
     }
     
-    void Program::SetUniform(const Uniform& uniform, const Vector3d& value) {
+    void Pipeline::SetUniform(const Uniform& uniform, const Vector3d& value) {
         glUniform3f(uniform, value.x, value.y, value.z);
     }
     
-    void Program::SetUniform(const Uniform& uniform, const Vector4d& value) {
+    void Pipeline::SetUniform(const Uniform& uniform, const Vector4d& value) {
         glUniform4f(uniform, value.x, value.y, value.z, value.w);
     }
     
-    void Program::SetUniform(const Uniform& uniform, const Color& value) {
+    void Pipeline::SetUniform(const Uniform& uniform, const Color& value) {
         glUniform4f(uniform, value.r, value.g, value.b, value.a);
     }
     
-    void Program::SetUniform(const Uniform& uniform, const float* values, int count) {
+    void Pipeline::SetUniform(const Uniform& uniform, const float* values, int count) {
         glUniform1fv(uniform, count, values);
     }
     
-    void Program::SetUniform(const Uniform& uniform, const Vector2d* values, int count) {
+    void Pipeline::SetUniform(const Uniform& uniform, const Vector2d* values, int count) {
         glUniform2fv(uniform, count, (float*)values);
     }
     
-    void Program::SetUniform(const Uniform& uniform, const Vector3d* values, int count) {
+    void Pipeline::SetUniform(const Uniform& uniform, const Vector3d* values, int count) {
         glUniform3fv(uniform, count, (float*)values);
     }
     
-    void Program::SetUniform(const Uniform& uniform, const Vector4d* values, int count) {
+    void Pipeline::SetUniform(const Uniform& uniform, const Vector4d* values, int count) {
         glUniform4fv(uniform, count, (float*)values);
     }
     
-    void Program::SetUniform(const Uniform& uniform, const Color* values, int count) {
+    void Pipeline::SetUniform(const Uniform& uniform, const Color* values, int count) {
         glUniform4fv(uniform, count, (float*)values);
     }
     
-    void Program::SetUniform(const Uniform& uniform, const Matrix4x4& value) {
+    void Pipeline::SetUniform(const Uniform& uniform, const Matrix4x4& value) {
         glUniformMatrix4fv(uniform, 1, GL_FALSE, value.Pointer());
     }
 
-	void Program::SetUniform(const Uniform& uniform, bool value) {
+	void Pipeline::SetUniform(const Uniform& uniform, bool value) {
 		glUniform1i(uniform, value);
 	}
     
-    void Program::SetUniformBlock(const Uniform& uniform, const unsigned int bindingPoint) {
+    void Pipeline::SetUniformBlock(const Uniform& uniform, const unsigned int bindingPoint) {
         glUniformBlockBinding(mProgramID, uniform, bindingPoint);
     }
 
 	// ===
 
-	void Program::SetUniform(const std::string& name, int value) {
+	void Pipeline::SetUniform(const std::string& name, int value) {
 		glUniform1i(GetUniform(name), value);
 	}
 
-	void Program::SetUniform(const std::string& name, unsigned int value) {
+	void Pipeline::SetUniform(const std::string& name, unsigned int value) {
 		glUniform1i(GetUniform(name), value);
 	}
 
-	void Program::SetUniform(const std::string& name, float value) {
+	void Pipeline::SetUniform(const std::string& name, float value) {
 		glUniform1f(GetUniform(name), value);
 	}
 
-	void Program::SetUniform(const std::string& name, const Vector2d& value) {
+	void Pipeline::SetUniform(const std::string& name, const Vector2d& value) {
 		glUniform2f(GetUniform(name), value.x, value.y);
 	}
 
-	void Program::SetUniform(const std::string& name, const Vector3d& value) {
+	void Pipeline::SetUniform(const std::string& name, const Vector3d& value) {
 		glUniform3f(GetUniform(name), value.x, value.y, value.z);
 	}
 
-	void Program::SetUniform(const std::string& name, const Vector4d& value) {
+	void Pipeline::SetUniform(const std::string& name, const Vector4d& value) {
 		glUniform4f(GetUniform(name), value.x, value.y, value.z, value.w);
 	}
 
-	void Program::SetUniform(const std::string& name, const Color& value) {
+	void Pipeline::SetUniform(const std::string& name, const Color& value) {
 		glUniform4f(GetUniform(name), value.r, value.g, value.b, value.a);
 	}
 
-	void Program::SetUniform(const std::string& name, const float* values, int count) {
+	void Pipeline::SetUniform(const std::string& name, const float* values, int count) {
 		glUniform1fv(GetUniform(name), count, values);
 	}
 
-	void Program::SetUniform(const std::string& name, const Vector2d* values, int count) {
+	void Pipeline::SetUniform(const std::string& name, const Vector2d* values, int count) {
 		glUniform2fv(GetUniform(name), count, (float*)values);
 	}
 
-	void Program::SetUniform(const std::string& name, const Vector3d* values, int count) {
+	void Pipeline::SetUniform(const std::string& name, const Vector3d* values, int count) {
 		glUniform3fv(GetUniform(name), count, (float*)values);
 	}
 
-	void Program::SetUniform(const std::string& name, const Vector4d* values, int count) {
+	void Pipeline::SetUniform(const std::string& name, const Vector4d* values, int count) {
 		glUniform4fv(GetUniform(name), count, (float*)values);
 	}
 
-	void Program::SetUniform(const std::string& name, const Color* values, int count) {
+	void Pipeline::SetUniform(const std::string& name, const Color* values, int count) {
 		glUniform4fv(GetUniform(name), count, (float*)values);
 	}
 
-	void Program::SetUniform(const std::string& name, const Matrix4x4& value) {
+	void Pipeline::SetUniform(const std::string& name, const Matrix4x4& value) {
 		glUniformMatrix4fv(GetUniform(name), 1, GL_FALSE, value.Pointer());
 	}
 
-	void Program::SetUniform(const std::string& name, bool value) {
+	void Pipeline::SetUniform(const std::string& name, bool value) {
 		glUniform1i(GetUniform(name), value);
 	}
 
-	void Program::SetUniformBlock(const std::string& name, const unsigned int bindingPoint) {
+	void Pipeline::SetUniformBlock(const std::string& name, const unsigned int bindingPoint) {
 		glUniformBlockBinding(mProgramID, GetUniform(name), bindingPoint);
 	}
 	// ===
 
-	void Program::DispatchCompute(unsigned int x, unsigned int y, unsigned int z) {
+	void Pipeline::DispatchCompute(unsigned int x, unsigned int y, unsigned int z) {
 		glDispatchCompute(x, y, z);
 	}
 
@@ -332,9 +332,9 @@ namespace Quark {
 		mPrograms.clear();
 	}
 
-	bool ShaderManager::Append(Program* program) {
-		std::pair<std::map<std::string, Program*>::iterator, bool> result;
-		result = shaderManager->mPrograms.insert(std::pair<std::string, Program*>(program->mName, program));
+	bool ShaderManager::Append(Pipeline* program) {
+		std::pair<std::map<std::string, Pipeline*>::iterator, bool> result;
+		result = shaderManager->mPrograms.insert(std::pair<std::string, Pipeline*>(program->mName, program));
 		return result.second;
 	}
 }

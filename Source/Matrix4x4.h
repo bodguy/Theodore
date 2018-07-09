@@ -75,6 +75,8 @@ namespace Quark {
         static Matrix4x4 Rotation(float radianAngle, const Vector3d& axis);
         static Matrix4x4 Zero();
         static Matrix4x4 ToMatrix3x3(const Matrix4x4& other);
+		static Matrix4x4 ToMatrix3x3Right(const Matrix4x4& other);
+		static Matrix4x4 Absolute(const Matrix4x4& other);
         
         // anonymous union
         union {

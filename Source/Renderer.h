@@ -6,7 +6,7 @@
 #include <vector>
 
 namespace Quark {
-	class Buffer; class VertexArray; class Program;
+	class Buffer; class VertexArray; class Pipeline;
 	class Renderer : public Component {
 	public:
 		Renderer(const std::string& name);
@@ -19,7 +19,7 @@ namespace Quark {
 		std::vector<Buffer*> mVbos;
 		std::vector<Buffer*> mEbos;
 		VertexArray* mVao;
-		Program* mProgram;
+		Pipeline* mProgram;
 		Primitive mPrimitive;
 		bool mIsDebugRendering;
 	};

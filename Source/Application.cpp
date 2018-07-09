@@ -10,6 +10,7 @@
 
 namespace Quark {
 	Application* Application::instance = nullptr;
+	std::string Application::dataPath = "./Contents/";
 	Application::Application() {
 		instance = this;
 	}
@@ -39,32 +40,35 @@ namespace Quark {
 		// default program setting and caching
 		Shader* phong_vs = AssetManager::RequestShader("Shaders/light/phong.vs", ShaderType::VertexShader);
 		Shader* phong_fs = AssetManager::RequestShader("Shaders/light/phong.fs", ShaderType::FragmentShader);
-		ShaderManager::Append(new Program("Phong", *phong_vs, *phong_fs));
+		ShaderManager::Append(new Pipeline("Phong", *phong_vs, *phong_fs));
 
-		Shader* flat_vs = AssetManager::RequestShader("Shaders/light/flat.vs", ShaderType::VertexShader);
-		Shader* flat_fs = AssetManager::RequestShader("Shaders/light/flat.fs", ShaderType::FragmentShader);
-		ShaderManager::Append(new Program("Flat", *flat_vs, *flat_fs));
+		//Shader* flat_vs = AssetManager::RequestShader("Shaders/light/flat.vs", ShaderType::VertexShader);
+		//Shader* flat_fs = AssetManager::RequestShader("Shaders/light/flat.fs", ShaderType::FragmentShader);
+		//ShaderManager::Append(new Pipeline("Flat", *flat_vs, *flat_fs));
 
-		Shader* twoDimension_vs = AssetManager::RequestShader("Shaders/sprite/vs.glsl", ShaderType::VertexShader);
-		Shader* twoDimension_fs = AssetManager::RequestShader("Shaders/sprite/fs.glsl", ShaderType::FragmentShader);
-		ShaderManager::Append(new Program("2D", *twoDimension_vs, *twoDimension_fs));
+		Shader* twoDimension_vs = AssetManager::RequestShader("Shaders/sprite/sprite.vs", ShaderType::VertexShader);
+		Shader* twoDimension_fs = AssetManager::RequestShader("Shaders/sprite/sprite.fs", ShaderType::FragmentShader);
+		ShaderManager::Append(new Pipeline("2D", *twoDimension_vs, *twoDimension_fs));
 
-		Shader* gizmo_vs = AssetManager::RequestShader("Shaders/gizmo/vs.glsl", ShaderType::VertexShader);
-		Shader* gizmo_fs = AssetManager::RequestShader("Shaders/gizmo/fs.glsl", ShaderType::FragmentShader);
-		ShaderManager::Append(new Program("Gizmo", *gizmo_vs, *gizmo_fs));
+		Shader* gizmo_vs = AssetManager::RequestShader("Shaders/gizmo/gizmo.vs", ShaderType::VertexShader);
+		Shader* gizmo_fs = AssetManager::RequestShader("Shaders/gizmo/gizmo.fs", ShaderType::FragmentShader);
+		ShaderManager::Append(new Pipeline("Gizmo", *gizmo_vs, *gizmo_fs));
 
-		Shader* debug_vs1 = AssetManager::RequestShader("Shaders/debug/visualize_normals/vs.glsl", ShaderType::VertexShader);
-		Shader* debug_gs1 = AssetManager::RequestShader("Shaders/debug/visualize_normals/gs.glsl", ShaderType::GeometryShader);
-		Shader* debug_fs1 = AssetManager::RequestShader("Shaders/debug/visualize_normals/fs.glsl", ShaderType::FragmentShader);
-		ShaderManager::Append(new Program("DebugNormal", *debug_vs1, *debug_fs1, *debug_gs1));
+		Shader* sphere_gs = AssetManager::RequestShader("Shaders/gizmo/sphere.gs", ShaderType::GeometryShader);
+		ShaderManager::Append(new Pipeline("Sphere", *gizmo_vs, *gizmo_fs, *sphere_gs));
 
-		Shader* shadow_vs = AssetManager::RequestShader("Shaders/light/shadow_vs.glsl", ShaderType::VertexShader);
-		Shader* shadow_fs = AssetManager::RequestShader("Shaders/light/shadow_fs.glsl", ShaderType::FragmentShader);
-		ShaderManager::Append(new Program("Shadow", *shadow_vs, *shadow_fs));
+		Shader* normal_vs = AssetManager::RequestShader("Shaders/debug/normal.vs", ShaderType::VertexShader);
+		Shader* normal_gs = AssetManager::RequestShader("Shaders/debug/normal.gs", ShaderType::GeometryShader);
+		Shader* normal_fs = AssetManager::RequestShader("Shaders/debug/normal.fs", ShaderType::FragmentShader);
+		ShaderManager::Append(new Pipeline("DebugNormal", *normal_vs, *normal_fs, *normal_gs));
+
+		Shader* shadow_vs = AssetManager::RequestShader("Shaders/light/shadow.vs", ShaderType::VertexShader);
+		Shader* shadow_fs = AssetManager::RequestShader("Shaders/light/shadow.fs", ShaderType::FragmentShader);
+		ShaderManager::Append(new Pipeline("Shadow", *shadow_vs, *shadow_fs));
 
 		Shader* cubemap_vs = AssetManager::RequestShader("Shaders/cubemap/cubemap.vs", ShaderType::VertexShader);
 		Shader* cubemap_fs = AssetManager::RequestShader("Shaders/cubemap/cubemap.fs", ShaderType::FragmentShader);
-		ShaderManager::Append(new Program("Cubemap", *cubemap_vs, *cubemap_fs));
+		ShaderManager::Append(new Pipeline("Cubemap", *cubemap_vs, *cubemap_fs));
 
 		mSceneManager = new SceneManager();
 		Graphics::SetGraphicsSettings();
@@ -85,6 +89,10 @@ namespace Quark {
 			Render();
 			mPlatform->SwapBuffer();
 		}
+	}
+
+	std::string Application::GetDataPath() {
+		return Application::dataPath;
 	}
 
 	void Application::Render() {

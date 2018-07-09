@@ -13,7 +13,8 @@
 #include <stb/stb_image_write.h>
 
 namespace Quark {
-	Program* Graphics::gizmoProgram = NULL;
+	Pipeline* Graphics::gizmoProgram = NULL;
+	Pipeline* Graphics::sphereProgram = NULL;
 	Buffer* Graphics::gizmoBuffer = NULL;
 	VertexArray* Graphics::gizmoVao = NULL;
 
@@ -25,15 +26,18 @@ namespace Quark {
 
 	void Graphics::SetGraphicsSettings() {
 		gizmoProgram = Shader::Find("Gizmo");
+		sphereProgram = Shader::Find("Sphere");
 		gizmoBuffer = new Buffer(BufferType::BufferVertex);
 		gizmoBuffer->Data(nullptr, 24 * sizeof(Vector3d), BufferUsage::DynamicDraw);
 		gizmoVao = new VertexArray();
 		gizmoVao->BindAttribute(gizmoProgram->GetAttribute("position"), *gizmoBuffer, 3, sizeof(Vector3d), 0);
+		gizmoVao->BindAttribute(sphereProgram->GetAttribute("position"), *gizmoBuffer, 3, sizeof(Vector3d), 0);
 	}
 
 	void Graphics::Dispose() {
 		SafeDealloc(gizmoBuffer);
 		SafeDealloc(gizmoVao);
+		// DO NOT DEINITIALIZE Pipeline objects
 	}
 
 	void Graphics::ClearColor(const Color& color, BufferBits bits) {
@@ -216,17 +220,16 @@ namespace Quark {
 		Vector3d vertices[2] = { start, end };
 
 		gizmoProgram->Use();
-		Camera* cam = SceneManager::GetMainCamera();
 		gizmoProgram->SetUniform("model", Matrix4x4::Identity());
-		gizmoProgram->SetUniform("view", cam->GetWorldToCameraMatrix());
-		gizmoProgram->SetUniform("projection", cam->GetProjectionMatrix());
+		gizmoProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+		gizmoProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 		gizmoProgram->SetUniform("color", color);
 		gizmoBuffer->SubData(vertices, 0, 2 * sizeof(Vector3d));
 		Graphics::DrawArrays(*gizmoVao, Primitive::LineLoop, 0, 2);
 		gizmoProgram->UnUse();
 	}
 
-	void Graphics::DrawCube(const Vector3d& center, const Vector3d& size, const Color color) {
+	void Graphics::DrawCube(const Vector3d& center, const Vector3d& size, const Color color, const Matrix4x4 model) {
 		Vector3d extent = size / 2.f;
 		Vector3d vertices[24] = { 
 			// top
@@ -261,14 +264,27 @@ namespace Quark {
 		};
 
 		gizmoProgram->Use();
-		Camera* cam = SceneManager::GetMainCamera();
-		gizmoProgram->SetUniform("model", Matrix4x4::Identity());
-		gizmoProgram->SetUniform("view", cam->GetWorldToCameraMatrix());
-		gizmoProgram->SetUniform("projection", cam->GetProjectionMatrix());
+		gizmoProgram->SetUniform("model", model);
+		gizmoProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+		gizmoProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 		gizmoProgram->SetUniform("color", color);
 		gizmoBuffer->SubData(vertices, 0, 24 * sizeof(Vector3d));
 		Graphics::DrawArrays(*gizmoVao, Primitive::Lines, 0, 24);
 		gizmoProgram->UnUse();
+	}
+
+	void Graphics::DrawSphere(const Vector3d& center, float radius, const Color color) {
+		sphereProgram->Use();
+		Camera* cam = SceneManager::GetMainCamera();
+		sphereProgram->SetUniform("model", Matrix4x4::Identity());
+		sphereProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+		sphereProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
+		sphereProgram->SetUniform("perspective", SceneManager::GetMainCamera()->GetProjectionMatrix());
+		sphereProgram->SetUniform("radius", radius);
+		sphereProgram->SetUniform("color", color);
+		gizmoBuffer->SubData(&center, 0, sizeof(Vector3d));
+		Graphics::DrawArrays(*gizmoVao, Primitive::Points, 0, 1);
+		sphereProgram->UnUse();
 	}
 
 	// OpenGL 2.1 version rendering functions implements

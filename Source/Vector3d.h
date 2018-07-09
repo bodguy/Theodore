@@ -78,9 +78,9 @@ namespace Quark {
         static Vector3d Inverse(const Vector3d& other);
         Vector3d Perpendicular();
         Vector3d& Normalize();
-        float Magnitude();
-        float Distance(const Vector3d& other);
-        float DistanceSqrare(const Vector3d& other);
+        float Magnitude() const;
+        float Distance(const Vector3d& other) const;
+        float DistanceSqrare(const Vector3d& other) const;
         
         //! linear interpolation
         static Vector3d Lerp(const Vector3d& a, const Vector3d& b, float t); // Linear Interpolation

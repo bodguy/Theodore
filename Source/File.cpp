@@ -88,7 +88,7 @@ namespace Quark {
 		va_end(args);
 	}
 
-	std::string File::ReadUntilEnd() {
+	std::string File::ReadAllText() {
 		std::string str;
 
 		if (IsOpen()) {

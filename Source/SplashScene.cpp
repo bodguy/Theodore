@@ -24,7 +24,12 @@ namespace Quark {
 		MeshRenderer* rend = monkey->AddComponent<MeshRenderer>();
 		Material* mat = new Material(Shader::Find("Phong"));
 		rend->SetMaterial(mat);
-		rend->SetMesh(AssetManager::RequestMesh("Contents/model/monkey.obj"));
+		monkeyMesh = AssetManager::RequestMesh("Contents/model/monkey.obj");
+		rend->SetMesh(monkeyMesh);
+		boxCollider = monkey->AddComponent<BoxCollider>();
+		boxCollider->SetVisible(true);
+		sphereCollider = monkey->AddComponent<SphereCollider>();
+		sphereCollider->SetVisible(true);
 
 		cube = new GameObject("cube", monkey, this);
 		cube->GetTransform()->SetLocalPosition(Vector3d(5.f, 0.f, 0.f));
@@ -34,8 +39,7 @@ namespace Quark {
 		Mesh* mesh = ShapeGenerator::GenerateCube();
 		rend2->SetMaterial(mat2);
 		rend2->SetMesh(mesh);
-		boxCollider = cube->AddComponent<BoxCollider>();
-
+		
 		GameObject* pointLight = new GameObject("pointLight", this);
 		Light* pl = pointLight->AddComponent<Light>(LightType::PointLight);
 		pl->ambient = Color::white;
@@ -68,8 +72,7 @@ namespace Quark {
 		}
 		Graphics::DrawLine(Vector3d(camPos.x, camPos.y, camPos.z + SceneManager::GetMainCamera()->GetNearClipPlane()
 		), ray.GetPoint(100.f), Color::yellow);
-
-		
+		Graphics::DrawCube(monkeyMesh->GetBounds().GetCenter(), monkeyMesh->GetBounds().GetSize(), Color::orange);
 
 		CameraUpdate();
 	}

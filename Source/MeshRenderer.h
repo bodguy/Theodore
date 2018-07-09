@@ -4,7 +4,7 @@
 #include "Renderer.h"
 
 namespace Quark {
-	class Material; class Mesh; class Program;
+	class Material; class Mesh; class Pipeline;
 	class MeshRenderer : public Renderer {
 	public:
 		MeshRenderer();
@@ -12,6 +12,7 @@ namespace Quark {
 
 		void SetMaterial(Material* mat);
 		void SetMesh(Mesh* mesh);
+		Mesh* GetMesh() const;
 
 	private:
 		virtual void Update(double deltaTime) override;
@@ -25,7 +26,7 @@ namespace Quark {
 		Material* mMaterial;
 		Mesh* mMesh;
 #ifdef _DEBUG
-		Program* DEBUG_PROGRAM;
+		Pipeline* DEBUG_PROGRAM;
 #endif
 	};
 }

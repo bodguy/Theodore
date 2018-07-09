@@ -43,6 +43,8 @@ namespace Quark {
 		IndexFormat GetIndexFormat() const { return mFormat; }
 		VertexSemantic GetVertexSemantic() const { return mSemantic; }
 		BufferUsage GetBufferUsage() const { return mUsage; }
+		std::vector<Vector3d>& GetVertexData() { return mVertices; }
+		Bounds GetBounds() const { return mBounds; }
 
 		void SetBoneWeight(BoneWeight* bw);
 		void RecalculateNormals();
@@ -63,7 +65,7 @@ namespace Quark {
 		std::vector<unsigned int> mFaces;
 		std::vector<BoneWeight> mBoneWeights;
 		std::vector<Matrix4x4> mBindposes;
-		//Bounds mBounds;
+		Bounds mBounds;
 	};
 
 	template<typename T, size_t size>

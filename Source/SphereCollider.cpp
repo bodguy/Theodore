@@ -1,8 +1,14 @@
 #include "SphereCollider.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "Graphics.h"
+#include "MeshRenderer.h"
+#include "Mesh.h"
 
 namespace Quark {
-	SphereCollider::SphereCollider(const Vector3d& center, float radius) : Collider("SphereCollider"), mCenter(center), mRadius(radius) {
+	SphereCollider::SphereCollider() : Collider("SphereCollider"), mCenter(), mMaxLengthVector() {
 		mType = ColliderType::Sphere;
+		CalculateBoundingVolumes();
 	}
 
 	SphereCollider::~SphereCollider() {
@@ -10,6 +16,7 @@ namespace Quark {
 	}
 
 	bool SphereCollider::Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) {
+		// Error!!!!!!!
 		Vector3d L = mCenter - ray.origin;
 		float tca = Vector3d::DotProduct(L, ray.direction);
 		float d2 = Vector3d::DotProduct(L, L) - tca * tca;
@@ -31,12 +38,54 @@ namespace Quark {
 		return true;
 	}
 
-	void SphereCollider::Update(double deltaTime) {
+	Vector3d SphereCollider::GetCenter() const {
+		return mCenter;
+	}
 
+	void SphereCollider::SetCenter(const Vector3d& center) {
+		mCenter = center;
+	}
+
+	float SphereCollider::GetRadius() const {
+		return mRadius;
+	}
+
+	void SphereCollider::SetRadius(float radius) {
+		mRadius = radius;
+	}
+
+	void SphereCollider::CalculateBoundingVolumes() {
+		MeshRenderer* meshRenderer = mGameObject->GetComponent<MeshRenderer>();
+		if (meshRenderer) {
+			Mesh* mesh = meshRenderer->GetMesh();
+
+			if (mesh) {
+				std::vector<Vector3d>::const_iterator iter;
+				float maxLength = 0.f;
+
+				for (iter = mesh->GetVertexData().cbegin(); iter < mesh->GetVertexData().cend(); iter++) {
+					float length = (*iter).Magnitude();
+					if (length > maxLength) {
+						maxLength = length;
+						mMaxLengthVector = (*iter);
+					}
+				}
+
+				SetRadius(maxLength);
+			}
+		}
+		mCenter = mTransform->GetPosition();
+	}
+
+	void SphereCollider::Update(double deltaTime) {
+		mRadius = (mMaxLengthVector * mTransform->GetLocalScale()).Magnitude();
+		mCenter = mTransform->GetPosition();
 	}
 
 	void SphereCollider::Render() {
-
+		if (mIsVisible) {
+			Graphics::DrawSphere(mCenter, mRadius, mColor);
+		}
 	}
 
 	bool SphereCollider::CompareEquality(const Object& rhs) const {

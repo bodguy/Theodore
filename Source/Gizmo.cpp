@@ -18,7 +18,6 @@ namespace Quark {
 		InputStream verts;
 		Buffer buffer(BufferType::BufferVertex);
 		mVao = new VertexArray();
-		mTransform = this->mGameObject->GetTransform();
 
 		switch (mType) {
 			case GizmoType::Translation:
@@ -62,25 +61,25 @@ namespace Quark {
 		switch (mType) {
 		case GizmoType::Translation:
 			mProgram->Use();
-			mProgram->SetUniform(mProgram->GetUniform("model"), mTransform->GetLocalToWorldMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("view"), SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("projection"), SceneManager::GetMainCamera()->GetProjectionMatrix());
+			mProgram->SetUniform("model", mTransform->GetLocalToWorldMatrix());
+			mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+			mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 			mProgram->SetUniform(mProgram->GetUniform("color"), Color::GizmoRed);
 			Graphics::DrawArrays(*mVao, Primitive::Lines, 0, 2);
 			mProgram->UnUse();
 
 			mProgram->Use();
-			mProgram->SetUniform(mProgram->GetUniform("model"), mTransform->GetLocalToWorldMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("view"), SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("projection"), SceneManager::GetMainCamera()->GetProjectionMatrix());
+			mProgram->SetUniform("model", mTransform->GetLocalToWorldMatrix());
+			mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+			mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 			mProgram->SetUniform(mProgram->GetUniform("color"), Color::GizmoGreen);
 			Graphics::DrawArrays(*mVao, Primitive::Lines, 2, 2);
 			mProgram->UnUse();
 
 			mProgram->Use();
-			mProgram->SetUniform(mProgram->GetUniform("model"), mTransform->GetLocalToWorldMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("view"), SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("projection"), SceneManager::GetMainCamera()->GetProjectionMatrix());
+			mProgram->SetUniform("model", mTransform->GetLocalToWorldMatrix());
+			mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+			mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 			mProgram->SetUniform(mProgram->GetUniform("color"), Color::GizmoBlue);
 			Graphics::DrawArrays(*mVao, Primitive::Lines, 4, 2);
 			mProgram->UnUse();
@@ -93,9 +92,9 @@ namespace Quark {
 			Quaternion quat = Quaternion::AngleAxis(Math::Radians(90.f), Vector3d(0.f, 1.f, 0.f));
 			quat *= Quaternion::AngleAxis(Math::Radians(-90.f), Vector3d(1.f, 0.f, 0.f));
 			mTransform->SetRotation(quat);
-			mProgram->SetUniform(mProgram->GetUniform("model"), mTransform->GetLocalToWorldMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("view"), SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("projection"), SceneManager::GetMainCamera()->GetProjectionMatrix());
+			mProgram->SetUniform("model", mTransform->GetLocalToWorldMatrix());
+			mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+			mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 			mProgram->SetUniform(mProgram->GetUniform("color"), Color::GizmoRed);
 			Graphics::DrawArrays(*mVao, Primitive::LineStrip, 0, 64);
 			mProgram->UnUse();
@@ -103,9 +102,9 @@ namespace Quark {
 			// rotation Z
 			mProgram->Use();
 			mTransform->SetRotation(Quaternion::identity);
-			mProgram->SetUniform(mProgram->GetUniform("model"), mTransform->GetLocalToWorldMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("view"), SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("projection"), SceneManager::GetMainCamera()->GetProjectionMatrix());
+			mProgram->SetUniform("model", mTransform->GetLocalToWorldMatrix());
+			mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+			mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 			mProgram->SetUniform(mProgram->GetUniform("color"), Color::GizmoBlue);
 			Graphics::DrawArrays(*mVao, Primitive::LineStrip, 0, 64);
 			mProgram->UnUse();
@@ -113,9 +112,9 @@ namespace Quark {
 			// rotation Y
 			mProgram->Use();
 			mTransform->SetRotation(Quaternion::AngleAxis(Math::Radians(-90.f), Vector3d(1.f, 0.f, 0.f)));
-			mProgram->SetUniform(mProgram->GetUniform("model"), mTransform->GetLocalToWorldMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("view"), SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-			mProgram->SetUniform(mProgram->GetUniform("projection"), SceneManager::GetMainCamera()->GetProjectionMatrix());
+			mProgram->SetUniform("model", mTransform->GetLocalToWorldMatrix());
+			mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+			mProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 			mProgram->SetUniform(mProgram->GetUniform("color"), Color::GizmoGreen);
 			Graphics::DrawArrays(*mVao, Primitive::LineStrip, 0, 64);
 			mProgram->UnUse();

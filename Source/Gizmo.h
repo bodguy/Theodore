@@ -5,7 +5,7 @@
 #include "Enumeration.h"
 
 namespace Quark {
-	class VertexArray; class Program; class Transform;
+	class VertexArray; class Pipeline; class Transform;
 	class Gizmo : public Component {
 	public:
 		Gizmo(GizmoType type);
@@ -19,8 +19,7 @@ namespace Quark {
 
 	protected:
 		VertexArray* mVao;
-		Program* mProgram;
-		Transform* mTransform;
+		Pipeline* mProgram;
 		GizmoType mType;
 	};
 }

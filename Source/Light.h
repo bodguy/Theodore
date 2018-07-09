@@ -12,8 +12,7 @@ namespace Quark {
 		Light(LightType type);
 		virtual ~Light();
 
-		Transform* GetTransform() const;
-
+	public:
 		LightType type;
 		Color ambient;
 		Color diffuse;
@@ -36,7 +35,7 @@ namespace Quark {
 		virtual bool CompareEquality(const Object& rhs) const override;
 		virtual bool Destroy() override;
 
-		Transform* mTransform;
+	private:
 		ShadowInfo* mShadowInfo;
 	};
 }

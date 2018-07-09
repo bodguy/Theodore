@@ -25,16 +25,11 @@ namespace Quark {
 			quadratic = 0.032f;
 			break;
 		}
-		mTransform = this->mGameObject->GetTransform();
 		mShadowInfo = new ShadowInfo();
 	}
 
 	Light::~Light() {
 		SafeDealloc(mShadowInfo);
-	}
-
-	Transform* Light::GetTransform() const {
-		return mTransform;
 	}
 
 	void Light::Update(double deltaTime) {

@@ -238,7 +238,7 @@ namespace Quark {
 			if (file.IsOpen()) {
 				asset->SetAssetName(filename);
 				Debug::Log("'" + filename + "' Compiling shader...");
-				asset->Compile(file.ReadUntilEnd());
+				asset->Compile(file.ReadAllText());
 				instance->StoreAsset(asset);
 				file.Close();
 			} else {

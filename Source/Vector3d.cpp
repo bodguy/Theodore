@@ -211,15 +211,15 @@ namespace Quark {
         return *this;
     }
     
-    float Vector3d::Magnitude() {
+    float Vector3d::Magnitude() const {
         return std::sqrt(x * x + y * y + z * z);
     }
     
-    float Vector3d::Distance(const Vector3d& other) {
+    float Vector3d::Distance(const Vector3d& other) const {
         return std::sqrt((x - other.x)*(x - other.x) + (y - other.y)*(y - other.y) + (z - other.z)*(z - other.z));
     }
     
-    float Vector3d::DistanceSqrare(const Vector3d& other) {
+    float Vector3d::DistanceSqrare(const Vector3d& other) const {
         Vector3d c = *this - other;
         return Vector3d::DotProduct(c, c);
     }

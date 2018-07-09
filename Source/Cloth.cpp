@@ -54,12 +54,12 @@ namespace Quark {
 		File shaderFile;
 		shaderFile.Open("Core/Shaders/gizmo/vs.glsl", Read);
 		if (shaderFile.IsOpen()) {
-			vs.Compile(shaderFile.ReadUntilEnd());
+			vs.Compile(shaderFile.ReadAllText());
 			shaderFile.Close();
 		}
 		shaderFile.Open("Core/Shaders/gizmo/fs.glsl", Read);
 		if (shaderFile.IsOpen()) {
-			fs.Compile(shaderFile.ReadUntilEnd());
+			fs.Compile(shaderFile.ReadAllText());
 			shaderFile.Close();
 		}
 
