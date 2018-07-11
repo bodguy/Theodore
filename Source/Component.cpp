@@ -3,7 +3,7 @@
 #include "Transform.h"
 
 namespace Quark {
-	Component::Component(const std::string& name) :Object(name) {
+	Component::Component(const std::string& name) :Object(name), mIsEnable(true) {
 		mTransform = mGameObject->GetComponent<Transform>();
 	}
 	
@@ -13,6 +13,14 @@ namespace Quark {
 
 	Transform* Component::GetTransform() const {
 		return mTransform;
+	}
+
+	bool Component::IsEnable() const {
+		return mIsEnable;
+	}
+
+	void Component::SetEnable(bool enable) {
+		mIsEnable = enable;
 	}
 
 	MessageResult Component::HandleMessage(Message& msg) {

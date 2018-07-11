@@ -13,6 +13,8 @@ namespace Quark {
 		virtual ~Component();
 
 		Transform* GetTransform() const;
+		bool IsEnable() const;
+		void SetEnable(bool enable);
 
 	private:
 		virtual MessageResult HandleMessage(Message& msg);
@@ -20,6 +22,7 @@ namespace Quark {
 	protected:
 		GameObject* mGameObject;
 		Transform* mTransform;
+		bool mIsEnable; // NEED FIX
 	};
 }
 

@@ -184,7 +184,7 @@ namespace Quark {
         return *this;
     }
     
-    float Vector2d::Magnitude() {
+    float Vector2d::Length() {
         return std::sqrt(x * x + y * y);
     }
     

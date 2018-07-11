@@ -9,8 +9,9 @@ namespace Quark {
         Vector4d();
         //! constructor with three elements
         Vector4d(float tx, float ty, float tz, float tw);
-        Vector4d(const Vector2d& other);
-        Vector4d(const Vector3d& other);
+        explicit Vector4d(const Vector2d& other);
+		explicit Vector4d(const Vector3d& other);
+		Vector4d(const Vector2d& other, float tz, float tw);
         Vector4d(const Vector3d& other, float tw);
         //! copy constructor
         Vector4d(const Vector4d& other);
@@ -69,7 +70,7 @@ namespace Quark {
         
         //! utility functions
         Vector4d& Normalize();
-        float Magnitude();
+        float Length();
         static Vector3d ToVector3d(const Vector4d& other);
         
         float x, y, z, w;

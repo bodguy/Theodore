@@ -20,10 +20,10 @@ namespace Quark {
         z = 0.f;
     }
     
-    Vector3d::Vector3d(const Vector2d& other, float z) {
+    Vector3d::Vector3d(const Vector2d& other, float tz) {
         x = other.x;
         y = other.y;
-        z = z;
+        z = tz;
     }
     
     Vector3d::Vector3d(const float tx, const float ty) {
@@ -33,6 +33,10 @@ namespace Quark {
     Vector3d::Vector3d(const Vector3d& other) {
         x = other.x; y = other.y; z = other.z;
     }
+
+	Vector3d::Vector3d(const Vector4d& other) {
+		x = other.x; y = other.y; z = other.z;
+	}
     
     Vector3d& Vector3d::operator = (Vector3d other) {
         // copy and swap idiom (effective c++ section 11)
@@ -211,7 +215,7 @@ namespace Quark {
         return *this;
     }
     
-    float Vector3d::Magnitude() const {
+    float Vector3d::Length() const {
         return std::sqrt(x * x + y * y + z * z);
     }
     
@@ -223,6 +227,14 @@ namespace Quark {
         Vector3d c = *this - other;
         return Vector3d::DotProduct(c, c);
     }
+
+	Vector2d Vector3d::ToVector2d(const Vector3d& other) {
+		return Vector2d(other.x, other.y);
+	}
+
+	Vector4d Vector3d::ToVector4d(const Vector3d& other) {
+		return Vector4d(other.x, other.y, other.z, 1.f);
+	}
     
     Vector3d Vector3d::Lerp(const Vector3d& a, const Vector3d& b, float t) {
         return (a + (b - a) * t);

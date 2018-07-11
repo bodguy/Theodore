@@ -43,7 +43,8 @@ namespace Quark {
     }
     
 	Color Color::RGBToColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
-		return Color(r * (1.f / 255.f), g * (1.f / 255.f), b * (1.f / 255.f), a * (1.f / 255.f));
+		float invConverter = 1.f / 255.f;
+		return Color(r * invConverter, g * invConverter, b * invConverter, a * invConverter);
 	}
    
 	Color Color::HexToColor(unsigned int hexValue) {
@@ -64,10 +65,11 @@ namespace Quark {
 	Color Color::CMKYToColor(float c, float m, float y, float k) {
 		float cmyk_scale = 1.f / 100.f;
 		float k2 = std::min(100.f, k);
+		float precomputed = 1.f - k2 * cmyk_scale;
 
-		return Color((1.f - std::min(100.f, c) * cmyk_scale) * (1.f - k2 * cmyk_scale),
-					 (1.f - std::min(100.f, m) * cmyk_scale) * (1.f - k2 * cmyk_scale),
-					 (1.f - std::min(100.f, y) * cmyk_scale) * (1.f - k2 * cmyk_scale),
+		return Color((1.f - std::min(100.f, c) * cmyk_scale) * precomputed,
+					 (1.f - std::min(100.f, m) * cmyk_scale) * precomputed,
+					 (1.f - std::min(100.f, y) * cmyk_scale) * precomputed,
 					 1.f);
 	}
 

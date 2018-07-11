@@ -15,13 +15,11 @@
 #include "Utility.h"
 #include "FrameBuffer.h"
 #include "Texture2D.h"
+#include "Bounds.h"
 
 namespace Quark {
 	MeshRenderer::MeshRenderer() : Renderer("MeshRenderer"), mMaterial(nullptr), mMesh(nullptr) {
 		mPrimitive = Primitive::Triangles;
-#ifdef _DEBUG
-		DEBUG_PROGRAM = Shader::Find("DebugNormal");
-#endif
 	}
 
 	MeshRenderer::~MeshRenderer() {
@@ -101,6 +99,14 @@ namespace Quark {
 	}
 
 	void MeshRenderer::Update(double deltaTime) {
+		if (mIsVisibleGizmos) {
+			Matrix4x4 model = mTransform->GetLocalToWorldMatrix();
+			Vector3d new_center(model * Vector4d(mMesh->GetBounds()->GetCenter(), 1.f));
+			Vector3d new_extent(Matrix4x4::Absolute(model) * Vector4d((mMesh->GetBounds()->GetExtents()), 0.f));
+			new_center = new_center + Matrix4x4::DecomposeTranslation(model);
+			Graphics::DrawCube(new_center, new_extent * 2.f, Color::orange);
+			//mMesh->GetBounds()->SetMinMax(new_center - new_extent, new_center + new_extent);
+		}
 	}
 
 	void MeshRenderer::Render() {
@@ -232,12 +238,11 @@ namespace Quark {
 		Graphics::BindTexture(1, NULL);
 		mProgram->UnUse();
 
-#ifdef _DEBUG
-		if (mIsDebugRendering) {
-			DEBUG_PROGRAM->Use();
-			DEBUG_PROGRAM->SetUniform("model", mTransform->GetLocalToWorldMatrix());
-			DEBUG_PROGRAM->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-			DEBUG_PROGRAM->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
+		if (mIsVisibleGizmos) {
+			mNormalVisualizeProgram->Use();
+			mNormalVisualizeProgram->SetUniform("model", mTransform->GetLocalToWorldMatrix());
+			mNormalVisualizeProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+			mNormalVisualizeProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
 			if (mMesh) {
 				if (mMesh->GetFaceCount() > 0) {
 					Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());
@@ -246,8 +251,7 @@ namespace Quark {
 					Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
 				}
 			}
-			DEBUG_PROGRAM->UnUse();
+			mNormalVisualizeProgram->UnUse();
 		}
-#endif
 	}
 }

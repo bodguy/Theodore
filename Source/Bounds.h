@@ -24,9 +24,9 @@ namespace Quark {
 		void ClosestPoint(const Vector3d& point);
 		float SqrDistance(const Vector3d& point);
 		void Expand(float amount);
-		void SetMinMax(const Vector3d& pmin, const Vector3d& pmax);
+		void SetMinMax(const Vector3d& min, const Vector3d& max);
 
-	private:
+	//private:
 		// The minimal point of the box. This is always equal to center-extents.
 		Vector3d mMin;
 		// The maximal point of the box.This is always equal to center + extents.

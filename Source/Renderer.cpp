@@ -3,10 +3,11 @@
 #include "Utility.h"
 
 namespace Quark {
-	Renderer::Renderer(const std::string& name) : Component(name), mProgram(nullptr), mPrimitive(Primitive::Triangles), mIsDebugRendering(false) {
+	Renderer::Renderer(const std::string& name) : Component(name), mProgram(nullptr), mPrimitive(Primitive::Triangles), mIsVisibleGizmos(false) {
 		mVao = new VertexArray();
 		mVbos.clear();
 		mEbos.clear();
+		mNormalVisualizeProgram = Shader::Find("DebugNormal");
 	}
 
 	Renderer::~Renderer() {
@@ -20,7 +21,7 @@ namespace Quark {
 		mPrimitive = primitive; 
 	}
 
-	void Renderer::SetDebugRender(bool debug) {
-		mIsDebugRendering = debug; 
+	void Renderer::SetVisibleGizmos(bool visible) {
+		mIsVisibleGizmos = visible;
 	}
 }

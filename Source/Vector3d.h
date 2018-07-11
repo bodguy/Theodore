@@ -1,20 +1,23 @@
 #ifndef Vector3d_h
 #define Vector3d_h
 
+#include "Vector2d.h"
+#include "Vector4d.h"
+
 namespace Quark {
-    class Vector2d;
     class Vector3d {
     public:
         //! default contructor
         Vector3d();
         //! constructor with three elements
         Vector3d(const float tx, const float ty, const float tz);
-        Vector3d(const Vector2d& other);
-        Vector3d(const Vector2d& other, float z);
+        explicit Vector3d(const Vector2d& other);
+        Vector3d(const Vector2d& other, float tz);
         //! constructor with two elements
         Vector3d(const float tx, const float ty);
         //! copy constructor
         Vector3d(const Vector3d& other);
+		explicit Vector3d(const Vector4d& other);
         //! assignment operator
         Vector3d& operator = (Vector3d other);
 		float operator[] (unsigned int i) const;
@@ -78,10 +81,23 @@ namespace Quark {
         static Vector3d Inverse(const Vector3d& other);
         Vector3d Perpendicular();
         Vector3d& Normalize();
-        float Magnitude() const;
+        float Length() const;
         float Distance(const Vector3d& other) const;
         float DistanceSqrare(const Vector3d& other) const;
-        
+
+		Vector2d xx() { return Vector2d(x, x); }
+		Vector2d xy() { return Vector2d(x, y); } 
+		Vector2d xz() { return Vector2d(x, z); }
+		Vector2d yx() { return Vector2d(y, x); }
+		Vector2d yy() { return Vector2d(y, y); }
+		Vector2d yz() { return Vector2d(y, z); }
+		Vector2d zx() { return Vector2d(z, x); }
+		Vector2d zy() { return Vector2d(z, y); }
+		Vector2d zz() { return Vector2d(z, z); }
+
+		static Vector2d ToVector2d(const Vector3d& other);
+		static Vector4d ToVector4d(const Vector3d& other);
+
         //! linear interpolation
         static Vector3d Lerp(const Vector3d& a, const Vector3d& b, float t); // Linear Interpolation
         static Vector3d Slerp(const Vector3d& a, const Vector3d& b, float t); // Sphere Linear Interpolation

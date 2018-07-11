@@ -135,17 +135,6 @@ namespace Quark {
         return *this;
     }
     
-    Vector2d Matrix4x4::operator*(const Vector2d& other) {
-        return Vector2d(m16[0] * other.x + m16[1] * other.y + m16[2] * 1.0f + m16[3] * 1.0f,
-                        m16[4] * other.x + m16[5] * other.y + m16[6] * 1.0f + m16[7] * 1.0f);
-    }
-    
-    Vector3d Matrix4x4::operator*(const Vector3d& other) {
-        return Vector3d(m16[0] * other.x + m16[1] * other.y + m16[2] * other.z + m16[3] * 1.0f,
-                        m16[4] * other.x + m16[5] * other.y + m16[6] * other.z + m16[7] * 1.0f,
-                        m16[8] * other.x + m16[9] * other.y + m16[10] * other.z + m16[11] * 1.0f);
-    }
-    
     Vector4d Matrix4x4::operator*(const Vector4d& other) {
         return Vector4d(m16[0] * other.x + m16[1] * other.y + m16[2] * other.z + m16[3] * other.w,
                         m16[4] * other.x + m16[5] * other.y + m16[6] * other.z + m16[7] * other.w,
@@ -403,13 +392,6 @@ namespace Quark {
                          0.f, 0.f, 0.f, 1.f);
     }
 
-	Matrix4x4 Matrix4x4::ToMatrix3x3Right(const Matrix4x4& other) {
-		return Matrix4x4(other.m16[0], other.m16[1], other.m16[2], 0.f,
-						 other.m16[4], other.m16[5], other.m16[6], 0.f,
-						 other.m16[8], other.m16[9], other.m16[10], 0.f,
-						 other.m16[12], other.m16[13], other.m16[14], 1.f);
-	}
-
 	Matrix4x4 Matrix4x4::Absolute(const Matrix4x4& other) {
 		return Matrix4x4(
 			std::fabsf(other.m16[0]), std::fabsf(other.m16[1]), std::fabsf(other.m16[2]), std::fabsf(other.m16[3]),
@@ -417,6 +399,43 @@ namespace Quark {
 			std::fabsf(other.m16[8]), std::fabsf(other.m16[9]), std::fabsf(other.m16[10]), std::fabsf(other.m16[11]),
 			std::fabsf(other.m16[12]), std::fabsf(other.m16[13]), std::fabsf(other.m16[14]), std::fabsf(other.m16[15])
 		);
+	}
+
+	Matrix4x4 Matrix4x4::OrthoNormalize(const Matrix4x4& matrix) {
+		// NEED TEST
+		Vector4d first = Vector4d(matrix._11, matrix._12, matrix._13, matrix._14).Normalize();
+		Vector4d second = Vector4d(matrix._21, matrix._22, matrix._23, matrix._24).Normalize();
+		Vector4d third = Vector4d(matrix._31, matrix._32, matrix._33, matrix._34).Normalize();
+
+		return Matrix4x4(
+			first.x, first.y, first.z, first.w,
+			second.x, second.y, second.z, second.w,
+			third.x, third.y, third.z, third.w,
+			matrix._41, matrix._42, matrix._43, matrix._44
+		);
+	}
+
+	Vector3d Matrix4x4::DecomposeTranslation(const Matrix4x4& transformation) {
+		return Vector3d(transformation._41, transformation._42, transformation._43);
+	}
+
+	Vector3d Matrix4x4::DecomposeRotation(const Matrix4x4& transformation) {
+		// NEED TEST
+		Matrix4x4 normalized = Matrix4x4::OrthoNormalize(transformation);
+
+		return Vector3d(Math::Radians(std::atan2f(normalized._23, normalized._33)),
+			Math::Radians(std::atan2f(-normalized._13, std::sqrtf(normalized._23 * normalized._23 + normalized._33 * normalized._33))),
+			Math::Radians(std::atan2f(normalized._12, normalized._11))
+		);
+	}
+
+	Vector3d Matrix4x4::DecomposeScale(const Matrix4x4& transformation) {
+		// NEED TEST
+		Vector4d first  = Vector4d(transformation._11, transformation._12, transformation._13, transformation._14);
+		Vector4d second = Vector4d(transformation._21, transformation._22, transformation._23, transformation._24);
+		Vector4d third  = Vector4d(transformation._31, transformation._32, transformation._33, transformation._34);
+
+		return Vector3d(first.Length(), second.Length(), third.Length());
 	}
     
     void Matrix4x4::Swap(Matrix4x4& first, Matrix4x4& second) {

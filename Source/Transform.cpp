@@ -210,7 +210,8 @@ namespace Quark {
 	}
 
 	Vector3d Transform::InverseTransformPoint(const Vector3d& position) {
-		return GetWorldToLocalMatrix() * position;
+		//return GetWorldToLocalMatrix() * position;
+		return Vector3d();
 	}
 
 	Vector3d Transform::InverseTransformVector(const Vector3d& vector) {
@@ -222,7 +223,8 @@ namespace Quark {
 	}
 
 	Vector3d Transform::TransformPoint(const Vector3d& position) {
-		return GetLocalToWorldMatrix() * position;
+		//return GetLocalToWorldMatrix() * position;
+		return Vector3d();
 	}
 
 	Vector3d Transform::TransformVector(const Vector3d& vector) {

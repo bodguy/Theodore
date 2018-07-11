@@ -12,7 +12,6 @@ namespace Quark {
 		Ray(const Ray& other);
 
 		Vector3d GetPoint(float distance);
-		Ray& operator *(Matrix4x4& matrix);
 		bool operator ==(const Ray& other);
 		bool operator !=(const Ray& other);
 

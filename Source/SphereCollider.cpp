@@ -64,7 +64,7 @@ namespace Quark {
 				float maxLength = 0.f;
 
 				for (iter = mesh->GetVertexData().cbegin(); iter < mesh->GetVertexData().cend(); iter++) {
-					float length = (*iter).Magnitude();
+					float length = (*iter).Length();
 					if (length > maxLength) {
 						maxLength = length;
 						mMaxLengthVector = (*iter);
@@ -78,7 +78,7 @@ namespace Quark {
 	}
 
 	void SphereCollider::Update(double deltaTime) {
-		mRadius = (mMaxLengthVector * mTransform->GetLocalScale()).Magnitude();
+		mRadius = (mMaxLengthVector * mTransform->GetLocalScale()).Length();
 		mCenter = mTransform->GetPosition();
 	}
 

@@ -25,9 +25,6 @@ namespace Quark {
 	protected:
 		Material* mMaterial;
 		Mesh* mMesh;
-#ifdef _DEBUG
-		Pipeline* DEBUG_PROGRAM;
-#endif
 	};
 }
 

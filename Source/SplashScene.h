@@ -16,7 +16,7 @@ namespace Quark {
 		void CameraUpdate();
 
 		GameObject *plane, *monkey, *cube;
-		Mesh* monkeyMesh;
+		Mesh* monkeyMesh, *cubeMesh;
 		Plane* planes;
 		Transform* camTrans;
 		Vector3d boxPos, camPos;

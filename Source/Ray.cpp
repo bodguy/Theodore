@@ -20,17 +20,6 @@ namespace Quark {
 		return origin + direction * distance;
 	}
 
-	Ray& Ray::operator *(Matrix4x4& matrix) {
-		Vector3d tmp;
-		tmp = origin + direction;
-		tmp = matrix * tmp;
-		origin = matrix * origin;
-		direction = tmp - origin;
-		invDirection = Vector3d::Inverse(direction);
-
-		return *this;
-	}
-
 	bool Ray::operator ==(const Ray& other) {
 		return ((origin == other.origin) && (direction == other.direction) && invDirection == other.invDirection);
 	}

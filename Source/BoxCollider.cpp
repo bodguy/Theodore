@@ -91,12 +91,11 @@ namespace Quark {
 	}
 
 	void BoxCollider::Update(double deltaTime) {
-		// Error!!!!!!!!
-		Matrix4x4 model = Matrix4x4::ToMatrix3x3Right(mTransform->GetLocalToWorldMatrix());
+		/*Matrix4x4 model = mTransform->GetLocalToWorldMatrix();
 		Matrix4x4 absModel = Matrix4x4::Absolute(model);
 
 		mCenter = model * mCenter;
-		mSize = absModel * mSize;
+		mSize = absModel * mSize;*/
 
 		//glm::vec3 center = (_oobb.getMin() + _oobb.getMax()) / 2.0f;
 		//glm::vec3 extent = (_oobb.getMax() - _oobb.getMin()) / 2.0f;
@@ -112,9 +111,9 @@ namespace Quark {
 	}
 
 	void BoxCollider::Render() {
-		if (mIsVisible) {
-			Graphics::DrawCube(mCenter, mSize, mColor);
-		}
+		//if (mIsVisible) {
+		//	Graphics::DrawCube(mCenter, mSize, mColor);
+		//}
 	}
 
 	bool BoxCollider::CompareEquality(const Object& rhs) const {

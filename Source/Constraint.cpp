@@ -4,7 +4,7 @@
 namespace Quark {
 	Constraint::Constraint(Particle* p1, Particle* p2) :mP1(p1), mP2(p2) {
 		Vector3d vec = p1->GetPosition() - p2->GetPosition();
-		mRestDistance = vec.Magnitude();
+		mRestDistance = vec.Length();
 	}
 
 	Constraint::~Constraint() {
@@ -12,7 +12,7 @@ namespace Quark {
 
 	void Constraint::Satisfy() {
 		Vector3d p1_to_p2 = mP2->GetPosition() - mP1->GetPosition();
-		float current_distance = p1_to_p2.Magnitude();
+		float current_distance = p1_to_p2.Length();
 		Vector3d correctionVector = p1_to_p2 * (1.f - mRestDistance / current_distance);
 		Vector3d correctionVectorHelf = correctionVector * 0.5f;
 		mP1->OffsetPos(correctionVectorHelf);

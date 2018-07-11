@@ -26,6 +26,7 @@ namespace Quark {
 		rend->SetMaterial(mat);
 		monkeyMesh = AssetManager::RequestMesh("Contents/model/monkey.obj");
 		rend->SetMesh(monkeyMesh);
+		rend->SetVisibleGizmos(true);
 		boxCollider = monkey->AddComponent<BoxCollider>();
 		boxCollider->SetVisible(true);
 		sphereCollider = monkey->AddComponent<SphereCollider>();
@@ -36,10 +37,11 @@ namespace Quark {
 		MeshRenderer* rend2 = cube->AddComponent<MeshRenderer>();
 		Material* mat2 = new Material(Shader::Find("Phong"));
 		mat2->texture0 = AssetManager::RequestTexture("Contents/BlueGrid.png", TextureFormat::RGBA32);
-		Mesh* mesh = ShapeGenerator::GenerateCube();
+		cubeMesh = ShapeGenerator::GenerateCube();
 		rend2->SetMaterial(mat2);
-		rend2->SetMesh(mesh);
-		
+		rend2->SetMesh(cubeMesh);
+		rend2->SetVisibleGizmos(true);
+
 		GameObject* pointLight = new GameObject("pointLight", this);
 		Light* pl = pointLight->AddComponent<Light>(LightType::PointLight);
 		pl->ambient = Color::white;
@@ -58,7 +60,7 @@ namespace Quark {
 	}
 
 	void SplashScene::OnUpdate() {
-		monkey->GetTransform()->Rotate(Vector3d::up, Time::DeltaTime() * 40.f);
+		monkey->GetTransform()->Rotate(Vector3d::forward, Time::DeltaTime() * 40.f);
 		cube->GetTransform()->Rotate(Vector3d::forward, Time::DeltaTime() * 120.f);
 
 		// ray casting
@@ -72,7 +74,19 @@ namespace Quark {
 		}
 		Graphics::DrawLine(Vector3d(camPos.x, camPos.y, camPos.z + SceneManager::GetMainCamera()->GetNearClipPlane()
 		), ray.GetPoint(100.f), Color::yellow);
-		Graphics::DrawCube(monkeyMesh->GetBounds().GetCenter(), monkeyMesh->GetBounds().GetSize(), Color::orange);
+
+		if (Input::GetKeyHeld(KEY_1)) {
+			monkey->GetTransform()->Translate(Vector3d::left * Time::DeltaTime() * 2.f);
+		}
+		else if (Input::GetKeyHeld(KEY_2)) {
+			monkey->GetTransform()->Translate(Vector3d::right * Time::DeltaTime() * 2.f);
+		}
+		else if (Input::GetKeyHeld(KEY_3)) {
+			monkey->GetTransform()->Scale(Vector3d(0.2f, 0.2f, 0.2f));
+		}
+		else if (Input::GetKeyHeld(KEY_4)) {
+			monkey->GetTransform()->Scale(Vector3d(-0.2f, -0.2f, -0.2f));
+		}
 
 		CameraUpdate();
 	}

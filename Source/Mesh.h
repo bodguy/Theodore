@@ -44,7 +44,7 @@ namespace Quark {
 		VertexSemantic GetVertexSemantic() const { return mSemantic; }
 		BufferUsage GetBufferUsage() const { return mUsage; }
 		std::vector<Vector3d>& GetVertexData() { return mVertices; }
-		Bounds GetBounds() const { return mBounds; }
+		Bounds* GetBounds() { return &mBounds; }
 
 		void SetBoneWeight(BoneWeight* bw);
 		void RecalculateNormals();

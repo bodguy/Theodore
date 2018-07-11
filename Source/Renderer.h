@@ -13,15 +13,16 @@ namespace Quark {
 		virtual ~Renderer();
 
 		void SetPrimitive(const Primitive primitive);
-		void SetDebugRender(bool debug);
+		void SetVisibleGizmos(bool visible);
 
 	protected:
 		std::vector<Buffer*> mVbos;
 		std::vector<Buffer*> mEbos;
 		VertexArray* mVao;
 		Pipeline* mProgram;
+		Pipeline* mNormalVisualizeProgram;
 		Primitive mPrimitive;
-		bool mIsDebugRendering;
+		bool mIsVisibleGizmos;
 	};
 }
 

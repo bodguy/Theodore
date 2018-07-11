@@ -28,6 +28,13 @@ namespace Quark {
         z = other.z;
         w = 0.0f;
     }
+
+	Vector4d::Vector4d(const Vector2d& other, float tz, float tw) {
+		x = other.x;
+		y = other.y;
+		z = tz;
+		w = tw;
+	}
     
     Vector4d::Vector4d(const Vector3d& other, float tw) {
         x = other.x;
@@ -248,7 +255,7 @@ namespace Quark {
         return *this;
     }
     
-    float Vector4d::Magnitude() {
+    float Vector4d::Length() {
         return std::sqrt(x * x + y * y + z * z + w * w);
     }
     

@@ -69,7 +69,7 @@ namespace Quark {
         
         Vector2d Perpendicular();
         Vector2d& Normalize();
-        float Magnitude();
+        float Length();
         float Distance(const Vector2d& other);
         float DistanceSqrare(const Vector2d& other);
         

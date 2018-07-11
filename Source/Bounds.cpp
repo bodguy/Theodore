@@ -1,4 +1,6 @@
 #include "Bounds.h"
+#include "Debug.h"
+#include "Vector4d.h"
 #include <cmath>
 
 namespace Quark {
@@ -81,9 +83,9 @@ namespace Quark {
 
 	}
 
-	void Bounds::SetMinMax(const Vector3d& pmin, const Vector3d& pmax) {
-		mMin = pmin;
-		mMax = pmax;
+	void Bounds::SetMinMax(const Vector3d& min, const Vector3d& max) {
+		mMin = min;
+		mMax = max;
 		mCenter = (mMax + mMin) * 0.5f;
 		mExtents = mCenter - mMin;
 		mSize = mExtents * 2.f;
