@@ -4,7 +4,7 @@ Welcome to Theodore
 Theodore is the open source game framework for 3D, 2D. It's goal is to make game very easy.
 All of these source codes are heavily inspired by Unity system. My ECS(Entity Component System) is originally derived from game programming gems 6 but I fixed it to make codes and performances being more readable and maintainable to work well with Unity style ECS. 
 
-This is my first project that I personally called it "Everything with my own project". As you can see, the name literally means No external libraries, No Dlls for my studing purposes. I'm not very good at C++ language and even I'm also not good at OpenGL like stuffs.
+This is my first project that I personally called it "Everything with my own project". As you can see, the name literally means No external libraries, No Dlls for my studying purposes. I'm not very good at C++ language and even I'm also not good at OpenGL like stuffs.
 but I hopefully get it better with this project.
 
 I use only a few low level libraries which is ...
