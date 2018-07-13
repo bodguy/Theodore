@@ -1,34 +1,51 @@
-Welcome to tinyengine
+Welcome to Theodore
 =============
+### Introduction
+Theodore is the open source game framework for 3D, 2D. It's goal is to make game very easy.
+All of these source codes are heavily inspired by Unity system. My ECS(Entity Component System) is originally derived from game programming gems 6 but I fixed it to make codes and performances being more readable and maintainable to work well with Unity style ECS. 
 
-### Progress
+This is my first project that I personally called it "Everything with my own project". As you can see, the name literally means No external libraries, No Dlls for my studing purposes. I'm not very good at C++ language and even I'm also not good at OpenGL like stuffs.
+but I hopefully get it better with this project.
 
+I use only a few low level libraries which is ...
+OpenGL for hardware supporting graphics pipelining.
+glew for opengl version management without any considering various graphic card manufacturer.
+OpenAL for embedded multithreading sound output.
+stb_image for various texture format loading(PNG, JPEG, TGA, BMP etc...)
+stb_freetype for truetype font loading (I prefer this than FreeType lib)
+
+### Supporting features
+
++ Crossplatform support (Windows, Linux, Macos) without glfw
 + Resource management system
 + Compile and Linking Shader source code
 + Easy Transform objects with translation, rotate, scaling
 + Custom math library (Matrix, Vector, Quaternion)
 + Platform independent Input, Timer, Graphics
 + Hardware abstraction layer for multi devices only for desktop
-+ *[TODO]* Collision detection (AABB, OBB)
++ Collision detection (AABB, OBB)
++ Ray casting (plane, sphere, box)
++ Component Based Object Management System
++ Gizmos for translation, rotation, scaling
++ Heirarachy transform system
++ Mathmatically generated placeholder 3d model
++ Quaternion based rotating (no gimblock)
++ Scene management system
++ Easy environment setting with CMake
++ Easy various format texture loading
++ Render To Texture with framebuffer, renderbuffer
+
+### TODO
+
 + *[TODO]* Pyhsics (Verlet Integeration)
-+ *[TODO]* Ray casting (plane, sphere, box)
 + *[TODO]* Shadow mapping, normal mapping
 + *[TODO]* Obj, collada file reader and writer
-+ Component Based Object Management System
-+ *[TODO]* Gizmos for translation, rotation, scaling
-+ Heirarachy transform system
 + *[TODO]* Skinning mesh, keyframe animation
 + *[TODO]* Water surface rendering
 + *[TODO]* Terrain integration
 + *[TODO]* Various 3d optimization technique (LOD, tesselation, frustum culling)
-+ Mathmatically generated placeholder 3d model
-+ Quaternion based rotating (no gimblock)
-+ Scene management system
 + *[TODO]* PBRT
 + *[TODO]* Text rendering with unicode for multilingual support
-+ Easy environment setting with CMake
 + *[TODO]* curve rendering (bezier, b-spline, nurbs)
 + *[TODO]* Lensflare, Bloom Filter, Defferd rendering, HDR, gamma correction
 + *[TODO]* imgui integration
-+ Easy various format texture loading
-+ Render To Texture with framebuffer, renderbuffer
