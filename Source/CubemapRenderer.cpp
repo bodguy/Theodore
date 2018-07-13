@@ -7,7 +7,7 @@
 #include "Mesh.h"
 #include "Math.h"
 
-namespace Quark {
+namespace Theodore {
 	CubemapRenderer::CubemapRenderer() : MeshRenderer() {
 		mProgram = Shader::Find("Cubemap");
 		SetMesh(ShapeGenerator::GenerateCube());

@@ -6,7 +6,7 @@
 #include "KeyCode.h"
 #include "Enumeration.h"
 
-namespace Quark {
+namespace Theodore {
     typedef Vector3d PointCoord;
 	class PlatformContext {
 	public:

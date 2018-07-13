@@ -1,13 +1,13 @@
 #include "os_types.h"
 
-#ifdef Quark_Linux
+#ifdef Theodore_Linux
 
 #ifndef LinuxPlatform_h
 #define LinuxPlatform_h
 
 #include <string>
 
-namespace Quark {
+namespace Theodore {
     class LinuxPlatform {
 		friend class Platform;
 	private:
@@ -30,4 +30,4 @@ namespace Quark {
 
 #endif /* LinuxPlatform_h */
 
-#endif /* Quark_Linux */
+#endif /* Theodore_Linux */

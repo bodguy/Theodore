@@ -12,7 +12,7 @@
 #include "Texture2D.h"
 #include "Texture.h"
 
-namespace Quark {
+namespace Theodore {
 	GameObject::GameObject(const std::string& name, Scene* scene)
 		: Object(name), mParent(nullptr), mScene(nullptr), mActiveSelf(true), mTagString("untagged"), mTag(0), mTransform(nullptr) {
 		mChildren.clear();
@@ -154,13 +154,19 @@ namespace Quark {
 	}
 
 	void GameObject::Update(double deltaTime) {
-		for (auto& i : mComponents)
-			i.second->Update(deltaTime);
+		for (auto& i : mComponents) {
+			if (i.second->IsEnabled()) {
+				i.second->Update(deltaTime);
+			}
+		}
 	}
 
 	void GameObject::Render() {
-		for (auto& i : mComponents)
-			i.second->Render();
+		for (auto& i : mComponents) {
+			if (i.second->IsEnabled()) {
+				i.second->Render();
+			}
+		}
 	}
 
 	bool GameObject::CompareEquality(const Object& rhs) const {

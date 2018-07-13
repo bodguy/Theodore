@@ -6,7 +6,7 @@
 #include "Ray.h"
 #include "Component.h"
 
-namespace Quark {
+namespace Theodore {
 	class Transform; class FrameBuffer;
 	class Camera : public Component {
 	public:

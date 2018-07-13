@@ -4,7 +4,7 @@
 #include <algorithm> // until c++11 for std::swap
 #include <utility> // since c++11 for std::swap
 
-namespace Quark {
+namespace Theodore {
     Vector2d::Vector2d() :x(0.f), y(0.f) {
         
     }
@@ -196,6 +196,10 @@ namespace Quark {
         Vector2d c = *this - other;
         return Vector2d::DotProduct(c, c);
     }
+
+	Vector2d Vector2d::Absolute(const Vector2d& other) {
+		return Vector2d(std::fabsf(other.x), std::fabsf(other.y));
+	}
     
     Vector2d Vector2d::Lerp(const Vector2d& a, const Vector2d& b, float t) {
         return (a + (b - a) * t);

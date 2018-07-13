@@ -8,7 +8,7 @@
 #include <cmath> // for std::sin, std::cos
 #include <stdexcept> // for std::logic_error, std::out_of_range
 
-namespace Quark {
+namespace Theodore {
     Matrix4x4::Matrix4x4() {
         MakeIdentity();
     }
@@ -430,7 +430,6 @@ namespace Quark {
 	}
 
 	Vector3d Matrix4x4::DecomposeScale(const Matrix4x4& transformation) {
-		// NEED TEST
 		Vector4d first  = Vector4d(transformation._11, transformation._12, transformation._13, transformation._14);
 		Vector4d second = Vector4d(transformation._21, transformation._22, transformation._23, transformation._24);
 		Vector4d third  = Vector4d(transformation._31, transformation._32, transformation._33, transformation._34);

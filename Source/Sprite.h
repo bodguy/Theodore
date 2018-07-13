@@ -6,7 +6,7 @@
 #include "Enumeration.h"
 #include "VertexBuffer.h"
 
-namespace Quark {
+namespace Theodore {
 	class Texture2D; class Buffer; class VertexArray;
 	class Sprite {
 		friend class SpriteRenderer;

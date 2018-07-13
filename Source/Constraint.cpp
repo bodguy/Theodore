@@ -1,7 +1,7 @@
 #include "Constraint.h"
 #include "Particle.h"
 
-namespace Quark {
+namespace Theodore {
 	Constraint::Constraint(Particle* p1, Particle* p2) :mP1(p1), mP2(p2) {
 		Vector3d vec = p1->GetPosition() - p2->GetPosition();
 		mRestDistance = vec.Length();

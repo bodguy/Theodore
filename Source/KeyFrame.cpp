@@ -1,6 +1,6 @@
 #include "KeyFrame.h"
 
-namespace Quark {
+namespace Theodore {
 	KeyFrame::KeyFrame(float time, float value) :mTime(time), mValue(value) {
 	}
 

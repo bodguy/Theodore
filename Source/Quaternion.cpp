@@ -5,7 +5,7 @@
 #include <utility> // since c++11 for std::swap
 #include <cmath>
 
-namespace Quark {
+namespace Theodore {
     const Quaternion Quaternion::zero(0.f, 0.f, 0.f, 0.f);
     const Quaternion Quaternion::identity(1.f, 0.f, 0.f, 0.f);
     

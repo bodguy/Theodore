@@ -8,7 +8,7 @@
 #include <string>
 #include <map>
 
-namespace Quark {
+namespace Theodore {
     typedef int Attribute;
     typedef int Uniform;
     

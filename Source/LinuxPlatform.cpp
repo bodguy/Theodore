@@ -1,6 +1,6 @@
 #include "os_types.h"
 
-#ifdef Quark_Linux
+#ifdef Theodore_Linux
 
 // the including order is matters!
 #include <X11/Xlib.h>
@@ -10,7 +10,7 @@
 #include "LinuxPlatform.h"
 #include "Default.h"
 
-namespace Quark {
+namespace Theodore {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// LinuxPlatform definition
@@ -337,4 +337,4 @@ namespace Quark {
 	}
 }
 
-#endif /* Quark_Linux */
+#endif /* Theodore_Linux */

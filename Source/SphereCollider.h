@@ -4,7 +4,7 @@
 #include "Collider.h"
 #include "Vector3d.h"
 
-namespace Quark {
+namespace Theodore {
 	class SphereCollider : public Collider {
 	public:
 		SphereCollider();

@@ -3,7 +3,7 @@
 
 #include "Vector3d.h"
 
-namespace Quark {
+namespace Theodore {
 	class Particle {
 	public:
 		Particle();

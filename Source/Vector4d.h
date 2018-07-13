@@ -1,7 +1,7 @@
 #ifndef Vector4d_h
 #define Vector4d_h
 
-namespace Quark {
+namespace Theodore {
     class Vector2d; class Vector3d;
     class Vector4d {
     public:
@@ -72,7 +72,8 @@ namespace Quark {
         Vector4d& Normalize();
         float Length();
         static Vector3d ToVector3d(const Vector4d& other);
-        
+		static Vector4d Absolute(const Vector4d& other);
+
         float x, y, z, w;
 		static const Vector4d up, down, left, right, forward, backward, one, zero;
 

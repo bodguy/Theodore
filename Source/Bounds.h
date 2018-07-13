@@ -4,7 +4,7 @@
 #include "Vector3d.h"
 #include "Ray.h"
 
-namespace Quark {
+namespace Theodore {
 	class Bounds {
 	public:
 		Bounds(const Vector3d& center, const Vector3d& size);
@@ -26,7 +26,7 @@ namespace Quark {
 		void Expand(float amount);
 		void SetMinMax(const Vector3d& min, const Vector3d& max);
 
-	//private:
+	private:
 		// The minimal point of the box. This is always equal to center-extents.
 		Vector3d mMin;
 		// The maximal point of the box.This is always equal to center + extents.

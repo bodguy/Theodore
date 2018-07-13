@@ -4,7 +4,7 @@
 #include <vector>
 #include "Scene.h"
 
-namespace Quark {
+namespace Theodore {
 	class Camera; class Scene; class Light;
 	class SceneManager {
 		friend class Scene;

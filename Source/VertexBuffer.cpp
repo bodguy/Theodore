@@ -4,7 +4,7 @@
 #include "Vector4d.h"
 #include "Color.h"
 
-namespace Quark {
+namespace Theodore {
     
     ////////////////////////////////////////////////////////////////////////////////////
     // InputStream

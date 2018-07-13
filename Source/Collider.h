@@ -8,7 +8,7 @@
 #include "Color.h"
 #include <string>
 
-namespace Quark {
+namespace Theodore {
 	class Collider : public Component {
 	public:
 		Collider(const std::string& name);

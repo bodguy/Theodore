@@ -6,7 +6,7 @@
 #include <list>
 #include <vector>
 
-namespace Quark {
+namespace Theodore {
 	class Texture2D; class Asset; class Color; class MSAATexture2D; class TextureCube; class Shader; class Mesh; class CubemapRenderer; //class Font;
 	class AssetManager {
 	public:

@@ -4,7 +4,7 @@
 #include "Mesh.h"
 #include "Enumeration.h"
 
-namespace Quark {
+namespace Theodore {
 	class WaveFrontObjMesh : public Mesh {
 	public:
 		WaveFrontObjMesh();

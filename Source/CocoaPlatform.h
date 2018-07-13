@@ -1,6 +1,6 @@
 #include "os_types.h"
 
-#ifdef Quark_MacOS
+#ifdef Theodore_MacOS
 
 #ifndef CocoaPlatform_h
 #define CocoaPlatform_h
@@ -35,4 +35,4 @@ namespace Quark {
 
 #endif /* CocoaPlatform_h */
 
-#endif /* Quark_MacOS */
+#endif /* Theodore_MacOS */

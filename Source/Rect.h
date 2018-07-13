@@ -1,7 +1,7 @@
 #ifndef Rect_h
 #define Rect_h
 
-namespace Quark {
+namespace Theodore {
 	class Rect {
 	public:
 		//! default contructor

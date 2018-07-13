@@ -1,7 +1,7 @@
 #ifndef Random_h
 #define Random_h
 
-namespace Quark {
+namespace Theodore {
     class Random {
     public:
         static void InitState(int seed);

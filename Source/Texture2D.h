@@ -4,7 +4,7 @@
 #include "Enumeration.h"
 #include "Texture.h"
 
-namespace Quark {
+namespace Theodore {
     class Texture2D : public Texture {
     public:
         Texture2D();

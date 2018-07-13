@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-namespace Quark {
+namespace Theodore {
     Texture::Texture() : mNativeTexturePtr(nullptr), mTextureID(1), mWidth(0), mHeight(0), mMipMapBias(1000.f),
     mFilterMode(FilterMode::Trilinear), mWrapMode(WrapMode::ClampEdge), mDimension(TextureDimension::None), mColorKey(Color::white) {
         mType = AssetType::TextureType;

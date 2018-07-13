@@ -2,7 +2,7 @@
 #include <stb/stb_image.h>
 #include "CubemapRenderer.h"
 
-namespace Quark {
+namespace Theodore {
 	TextureCube::TextureCube() {
 		mType = AssetType::TextureType;
 		mDimension = TextureDimension::CubeMap;

@@ -4,7 +4,7 @@
 #include "Color.h"
 #include <vector>
 
-namespace Quark {
+namespace Theodore {
 	class Pipeline; class Texture; class FrameBuffer;
 	class Material {
 	public:

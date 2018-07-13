@@ -7,7 +7,7 @@
 #include "os_types.h"
 #include GLEW_INCLUDE_DIR
 
-namespace Quark {
+namespace Theodore {
     class Vector2d; class Vector3d; class Vector4d; class Color;
     class InputStream {
     public:

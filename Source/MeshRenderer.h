@@ -3,7 +3,7 @@
 
 #include "Renderer.h"
 
-namespace Quark {
+namespace Theodore {
 	class Material; class Mesh; class Pipeline;
 	class MeshRenderer : public Renderer {
 	public:

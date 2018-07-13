@@ -1,9 +1,9 @@
 #ifndef SplashScene_h
 #define SplashScene_h
 
-#include "QuarkEngine.h"
+#include "TheodoreEngine.h"
 
-namespace Quark {
+namespace Theodore {
 	class SplashScene : public Scene {
 	public:
 		SplashScene();

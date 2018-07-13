@@ -1,7 +1,7 @@
 #include "Input.h"
 #include "Platform.h"
 
-namespace Quark {
+namespace Theodore {
     Input* Input::instance = nullptr;
     Input::Input() {
         instance = this;

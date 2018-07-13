@@ -1,7 +1,7 @@
 #include "Ray.h"
 #include "Math.h"
 
-namespace Quark {
+namespace Theodore {
 	Ray::Ray() : origin(), direction(), invDirection() {
 
 	}

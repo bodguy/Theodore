@@ -11,7 +11,7 @@
 #include "Camera.h"
 #include "Texture2D.h"
 
-namespace Quark {
+namespace Theodore {
 	SpriteRenderer::SpriteRenderer() : Renderer("SpriteRenderer"), mSprite(nullptr), mColor(Color::white), mFlipX(false), mFlipY(false) {
 		mProgram = Shader::Find("2D");
 		mPrimitive = Primitive::Triangles;

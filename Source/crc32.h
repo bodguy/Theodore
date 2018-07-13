@@ -43,7 +43,7 @@
 * CRC32 code derived from work by Gary S. Brown.
 */
 
-namespace Quark {
+namespace Theodore {
 	typedef unsigned int uint32_t;
 	typedef unsigned char uint8_t;
 

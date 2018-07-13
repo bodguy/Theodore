@@ -2,7 +2,7 @@
 #include "os_types.h"
 #include GLEW_INCLUDE_DIR
 
-namespace Quark {
+namespace Theodore {
     RenderBuffer::RenderBuffer() {
         glGenRenderbuffers(1, &mRenderBufferID);
     }

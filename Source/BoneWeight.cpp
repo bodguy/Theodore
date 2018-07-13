@@ -1,7 +1,7 @@
 #include "BoneWeight.h"
 #include "Math.h"
 
-namespace Quark {
+namespace Theodore {
 	BoneWeight::BoneWeight() {
 		boneIndex0 = 0;
 		boneIndex1 = 0;

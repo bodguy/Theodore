@@ -1,6 +1,6 @@
 #include "Application.h"
 
-using namespace Quark;
+using namespace Theodore;
 
 int main(int argc, char** argv) {
 	Application app;

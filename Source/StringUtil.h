@@ -3,7 +3,7 @@
 
 #include <vector>
 
-namespace Quark {
+namespace Theodore {
 	class StringUtil {
 	private:
 		StringUtil();

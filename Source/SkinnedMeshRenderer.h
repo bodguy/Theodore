@@ -3,7 +3,7 @@
 
 #include "Renderer.h"
 
-namespace Quark {
+namespace Theodore {
 	class SkinnedMeshRenderer : public Renderer {
 	public:
 		SkinnedMeshRenderer();

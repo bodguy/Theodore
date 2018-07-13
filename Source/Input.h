@@ -4,7 +4,7 @@
 #include "Vector3d.h"
 #include "KeyCode.h"
 
-namespace Quark {
+namespace Theodore {
     class Input {
     public:
         Input();

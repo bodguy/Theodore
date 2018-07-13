@@ -6,7 +6,7 @@
 #include <algorithm> // until c++11 for std::swap
 #include <utility> // since c++11 for std::swap
 
-namespace Quark {
+namespace Theodore {
     Vector4d::Vector4d() : x(0.f), y(0.f), z(0.f), w(1.f) {
         
     }
@@ -262,6 +262,10 @@ namespace Quark {
     Vector3d Vector4d::ToVector3d(const Vector4d& other) {
         return Vector3d(other.x, other.y, other.z);
     }
+
+	Vector4d Vector4d::Absolute(const Vector4d& other) {
+		return Vector4d(std::fabsf(other.x), std::fabsf(other.y), std::fabsf(other.z), std::fabsf(other.w));
+	}
     
     void Vector4d::Swap(Vector4d& first, Vector4d& second) {
         using std::swap;

@@ -5,7 +5,7 @@
 #include "Light.h"
 #include "SplashScene.h"
 
-namespace Quark {
+namespace Theodore {
 	SceneManager* SceneManager::instance = nullptr;
 	SceneManager::SceneManager() :mCurrentScene(nullptr), mSceneCount(0), mMainCamera(nullptr) {
 		instance = this;

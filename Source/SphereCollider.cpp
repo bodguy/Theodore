@@ -5,7 +5,7 @@
 #include "MeshRenderer.h"
 #include "Mesh.h"
 
-namespace Quark {
+namespace Theodore {
 	SphereCollider::SphereCollider() : Collider("SphereCollider"), mCenter(), mMaxLengthVector() {
 		mType = ColliderType::Sphere;
 		CalculateBoundingVolumes();

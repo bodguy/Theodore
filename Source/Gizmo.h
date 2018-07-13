@@ -4,7 +4,7 @@
 #include "Component.h"
 #include "Enumeration.h"
 
-namespace Quark {
+namespace Theodore {
 	class VertexArray; class Pipeline; class Transform;
 	class Gizmo : public Component {
 	public:

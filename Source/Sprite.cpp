@@ -3,7 +3,7 @@
 #include "Texture2D.h"
 #include "Utility.h"
 
-namespace Quark {
+namespace Theodore {
 	Sprite::Sprite() : mFormat(IndexFormat::UInt16), mTexture(nullptr), mRect(), mTextureRect(), mTextureRectOffset(), mPivot(){
 		memset(mVertices, 0, sizeof(Vector2d) * 4);
 		memset(mUvs, 0, sizeof(Vector2d) * 4);

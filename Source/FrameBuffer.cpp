@@ -3,7 +3,7 @@
 #include "Texture2D.h"
 #include "RenderBuffer.h"
 
-namespace Quark {
+namespace Theodore {
     FrameBuffer::FrameBuffer(unsigned int width, unsigned int height) :mWidth(width), mHeight(height), mRender(nullptr), mIsCreated(false) {
 		mTextures.clear();
     }

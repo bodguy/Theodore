@@ -1,6 +1,6 @@
 #include "Asset.h"
 
-namespace Quark {
+namespace Theodore {
     Asset::Asset() : mRefCount(0), mType(AssetType::Undefined), mIsManaged(false) {
     }
     

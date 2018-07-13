@@ -5,7 +5,7 @@
 #include "Color.h"
 #include "Component.h"
 
-namespace Quark {
+namespace Theodore {
 	class Transform; class ShadowInfo;
 	class Light : public Component {
 	public:

@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace Quark {
+namespace Theodore {
     class Color {
     public:
         Color();

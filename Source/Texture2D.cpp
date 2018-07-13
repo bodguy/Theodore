@@ -4,7 +4,7 @@
 #include "os_types.h"
 #include GLEW_INCLUDE_DIR
 
-namespace Quark {
+namespace Theodore {
     Texture2D::Texture2D() {
         mType = AssetType::TextureType;
         mDimension = TextureDimension::Tex2D;

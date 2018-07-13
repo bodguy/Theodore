@@ -1,7 +1,7 @@
 #include "StringUtil.h"
 #include <regex>
 
-namespace Quark {
+namespace Theodore {
 	std::string StringUtil::monthTable[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 	StringUtil::StringUtil(void) {
 	}

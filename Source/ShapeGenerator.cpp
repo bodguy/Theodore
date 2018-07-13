@@ -2,7 +2,7 @@
 #include "Mesh.h"
 #include "Math.h"
 
-namespace Quark {
+namespace Theodore {
 	const float bones[] = {
 		0.0f, 0.4f, 0.0f, // 0
 		-0.4f, 0.0f, -0.4f, // 1

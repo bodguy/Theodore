@@ -3,7 +3,7 @@
 
 #include "Enumeration.h"
 
-namespace Quark {
+namespace Theodore {
 	class Message {
 	public:
 		Message();

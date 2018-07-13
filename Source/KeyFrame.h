@@ -1,7 +1,7 @@
 #ifndef KeyFrame_h
 #define KeyFrame_h
 
-namespace Quark {
+namespace Theodore {
 	class KeyFrame {
 	public:
 		KeyFrame(float time, float value);

@@ -3,7 +3,7 @@
 #include "Vector4d.h"
 #include <cmath>
 
-namespace Quark {
+namespace Theodore {
 	Bounds::Bounds(const Vector3d& center, const Vector3d& size) :mCenter(center), mSize(size) {
 		mExtents = size / 2.f;
 		mMin = center - mExtents;

@@ -7,7 +7,7 @@
 #include "Math.h"
 #include "Time.h"
 
-namespace Quark {
+namespace Theodore {
 	float Cloth::Damping = 0.01f;
 	Cloth::Cloth(int width, int height)
 		:mEnabled(true), mUseGravity(true), mClothSolverFrequency(15), mWidth(width), mHeight(height), mTransform(), mVao(), mBuffer(Enumeration::BufferVertex), mProgram() {

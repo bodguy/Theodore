@@ -4,7 +4,7 @@
 #include "Object.h"
 #include "Message.h"
 
-namespace Quark {
+namespace Theodore {
 	class GameObject; class Transform;
 	class Component : public Object {
 		friend class GameObject;
@@ -13,8 +13,8 @@ namespace Quark {
 		virtual ~Component();
 
 		Transform* GetTransform() const;
-		bool IsEnable() const;
-		void SetEnable(bool enable);
+		bool IsEnabled() const;
+		void SetEnabled(bool enable);
 
 	private:
 		virtual MessageResult HandleMessage(Message& msg);
@@ -22,7 +22,7 @@ namespace Quark {
 	protected:
 		GameObject* mGameObject;
 		Transform* mTransform;
-		bool mIsEnable; // NEED FIX
+		bool mIsEnable;
 	};
 }
 

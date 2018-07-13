@@ -8,15 +8,15 @@
 #else
 #define ENVIRONMENT32
 #endif
-#define Quark_Windows
+#define Theodore_Windows
 #define GLEW_INCLUDE_DIR <GL/glew.h>
 #define GLEW_INCLUDE_DIR2 <GL/wglew.h>
 #elif defined( __linux__ )
-#define Quark_Linux
+#define Theodore_Linux
 #define GLEW_INCLUDE_DIR <GL/glx.h>
 #define GLEW_INCLUDE_DIR2 ""
 #elif defined( __APPLE__ ) || defined( __MACH__ )
-#define Quark_MacOS
+#define Theodore_MacOS
 #define GLEW_INCLUDE_DIR <GL/glew.h>
 #define GLEW_INCLUDE_DIR2 ""
 #endif

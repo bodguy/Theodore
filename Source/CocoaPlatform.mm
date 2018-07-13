@@ -1,6 +1,6 @@
 #include "os_types.h"
 
-#ifdef Quark_MacOS
+#ifdef Theodore_MacOS
 
 // the including order is matters!
 #include GLEW_INCLUDE_DIR
@@ -12,7 +12,7 @@
 #include "KeyCode.h"
 #include "Debug.h"
 
-namespace Quark {
+namespace Theodore {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     // CocoaPlatform definition
@@ -401,4 +401,4 @@ namespace Quark {
 }
 @end
 
-#endif
+#endif /* Theodore_MacOS */

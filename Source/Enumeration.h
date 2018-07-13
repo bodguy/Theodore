@@ -4,7 +4,7 @@
 #include "os_types.h"
 #include GLEW_INCLUDE_DIR
 
-namespace Quark {
+namespace Theodore {
     enum class Primitive {
         Triangles = GL_TRIANGLES,
         Lines = GL_LINES,

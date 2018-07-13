@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "Color.h"
 
-namespace Quark {
+namespace Theodore {
 	class Sprite;
 	class SpriteRenderer : public Renderer {
 	public:

@@ -5,7 +5,7 @@
 #include "Enumeration.h"
 #include "Matrix4x4.h"
 
-namespace Quark {
+namespace Theodore {
 	class Vector3d; class Color; class VertexArray; class FrameBuffer; class Pipeline; class Buffer;
     class Graphics {
 	public:

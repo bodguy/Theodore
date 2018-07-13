@@ -1,7 +1,7 @@
 #include "Particle.h"
 #include "Cloth.h"
 
-namespace Quark {
+namespace Theodore {
 	Particle::Particle() {
 
 	}

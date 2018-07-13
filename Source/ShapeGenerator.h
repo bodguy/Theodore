@@ -9,7 +9,7 @@
 #include "Matrix4x4.h"
 
 
-namespace Quark {
+namespace Theodore {
 	class Mesh;
 	class ShapeGenerator {
 	public:

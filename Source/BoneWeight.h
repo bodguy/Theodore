@@ -1,7 +1,7 @@
 #ifndef BoneWeight_h
 #define BoneWeight_h
 
-namespace Quark {
+namespace Theodore {
 	class BoneWeight {
 	public:
 		BoneWeight();

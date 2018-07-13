@@ -5,7 +5,7 @@
 #include "Math.h"
 #include "Ray.h"
 
-namespace Quark {
+namespace Theodore {
 	class RaycastHit {
 	public:
 		RaycastHit() {}

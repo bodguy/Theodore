@@ -14,7 +14,7 @@
 #include "Camera.h"
 #include "Collider.h"
 
-namespace Quark {
+namespace Theodore {
 	class Transform; class Scene; class Debug;
 	class GameObject : public Object {
 		friend class Scene;

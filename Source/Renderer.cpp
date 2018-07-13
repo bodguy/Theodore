@@ -2,7 +2,7 @@
 #include "VertexBuffer.h"
 #include "Utility.h"
 
-namespace Quark {
+namespace Theodore {
 	Renderer::Renderer(const std::string& name) : Component(name), mProgram(nullptr), mPrimitive(Primitive::Triangles), mIsVisibleGizmos(false) {
 		mVao = new VertexArray();
 		mVbos.clear();

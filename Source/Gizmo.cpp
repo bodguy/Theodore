@@ -11,7 +11,7 @@
 #include "VertexBuffer.h"
 #include "SceneManager.h"
 
-namespace Quark { 
+namespace Theodore { 
 	Gizmo::Gizmo(GizmoType type) :Component("Gizmo"), mVao(nullptr), mProgram(nullptr), mType(type) {
 		mProgram = Shader::Find("Gizmo");
 

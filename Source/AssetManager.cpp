@@ -11,7 +11,7 @@
 #include "Utility.h"
 #include "WaveFrontObjMesh.h"
 
-namespace Quark {
+namespace Theodore {
 	AssetManager* AssetManager::instance = nullptr;
 	AssetManager::AssetManager() {
 		instance = this;

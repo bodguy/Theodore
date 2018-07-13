@@ -1,7 +1,7 @@
 #include "Plane.h"
 #include "Math.h"
 
-namespace Quark {
+namespace Theodore {
 	Plane::Plane(Vector3d inNormal, const Vector3d& inPoint) {
 		// ax + by + cz + d = 0
 		// d = -(ax1 + by1 + cz1)

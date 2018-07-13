@@ -5,7 +5,7 @@
 #include "MeshRenderer.h"
 #include "Mesh.h"
 
-namespace Quark {
+namespace Theodore {
 	BoxCollider::BoxCollider() : Collider("BoxCollider"), mCenter(), mSize() {
 		mType = ColliderType::Box;
 		CalculateBoundingVolumes();
@@ -91,29 +91,13 @@ namespace Quark {
 	}
 
 	void BoxCollider::Update(double deltaTime) {
-		/*Matrix4x4 model = mTransform->GetLocalToWorldMatrix();
-		Matrix4x4 absModel = Matrix4x4::Absolute(model);
 
-		mCenter = model * mCenter;
-		mSize = absModel * mSize;*/
-
-		//glm::vec3 center = (_oobb.getMin() + _oobb.getMax()) / 2.0f;
-		//glm::vec3 extent = (_oobb.getMax() - _oobb.getMin()) / 2.0f;
-
-		//glm::vec3 newCenter = glm::vec3(model * glm::vec4(center, 1.0f));
-		//glm::vec3 newExtent = glm::vec3(absModel * glm::vec4(extent, 0.0f));
-
-		//glm::vec3 min = newCenter - newExtent;
-		//glm::vec3 max = newCenter + newExtent;
-
-		//_aabb.setMin(newCenter - newExtent);
-		//_aabb.setMax(newCenter + newExtent);
 	}
 
 	void BoxCollider::Render() {
-		//if (mIsVisible) {
-		//	Graphics::DrawCube(mCenter, mSize, mColor);
-		//}
+		if (mIsVisible) {
+			Graphics::DrawCube(mCenter, mSize, Color::purple, mTransform->GetLocalToWorldMatrix());
+		}
 	}
 
 	bool BoxCollider::CompareEquality(const Object& rhs) const {

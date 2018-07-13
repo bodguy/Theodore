@@ -5,7 +5,7 @@
 #include "Texture.h"
 #include <string>
 
-namespace Quark {
+namespace Theodore {
 	class CubemapRenderer;
 	class TextureCube : public Texture {
 	public:

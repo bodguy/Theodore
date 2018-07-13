@@ -2,7 +2,7 @@
 #include <stdarg.h>
 #pragma warning(disable:4996)
 
-namespace Quark {
+namespace Theodore {
 	File::File() : fp(NULL), mFileName(nullptr), mMode(OpenMode::Read) {
 	}
 

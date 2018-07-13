@@ -8,7 +8,7 @@
 #include "Asset.h"
 #include "Enumeration.h"
 
-namespace Quark {
+namespace Theodore {
     class Texture : public Asset {
         friend class Debug;
     public:

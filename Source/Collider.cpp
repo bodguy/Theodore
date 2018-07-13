@@ -1,6 +1,6 @@
 #include "Collider.h"
 
-namespace Quark {
+namespace Theodore {
 	Collider::Collider(const std::string& name) : Component(name), mType(ColliderType::Undefined), mIsVisible(false), mColor(Color::green) {
 	}
 

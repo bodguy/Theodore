@@ -1,6 +1,6 @@
 #include "Physics.h"
 
-namespace Quark {
+namespace Theodore {
 	Physics::Physics() {
 
 	}

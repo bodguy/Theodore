@@ -17,7 +17,7 @@
 #include "Texture2D.h"
 #include "Bounds.h"
 
-namespace Quark {
+namespace Theodore {
 	MeshRenderer::MeshRenderer() : Renderer("MeshRenderer"), mMaterial(nullptr), mMesh(nullptr) {
 		mPrimitive = Primitive::Triangles;
 	}
@@ -102,9 +102,8 @@ namespace Quark {
 		if (mIsVisibleGizmos) {
 			Matrix4x4 model = mTransform->GetLocalToWorldMatrix();
 			Vector3d new_center(model * Vector4d(mMesh->GetBounds()->GetCenter(), 1.f));
-			Vector3d new_extent(Matrix4x4::Absolute(model) * Vector4d((mMesh->GetBounds()->GetExtents()), 0.f));
-			new_center = new_center + Matrix4x4::DecomposeTranslation(model);
-			Graphics::DrawCube(new_center, new_extent * 2.f, Color::orange);
+			Vector3d new_size(Matrix4x4::Absolute(model) * Vector4d(mMesh->GetBounds()->GetSize(), 0.f));
+			Graphics::DrawCube(new_center + Matrix4x4::DecomposeTranslation(model), new_size, Color::red);
 			//mMesh->GetBounds()->SetMinMax(new_center - new_extent, new_center + new_extent);
 		}
 	}

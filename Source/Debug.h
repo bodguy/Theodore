@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 
-namespace Quark {
+namespace Theodore {
 	#define LOG(x) if(Debug::__logSwitch) { std::cout << __tabString << x << std::endl; }
 	#define TAB() if(Debug::__logSwitch) { __tabCount++; __tabString = std::string(__tabCount, '\t'); }
 	#define UNTAB() if(Debug::__logSwitch) { __tabCount--; __tabString = std::string(__tabCount, '\t'); }

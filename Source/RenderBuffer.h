@@ -1,7 +1,7 @@
 #ifndef RenderBuffer_h
 #define RenderBuffer_h
 
-namespace Quark {
+namespace Theodore {
     class RenderBuffer {
     public:
         RenderBuffer();

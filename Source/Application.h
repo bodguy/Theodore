@@ -5,7 +5,7 @@
 #include "Enumeration.h"
 #include "Platform.h"
 
-namespace Quark {
+namespace Theodore {
 	class Platform; class Input; class Time; class SceneManager; class AssetManager; class ShaderManager;
 	class Application {
 	public:

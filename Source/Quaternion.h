@@ -3,7 +3,7 @@
 
 #include "Matrix4x4.h"
 
-namespace Quark {
+namespace Theodore {
     class Vector3d;
     class Quaternion {
     public:

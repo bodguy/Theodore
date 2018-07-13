@@ -4,7 +4,7 @@
 #include <atomic>
 #include <string>
 
-namespace Quark {
+namespace Theodore {
 	class Unique_id {
 	public:
 		Unique_id() :mInstanceId(++type_id) {}

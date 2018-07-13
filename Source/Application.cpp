@@ -8,7 +8,7 @@
 #include "Utility.h"
 #include "Shader.h"
 
-namespace Quark {
+namespace Theodore {
 	Application* Application::instance = nullptr;
 	std::string Application::dataPath = "./Contents/";
 	Application::Application() {

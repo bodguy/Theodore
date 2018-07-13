@@ -1,6 +1,6 @@
 #include "os_types.h"
 
-#ifdef Quark_Windows
+#ifdef Theodore_Windows
 
 #ifndef WindowsPlatform_h
 #define WindowsPlatform_h
@@ -8,7 +8,7 @@
 #include <string>
 #include "Enumeration.h"
 
-namespace Quark {
+namespace Theodore {
 	class WindowsPlatform {
 		friend class Platform;
 	private:
@@ -34,4 +34,4 @@ namespace Quark {
 
 #endif /* WindowsPlatform_h */
 
-#endif /* Quark_Windows */
+#endif /* Theodore_Windows */

@@ -5,7 +5,7 @@
 #include "Enumeration.h"
 #include <vector>
 
-namespace Quark {
+namespace Theodore {
 	class Buffer; class VertexArray; class Pipeline;
 	class Renderer : public Component {
 	public:

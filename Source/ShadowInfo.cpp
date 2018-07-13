@@ -6,7 +6,7 @@
 #include "Texture2D.h"
 #include "Utility.h"
 
-namespace Quark {
+namespace Theodore {
 	ShadowInfo::ShadowInfo() {
 		/*
 		frame = new FrameBuffer(Platform::GetWidth(), Platform::GetHeight());

@@ -7,7 +7,7 @@
 #include "Enumeration.h"
 #include "Component.h"
 
-namespace Quark {
+namespace Theodore {
 	class Transform : public Component {
 	public:
 		Transform();

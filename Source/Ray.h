@@ -4,7 +4,7 @@
 #include "Vector3d.h"
 #include "Matrix4x4.h"
 
-namespace Quark {
+namespace Theodore {
 	class Ray {
 	public:
 		Ray();

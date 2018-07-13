@@ -1,7 +1,7 @@
 #ifndef Math_h
 #define Math_h
 
-namespace Quark {
+namespace Theodore {
 	template <int N>
 	struct Factorial
 	{

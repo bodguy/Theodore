@@ -12,7 +12,7 @@
 #include <stdarg.h> // for va_list
 #include <stdio.h> // for vprintf
 
-namespace Quark {
+namespace Theodore {
 	int Debug::__tabCount = 0;
 	std::string Debug::__tabString = "";
 	bool Debug::__logSwitch = false;

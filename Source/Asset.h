@@ -4,7 +4,7 @@
 #include "Enumeration.h"
 #include <string>
 
-namespace Quark {
+namespace Theodore {
     class Asset {
         friend class AssetManager;
     public:

@@ -2,7 +2,7 @@
 #include "Vector3d.h"
 #include "crc32.h"
 
-namespace Quark {
+namespace Theodore {
 	std::atomic<uint32_t> Unique_id::type_id;
 	Object::Object(const std::string& name) :mName(name), mHashValue(CRC32_STR(name.c_str())) {
 

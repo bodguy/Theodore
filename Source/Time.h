@@ -5,7 +5,7 @@
 #include <string>
 #include <ctime>
 
-namespace Quark {
+namespace Theodore {
 	typedef std::chrono::high_resolution_clock Clock;
 	typedef std::chrono::duration<float, std::milli> milli;
 	typedef std::chrono::time_point<Clock> TimePoint;

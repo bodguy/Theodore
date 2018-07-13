@@ -1,7 +1,7 @@
 #ifndef Constraint_h
 #define Constraint_h
 
-namespace Quark {
+namespace Theodore {
 	class Particle;
 	class Constraint {
 	public:

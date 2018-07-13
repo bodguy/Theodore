@@ -9,7 +9,7 @@
 #include "Shader.h"
 #include "Camera.h"
 
-namespace Quark {
+namespace Theodore {
 	class Particle;
 	class Cloth {
 	public:

@@ -1,7 +1,7 @@
 #include "Mesh.h"
 #include "Utility.h"
 
-namespace Quark {
+namespace Theodore {
 	Mesh::Mesh() : mFormat(IndexFormat::UInt32), mSemantic(VertexSemantic::SemanticNone), mUsage(BufferUsage::StaticDraw), 
 		mBounds(Vector3d::zero, Vector3d::one) {
 		mType = AssetType::MeshType;

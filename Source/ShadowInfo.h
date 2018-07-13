@@ -1,7 +1,7 @@
 #ifndef ShadowInfo_h
 #define ShadowInfo_h
 
-namespace Quark {
+namespace Theodore {
 	class FrameBuffer; class Pipeline;
 	class ShadowInfo {
 	public:

@@ -1,7 +1,7 @@
 #ifndef Vector2d_h
 #define Vector2d_h
 
-namespace Quark {
+namespace Theodore {
     class Vector2d {
     public:
         Vector2d();
@@ -73,6 +73,8 @@ namespace Quark {
         float Distance(const Vector2d& other);
         float DistanceSqrare(const Vector2d& other);
         
+		static Vector2d Absolute(const Vector2d& other);
+
         //! linear interpolation
         static Vector2d Lerp(const Vector2d& a, const Vector2d& b, float t); // Linear Interpolation
         static Vector2d Slerp(const Vector2d& a, const Vector2d& b, float t); // Sphere Linear Interpolation

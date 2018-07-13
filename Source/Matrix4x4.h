@@ -1,7 +1,7 @@
 #ifndef Matrix4x4_h
 #define Matrix4x4_h
 
-namespace Quark {
+namespace Theodore {
     class Vector2d; class Vector3d; class Vector4d;
     class Matrix4x4 {
     public:

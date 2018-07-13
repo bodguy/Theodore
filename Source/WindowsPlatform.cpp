@@ -1,6 +1,6 @@
 #include "os_types.h"
 
-#ifdef Quark_Windows
+#ifdef Theodore_Windows
 
 // the including order is matters!
 #define WIN32_LEAN_AND_MEAN
@@ -12,7 +12,7 @@
 #include "Debug.h"
 #include "Math.h"
 
-namespace Quark {
+namespace Theodore {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// WindowsPlatform definition

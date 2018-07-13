@@ -8,7 +8,7 @@
 #include "Transform.h"
 #include "Graphics.h"
 
-namespace Quark {
+namespace Theodore {
 	Scene::Scene(const std::string& name) : Object(name), mActive(true) {
 		/* Does not initialize SceneManager, BuildIndex here! */
 		mGameObjects.clear();

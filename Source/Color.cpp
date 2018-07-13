@@ -3,7 +3,7 @@
 #include <algorithm> // for std::max, std::min
 #include <cmath> // for std::floor
 
-namespace Quark {
+namespace Theodore {
     Color::Color() :r(1.f), g(1.f), b(1.f), a(1.f) {
         
     }

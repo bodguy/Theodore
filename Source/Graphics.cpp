@@ -12,7 +12,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb/stb_image_write.h>
 
-namespace Quark {
+namespace Theodore {
 	Pipeline* Graphics::gizmoProgram = NULL;
 	Pipeline* Graphics::sphereProgram = NULL;
 	Buffer* Graphics::gizmoBuffer = NULL;
@@ -230,7 +230,7 @@ namespace Quark {
 	}
 
 	void Graphics::DrawCube(const Vector3d& center, const Vector3d& size, const Color color, const Matrix4x4 model) {
-		Vector3d extent = size / 2.f;
+		Vector3d extent = size * 0.5f;
 		Vector3d vertices[24] = { 
 			// top
 			center + extent * Vector3d(1.f, 1.f, 1.f),

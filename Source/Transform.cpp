@@ -2,7 +2,7 @@
 #include "Math.h"
 #include "GameObject.h"
 
-namespace Quark {
+namespace Theodore {
 	Transform::Transform() : Component("Transform"), mRotation(), mLocalToWorldMatrix(), mWorldToLocalMatrix(), mLocalRotation() {
 		mPosition = Vector3d::zero;
 		mLossyScale = Vector3d::one;

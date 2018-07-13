@@ -3,7 +3,7 @@
 
 #include "MeshRenderer.h"
 
-namespace Quark {
+namespace Theodore {
 	class CubemapRenderer : public MeshRenderer {
 	public:
 		CubemapRenderer();

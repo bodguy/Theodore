@@ -4,7 +4,7 @@
 #include "Vector3d.h"
 #include "Ray.h"
 
-namespace Quark {
+namespace Theodore {
 	class Plane {
 	public:
 		Plane(Vector3d inNormal, const Vector3d& inPoint);

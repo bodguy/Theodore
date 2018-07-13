@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 
-namespace Quark {
+namespace Theodore {
 	Component::Component(const std::string& name) :Object(name), mIsEnable(true) {
 		mTransform = mGameObject->GetComponent<Transform>();
 	}
@@ -15,11 +15,11 @@ namespace Quark {
 		return mTransform;
 	}
 
-	bool Component::IsEnable() const {
+	bool Component::IsEnabled() const {
 		return mIsEnable;
 	}
 
-	void Component::SetEnable(bool enable) {
+	void Component::SetEnabled(bool enable) {
 		mIsEnable = enable;
 	}
 

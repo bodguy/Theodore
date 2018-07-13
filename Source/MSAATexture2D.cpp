@@ -1,6 +1,6 @@
 #include "MSAATexture2D.h"
 
-namespace Quark {
+namespace Theodore {
 	MSAATexture2D::MSAATexture2D() {
 		mType = AssetType::TextureType;
 		mDimension = TextureDimension::MSAATex2D;

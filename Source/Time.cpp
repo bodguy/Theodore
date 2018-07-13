@@ -1,7 +1,7 @@
 #include "Time.h"
 #include "StringUtil.h"
 
-namespace Quark {
+namespace Theodore {
     Time* Time::instance = nullptr;
     Time::Time() : elapsedtime(0.f), accumulation(0.f), realtimeSinceStartup(0.f), fps_counter(0), fps(0) {
         instance = this;

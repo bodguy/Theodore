@@ -1,6 +1,6 @@
 #include "Message.h"
 
-namespace Quark {
+namespace Theodore {
 	Message::Message() : mType(), mData(nullptr) {
 	}
 

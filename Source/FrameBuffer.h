@@ -4,7 +4,7 @@
 #include "Enumeration.h"
 #include <map>
 
-namespace Quark {
+namespace Theodore {
 	class Texture2D; class RenderBuffer;
     class FrameBuffer {
     public:

@@ -4,7 +4,7 @@
 #include "Utility.h"
 #include <stdio.h>
 
-namespace Quark {
+namespace Theodore {
 	WaveFrontObjMesh::WaveFrontObjMesh() : Mesh() {
 	}
 

@@ -2,7 +2,7 @@
 #include <algorithm> // until c++11 for std::swap
 #include <utility> // since c++11 for std::swap
 
-namespace Quark {
+namespace Theodore {
 	Rect::Rect() :left(0.f), right(0.f), top(0.f), bottom(0.f) {
 
 	}

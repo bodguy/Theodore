@@ -11,7 +11,7 @@
 #include "Utility.h"
 #include "FrameBuffer.h"
 
-namespace Quark {
+namespace Theodore {
 	Camera::Camera() : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false), mRenderTexture(nullptr) {
 		ResetAspect();
 		ResetFieldOfView();

@@ -11,7 +11,7 @@
 #include "Bounds.h"
 #include <vector>
 
-namespace Quark {
+namespace Theodore {
 	class MeshRenderer; class SkinndedMeshRenderer;
 	class Mesh : public Asset {
 		friend class MeshRenderer;

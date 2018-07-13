@@ -4,7 +4,7 @@
 #include "Vector2d.h"
 #include "Vector4d.h"
 
-namespace Quark {
+namespace Theodore {
     class Vector3d {
     public:
         //! default contructor
@@ -97,6 +97,7 @@ namespace Quark {
 
 		static Vector2d ToVector2d(const Vector3d& other);
 		static Vector4d ToVector4d(const Vector3d& other);
+		static Vector3d Absolute(const Vector3d& other);
 
         //! linear interpolation
         static Vector3d Lerp(const Vector3d& a, const Vector3d& b, float t); // Linear Interpolation

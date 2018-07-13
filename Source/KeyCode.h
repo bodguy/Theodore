@@ -1,7 +1,7 @@
 #ifndef KeyCode_h
 #define KeyCode_h
 
-namespace Quark {
+namespace Theodore {
     enum MouseButton {
         MOUSE_UNDEFINED = -1,
         MOUSE_LEFT = 0,

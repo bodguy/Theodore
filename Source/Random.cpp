@@ -1,7 +1,7 @@
 #include "Random.h"
 #include <cstdlib>
 
-namespace Quark {
+namespace Theodore {
     void Random::InitState(int seed) {
         std::srand(seed);
     }

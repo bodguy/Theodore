@@ -4,7 +4,7 @@
 #include "Texture.h"
 #include "Enumeration.h"
 
-namespace Quark {
+namespace Theodore {
 	class MSAATexture2D : public Texture {
 	public:
 		MSAATexture2D();

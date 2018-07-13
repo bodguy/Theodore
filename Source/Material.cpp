@@ -1,6 +1,6 @@
 #include "Material.h"
 
-namespace Quark {
+namespace Theodore {
 	Material::Material(Pipeline* program) :ambient(), diffuse(), specular(), shininess(64.f), shader(program),
 		texture0(nullptr), texture1(nullptr), texture2(nullptr), texture3(nullptr), texture4(nullptr), renderTexture(nullptr) {
 	

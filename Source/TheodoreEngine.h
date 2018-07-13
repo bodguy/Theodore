@@ -1,5 +1,5 @@
-#ifndef QuarkEngine_h
-#define QuarkEngine_h
+#ifndef TheodoreEngine_h
+#define TheodoreEngine_h
 
 #include "Vector4d.h"
 #include "Vector3d.h"
@@ -55,6 +55,6 @@
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 
-using namespace Quark;
+using namespace Theodore;
 
-#endif /* QuarkEngine_h */
+#endif /* TheodoreEngine_h */

@@ -1,6 +1,6 @@
 #include "SplashScene.h"
 
-namespace Quark {
+namespace Theodore {
 	SplashScene::SplashScene() : Scene("SplashScene"), boxPos(1.f, 5.5f, 0.f) {
 		speed = 4.5f;
 		rotationY = 0.f;
@@ -24,7 +24,7 @@ namespace Quark {
 		MeshRenderer* rend = monkey->AddComponent<MeshRenderer>();
 		Material* mat = new Material(Shader::Find("Phong"));
 		rend->SetMaterial(mat);
-		monkeyMesh = AssetManager::RequestMesh("Contents/model/monkey.obj");
+		monkeyMesh = AssetManager::RequestMesh("Contents/model/dragon.obj");
 		rend->SetMesh(monkeyMesh);
 		rend->SetVisibleGizmos(true);
 		boxCollider = monkey->AddComponent<BoxCollider>();
@@ -41,6 +41,8 @@ namespace Quark {
 		rend2->SetMaterial(mat2);
 		rend2->SetMesh(cubeMesh);
 		rend2->SetVisibleGizmos(true);
+		BoxCollider* cubeBoxColl = cube->AddComponent<BoxCollider>();
+		cubeBoxColl->SetVisible(true);
 
 		GameObject* pointLight = new GameObject("pointLight", this);
 		Light* pl = pointLight->AddComponent<Light>(LightType::PointLight);
@@ -75,16 +77,23 @@ namespace Quark {
 		Graphics::DrawLine(Vector3d(camPos.x, camPos.y, camPos.z + SceneManager::GetMainCamera()->GetNearClipPlane()
 		), ray.GetPoint(100.f), Color::yellow);
 
-		if (Input::GetKeyHeld(KEY_1)) {
-			monkey->GetTransform()->Translate(Vector3d::left * Time::DeltaTime() * 2.f);
+		if (Input::GetKeyHeld(KEY_LEFT)) {
+			monkey->GetTransform()->Translate(Vector3d::left * Time::DeltaTime() * 10.f);
 		}
-		else if (Input::GetKeyHeld(KEY_2)) {
-			monkey->GetTransform()->Translate(Vector3d::right * Time::DeltaTime() * 2.f);
+		else if (Input::GetKeyHeld(KEY_RIGHT)) {
+			monkey->GetTransform()->Translate(Vector3d::right * Time::DeltaTime() * 10.f);
 		}
-		else if (Input::GetKeyHeld(KEY_3)) {
+		else if (Input::GetKeyHeld(KEY_UP)) {
+			monkey->GetTransform()->Translate(Vector3d::up * Time::DeltaTime() * 10.f);
+		}
+		else if (Input::GetKeyHeld(KEY_DOWN)) {
+			monkey->GetTransform()->Translate(Vector3d::down * Time::DeltaTime() * 10.f);
+		}
+
+		if (Input::GetKeyHeld(KEY_RETURN)) {
 			monkey->GetTransform()->Scale(Vector3d(0.2f, 0.2f, 0.2f));
 		}
-		else if (Input::GetKeyHeld(KEY_4)) {
+		else if (Input::GetKeyHeld(KEY_BACKSPACE)) {
 			monkey->GetTransform()->Scale(Vector3d(-0.2f, -0.2f, -0.2f));
 		}
 

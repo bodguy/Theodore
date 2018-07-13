@@ -1,6 +1,6 @@
 #include "SkinnedMeshRenderer.h"
 
-namespace Quark {
+namespace Theodore {
 	SkinnedMeshRenderer::SkinnedMeshRenderer() : Renderer("SkinnedMeshRenderer") {
 	}
 

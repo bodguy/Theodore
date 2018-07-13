@@ -3,7 +3,7 @@
 #include <float.h>
 #include <limits>
 
-namespace Quark {
+namespace Theodore {
     const float Math::pi = 3.1415926f;
     const int Math::degrees = 360;
     const float Math::degrees_to_radians = Math::pi / 180.f;
