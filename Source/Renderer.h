@@ -3,6 +3,7 @@
 
 #include "Component.h"
 #include "Enumeration.h"
+#include "Bounds.h"
 #include <vector>
 
 namespace Theodore {
@@ -22,6 +23,8 @@ namespace Theodore {
 		Pipeline* mProgram;
 		Pipeline* mNormalVisualizeProgram;
 		Primitive mPrimitive;
+		// world space bounds
+		Bounds mBounds;
 		bool mIsVisibleGizmos;
 	};
 }

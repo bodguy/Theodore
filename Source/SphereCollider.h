@@ -26,9 +26,11 @@ namespace Theodore {
 		virtual bool Destroy() override;
 
 	private:
+		// local space center
 		Vector3d mCenter;
-		Vector3d mMaxLengthVector;
+		// local space radius
 		float mRadius;
+		Vector3d mMaxLengthVector;
 	};
 }
 

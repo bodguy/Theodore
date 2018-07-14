@@ -16,6 +16,7 @@
 #include "FrameBuffer.h"
 #include "Texture2D.h"
 #include "Bounds.h"
+#include "BoxCollider.h"
 
 namespace Theodore {
 	MeshRenderer::MeshRenderer() : Renderer("MeshRenderer"), mMaterial(nullptr), mMesh(nullptr) {
@@ -92,6 +93,7 @@ namespace Theodore {
 		}
 
 		mMesh->RecalculateBounds();
+		mBounds.SetMinMax(mMesh->GetBounds()->GetMin(), mMesh->GetBounds()->GetMax());
 	}
 
 	Mesh* MeshRenderer::GetMesh() const {
@@ -99,16 +101,28 @@ namespace Theodore {
 	}
 
 	void MeshRenderer::Update(double deltaTime) {
-		if (mIsVisibleGizmos) {
-			Matrix4x4 model = mTransform->GetLocalToWorldMatrix();
-			Vector3d new_center(model * Vector4d(mMesh->GetBounds()->GetCenter(), 1.f));
-			Vector3d new_size(Matrix4x4::Absolute(model) * Vector4d(mMesh->GetBounds()->GetSize(), 0.f));
-			Graphics::DrawCube(new_center + Matrix4x4::DecomposeTranslation(model), new_size, Color::red);
-			//mMesh->GetBounds()->SetMinMax(new_center - new_extent, new_center + new_extent);
-		}
+		Vector3d newCenter = mTransform->TransformPoint(mBounds.GetCenter());
+
+		// transform the local extents' axes
+		Vector3d newExtents = mBounds.GetSize() * 0.5f;
+		Vector3d axisX = mTransform->TransformVector(Vector3d(newExtents.x, 0.f, 0.f));
+		Vector3d axisY = mTransform->TransformVector(Vector3d(0.f, newExtents.y, 0.f));
+		Vector3d axisZ = mTransform->TransformVector(Vector3d(0.f, 0.f, newExtents.z));
+
+		// sum their absolute value to get the world extents
+		newExtents.x = Math::Abs(axisX.x) + Math::Abs(axisY.x) + Math::Abs(axisZ.x);
+		newExtents.y = Math::Abs(axisX.y) + Math::Abs(axisY.y) + Math::Abs(axisZ.y);
+		newExtents.z = Math::Abs(axisX.z) + Math::Abs(axisY.z) + Math::Abs(axisZ.z);
+
+		Graphics::DrawCube(newCenter, newExtents * 2.f, Color::red);
+		//mBounds.SetMinMax(newCenter - newExtents, newCenter + newExtents);
 	}
 
 	void MeshRenderer::Render() {
+		//if (mIsVisibleGizmos) {
+		//	Graphics::DrawCube(mBounds.GetCenter(), mBounds.GetExtents(), Color::red);
+		//}
+
 		/*
 		std::vector<Camera*>& cameras = this->mGameObject->GetAllCameras();
 		for (Camera* cam : cameras) {

@@ -277,6 +277,7 @@ namespace Theodore {
     }
     
     Vector3d Quaternion::ToEuler(const Quaternion& quat) {
+		// NEED TEST
         const float sqw = quat.w*quat.w;
         const float sqx = quat.x*quat.x;
         const float sqy = quat.y*quat.y;
@@ -318,9 +319,9 @@ namespace Theodore {
          
          Qx * Qy * Qz
          */
-        Quaternion qx(std::cos(euler.x / 2), std::sin(euler.x / 2), 0.f, 0.f);
-        Quaternion qy(std::cos(euler.y / 2), 0.f, std::sin(euler.y / 2), 0.f);
-        Quaternion qz(std::cos(euler.z / 2), 0.f, 0.f, std::sin(euler.z / 2));
+        Quaternion qx(std::cos(euler.x * 0.5f), std::sin(euler.x * 0.5f), 0.f, 0.f);
+        Quaternion qy(std::cos(euler.y * 0.5f), 0.f, std::sin(euler.y * 0.5f), 0.f);
+        Quaternion qz(std::cos(euler.z * 0.5f), 0.f, 0.f, std::sin(euler.z * 0.5f));
         
         return qx * qy * qz;
     }

@@ -420,21 +420,20 @@ namespace Theodore {
 	}
 
 	Vector3d Matrix4x4::DecomposeRotation(const Matrix4x4& transformation) {
-		// NEED TEST
 		Matrix4x4 normalized = Matrix4x4::OrthoNormalize(transformation);
 
-		return Vector3d(Math::Radians(std::atan2f(normalized._23, normalized._33)),
-			Math::Radians(std::atan2f(-normalized._13, std::sqrtf(normalized._23 * normalized._23 + normalized._33 * normalized._33))),
-			Math::Radians(std::atan2f(normalized._12, normalized._11))
+		return Vector3d(std::atan2f(normalized._23, normalized._33),
+						std::atan2f(-normalized._13, std::sqrtf(normalized._23 * normalized._23 + normalized._33 * normalized._33)),
+						std::atan2f(normalized._12, normalized._11)
 		);
 	}
 
 	Vector3d Matrix4x4::DecomposeScale(const Matrix4x4& transformation) {
-		Vector4d first  = Vector4d(transformation._11, transformation._12, transformation._13, transformation._14);
-		Vector4d second = Vector4d(transformation._21, transformation._22, transformation._23, transformation._24);
-		Vector4d third  = Vector4d(transformation._31, transformation._32, transformation._33, transformation._34);
+		float first  = Vector3d(transformation._11, transformation._12, transformation._13).Length();
+		float second = Vector3d(transformation._21, transformation._22, transformation._23).Length();
+		float third  = Vector3d(transformation._31, transformation._32, transformation._33).Length();
 
-		return Vector3d(first.Length(), second.Length(), third.Length());
+		return Vector3d(first, second, third);
 	}
     
     void Matrix4x4::Swap(Matrix4x4& first, Matrix4x4& second) {

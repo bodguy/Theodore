@@ -65,6 +65,7 @@ namespace Theodore {
 		std::vector<unsigned int> mFaces;
 		std::vector<BoneWeight> mBoneWeights;
 		std::vector<Matrix4x4> mBindposes;
+		// local space bounds
 		Bounds mBounds;
 	};
 

@@ -18,7 +18,6 @@ namespace Theodore {
 		void Rotate(const Vector3d& eulerAngles, Space relativeTo = Space::Self);
 		void Scale(const Vector3d& axis, Space relativeTo = Space::Self);
 
-		// get world Position, Scale, Rotation
 		Vector3d GetPosition() const;
 		Vector3d GetScale() const;
 		Quaternion GetRotation() const;
@@ -27,7 +26,6 @@ namespace Theodore {
 		Vector3d GetLocalScale() const;
 		Quaternion GetLocalRotation() const;
 
-		// get world Forward, Up, Right
 		Vector3d GetForward() const;
 		Vector3d GetUp() const;
 		Vector3d GetRight() const;
@@ -53,8 +51,14 @@ namespace Theodore {
 		GameObject* GetParent() const;
 		void SetParent(GameObject* parent);
 
+		// Transforms direction from world space to local space. 
+		// This operation is not affected by scale or position but only affected by rotate of the transform.
 		Vector3d InverseTransformDirection(const Vector3d& direction);
+		// Transforms position from world space to local space.
+		// This operation is affected by rotate, scale and position of the transform.
 		Vector3d InverseTransformPoint(const Vector3d& position);
+		// Transforms vector from world space to local space.
+		// This operation is affected by rotate and scale of the transform.
 		Vector3d InverseTransformVector(const Vector3d& vector);
 		// Transforms direction from local space to world space. 
 		// This operation is not affected by scale or position but only affected by rotate of the transform.

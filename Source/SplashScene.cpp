@@ -43,6 +43,8 @@ namespace Theodore {
 		rend2->SetVisibleGizmos(true);
 		BoxCollider* cubeBoxColl = cube->AddComponent<BoxCollider>();
 		cubeBoxColl->SetVisible(true);
+		SphereCollider* cubeSphereColl = cube->AddComponent<SphereCollider>();
+		cubeSphereColl->SetVisible(true);
 
 		GameObject* pointLight = new GameObject("pointLight", this);
 		Light* pl = pointLight->AddComponent<Light>(LightType::PointLight);
@@ -62,7 +64,7 @@ namespace Theodore {
 	}
 
 	void SplashScene::OnUpdate() {
-		monkey->GetTransform()->Rotate(Vector3d::forward, Time::DeltaTime() * 40.f);
+		monkey->GetTransform()->Rotate(Vector3d(1.f, 1.f, 1.f), Time::DeltaTime() * 40.f);
 		cube->GetTransform()->Rotate(Vector3d::forward, Time::DeltaTime() * 120.f);
 
 		// ray casting

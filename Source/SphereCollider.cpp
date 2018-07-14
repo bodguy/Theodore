@@ -6,7 +6,7 @@
 #include "Mesh.h"
 
 namespace Theodore {
-	SphereCollider::SphereCollider() : Collider("SphereCollider"), mCenter(), mMaxLengthVector() {
+	SphereCollider::SphereCollider() : Collider("SphereCollider"), mCenter(), mRadius(1.f), mMaxLengthVector() {
 		mType = ColliderType::Sphere;
 		CalculateBoundingVolumes();
 	}
@@ -61,6 +61,7 @@ namespace Theodore {
 
 			if (mesh) {
 				std::vector<Vector3d>::const_iterator iter;
+				Vector3d min, max;
 				float maxLength = 0.f;
 
 				for (iter = mesh->GetVertexData().cbegin(); iter < mesh->GetVertexData().cend(); iter++) {
@@ -69,22 +70,46 @@ namespace Theodore {
 						maxLength = length;
 						mMaxLengthVector = (*iter);
 					}
+
+					if ((*iter).x < min.x) {
+						min.x = (*iter).x;
+					}
+					else if ((*iter).x > max.x) {
+						max.x = (*iter).x;
+					}
+
+					if ((*iter).y < min.y) {
+						min.y = (*iter).y;
+					}
+					else if ((*iter).y > max.y) {
+						max.y = (*iter).y;
+					}
+
+					if ((*iter).z < min.z) {
+						min.z = (*iter).z;
+					}
+					else if ((*iter).z > max.z) {
+						max.z = (*iter).z;
+					}
 				}
 
-				SetRadius(maxLength);
+				mRadius = maxLength;
+				mCenter = (max + min) * 0.5f;
 			}
 		}
-		mCenter = mTransform->GetPosition();
 	}
 
 	void SphereCollider::Update(double deltaTime) {
-		mRadius = (mMaxLengthVector * mTransform->GetLocalScale()).Length();
-		mCenter = mTransform->GetPosition();
+
 	}
 
 	void SphereCollider::Render() {
 		if (mIsVisible) {
-			Graphics::DrawSphere(mCenter, mRadius, mColor);
+			Matrix4x4 model = mTransform->GetLocalToWorldMatrix();
+			float newRadius = (mMaxLengthVector * Matrix4x4::DecomposeScale(model)).Length();
+			Vector3d newCenter = mCenter + Matrix4x4::DecomposeTranslation(model);
+
+			Graphics::DrawSphere(newCenter, newRadius, mColor);
 		}
 	}
 
