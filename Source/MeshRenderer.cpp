@@ -101,27 +101,24 @@ namespace Theodore {
 	}
 
 	void MeshRenderer::Update(double deltaTime) {
-		Vector3d newCenter = mTransform->TransformPoint(mBounds.GetCenter());
+		// See Christer Ericson's Real-time Collision Detection, p. 87, or
+		// James Arvo's "Transforming Axis-aligned Bounding Boxes" in Graphics Gems 1, pp. 548-550.
+		// https://github.com/juj/MathGeoLib/blob/master/src/Geometry/AABB.cpp#L472
 
-		// transform the local extents' axes
-		Vector3d newExtents = mBounds.GetSize() * 0.5f;
-		Vector3d axisX = mTransform->TransformVector(Vector3d(newExtents.x, 0.f, 0.f));
-		Vector3d axisY = mTransform->TransformVector(Vector3d(0.f, newExtents.y, 0.f));
-		Vector3d axisZ = mTransform->TransformVector(Vector3d(0.f, 0.f, newExtents.z));
+		Matrix4x4 model = mTransform->GetLocalToWorldMatrix();
+		Vector3d newCenter = Matrix4x4::DecomposeTranslation(model);
+		Vector3d newExtents = Vector3d::zero;
 
-		// sum their absolute value to get the world extents
-		newExtents.x = Math::Abs(axisX.x) + Math::Abs(axisY.x) + Math::Abs(axisZ.x);
-		newExtents.y = Math::Abs(axisX.y) + Math::Abs(axisY.y) + Math::Abs(axisZ.y);
-		newExtents.z = Math::Abs(axisX.z) + Math::Abs(axisY.z) + Math::Abs(axisZ.z);
+		newCenter += Vector3d(model * Vector4d(mMesh->GetBounds()->GetCenter(), 1.f));
+		newExtents += Vector3d(Matrix4x4::Absolute(model) * Vector4d(mMesh->GetBounds()->GetExtents(), 0.f));
 
-		Graphics::DrawCube(newCenter, newExtents * 2.f, Color::red);
-		//mBounds.SetMinMax(newCenter - newExtents, newCenter + newExtents);
+		mBounds.SetMinMax(newCenter - newExtents, newCenter + newExtents);
 	}
 
 	void MeshRenderer::Render() {
-		//if (mIsVisibleGizmos) {
-		//	Graphics::DrawCube(mBounds.GetCenter(), mBounds.GetExtents(), Color::red);
-		//}
+		if (mIsVisibleGizmos) {
+			Graphics::DrawCube(mBounds.GetCenter(), mBounds.GetSize(), Color::red);
+		}
 
 		/*
 		std::vector<Camera*>& cameras = this->mGameObject->GetAllCameras();

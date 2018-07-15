@@ -205,32 +205,32 @@ namespace Theodore {
 		this->mGameObject->mParent->mChildren.push_back(this->mGameObject);
 	}
 
-	Vector3d Transform::InverseTransformDirection(const Vector3d& direction) {
+	Vector3d Transform::InverseTransformDirection(const Vector3d& direction) const {
 		Matrix4x4 model = GetWorldToLocalMatrix();
-		return (direction * Matrix4x4::DecomposeScale(model)) + Matrix4x4::DecomposeTranslation(model);
+		return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) * direction;
 	}
 
-	Vector3d Transform::InverseTransformPoint(const Vector3d& position) {
+	Vector3d Transform::InverseTransformPoint(const Vector3d& position) const {
 		Matrix4x4 model = GetWorldToLocalMatrix();
 		return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) * (position * Matrix4x4::DecomposeScale(model)) + Matrix4x4::DecomposeTranslation(model);
 	}
 
-	Vector3d Transform::InverseTransformVector(const Vector3d& vector) {
+	Vector3d Transform::InverseTransformVector(const Vector3d& vector) const {
 		Matrix4x4 model = GetWorldToLocalMatrix();
 		return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) * (vector * Matrix4x4::DecomposeScale(model));
 	}
 
-	Vector3d Transform::TransformDirection(const Vector3d& direction) {
+	Vector3d Transform::TransformDirection(const Vector3d& direction) const {
 		Matrix4x4 model = GetLocalToWorldMatrix();
-		return (direction * Matrix4x4::DecomposeScale(model)) + Matrix4x4::DecomposeTranslation(model);
+		return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) * direction;
 	}
 
-	Vector3d Transform::TransformPoint(const Vector3d& position) {
+	Vector3d Transform::TransformPoint(const Vector3d& position) const {
 		Matrix4x4 model = GetLocalToWorldMatrix();
 		return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) * (position * Matrix4x4::DecomposeScale(model)) + Matrix4x4::DecomposeTranslation(model);
 	}
 
-	Vector3d Transform::TransformVector(const Vector3d& vector) {
+	Vector3d Transform::TransformVector(const Vector3d& vector) const {
 		Matrix4x4 model = GetLocalToWorldMatrix();
 		return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) * (vector * Matrix4x4::DecomposeScale(model));
 	}

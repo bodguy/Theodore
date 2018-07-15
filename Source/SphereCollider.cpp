@@ -107,7 +107,7 @@ namespace Theodore {
 		if (mIsVisible) {
 			Matrix4x4 model = mTransform->GetLocalToWorldMatrix();
 			float newRadius = (mMaxLengthVector * Matrix4x4::DecomposeScale(model)).Length();
-			Vector3d newCenter = mCenter + Matrix4x4::DecomposeTranslation(model);
+			Vector3d newCenter = mTransform->TransformPoint(mCenter);
 
 			Graphics::DrawSphere(newCenter, newRadius, mColor);
 		}

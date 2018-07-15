@@ -53,22 +53,22 @@ namespace Theodore {
 
 		// Transforms direction from world space to local space. 
 		// This operation is not affected by scale or position but only affected by rotate of the transform.
-		Vector3d InverseTransformDirection(const Vector3d& direction);
+		Vector3d InverseTransformDirection(const Vector3d& direction) const;
 		// Transforms position from world space to local space.
 		// This operation is affected by rotate, scale and position of the transform.
-		Vector3d InverseTransformPoint(const Vector3d& position);
+		Vector3d InverseTransformPoint(const Vector3d& position) const;
 		// Transforms vector from world space to local space.
 		// This operation is affected by rotate and scale of the transform.
-		Vector3d InverseTransformVector(const Vector3d& vector);
+		Vector3d InverseTransformVector(const Vector3d& vector) const;
 		// Transforms direction from local space to world space. 
 		// This operation is not affected by scale or position but only affected by rotate of the transform.
-		Vector3d TransformDirection(const Vector3d& direction);
+		Vector3d TransformDirection(const Vector3d& direction) const;
 		// Transforms position from local space to world space.
 		// This operation is affected by rotate, scale and position of the transform.
-		Vector3d TransformPoint(const Vector3d& position);
+		Vector3d TransformPoint(const Vector3d& position) const;
 		// Transforms vector from local space to world space.
 		// This operation is affected by rotate and scale of the transform.
-		Vector3d TransformVector(const Vector3d& vector);
+		Vector3d TransformVector(const Vector3d& vector) const;
 		
 	private:
 		Matrix4x4 GetWorldMatrix() const;

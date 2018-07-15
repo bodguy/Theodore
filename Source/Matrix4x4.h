@@ -2,7 +2,7 @@
 #define Matrix4x4_h
 
 namespace Theodore {
-    class Vector2d; class Vector3d; class Vector4d;
+	class Vector2d; class Vector3d; class Vector4d; class Quaternion;
     class Matrix4x4 {
     public:
         //! default contructor
@@ -78,6 +78,7 @@ namespace Theodore {
 		static Vector3d DecomposeTranslation(const Matrix4x4& transformation);
 		static Vector3d DecomposeRotation(const Matrix4x4& transformation);
 		static Vector3d DecomposeScale(const Matrix4x4& transformation);
+		static Matrix4x4 TRS(const Vector3d& pos, const Quaternion& q, const Vector3d& s);
         
         // anonymous union
         union {

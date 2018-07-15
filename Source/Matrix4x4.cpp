@@ -402,7 +402,6 @@ namespace Theodore {
 	}
 
 	Matrix4x4 Matrix4x4::OrthoNormalize(const Matrix4x4& matrix) {
-		// NEED TEST
 		Vector4d first = Vector4d(matrix._11, matrix._12, matrix._13, matrix._14).Normalize();
 		Vector4d second = Vector4d(matrix._21, matrix._22, matrix._23, matrix._24).Normalize();
 		Vector4d third = Vector4d(matrix._31, matrix._32, matrix._33, matrix._34).Normalize();
@@ -422,8 +421,9 @@ namespace Theodore {
 	Vector3d Matrix4x4::DecomposeRotation(const Matrix4x4& transformation) {
 		Matrix4x4 normalized = Matrix4x4::OrthoNormalize(transformation);
 
+		// In radian unit
 		return Vector3d(std::atan2f(normalized._23, normalized._33),
-						std::atan2f(-normalized._13, std::sqrtf(normalized._23 * normalized._23 + normalized._33 * normalized._33)),
+						-std::asinf(normalized._13), //std::atan2f(-normalized._13, std::sqrtf(normalized._23 * normalized._23 + normalized._33 * normalized._33)),
 						std::atan2f(normalized._12, normalized._11)
 		);
 	}
@@ -434,6 +434,10 @@ namespace Theodore {
 		float third  = Vector3d(transformation._31, transformation._32, transformation._33).Length();
 
 		return Vector3d(first, second, third);
+	}
+
+	Matrix4x4 Matrix4x4::TRS(const Vector3d& pos, const Quaternion& q, const Vector3d& s) {
+		return Matrix4x4();
 	}
     
     void Matrix4x4::Swap(Matrix4x4& first, Matrix4x4& second) {

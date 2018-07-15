@@ -94,6 +94,7 @@ namespace Theodore {
     }
     
     Vector3d Quaternion::operator *(const Vector3d& other) const {
+		// https://answers.unity.com/questions/372371/multiply-quaternion-by-vector3-how-is-done.html
         float num  =  x * 2.0f;
         float num2 =  y * 2.0f;
         float num3 =  z * 2.0f;
@@ -319,6 +320,7 @@ namespace Theodore {
          
          Qx * Qy * Qz
          */
+		// Suppose euler is in radian unit.
         Quaternion qx(std::cos(euler.x * 0.5f), std::sin(euler.x * 0.5f), 0.f, 0.f);
         Quaternion qy(std::cos(euler.y * 0.5f), 0.f, std::sin(euler.y * 0.5f), 0.f);
         Quaternion qz(std::cos(euler.z * 0.5f), 0.f, 0.f, std::sin(euler.z * 0.5f));

@@ -85,15 +85,45 @@ namespace Theodore {
         float Distance(const Vector3d& other) const;
         float DistanceSqrare(const Vector3d& other) const;
 
-		Vector2d xx() { return Vector2d(x, x); }
-		Vector2d xy() { return Vector2d(x, y); } 
-		Vector2d xz() { return Vector2d(x, z); }
-		Vector2d yx() { return Vector2d(y, x); }
-		Vector2d yy() { return Vector2d(y, y); }
-		Vector2d yz() { return Vector2d(y, z); }
-		Vector2d zx() { return Vector2d(z, x); }
-		Vector2d zy() { return Vector2d(z, y); }
-		Vector2d zz() { return Vector2d(z, z); }
+		Vector2d xx() const { return Vector2d(x, x); }
+		Vector2d xy() const { return Vector2d(x, y); } 
+		Vector2d xz() const { return Vector2d(x, z); }
+		Vector2d yx() const { return Vector2d(y, x); }
+		Vector2d yy() const { return Vector2d(y, y); }
+		Vector2d yz() const { return Vector2d(y, z); }
+		Vector2d zx() const { return Vector2d(z, x); }
+		Vector2d zy() const { return Vector2d(z, y); }
+		Vector2d zz() const { return Vector2d(z, z); }
+
+		Vector3d xxx() const { return Vector3d(x, x, x); }
+		Vector3d xxy() const { return Vector3d(x, x, y); }
+		Vector3d xxz() const { return Vector3d(x, x, z); }
+		Vector3d xyx() const { return Vector3d(x, y, x); }
+		Vector3d xyy() const { return Vector3d(x, y, y); }
+		Vector3d xyz() const { return Vector3d(x, y, z); }
+		Vector3d xzx() const { return Vector3d(x, z, x); }
+		Vector3d xzy() const { return Vector3d(x, z, y); }
+		Vector3d xzz() const { return Vector3d(x, z, z); }
+
+		Vector3d yxx() const { return Vector3d(y, x, x); }
+		Vector3d yxy() const { return Vector3d(y, x, y); }
+		Vector3d yxz() const { return Vector3d(y, x, z); }
+		Vector3d yyx() const { return Vector3d(y, y, x); }
+		Vector3d yyy() const { return Vector3d(y, y, y); }
+		Vector3d yyz() const { return Vector3d(y, y, z); }
+		Vector3d yzx() const { return Vector3d(y, z, x); }
+		Vector3d yzy() const { return Vector3d(y, z, y); }
+		Vector3d yzz() const { return Vector3d(y, z, z); }
+
+		Vector3d zxx() const { return Vector3d(z, x, x); }
+		Vector3d zxy() const { return Vector3d(z, x, y); }
+		Vector3d zxz() const { return Vector3d(z, x, z); }
+		Vector3d zyx() const { return Vector3d(z, y, x); }
+		Vector3d zyy() const { return Vector3d(z, y, y); }
+		Vector3d zyz() const { return Vector3d(z, y, z); }
+		Vector3d zzx() const { return Vector3d(z, z, x); }
+		Vector3d zzy() const { return Vector3d(z, z, y); }
+		Vector3d zzz() const { return Vector3d(z, z, z); }
 
 		static Vector2d ToVector2d(const Vector3d& other);
 		static Vector4d ToVector4d(const Vector3d& other);
