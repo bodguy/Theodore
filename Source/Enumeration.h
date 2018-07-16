@@ -291,7 +291,21 @@ namespace Theodore {
 
 	enum class MeshFormat {
 		WaveFrontObj,
-		Collada
+		ColladaDae,
+		AutoDeskFBX,
+		Studio3DS,
+		StanfordPLY,
+		CAD3DSystemsStl
+	};
+
+	enum class ByteOrder {
+		BigEndian,
+		LittleEndian
+	};
+
+	enum class FloatingPointPrecision {
+		SinglePrecision,
+		DoublePrecision
 	};
 
 	enum class States {
