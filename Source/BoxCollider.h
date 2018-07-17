@@ -1,3 +1,11 @@
+/**
+	@brief OBB(oriented bounding box) component for collision detection
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef BoxCollider_h
 #define BoxCollider_h
 

@@ -1,3 +1,11 @@
+/**
+	@brief random number generator
+	@author bodguy
+	@date 17.07.17
+	@todo various random algorithm support
+	@bug 
+*/
+
 #ifndef Random_h
 #define Random_h
 

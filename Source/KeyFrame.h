@@ -1,3 +1,11 @@
+/**
+	@brief keyframe animation datastructure
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef KeyFrame_h
 #define KeyFrame_h
 

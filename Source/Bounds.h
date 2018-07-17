@@ -1,3 +1,11 @@
+/**
+	@brief represents AABB(axis aligned bounding box)
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Bounds_h
 #define Bounds_h
 

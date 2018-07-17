@@ -1,3 +1,11 @@
+/**
+	@brief camera component contains all relevant camera functionality 
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Camera_h
 #define Camera_h
 

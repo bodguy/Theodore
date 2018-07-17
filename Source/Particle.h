@@ -1,3 +1,11 @@
+/**
+	@brief cloth simulation particle class
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Particle_h
 #define Particle_h
 

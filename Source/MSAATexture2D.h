@@ -1,3 +1,11 @@
+/**
+	@brief OpenGL msaa texture implementation
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef MSAATexture2D_h
 #define MSAATexture2D_h
 

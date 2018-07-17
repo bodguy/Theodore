@@ -1,3 +1,11 @@
+/**
+	@brief all in one heder file
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef TheodoreEngine_h
 #define TheodoreEngine_h
 

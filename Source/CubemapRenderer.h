@@ -1,3 +1,11 @@
+/**
+	@brief rendering cubemap component
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef CubemapRenderer_h
 #define CubemapRenderer_h
 

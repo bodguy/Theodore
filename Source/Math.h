@@ -1,3 +1,11 @@
+/**
+	@brief common math utility
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Math_h
 #define Math_h
 

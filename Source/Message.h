@@ -1,3 +1,11 @@
+/**
+	@brief gameobject message datastructure
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Message_h
 #define Message_h
 

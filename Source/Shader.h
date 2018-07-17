@@ -1,3 +1,11 @@
+/**
+	@brief OpenGL shader compile and managing
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Shader_h
 #define Shader_h
 

@@ -1,3 +1,11 @@
+/**
+	@brief sprite datastructure for sprite rendering
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Sprite_h
 #define Sprite_h
 

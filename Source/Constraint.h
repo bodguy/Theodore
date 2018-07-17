@@ -1,3 +1,11 @@
+/**
+	@brief cloth simulation constraint
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Constraint_h
 #define Constraint_h
 

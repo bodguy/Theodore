@@ -1,3 +1,11 @@
+/**
+	@brief compile time crc32 hash function
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef crc32_h
 #define crc32_h
 

@@ -1,3 +1,11 @@
+/**
+	@brief wavefront obj file parser
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef WaveFrontObjMesh_h
 #define WaveFrontObjMesh_h
 

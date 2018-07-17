@@ -1,3 +1,11 @@
+/**
+	@brief physical calculation
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Physics_h
 #define Physics_h
 

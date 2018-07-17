@@ -1,3 +1,11 @@
+/**
+	@brief file IO utility
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef File_h
 #define File_h
 

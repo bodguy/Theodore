@@ -1,3 +1,11 @@
+/**
+	@brief Graphics utility interface
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Graphics_h
 #define Graphics_h
 

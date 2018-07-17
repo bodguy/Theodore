@@ -1,3 +1,11 @@
+/**
+	@brief texture interface
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Texture_h
 #define Texture_h
 

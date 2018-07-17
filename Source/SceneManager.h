@@ -1,3 +1,11 @@
+/**
+	@brief managing all the scenes
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef SceneManager_h
 #define SceneManager_h
 

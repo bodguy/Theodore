@@ -1,3 +1,11 @@
+/**
+	@brief top-level interface in entire scene objects
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Object_h
 #define Object_h
 

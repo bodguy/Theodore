@@ -1,3 +1,11 @@
+/**
+	@brief collider component base class
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Collider_h
 #define Collider_h
 

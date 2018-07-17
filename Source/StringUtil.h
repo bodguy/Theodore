@@ -1,3 +1,11 @@
+/**
+	@brief various string utility class inspired by java string
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef StringUtil_h
 #define StringUtil_h
 

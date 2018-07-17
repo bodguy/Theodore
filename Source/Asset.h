@@ -1,3 +1,11 @@
+/**
+	@brief represents every resource type
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Asset_h
 #define Asset_h
 

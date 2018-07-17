@@ -1,3 +1,11 @@
+/**
+	@brief Gizmo type visual debugging
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Gizmo_h
 #define Gizmo_h
 

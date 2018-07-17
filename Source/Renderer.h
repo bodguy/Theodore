@@ -1,3 +1,11 @@
+/**
+	@brief renderer component, every rendering component must inherit this class
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Renderer_h
 #define Renderer_h
 

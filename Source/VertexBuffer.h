@@ -1,3 +1,11 @@
+/**
+	@brief OpenGL vertexbuffer datastructure
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef VertexBuffer_h
 #define VertexBuffer_h
 

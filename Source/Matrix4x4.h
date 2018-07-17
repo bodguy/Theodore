@@ -1,3 +1,11 @@
+/**
+	@brief matrix 4x4 math utility
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Matrix4x4_h
 #define Matrix4x4_h
 

@@ -1,3 +1,11 @@
+/**
+	@brief enumeration constant
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Enumeration_h
 #define Enumeration_h
 

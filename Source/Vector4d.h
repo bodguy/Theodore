@@ -1,3 +1,11 @@
+/**
+	@brief vector4d math class
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Vector4d_h
 #define Vector4d_h
 

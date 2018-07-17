@@ -1,3 +1,11 @@
+/**
+	@brief skinned mesh renderer component
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef SkinnedMeshRenderer_h
 #define SkinnedMeshRenderer_h
 

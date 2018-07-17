@@ -1,3 +1,11 @@
+/**
+	@brief mesh material
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Material_h
 #define Material_h
 

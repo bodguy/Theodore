@@ -1,3 +1,11 @@
+/**
+	@brief platform dependent class only for macos support
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #include "os_types.h"
 
 #ifdef Theodore_MacOS

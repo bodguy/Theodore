@@ -1,3 +1,11 @@
+/**
+	@brief mahmatical ray class
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Ray_h
 #define Ray_h
 

@@ -1,3 +1,11 @@
+/**
+	@brief entrypoint class that assembles all the necessary codes
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Application_h
 #define Application_h
 

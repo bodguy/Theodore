@@ -1,3 +1,11 @@
+/**
+	@brief os type branch
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef os_types_h
 #define os_types_h
 

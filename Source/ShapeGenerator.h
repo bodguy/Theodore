@@ -1,3 +1,11 @@
+/**
+	@brief generate various shapes (plane, cube, sphere, capsule, cylinder, torus, cone etc..)
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef ShapeGenerator_h
 #define ShapeGenerator_h
 

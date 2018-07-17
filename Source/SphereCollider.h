@@ -1,3 +1,11 @@
+/**
+	@brief sphere collider component for collision detection
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef SphereCollider_h
 #define SphereCollider_h
 

@@ -1,3 +1,11 @@
+/**
+	@brief color utility
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Color_h
 #define Color_h
 

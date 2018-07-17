@@ -1,3 +1,11 @@
+/**
+	@brief 2D texture loading datastructure
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Texture2D_h
 #define Texture2D_h
 

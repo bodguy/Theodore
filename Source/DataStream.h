@@ -1,3 +1,11 @@
+/**
+	@brief binary data stream input, output utility
+	@author bodguy
+	@date 17.07.17
+	@todo file input output support
+	@bug 
+*/
+
 #ifndef DataStream_h
 #define DataStream_h
 
@@ -23,6 +31,7 @@ namespace Theodore {
 		DataStream& operator >>(uint64_t &i);
 		DataStream& operator >>(float &i);
 		DataStream& operator >>(double &i);
+		DataStream& operator >>(std::string& i);
 
 		size_t WriteRawData(const void *src, size_t n);
 		DataStream& operator <<(int8_t   i);
@@ -35,6 +44,7 @@ namespace Theodore {
 		DataStream& operator <<(uint64_t i);
 		DataStream& operator <<(float i);
 		DataStream& operator <<(double i);
+		DataStream& operator <<(std::string i);
 
 		void Reset();
 		void Seek(size_t pos);
@@ -57,6 +67,7 @@ namespace Theodore {
 		uint8_t* mStart; // start of data
 		uint8_t* mData; // current data pointers
 		size_t mSize; // size of data
+		size_t mOccupied;
 		ByteOrder mByteOrder;
 		FloatingPointPrecision mPrecision;
 	};

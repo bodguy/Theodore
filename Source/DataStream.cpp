@@ -2,7 +2,7 @@
 #include <assert.h>
 
 namespace Theodore {
-	DataStream::DataStream(void* b, size_t n) : mByteOrder(ByteOrder::BigEndian), mPrecision(FloatingPointPrecision::DoublePrecision) {
+	DataStream::DataStream(void* b, size_t n) : mDevice(nullptr), mByteOrder(ByteOrder::BigEndian), mPrecision(FloatingPointPrecision::DoublePrecision), mOccupied(0) {
 		mStart = (uint8_t*)b;
 		mData = mStart;
 
@@ -12,7 +12,7 @@ namespace Theodore {
 			mSize = n;
 	}
 
-	DataStream::DataStream(File& device) : mByteOrder(ByteOrder::BigEndian), mPrecision(FloatingPointPrecision::DoublePrecision) {
+	DataStream::DataStream(File& device) : mByteOrder(ByteOrder::BigEndian), mPrecision(FloatingPointPrecision::DoublePrecision), mOccupied(0) {
 		/*
 			QFile file("file.dat");
 			file.open(QIODevice::WriteOnly);
@@ -279,6 +279,19 @@ namespace Theodore {
 		return *this;
 	}
 
+	DataStream& DataStream::operator >>(std::string& i) {
+		uint8_t buff = ' ';
+		std::vector<uint8_t> ret;
+
+		while(buff != '\0') {
+			this->operator >>(buff);
+			ret.push_back(buff);
+		}
+		i.assign(ret.begin(), ret.end());
+
+		return *this;
+	}
+
 	size_t DataStream::WriteRawData(const void *src, size_t n) {
 		assert(Remaining() >= n);
 		uint8_t* d = (uint8_t*)src;
@@ -296,12 +309,15 @@ namespace Theodore {
 			}
 		}
 
+		mOccupied += n;
+
 		return n;
 	}
 
 	DataStream& DataStream::operator <<(int8_t i) {
 		assert(Remaining() >= 1);
 		*mData++ = (uint8_t)i;
+		mOccupied += sizeof(uint8_t);
 
 		return *this;
 	}
@@ -315,6 +331,7 @@ namespace Theodore {
 		*mData++ = d;
 		d >>= 8;
 		*mData++ = d;
+		mOccupied += sizeof(int16_t);
 
 		return *this;
 	}
@@ -332,6 +349,7 @@ namespace Theodore {
 		*mData++ = d;
 		d >>= 8;
 		*mData++ = d;
+		mOccupied += sizeof(int32_t);
 
 		return *this;
 	}
@@ -357,6 +375,7 @@ namespace Theodore {
 		*mData++ = d;
 		d >>= 8;
 		*mData++ = d;
+		mOccupied += sizeof(int64_t);
 
 		return *this;
 	}
@@ -364,6 +383,7 @@ namespace Theodore {
 	DataStream& DataStream::operator <<(uint8_t i) {
 		assert(Remaining() >= 1);
 		*mData++ = (uint8_t)i;
+		mOccupied += sizeof(uint8_t);
 
 		return *this;
 	}
@@ -377,6 +397,7 @@ namespace Theodore {
 		*mData++ = d;
 		d >>= 8;
 		*mData++ = d;
+		mOccupied += sizeof(uint16_t);
 
 		return *this;
 	}
@@ -394,6 +415,7 @@ namespace Theodore {
 		*mData++ = d;
 		d >>= 8;
 		*mData++ = d;
+		mOccupied += sizeof(uint32_t);
 
 		return *this;
 	}
@@ -419,6 +441,7 @@ namespace Theodore {
 		*mData++ = d;
 		d >>= 8;
 		*mData++ = d;
+		mOccupied += sizeof(uint64_t);
 
 		return *this;
 	}
@@ -431,6 +454,7 @@ namespace Theodore {
 		} d;
 		d.f = i;
 		this->operator <<(d.u);
+		mOccupied += sizeof(uint32_t);
 
 		return *this;
 	}
@@ -443,6 +467,21 @@ namespace Theodore {
 		} d;
 		d.f = i;
 		this->operator <<(d.u);
+		mOccupied += sizeof(uint64_t);
+
+		return *this;
+	}
+
+	DataStream& DataStream::operator <<(std::string i) {
+		size_t size = i.size();
+		assert(Remaining() >= size + 1);
+
+		if(size > 0) {
+			for(unsigned int j = 0; j < size; j++) {
+				this->operator <<((int8_t)i[j]);
+			}
+			this->operator <<((int8_t)'\0');
+		}
 
 		return *this;
 	}
@@ -464,6 +503,15 @@ namespace Theodore {
 	bool DataStream::AtEnd() {
 		return mData == mStart + mSize;
 	}
+
+	/*
+	void DataStream::WriteFile() {
+		if(mDevice) {
+			Reset();
+			mDevice->WriteBinary(mData, sizeof(uint8_t), mOccupied);
+		}
+	}
+	*/
 
 	ByteOrder DataStream::GetByteOrder() const {
 		return mByteOrder;
@@ -487,7 +535,7 @@ namespace Theodore {
 			char c[4];
 		} e = { 0x01000000 };
 
-		return e.c[0];
+		return (bool)e.c[0];
 	}
 
 	// Reference source https://github.com/Jeroen6/DataStream

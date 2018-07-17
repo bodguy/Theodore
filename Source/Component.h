@@ -1,3 +1,11 @@
+/**
+	@brief component interface
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Component_h
 #define Component_h
 

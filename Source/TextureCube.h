@@ -1,3 +1,11 @@
+/**
+	@brief cubemap texture datastructure
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef TextureCube_h
 #define TextureCube_h
 

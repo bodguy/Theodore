@@ -1,3 +1,11 @@
+/**
+	@brief datastructure for skinning animation
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef BoneWeight_h
 #define BoneWeight_h
 

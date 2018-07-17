@@ -1,3 +1,11 @@
+/**
+	@brief c++ standard library utility
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Utility_h
 #define Utility_h
 

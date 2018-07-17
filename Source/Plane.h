@@ -1,3 +1,11 @@
+/**
+	@brief mathmatical plane class
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Plane_h
 #define Plane_h
 

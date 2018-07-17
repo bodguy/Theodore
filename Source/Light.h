@@ -1,3 +1,11 @@
+/**
+	@brief light component
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Light_h
 #define Light_h
 

@@ -1,3 +1,11 @@
+/**
+	@brief rect class for 2d support
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Rect_h
 #define Rect_h
 

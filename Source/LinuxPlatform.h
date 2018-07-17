@@ -1,3 +1,11 @@
+/**
+	@brief linux platform dependent class
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #include "os_types.h"
 
 #ifdef Theodore_Linux

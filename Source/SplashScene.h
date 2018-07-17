@@ -1,3 +1,11 @@
+/**
+	@brief intro scene
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef SplashScene_h
 #define SplashScene_h
 

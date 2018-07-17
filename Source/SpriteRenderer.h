@@ -1,3 +1,11 @@
+/**
+	@brief sprite renderer component
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef SpriteRenderer_h
 #define SpriteRenderer_h
 

@@ -1,3 +1,11 @@
+/**
+	@brief platform independent interface
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Platform_h
 #define Platform_h
 

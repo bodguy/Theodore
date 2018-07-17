@@ -1,3 +1,11 @@
+/**
+	@brief platform independent timer class
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Time_h
 #define Time_h
 

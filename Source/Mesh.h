@@ -1,3 +1,11 @@
+/**
+	@brief mesh for meshRenderer
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Mesh_h
 #define Mesh_h
 

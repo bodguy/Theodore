@@ -1,3 +1,11 @@
+/**
+	@brief transform component for translation, scaling, rotation object in the world space
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Transform_h
 #define Transform_h
 

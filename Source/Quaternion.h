@@ -1,3 +1,11 @@
+/**
+	@brief quaternion math utility
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Quaternion_h
 #define Quaternion_h
 

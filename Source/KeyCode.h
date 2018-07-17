@@ -1,3 +1,11 @@
+/**
+	@brief keycode constant
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef KeyCode_h
 #define KeyCode_h
 

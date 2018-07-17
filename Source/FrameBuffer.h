@@ -1,3 +1,11 @@
+/**
+	@brief OpenGL framebuffer
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef FrameBuffer_h
 #define FrameBuffer_h
 

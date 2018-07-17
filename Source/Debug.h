@@ -1,3 +1,11 @@
+/**
+	@brief console debug utility
+	@author bodguy
+	@date 17.07.17
+	@todo debug log to file support
+	@bug 
+*/
+
 #ifndef Debug_h
 #define Debug_h
 

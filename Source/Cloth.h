@@ -1,3 +1,11 @@
+/**
+	@brief cloth simulation class
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Cloth_h
 #define Cloth_h
 

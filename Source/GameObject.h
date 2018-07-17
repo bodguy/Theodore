@@ -1,3 +1,11 @@
+/**
+	@brief GameObject (ECS) container
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef GameObject_h
 #define GameObject_h
 

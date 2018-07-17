@@ -1,3 +1,11 @@
+/**
+	@brief vector3d math class
+	@author bodguy
+	@date 17.07.17
+	@todo 
+	@bug 
+*/
+
 #ifndef Vector3d_h
 #define Vector3d_h
 
