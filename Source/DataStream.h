@@ -10,14 +10,15 @@
 #define DataStream_h
 
 #include "Enumeration.h"
+#include "File.h"
 #include <cstdint>
+#include <string>
 
 namespace Theodore {
 	class File;
 	class DataStream {
 	public:
 		DataStream(void* b, size_t n);
-		DataStream(File& device);
 		~DataStream();
 
 		size_t ReadRawData(void *dst, size_t n);
@@ -45,6 +46,9 @@ namespace Theodore {
 		DataStream& operator <<(float i);
 		DataStream& operator <<(double i);
 		DataStream& operator <<(std::string i);
+
+		size_t GetSize() const;
+		size_t GetOccupied() const;
 
 		void Reset();
 		void Seek(size_t pos);

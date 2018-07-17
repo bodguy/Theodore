@@ -1,8 +1,9 @@
 #include "DataStream.h"
 #include <assert.h>
+#include <vector>
 
 namespace Theodore {
-	DataStream::DataStream(void* b, size_t n) : mDevice(nullptr), mByteOrder(ByteOrder::BigEndian), mPrecision(FloatingPointPrecision::DoublePrecision), mOccupied(0) {
+	DataStream::DataStream(void* b, size_t n) : mByteOrder(ByteOrder::BigEndian), mPrecision(FloatingPointPrecision::DoublePrecision), mOccupied(0) {
 		mStart = (uint8_t*)b;
 		mData = mStart;
 
@@ -10,96 +11,90 @@ namespace Theodore {
 			mSize = SIZE_MAX;
 		else
 			mSize = n;
-	}
 
-	DataStream::DataStream(File& device) : mByteOrder(ByteOrder::BigEndian), mPrecision(FloatingPointPrecision::DoublePrecision), mOccupied(0) {
 		/*
-			QFile file("file.dat");
-			file.open(QIODevice::WriteOnly);
-			QDataStream out(&file);   // we will serialize the data into the file
-			out << QString("the answer is");   // serialize a string
-			out << (qint32)42;        // serialize an integer
+		QFile file("file.dat");
+		file.open(QIODevice::WriteOnly);
+		QDataStream out(&file);   // we will serialize the data into the file
+		out << QString("the answer is");   // serialize a string
+		out << (qint32)42;        // serialize an integer
 
-			QFile file("file.dat");
-			file.open(QIODevice::ReadOnly);
-			QDataStream in(&file);    // read the data serialized from the file
-			QString str;
-			qint32 a;
-			in >> str >> a;           // extract "the answer is" and 42
+		QFile file("file.dat");
+		file.open(QIODevice::ReadOnly);
+		QDataStream in(&file);    // read the data serialized from the file
+		QString str;
+		qint32 a;
+		in >> str >> a;           // extract "the answer is" and 42
 		*/
 
 		/*
-			#include <iostream>
-			#include <string>
-			#include <thread>
-			#include <algorithm>
-			#include <vector>
-			#include <future>
-			#include "DataStream.h"
-			#include <assert.h>
+		#include <iostream>
+		#include <string>
+		#include <thread>
+		#include <algorithm>
+		#include <vector>
+		#include <future>
+		#include "DataStream.h"
+		#include <assert.h>
 
-			// https://github.com/mkeeter/fstl/blob/master/src/loader.cpp
+		// https://github.com/mkeeter/fstl/blob/master/src/loader.cpp
 
-			struct Verts {
-				Verts(float x, float y, float z) :x(x), y(y), z(z) {}
-				float x, y, z;
+		struct Verts {
+		Verts(float x, float y, float z) :x(x), y(y), z(z) {}
+		float x, y, z;
 
-				bool operator<(const Verts& rhs) const {
-					return x < rhs.x;
-				}
-			};
+		bool operator<(const Verts& rhs) const {
+		return x < rhs.x;
+		}
+		};
 
-			void parallel_sort(Verts* begin, Verts* end, int threads) {
-				if (threads < 2 || end - begin < 2) {
-					std::sort(begin, end);
-				}
-				else {
-					Verts* const mid = begin + (end - begin) / 2;
-					if (threads == 2) {
-						std::future<void> future = std::async(parallel_sort, begin, mid, threads / 2);
-						std::sort(mid, end);
-						future.wait();
-					}
-					else {
-						std::future<void> a = std::async(std::launch::async, parallel_sort, begin, mid, threads / 2);
-						std::future<void> b = std::async(std::launch::async, parallel_sort, mid, end, threads / 2);
-						a.wait();
-						b.wait();
-					}
-					std::inplace_merge(begin, mid, end);
-				}
-			}
+		void parallel_sort(Verts* begin, Verts* end, int threads) {
+		if (threads < 2 || end - begin < 2) {
+		std::sort(begin, end);
+		}
+		else {
+		Verts* const mid = begin + (end - begin) / 2;
+		if (threads == 2) {
+		std::future<void> future = std::async(parallel_sort, begin, mid, threads / 2);
+		std::sort(mid, end);
+		future.wait();
+		}
+		else {
+		std::future<void> a = std::async(std::launch::async, parallel_sort, begin, mid, threads / 2);
+		std::future<void> b = std::async(std::launch::async, parallel_sort, mid, end, threads / 2);
+		a.wait();
+		b.wait();
+		}
+		std::inplace_merge(begin, mid, end);
+		}
+		}
 
-			int main() {
-				unsigned int threads = std::thread::hardware_concurrency();
-				if (threads == 0) {
-					threads = 8;
-				}
+		int main() {
+		unsigned int threads = std::thread::hardware_concurrency();
+		if (threads == 0) {
+		threads = 8;
+		}
 
-				std::vector<Verts> vec;
-				vec.push_back(Verts(0, 0, 0));
-				vec.push_back(Verts(1, 1, 1));
-				vec.push_back(Verts(6, 6, 6));
-				vec.push_back(Verts(4, 4, 4));
-				vec.push_back(Verts(2, 2, 2));
-				vec.push_back(Verts(7, 7, 7));
-				vec.push_back(Verts(3, 3, 3));
-				vec.push_back(Verts(9, 9, 9));
-				vec.push_back(Verts(5, 5, 5));
-				vec.push_back(Verts(8, 8, 8));
+		std::vector<Verts> vec;
+		vec.push_back(Verts(0, 0, 0));
+		vec.push_back(Verts(1, 1, 1));
+		vec.push_back(Verts(6, 6, 6));
+		vec.push_back(Verts(4, 4, 4));
+		vec.push_back(Verts(2, 2, 2));
+		vec.push_back(Verts(7, 7, 7));
+		vec.push_back(Verts(3, 3, 3));
+		vec.push_back(Verts(9, 9, 9));
+		vec.push_back(Verts(5, 5, 5));
+		vec.push_back(Verts(8, 8, 8));
 
-				parallel_sort(&(vec.front()), &(vec.front()) + vec.size(), threads);
-				for (auto elem : vec) {
-					std::cout << elem.x << ", " << elem.y << ", " << elem.z << std::endl;
-				}
+		parallel_sort(&(vec.front()), &(vec.front()) + vec.size(), threads);
+		for (auto elem : vec) {
+		std::cout << elem.x << ", " << elem.y << ", " << elem.z << std::endl;
+		}
 
-				getchar();
-				return 0;
-			}
-
-			class CAD3DSystemsStlMesh {
-
-			};
+		getchar();
+		return 0;
+		}
 		*/
 	}
 
@@ -484,6 +479,14 @@ namespace Theodore {
 		}
 
 		return *this;
+	}
+
+	size_t DataStream::GetSize() const {
+		return mSize;
+	}
+
+	size_t DataStream::GetOccupied() const {
+		return mOccupied;
 	}
 
 	void DataStream::Reset() {
