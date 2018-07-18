@@ -107,11 +107,15 @@ namespace Theodore {
 
 		Matrix4x4 model = mTransform->GetLocalToWorldMatrix();
 		Vector3d newCenter = Matrix4x4::DecomposeTranslation(model);
-		Vector3d newExtents = Vector3d::zero;
+		Vector3d newExtents = mMesh->GetBounds()->GetExtents();// Vector3d::zero;
 
 		newCenter += Vector3d(model * Vector4d(mMesh->GetBounds()->GetCenter(), 1.f));
-		newExtents += Vector3d(Matrix4x4::Absolute(model) * Vector4d(mMesh->GetBounds()->GetExtents(), 0.f));
-
+		// The following is equal to taking the absolute value of the whole matrix m.
+		newExtents = Vector3d(Math::AbsDot(Vector3d(model.rows[0]), newExtents), 
+			Math::AbsDot(Vector3d(model.rows[1]), newExtents),
+			Math::AbsDot(Vector3d(model.rows[2]), newExtents)
+		);
+		
 		mBounds.SetMinMax(newCenter - newExtents, newCenter + newExtents);
 	}
 

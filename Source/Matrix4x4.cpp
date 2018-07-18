@@ -3,6 +3,7 @@
 #include "Vector2d.h"
 #include "Vector3d.h"
 #include "Vector4d.h"
+#include "Quaternion.h"
 #include <algorithm> // until c++11 for std::swap
 #include <utility> // since c++11 for std::swap
 #include <cmath> // for std::sin, std::cos
@@ -436,8 +437,8 @@ namespace Theodore {
 		return Vector3d(first, second, third);
 	}
 
-	Matrix4x4 Matrix4x4::TRS(const Vector3d& pos, const Quaternion& q, const Vector3d& s) {
-		return Matrix4x4();
+	Matrix4x4 Matrix4x4::TRS(const Vector3d& p, const Quaternion& q, const Vector3d& s) {
+		return Matrix4x4::Scale(s) * Quaternion::ToRotationMatrix(q) * Matrix4x4::Translate(p);
 	}
     
     void Matrix4x4::Swap(Matrix4x4& first, Matrix4x4& second) {

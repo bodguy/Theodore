@@ -9,6 +9,8 @@
 #ifndef Matrix4x4_h
 #define Matrix4x4_h
 
+#include "Vector4d.h"
+
 namespace Theodore {
 	class Vector2d; class Vector3d; class Vector4d; class Quaternion;
     class Matrix4x4 {
@@ -86,7 +88,7 @@ namespace Theodore {
 		static Vector3d DecomposeTranslation(const Matrix4x4& transformation);
 		static Vector3d DecomposeRotation(const Matrix4x4& transformation);
 		static Vector3d DecomposeScale(const Matrix4x4& transformation);
-		static Matrix4x4 TRS(const Vector3d& pos, const Quaternion& q, const Vector3d& s);
+		static Matrix4x4 TRS(const Vector3d& p, const Quaternion& q, const Vector3d& s);
         
         // anonymous union
         union {
@@ -99,6 +101,7 @@ namespace Theodore {
             
             float m44[4][4];
             float m16[16];
+			Vector4d rows[4];
         };
         
     private:

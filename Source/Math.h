@@ -2,26 +2,16 @@
 	@brief common math utility
 	@author bodguy
 	@date 17.07.17
-	@todo 
+	@todo EaseIn(), PerlinNoise() function implementation
 	@bug 
 */
 
 #ifndef Math_h
 #define Math_h
 
+#include "Vector3d.h"
+
 namespace Theodore {
-	template <int N>
-	struct Factorial
-	{
-		enum { value = N * Factorial<N - 1>::value };
-	};
-
-	template <>
-	struct Factorial<0>
-	{
-		enum { value = 1 };
-	};
-
     class Math {
     public:
         static bool IsEqual(const float a, const float b);
@@ -36,7 +26,7 @@ namespace Theodore {
 		static float PerlinNoise(float x, float y);
         static float PerlinNoise(float x, float y, float z);
 		static float SmoothStep(float min, float max, float value);
-		//static float EaseIn();
+		static float EaseIn();
 
         static float Sin(float angle);
         static float Cos(float angle);
@@ -52,6 +42,19 @@ namespace Theodore {
 
 		static float Max(float a, float b);
 		static float Min(float a, float b);
+		static float AbsDot(const Vector3d& v1, const Vector3d& v2);
+
+		// const time factorial
+		// how to use: Math::Factorial<3>::value;
+		template <int N>
+		struct Factorial {
+			enum { value = N * Factorial<N - 1>::value };
+		};
+
+		template <>
+		struct Factorial<0> {
+			enum { value = 1 };
+		};
         
         static const float pi;
         static const int degrees;

@@ -2,7 +2,7 @@
 	@brief represents AABB(axis aligned bounding box)
 	@author bodguy
 	@date 17.07.17
-	@todo 
+	@todo lots of functions are not implemented yet
 	@bug 
 */
 

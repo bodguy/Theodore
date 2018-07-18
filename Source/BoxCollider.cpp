@@ -95,9 +95,7 @@ namespace Theodore {
 	}
 
 	void BoxCollider::Render() {
-		if (mIsVisible) {
-			Graphics::DrawCube(mCenter, mSize, Color::purple, mTransform->GetLocalToWorldMatrix());
-		}
+		Graphics::DrawCube(mCenter, mSize, Color::purple, mTransform->GetLocalToWorldMatrix());
 	}
 
 	bool BoxCollider::CompareEquality(const Object& rhs) const {

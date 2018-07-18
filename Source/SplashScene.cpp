@@ -1,7 +1,7 @@
 #include "SplashScene.h"
 
 namespace Theodore {
-	SplashScene::SplashScene() : Scene("SplashScene"), boxPos(1.f, 5.5f, 0.f) {
+	SplashScene::SplashScene() : Scene("SplashScene") {
 		speed = 4.5f;
 		rotationY = 0.f;
 		rotationX = 0.f;
@@ -10,7 +10,7 @@ namespace Theodore {
 	}
 
 	SplashScene::~SplashScene() {
-		SafeDealloc(planes);
+
 	}
 
 	void SplashScene::OnAwake() {
@@ -24,27 +24,10 @@ namespace Theodore {
 		MeshRenderer* rend = monkey->AddComponent<MeshRenderer>();
 		Material* mat = new Material(Shader::Find("Phong"));
 		rend->SetMaterial(mat);
-		monkeyMesh = AssetManager::RequestMesh("Contents/model/dragon.obj");
-		rend->SetMesh(monkeyMesh);
+		rend->SetMesh(AssetManager::RequestMesh("Contents/model/dragon.obj"));
 		rend->SetVisibleGizmos(true);
-		boxCollider = monkey->AddComponent<BoxCollider>();
-		boxCollider->SetVisible(true);
-		sphereCollider = monkey->AddComponent<SphereCollider>();
-		sphereCollider->SetVisible(true);
-
-		cube = new GameObject("cube", monkey, this);
-		cube->GetTransform()->SetLocalPosition(Vector3d(5.f, 0.f, 0.f));
-		MeshRenderer* rend2 = cube->AddComponent<MeshRenderer>();
-		Material* mat2 = new Material(Shader::Find("Phong"));
-		mat2->texture0 = AssetManager::RequestTexture("Contents/BlueGrid.png", TextureFormat::RGBA32);
-		cubeMesh = ShapeGenerator::GenerateCube();
-		rend2->SetMaterial(mat2);
-		rend2->SetMesh(cubeMesh);
-		rend2->SetVisibleGizmos(true);
-		BoxCollider* cubeBoxColl = cube->AddComponent<BoxCollider>();
-		cubeBoxColl->SetVisible(true);
-		SphereCollider* cubeSphereColl = cube->AddComponent<SphereCollider>();
-		cubeSphereColl->SetVisible(true);
+		monkey->AddComponent<BoxCollider>();
+		monkey->AddComponent<SphereCollider>();
 
 		GameObject* pointLight = new GameObject("pointLight", this);
 		Light* pl = pointLight->AddComponent<Light>(LightType::PointLight);
@@ -53,31 +36,28 @@ namespace Theodore {
 		pl->specular = Color::white;
 		pl->GetTransform()->SetLocalPosition(Vector3d::zero);
 		
-		SceneManager::GetMainCamera()->GetTransform()->SetLocalPosition(Vector3d(0.f, 6.5f, 5.f));
-		SceneManager::GetMainCamera()->GetTransform()->Rotate(Vector3d::right, -25.f);
+		SceneManager::GetMainCamera()->GetTransform()->SetLocalPosition(Vector3d(0.f, 15.f, 30.f));
+		SceneManager::GetMainCamera()->GetTransform()->Rotate(Vector3d::right, -40.f);
 
-		float distanceZ = -10.f;
-		Vector3d distanceFromCamera = Vector3d(SceneManager::GetMainCamera()->GetTransform()->GetLocalPosition().x,
-			SceneManager::GetMainCamera()->GetTransform()->GetLocalPosition().y, distanceZ);
-		planes = new Plane(Vector3d::forward, distanceFromCamera);
 		camTrans = SceneManager::GetMainCamera()->GetTransform();
 	}
 
 	void SplashScene::OnUpdate() {
-		monkey->GetTransform()->Rotate(Vector3d(1.f, 1.f, 1.f), Time::DeltaTime() * 40.f);
-		cube->GetTransform()->Rotate(Vector3d::forward, Time::DeltaTime() * 120.f);
-
 		// ray casting
 		if (Input::GetMouseButtonDown(MOUSE_LEFT)) {
 			camPos = camTrans->GetPosition();
 			ray = SceneManager::GetMainCamera()->ScreenPointToRay(Input::GetMousePosition());
 		}
 		
-		if (boxCollider->Raycast(ray, RaycastHit(), 100.f)) {
-			Debug::Log("Ray Intersect");
-		}
 		Graphics::DrawLine(Vector3d(camPos.x, camPos.y, camPos.z + SceneManager::GetMainCamera()->GetNearClipPlane()
 		), ray.GetPoint(100.f), Color::yellow);
+
+		ObjectUpdate();
+		CameraUpdate();
+	}
+
+	void SplashScene::ObjectUpdate() {
+		monkey->GetTransform()->Rotate(Vector3d(1.f, 1.f, 1.f), Time::DeltaTime() * 40.f);
 
 		if (Input::GetKeyHeld(KEY_LEFT)) {
 			monkey->GetTransform()->Translate(Vector3d::left * Time::DeltaTime() * 10.f);
@@ -98,8 +78,6 @@ namespace Theodore {
 		else if (Input::GetKeyHeld(KEY_BACKSPACE)) {
 			monkey->GetTransform()->Scale(Vector3d(-0.2f, -0.2f, -0.2f));
 		}
-
-		CameraUpdate();
 	}
 
 	void SplashScene::CameraUpdate() {

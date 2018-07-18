@@ -68,6 +68,11 @@ namespace Theodore {
 		float x = std::fmaxf(0.f, std::fminf(1.f, (value - min) / (max - min)));
 		return x * x * (3 - 2 * x);
 	}
+
+	float Math::EaseIn() {
+		// TODO
+		return 0.f;
+	}
     
     float Math::Sin(float angle) {
         return std::sin(angle);
@@ -115,5 +120,9 @@ namespace Theodore {
 
 	float Math::Min(float a, float b) {
 		return std::fminf(a, b);
+	}
+
+	float Math::AbsDot(const Vector3d& v1, const Vector3d& v2) {
+		return std::fabsf(v1.x * v2.x) + std::fabsf(v1.y * v2.y) + std::fabsf(v1.z * v2.z);
 	}
 }

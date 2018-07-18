@@ -50,6 +50,10 @@ namespace Theodore {
 		}
 	}
 
+	void Transform::RotateAround(const Vector3d& point, const Vector3d& axis, float angle) {
+		// TODO
+	}
+
 	void Transform::Scale(const Vector3d& axis, Space relativeTo) {
 		if (relativeTo == Space::Self) {
 			mLocalScale += axis;

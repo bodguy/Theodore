@@ -104,13 +104,11 @@ namespace Theodore {
 	}
 
 	void SphereCollider::Render() {
-		if (mIsVisible) {
-			Matrix4x4 model = mTransform->GetLocalToWorldMatrix();
-			float newRadius = (mMaxLengthVector * Matrix4x4::DecomposeScale(model)).Length();
-			Vector3d newCenter = mTransform->TransformPoint(mCenter);
+		Matrix4x4 model = mTransform->GetLocalToWorldMatrix();
+		float newRadius = (mMaxLengthVector * Matrix4x4::DecomposeScale(model)).Length();
+		Vector3d newCenter = mTransform->TransformPoint(mCenter);
 
-			Graphics::DrawSphere(newCenter, newRadius, mColor);
-		}
+		Graphics::DrawSphere(newCenter, newRadius, Color::yellow);
 	}
 
 	bool SphereCollider::CompareEquality(const Object& rhs) const {

@@ -2,8 +2,8 @@
 	@brief transform component for translation, scaling, rotation object in the world space
 	@author bodguy
 	@date 17.07.17
-	@todo 
-	@bug 
+	@todo RotateAround function implementation
+	@bug LookAt function needs to be tested
 */
 
 #ifndef Transform_h
@@ -24,6 +24,7 @@ namespace Theodore {
 		void Translate(const Vector3d& translation, Space relativeTo = Space::Self);
 		void Rotate(const Vector3d& axis, float angle, Space relativeTo = Space::Self);
 		void Rotate(const Vector3d& eulerAngles, Space relativeTo = Space::Self);
+		void RotateAround(const Vector3d& point, const Vector3d& axis, float angle);
 		void Scale(const Vector3d& axis, Space relativeTo = Space::Self);
 
 		Vector3d GetPosition() const;

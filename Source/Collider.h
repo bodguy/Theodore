@@ -23,8 +23,6 @@ namespace Theodore {
 		virtual ~Collider();
 
 		ColliderType GetType() const;
-		void SetVisible(bool isVisible);
-		void SetColor(const Color& color);
 		virtual bool Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) = 0;
 
 	private:
@@ -32,8 +30,6 @@ namespace Theodore {
 
 	protected:
 		ColliderType mType;
-		bool mIsVisible;
-		Color mColor;
 	};
 }
 
