@@ -122,7 +122,15 @@ namespace Theodore {
 		return std::fminf(a, b);
 	}
 
+	float Math::Dot(const Vector3d& v1, const Vector3d& v2) {
+		return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+	}
+
 	float Math::AbsDot(const Vector3d& v1, const Vector3d& v2) {
 		return std::fabsf(v1.x * v2.x) + std::fabsf(v1.y * v2.y) + std::fabsf(v1.z * v2.z);
+	}
+
+	Vector3d Math::Power(const Vector3d& a, float exp) {
+		return Vector3d(std::powf(a.x, exp), std::powf(a.x, exp), std::powf(a.x, exp));
 	}
 }

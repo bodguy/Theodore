@@ -438,6 +438,12 @@ namespace Theodore {
 	}
 
 	Matrix4x4 Matrix4x4::TRS(const Vector3d& p, const Quaternion& q, const Vector3d& s) {
+		/*
+			If using column vectors
+			M := T * R * S
+			else if using row vectors
+			M := S * R * T
+		*/
 		return Matrix4x4::Scale(s) * Quaternion::ToRotationMatrix(q) * Matrix4x4::Translate(p);
 	}
     

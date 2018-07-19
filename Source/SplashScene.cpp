@@ -2,7 +2,7 @@
 
 namespace Theodore {
 	SplashScene::SplashScene() : Scene("SplashScene") {
-		speed = 4.5f;
+		speed = 20.f;
 		rotationY = 0.f;
 		rotationX = 0.f;
 		sensitivity = 8.0f;
@@ -24,10 +24,19 @@ namespace Theodore {
 		MeshRenderer* rend = monkey->AddComponent<MeshRenderer>();
 		Material* mat = new Material(Shader::Find("Phong"));
 		rend->SetMaterial(mat);
-		rend->SetMesh(AssetManager::RequestMesh("Contents/model/dragon.obj"));
+		rend->SetMesh(AssetManager::RequestMesh("Contents/model/budda.obj"));
 		rend->SetVisibleGizmos(true);
+		monkey->GetComponent<Transform>()->Scale(Vector3d(60.f, 60.f, 60.f), Space::World);
 		monkey->AddComponent<BoxCollider>();
 		monkey->AddComponent<SphereCollider>();
+
+		cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
+		cube->GetComponent<MeshRenderer>()->SetVisibleGizmos(true);
+		cube->AddComponent<BoxCollider>();
+		cube->AddComponent<SphereCollider>();
+		Transform* cubeTrans = cube->GetComponent<Transform>();
+		cubeTrans->SetParent(monkey);
+		cubeTrans->SetLocalPosition(Vector3d(10.f, 0.f, 0.f));
 
 		GameObject* pointLight = new GameObject("pointLight", this);
 		Light* pl = pointLight->AddComponent<Light>(LightType::PointLight);
@@ -57,7 +66,7 @@ namespace Theodore {
 	}
 
 	void SplashScene::ObjectUpdate() {
-		monkey->GetTransform()->Rotate(Vector3d(1.f, 1.f, 1.f), Time::DeltaTime() * 40.f);
+		monkey->GetTransform()->Rotate(Vector3d(1.f, 1.f, 1.f), Time::DeltaTime() * 20.f);
 
 		if (Input::GetKeyHeld(KEY_LEFT)) {
 			monkey->GetTransform()->Translate(Vector3d::left * Time::DeltaTime() * 10.f);
@@ -96,10 +105,10 @@ namespace Theodore {
 		//}
 
 		if (Input::GetKeyHeld(KEY_LSHIFT) || Input::GetKeyHeld(KEY_RSHIFT)) {
-			speed = 25.5f;
+			speed = 100.f;
 		}
 		else {
-			speed = 4.5f;
+			speed = 20.f;
 		}
 
 		// camera translation

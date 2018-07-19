@@ -17,6 +17,7 @@
 #include "Texture2D.h"
 #include "Bounds.h"
 #include "BoxCollider.h"
+#include "Debug.h"
 
 namespace Theodore {
 	MeshRenderer::MeshRenderer() : Renderer("MeshRenderer"), mMaterial(nullptr), mMesh(nullptr) {
@@ -103,19 +104,25 @@ namespace Theodore {
 	void MeshRenderer::Update(double deltaTime) {
 		// See Christer Ericson's Real-time Collision Detection, p. 87, or
 		// James Arvo's "Transforming Axis-aligned Bounding Boxes" in Graphics Gems 1, pp. 548-550.
-		// https://github.com/juj/MathGeoLib/blob/master/src/Geometry/AABB.cpp#L472
+		Matrix4x4 world = mTransform->GetLocalToWorldMatrix();
+		Matrix4x4 model = mTransform->GetWorldToLocalMatrix();
 
-		Matrix4x4 model = mTransform->GetLocalToWorldMatrix();
-		Vector3d newCenter = Matrix4x4::DecomposeTranslation(model);
-		Vector3d newExtents = mMesh->GetBounds()->GetExtents();// Vector3d::zero;
+		Vector3d center = mMesh->GetBounds()->GetCenter();
+		Vector3d extents = mMesh->GetBounds()->GetExtents();
+		Vector3d powScale = Math::Power(Matrix4x4::DecomposeScale(world), 2.f);
 
-		newCenter += Vector3d(model * Vector4d(mMesh->GetBounds()->GetCenter(), 1.f));
-		// The following is equal to taking the absolute value of the whole matrix m.
-		newExtents = Vector3d(Math::AbsDot(Vector3d(model.rows[0]), newExtents), 
-			Math::AbsDot(Vector3d(model.rows[1]), newExtents),
-			Math::AbsDot(Vector3d(model.rows[2]), newExtents)
+		Vector3d newCenter = Matrix4x4::DecomposeTranslation(world) + powScale * Vector3d(
+			Math::Dot(Vector3d(model.rows[0]), center), 
+			Math::Dot(Vector3d(model.rows[1]), center), 
+			Math::Dot(Vector3d(model.rows[2]), center)
 		);
-		
+
+		Vector3d newExtents = powScale * Vector3d(
+			Math::AbsDot(Vector3d(model.rows[0]), extents),
+			Math::AbsDot(Vector3d(model.rows[1]), extents),
+			Math::AbsDot(Vector3d(model.rows[2]), extents)
+		);
+
 		mBounds.SetMinMax(newCenter - newExtents, newCenter + newExtents);
 	}
 

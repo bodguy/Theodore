@@ -260,7 +260,7 @@ namespace Theodore {
 			center + extent * Vector3d(1.f, -1.f, 1.f),
 			center + extent * Vector3d(-1.f, -1.f, 1.f),
 			center + extent * Vector3d(-1.f, -1.f, 1.f),
-			center + extent * Vector3d(-1.f, -1.f, -1.f),
+			center + extent * Vector3d(-1.f, -1.f, -1.f)
 		};
 
 		gizmoProgram->Use();

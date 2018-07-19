@@ -24,7 +24,7 @@ namespace Theodore {
 		void ObjectUpdate();
 		void CameraUpdate();
 
-		GameObject *plane, *monkey;
+		GameObject *plane, *monkey, *cube;
 		Transform* camTrans;
 		Vector3d camPos;
 		Ray ray;

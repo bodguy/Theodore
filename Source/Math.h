@@ -42,7 +42,9 @@ namespace Theodore {
 
 		static float Max(float a, float b);
 		static float Min(float a, float b);
+		static float Dot(const Vector3d& v1, const Vector3d& v2);
 		static float AbsDot(const Vector3d& v1, const Vector3d& v2);
+		static Vector3d Power(const Vector3d& a, float exp);
 
 		// const time factorial
 		// how to use: Math::Factorial<3>::value;

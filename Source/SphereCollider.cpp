@@ -100,15 +100,22 @@ namespace Theodore {
 	}
 
 	void SphereCollider::Update(double deltaTime) {
+		Matrix4x4 world = mTransform->GetLocalToWorldMatrix();
+		Matrix4x4 model = mTransform->GetWorldToLocalMatrix();
+		Vector3d scale = Matrix4x4::DecomposeScale(world);
 
+		float newRadius = (mMaxLengthVector * scale).Length();
+		Vector3d newCenter = Matrix4x4::DecomposeTranslation(world) + Math::Power(scale, 2.f) * Vector3d(
+			Math::Dot(Vector3d(model.rows[0]), mCenter), 
+			Math::Dot(Vector3d(model.rows[1]), mCenter), 
+			Math::Dot(Vector3d(model.rows[2]), mCenter)
+		);
+		
+		Graphics::DrawSphere(newCenter, newRadius, Color::orange);
 	}
 
 	void SphereCollider::Render() {
-		Matrix4x4 model = mTransform->GetLocalToWorldMatrix();
-		float newRadius = (mMaxLengthVector * Matrix4x4::DecomposeScale(model)).Length();
-		Vector3d newCenter = mTransform->TransformPoint(mCenter);
-
-		Graphics::DrawSphere(newCenter, newRadius, Color::yellow);
+		
 	}
 
 	bool SphereCollider::CompareEquality(const Object& rhs) const {
