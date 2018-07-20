@@ -35,7 +35,7 @@ namespace Theodore {
 		float cutOff;
 		float outerCutOff;
 
-		static unsigned int MaxLightCount;
+		static const unsigned int MaxLightCount;
 
 	private:
 		virtual void Update(double deltaTime) override;

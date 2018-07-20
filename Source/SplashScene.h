@@ -26,6 +26,7 @@ namespace Theodore {
 
 		GameObject *plane, *monkey, *cube;
 		Transform* camTrans;
+		MeshRenderer* rend;
 		Vector3d camPos;
 		Ray ray;
 
@@ -34,6 +35,7 @@ namespace Theodore {
 		float rotationX;
 		float sensitivity;
 		float moveSensitivity;
+		float fieldOfView;
 	};
 }
 

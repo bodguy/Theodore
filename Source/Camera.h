@@ -39,6 +39,7 @@ namespace Theodore {
 		float GetNearClipPlane() const;
 		float GetFarClipPlane() const;
 		float GetAspectRatio() const;
+		void SetFieldOfView(float view);
 		void SetNearClipPlane(float near);
 		void SetFarClipPlane(float far);
 		Transform* GetTransform() const;

@@ -6,7 +6,7 @@
 #include "Utility.h"
 
 namespace Theodore {
-	unsigned int Light::MaxLightCount = 50;
+	const unsigned int Light::MaxLightCount = 50;
 	Light::Light(LightType type) : Component("Light"), type(type), ambient(Color(0.01f, 0.01f, 0.01f, 0.01f)), diffuse(Color(0.01f, 0.01f, 0.01f, 0.01f)), specular(Color(0.1f, 0.1f, 0.1f, 0.1f)),
 		constant(0.f), linear(0.f), quadratic(0.f), cutOff(0.f), outerCutOff(0.f) {
 		switch (type) {

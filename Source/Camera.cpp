@@ -41,7 +41,6 @@ namespace Theodore {
 
 	void Camera::ResetProjectionMatrix() const {
 		ResetAspect();
-		ResetFieldOfView();
 	}
 
 	Matrix4x4 Camera::GetProjectionMatrix() const {
@@ -113,6 +112,10 @@ namespace Theodore {
 
 	float Camera::GetAspectRatio() const {
 		return mAspect;
+	}
+
+	void Camera::SetFieldOfView(float view) {
+		mFieldOfView = view;
 	}
 
 	void Camera::SetNearClipPlane(float near) {

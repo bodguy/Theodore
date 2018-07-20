@@ -23,6 +23,7 @@ namespace Theodore {
 
 		void SetPrimitive(const Primitive primitive);
 		void SetVisibleGizmos(bool visible);
+		Bounds* GetBounds();
 
 	protected:
 		std::vector<Buffer*> mVbos;

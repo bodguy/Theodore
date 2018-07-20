@@ -7,6 +7,7 @@ namespace Theodore {
 		rotationX = 0.f;
 		sensitivity = 8.0f;
 		moveSensitivity = 0.5f;
+		fieldOfView = 60.f;
 	}
 
 	SplashScene::~SplashScene() {
@@ -21,12 +22,11 @@ namespace Theodore {
 		plane->GetTransform()->SetLocalPosition(Vector3d(0.f, -1.f, 0.f));
 
 		monkey = new GameObject("monkey", this);
-		MeshRenderer* rend = monkey->AddComponent<MeshRenderer>();
+		rend = monkey->AddComponent<MeshRenderer>();
 		Material* mat = new Material(Shader::Find("Phong"));
 		rend->SetMaterial(mat);
-		rend->SetMesh(AssetManager::RequestMesh("Contents/model/budda.obj"));
+		rend->SetMesh(AssetManager::RequestMesh("Contents/model/dragon.obj"));
 		rend->SetVisibleGizmos(true);
-		monkey->GetComponent<Transform>()->Scale(Vector3d(60.f, 60.f, 60.f), Space::World);
 		monkey->AddComponent<BoxCollider>();
 		monkey->AddComponent<SphereCollider>();
 
@@ -44,7 +44,7 @@ namespace Theodore {
 		pl->diffuse = Color::white;
 		pl->specular = Color::white;
 		pl->GetTransform()->SetLocalPosition(Vector3d::zero);
-		
+
 		SceneManager::GetMainCamera()->GetTransform()->SetLocalPosition(Vector3d(0.f, 15.f, 30.f));
 		SceneManager::GetMainCamera()->GetTransform()->Rotate(Vector3d::right, -40.f);
 
@@ -56,6 +56,10 @@ namespace Theodore {
 		if (Input::GetMouseButtonDown(MOUSE_LEFT)) {
 			camPos = camTrans->GetPosition();
 			ray = SceneManager::GetMainCamera()->ScreenPointToRay(Input::GetMousePosition());
+		}
+
+		if(rend->GetBounds()->IntersectRay(ray)) {
+			Debug::Log("Ray and bounds intersects!");
 		}
 		
 		Graphics::DrawLine(Vector3d(camPos.x, camPos.y, camPos.z + SceneManager::GetMainCamera()->GetNearClipPlane()
@@ -145,11 +149,22 @@ namespace Theodore {
 
 		// camera rotation
 		if (Input::GetMouseButtonHeld(MOUSE_RIGHT)) {
+			// zoom in, out
+			if (Input::GetKeyHeld(KEY_V)) {
+				fieldOfView++;
+			} else if (Input::GetKeyHeld(KEY_C)) {
+				fieldOfView--;
+			}
+			SceneManager::GetMainCamera()->SetFieldOfView(fieldOfView);
+
 			rotationY = Input::GetMouseDeltaPosition().x * sensitivity * Time::DeltaTime();
 			rotationX = Input::GetMouseDeltaPosition().y * sensitivity * Time::DeltaTime();
 
 			SceneManager::GetMainCamera()->GetTransform()->Rotate(Vector3d::up, -rotationY);
 			SceneManager::GetMainCamera()->GetTransform()->Rotate(SceneManager::GetMainCamera()->GetTransform()->GetRight(), -rotationX);
+		} else {
+			fieldOfView = 60.f;
+			SceneManager::GetMainCamera()->ResetFieldOfView();
 		}
 	}
 }
