@@ -138,44 +138,6 @@ namespace Theodore {
 		mRenderTexture = texture;
 	}
 
-	void Camera::PrepareFrustum() {
-		float tanAngle = tan(mFieldOfView / 2);
-
-		float yNear = mNearClipPlane * tanAngle;
-		float xNear = mAspect * yNear;
-		float yFar = mFarClipPlane * tanAngle;
-		float xFar = mAspect * yFar;
-
-		Vector3d nearLeftTop(-xNear, yNear, -1.0f * mNearClipPlane);
-		Vector3d nearLeftBottom(-xNear, -yNear, -1.0f * mNearClipPlane);
-		Vector3d nearRightBottom(xNear, -yNear, -1.0f * mNearClipPlane);
-		Vector3d nearRightTop(xNear, yNear, -1.0f * mNearClipPlane);
-
-		Vector3d farLeftTop(-xFar, yFar, -1.0f * mFarClipPlane);
-		Vector3d farLeftBottom(-xFar, -yFar, -1.0f * mFarClipPlane);
-		Vector3d farRightBottom(xFar, -yFar, -1.0f * mFarClipPlane);
-		Vector3d farRightTop(xFar, yFar, -1.0f * mFarClipPlane);
-
-		std::vector<Vector3d> vertices = {
-			nearLeftTop, nearLeftBottom, nearRightBottom, nearRightTop,     // front face
-			farLeftTop, farLeftBottom, farRightBottom, farRightTop,         // far face
-			nearLeftBottom, nearRightBottom, farRightBottom, farLeftBottom, // bottom face
-			nearLeftTop, nearRightTop, farRightTop, farLeftTop,             // top face
-			nearLeftBottom, farLeftBottom, farLeftTop, nearLeftTop,         // left face
-			nearRightBottom, farRightBottom, farRightTop, nearRightTop      // right face
-		};
-
-		//MeshRenderer* rend = this->mGameObject->AddComponent<MeshRenderer>();
-
-		//Mesh* mesh = new Mesh();
-		//mesh->SetVertices(vertices);
-		//mesh->MarkDynamic();
-		//Material* mat = new Material(Shader::Find("Standard"));
-
-		//rend->SetMaterial(mat);
-		//rend->SetMesh(mesh);
-	}
-
 	// private functions, for consistency with other components.
 
 	void Camera::Update(double deltaTime) {

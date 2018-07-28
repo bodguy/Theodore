@@ -20,18 +20,18 @@ namespace Theodore {
 
 		plane = GameObject::CreatePrimitive(PrimitiveType::Plane, this);
 		plane->GetTransform()->SetLocalPosition(Vector3d(0.f, -1.f, 0.f));
+		plane->AddComponent<BoxCollider>();
+		plane->AddComponent<SphereCollider>();
 
 		monkey = new GameObject("monkey", this);
 		rend = monkey->AddComponent<MeshRenderer>();
 		Material* mat = new Material(Shader::Find("Phong"));
 		rend->SetMaterial(mat);
 		rend->SetMesh(AssetManager::RequestMesh("Contents/model/dragon.obj"));
-		rend->SetVisibleGizmos(true);
 		monkey->AddComponent<BoxCollider>();
 		monkey->AddComponent<SphereCollider>();
 
 		cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
-		cube->GetComponent<MeshRenderer>()->SetVisibleGizmos(true);
 		cube->AddComponent<BoxCollider>();
 		cube->AddComponent<SphereCollider>();
 		Transform* cubeTrans = cube->GetComponent<Transform>();
@@ -98,6 +98,10 @@ namespace Theodore {
 			Platform::GetInstance()->Quit();
 		}
 
+		Camera* cam = SceneManager::GetMainCamera();
+		Transform* trans = cam->GetTransform();
+		Graphics::DrawFrustum(trans->GetLocalPosition(), cam->GetFieldOfView(), cam->GetFarClipPlane() / 500.f, cam->GetNearClipPlane(), cam->GetAspectRatio(), Color::white);
+
 		//if (Input::GetMouseButtonHeld(MOUSE_LEFT)) {
 		//	Vector3d right = SceneManager::GetMainCamera()->GetTransform()->GetRight();
 		//	right *= Input::GetMouseDeltaPosition().x * moveSensitivity * Time::DeltaTime();
@@ -117,34 +121,34 @@ namespace Theodore {
 
 		// camera translation
 		if (Input::GetKeyHeld(KEY_D)) {
-			Vector3d right = SceneManager::GetMainCamera()->GetTransform()->GetRight();
+			Vector3d right = trans->GetRight();
 			right *= speed * Time::DeltaTime();
 			SceneManager::GetMainCamera()->GetTransform()->Translate(right);
 		}
 		else if (Input::GetKeyHeld(KEY_A)) {
-			Vector3d left = SceneManager::GetMainCamera()->GetTransform()->GetRight();
+			Vector3d left = trans->GetRight();
 			left *= -speed * Time::DeltaTime();
-			SceneManager::GetMainCamera()->GetTransform()->Translate(left);
+			trans->Translate(left);
 		}
 		else if (Input::GetKeyHeld(KEY_W)) {
-			Vector3d forward = SceneManager::GetMainCamera()->GetTransform()->GetForward();
+			Vector3d forward = trans->GetForward();
 			forward *= speed * Time::DeltaTime();
-			SceneManager::GetMainCamera()->GetTransform()->Translate(forward);
+			trans->Translate(forward);
 		}
 		else if (Input::GetKeyHeld(KEY_S)) {
-			Vector3d backward = SceneManager::GetMainCamera()->GetTransform()->GetForward();
+			Vector3d backward = trans->GetForward();
 			backward *= -speed * Time::DeltaTime();
-			SceneManager::GetMainCamera()->GetTransform()->Translate(backward);
+			trans->Translate(backward);
 		}
 		else if (Input::GetKeyHeld(KEY_Q)) {
-			Vector3d down = SceneManager::GetMainCamera()->GetTransform()->GetUp();
+			Vector3d down = trans->GetUp();
 			down *= -speed * Time::DeltaTime();
-			SceneManager::GetMainCamera()->GetTransform()->Translate(down);
+			trans->Translate(down);
 		}
 		else if (Input::GetKeyHeld(KEY_E)) {
-			Vector3d up = SceneManager::GetMainCamera()->GetTransform()->GetUp();
+			Vector3d up = trans->GetUp();
 			up *= speed * Time::DeltaTime();
-			SceneManager::GetMainCamera()->GetTransform()->Translate(up);
+			trans->Translate(up);
 		}
 
 		// camera rotation
@@ -155,16 +159,16 @@ namespace Theodore {
 			} else if (Input::GetKeyHeld(KEY_C)) {
 				fieldOfView--;
 			}
-			SceneManager::GetMainCamera()->SetFieldOfView(fieldOfView);
+			cam->SetFieldOfView(fieldOfView);
 
 			rotationY = Input::GetMouseDeltaPosition().x * sensitivity * Time::DeltaTime();
 			rotationX = Input::GetMouseDeltaPosition().y * sensitivity * Time::DeltaTime();
 
-			SceneManager::GetMainCamera()->GetTransform()->Rotate(Vector3d::up, -rotationY);
-			SceneManager::GetMainCamera()->GetTransform()->Rotate(SceneManager::GetMainCamera()->GetTransform()->GetRight(), -rotationX);
+			trans->Rotate(Vector3d::up, -rotationY);
+			trans->Rotate(trans->GetRight(), -rotationX);
 		} else {
 			fieldOfView = 60.f;
-			SceneManager::GetMainCamera()->ResetFieldOfView();
+			cam->ResetFieldOfView();
 		}
 	}
 }

@@ -13,6 +13,7 @@
 #include "Matrix4x4.h"
 #include "Ray.h"
 #include "Component.h"
+#include <vector>
 
 namespace Theodore {
 	class Transform; class FrameBuffer;
@@ -45,7 +46,6 @@ namespace Theodore {
 		Transform* GetTransform() const;
 		FrameBuffer* GetRenderTexture() const;
 		void SetRenderTexture(FrameBuffer* texture);
-		void PrepareFrustum();
 
 	private:
 		virtual void Update(double deltaTime) override;

@@ -127,9 +127,7 @@ namespace Theodore {
 	}
 
 	void MeshRenderer::Render() {
-		if (mIsVisibleGizmos) {
-			Graphics::DrawCube(mBounds.GetCenter(), mBounds.GetSize(), Color::red);
-		}
+		Graphics::DrawCube(mBounds.GetCenter(), mBounds.GetSize(), Color::red);
 
 		/*
 		std::vector<Camera*>& cameras = this->mGameObject->GetAllCameras();

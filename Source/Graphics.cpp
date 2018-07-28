@@ -287,6 +287,43 @@ namespace Theodore {
 		sphereProgram->UnUse();
 	}
 
+	void Graphics::DrawFrustum(const Vector3d& center, float fov, float maxRange, float minRange, float aspect, const Color color) {
+		float tanAngle = tan(fov / 2);
+
+		float yNear = minRange * tanAngle;
+		float xNear = aspect * yNear;
+		float yFar = maxRange * tanAngle;
+		float xFar = aspect * yFar;
+
+		Vector3d nearLeftTop(-xNear, yNear, -10.0f * minRange);
+		Vector3d nearLeftBottom(-xNear, -yNear, -10.0f * minRange);
+		Vector3d nearRightBottom(xNear, -yNear, -10.0f * minRange);
+		Vector3d nearRightTop(xNear, yNear, -10.0f * minRange);
+
+		Vector3d farLeftTop(-xFar, yFar, -10.0f * maxRange);
+		Vector3d farLeftBottom(-xFar, -yFar, -10.0f * maxRange);
+		Vector3d farRightBottom(xFar, -yFar, -10.0f * maxRange);
+		Vector3d farRightTop(xFar, yFar, -10.0f * maxRange);
+
+		Vector3d vertices[24] = {
+			nearLeftTop, nearLeftBottom, nearRightBottom, nearRightTop,     // front face
+			farLeftTop, farLeftBottom, farRightBottom, farRightTop,         // far face
+			nearLeftBottom, nearRightBottom, farRightBottom, farLeftBottom, // bottom face
+			nearLeftTop, nearRightTop, farRightTop, farLeftTop,             // top face
+			nearLeftBottom, farLeftBottom, farLeftTop, nearLeftTop,         // left face
+			nearRightBottom, farRightBottom, farRightTop, nearRightTop      // right face
+		};
+
+		gizmoProgram->Use();
+		gizmoProgram->SetUniform("model", Matrix4x4::Identity());
+		gizmoProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+		gizmoProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
+		gizmoProgram->SetUniform("color", color);
+		gizmoBuffer->SubData(vertices, 0, 24 * sizeof(Vector3d));
+		Graphics::DrawArrays(*gizmoVao, Primitive::Lines, 0, 24);
+		gizmoProgram->UnUse();
+	}
+
 	// OpenGL 2.1 version rendering functions implements
 	void Graphics::Vertex(const Vector3d& vector) {
 		glVertex3f(vector.x, vector.y, vector.z);
