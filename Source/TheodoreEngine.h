@@ -62,6 +62,7 @@
 #include "ShapeGenerator.h"
 #include "BoxCollider.h"
 #include "SphereCollider.h"
+#include "RigidBody2D.h"
 
 using namespace Theodore;
 
