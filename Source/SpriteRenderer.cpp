@@ -75,6 +75,7 @@ namespace Theodore {
 			mProgram->SetUniform("flipX", mFlipX);
 			mProgram->SetUniform("flipY", mFlipY);
 			mProgram->SetUniform("color", mColor);
+			mProgram->SetUniform("colorKey", mSprite->mColorKey);
 			Graphics::BindTexture(0, mSprite->mTexture);
 			Graphics::DrawElements(*mVao, mPrimitive, 0, 6, mSprite->mFormat);
 			Graphics::BindTexture(0, NULL);

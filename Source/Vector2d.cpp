@@ -226,6 +226,15 @@ namespace Theodore {
         return lerp;
     }
     
+	Vector2d Vector2d::Normalize(const Vector2d& vector) {
+		float len = std::sqrt(vector.x * vector.x + vector.y * vector.y);
+		if (Math::IsZero(len) || Math::IsEqual(len, 1.f))
+			return vector;
+
+		float inv = 1 / len;
+		return Vector2d(vector.x * inv, vector.y * inv);
+	}
+
     void Vector2d::Swap(Vector2d& fisrt, Vector2d& second) {
         using std::swap;
         swap(fisrt.x, second.x);

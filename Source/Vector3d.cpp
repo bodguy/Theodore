@@ -276,6 +276,19 @@ namespace Theodore {
 	Vector3d Vector3d::ProjectOnPlane(const Vector3d& vector, const Vector3d& planeNormal) {
 		return vector - Vector3d::Project(vector, planeNormal);
 	}
+
+	Vector3d Vector3d::Normalize(const Vector3d& vector) {
+		float len = std::sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+		if (Math::IsZero(len) || Math::IsEqual(len, 1.f))
+			return vector;
+
+		float inv = 1 / len;
+		return Vector3d(vector.x * inv, vector.y * inv, vector.z * inv);
+	}
+
+	float Vector3d::Angle(const Vector3d& from, const Vector3d& to) {
+		return Math::Degrees(Math::Acos(Math::Clamp(Vector3d::DotProduct(Vector3d::Normalize(from), Vector3d::Normalize(to)), -1.f, 1.f)));
+	}
     
     void Vector3d::Swap(Vector3d& first, Vector3d& second) {
         using std::swap;

@@ -79,7 +79,9 @@ namespace Theodore {
     enum class WrapMode {
         Repeat = GL_REPEAT, // Tiles the texture, creating a repeating pattern.
         Clamp = GL_CLAMP, // Clamps the texture to the last pixel at the border.
-        ClampEdge = GL_CLAMP_TO_EDGE
+        ClampEdge = GL_CLAMP_TO_EDGE,
+		ClampBorder = GL_CLAMP_TO_BORDER,
+		MirroredRepeat = GL_MIRRORED_REPEAT
     };
         
     enum class TextureDimension {

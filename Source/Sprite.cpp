@@ -4,7 +4,7 @@
 #include "Utility.h"
 
 namespace Theodore {
-	Sprite::Sprite() : mFormat(IndexFormat::UInt16), mTexture(nullptr), mRect(), mTextureRect(), mTextureRectOffset(), mPivot(){
+	Sprite::Sprite() : mFormat(IndexFormat::UInt16), mTexture(nullptr), mRect(), mTextureRect(), mTextureRectOffset(), mPivot(), mColorKey(Color::white) {
 		memset(mVertices, 0, sizeof(Vector2d) * 4);
 		memset(mUvs, 0, sizeof(Vector2d) * 4);
 		memset(mIndices, 0, sizeof(unsigned short) * 6);
@@ -52,6 +52,8 @@ namespace Theodore {
 		sprite->mUvs[1] = Vector2d(sprite->mRect.right, sprite->mRect.top);
 		sprite->mUvs[2] = Vector2d(sprite->mRect.right, sprite->mRect.bottom);
 		sprite->mUvs[3] = Vector2d(sprite->mRect.left, sprite->mRect.bottom);
+
+		sprite->mColorKey = texture->GetColorKey();
 
 		sprite->mIndices[0] = 0;
 		sprite->mIndices[1] = 1;

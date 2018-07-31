@@ -87,7 +87,8 @@ namespace Theodore {
         static Vector2d Lerp(const Vector2d& a, const Vector2d& b, float t); // Linear Interpolation
         static Vector2d Slerp(const Vector2d& a, const Vector2d& b, float t); // Sphere Linear Interpolation
         static Vector2d Nlerp(const Vector2d& a, const Vector2d& b, float t); // Normalized Linear Interpolation
-        
+		static Vector2d Normalize(const Vector2d& vector);
+
         float x, y;
 		static const Vector2d up, down, left, right, one, zero;
 

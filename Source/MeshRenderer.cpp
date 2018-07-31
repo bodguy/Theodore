@@ -109,7 +109,7 @@ namespace Theodore {
 
 		Vector3d center = mMesh->GetBounds()->GetCenter();
 		Vector3d extents = mMesh->GetBounds()->GetExtents();
-		Vector3d powScale = Math::Power(Matrix4x4::DecomposeScale(world), 2.f);
+		Vector3d powScale = Math::Pow(Matrix4x4::DecomposeScale(world), 2.f);
 
 		Vector3d newCenter = Matrix4x4::DecomposeTranslation(world) + powScale * Vector3d(
 			Math::Dot(Vector3d(model.rows[0]), center), 

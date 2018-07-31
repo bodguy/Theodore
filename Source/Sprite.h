@@ -13,6 +13,7 @@
 #include "Vector2d.h"
 #include "Enumeration.h"
 #include "VertexBuffer.h"
+#include "Color.h"
 
 namespace Theodore {
 	class Texture2D; class Buffer; class VertexArray;
@@ -35,6 +36,7 @@ namespace Theodore {
 		Vector2d mPivot;
 		Vector2d mVertices[4];
 		Vector2d mUvs[4];
+		Color mColorKey;
 		unsigned short mIndices[6];
 	};
 }

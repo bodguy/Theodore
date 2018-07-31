@@ -143,6 +143,8 @@ namespace Theodore {
         static Vector3d Nlerp(const Vector3d& a, const Vector3d& b, float t); // Normalized Linear Interpolation
         static Vector3d Project(const Vector3d& vector, const Vector3d& onNormal);
 		static Vector3d ProjectOnPlane(const Vector3d& vector, const Vector3d& planeNormal);
+		static Vector3d Normalize(const Vector3d& vector);
+		static float Angle(const Vector3d& from, const Vector3d& to);
 
         float x, y, z;
         static const Vector3d up, down, left, right, forward, backward, one, zero;

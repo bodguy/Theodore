@@ -26,32 +26,35 @@ namespace Theodore {
             mHeight = h;
 			SetAssetName(filename);
             
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glEnable(GL_ALPHA_TEST);
-            glAlphaFunc(GL_GREATER, 0);
+	 //	 NOTE: this codes are very old-fashioned opengl stuff, so DO NOT USE otherwise,
+	 //        it will considerably corrode your application performances at loading time.
+	 //		   I recommend to use discard idiom in fragment shader.
+
+     //       // Go through pixels
+     //       // Size of an image = rows * cols * bpp
+     //       // https://www.tutorialspoint.com/dip/concept_of_bits_per_pixel.htm
+     //       GLuint size = mWidth * mHeight * bpp;
+     //       for (GLuint i = 0; i < size; ++i) {
+     //           //Get pixel colors
+     //           GLubyte* colors = (GLubyte*)&data[i];
+     //           
+     //           //Color matches
+     //           if (colors[0] == Color::ConvertToByte(mColorKey.r) &&
+     //               colors[1] == Color::ConvertToByte(mColorKey.g) &&
+     //               colors[2] == Color::ConvertToByte(mColorKey.b) && 
+					//(0 == mColorKey.a || colors[3] == Color::ConvertToByte(mColorKey.a)) ) {
+     //               //Make transparent
+     //               colors[0] = 000;
+     //               colors[1] = 000;
+     //               colors[2] = 000;
+     //               colors[3] = 000;
+     //           }
+     //       }
             
-            // Go through pixels
-            // Size of an image = rows * cols * bpp
-            // https://www.tutorialspoint.com/dip/concept_of_bits_per_pixel.htm
-            GLuint size = mWidth * mHeight * bpp;
-            for (GLuint i = 0; i < size; ++i) {
-                //Get pixel colors
-                GLubyte* colors = (GLubyte*)&data[i];
-                
-                //Color matches
-                if (colors[0] == Color::ConvertToByte(mColorKey.r) &&
-                    colors[1] == Color::ConvertToByte(mColorKey.g) &&
-                    colors[2] == Color::ConvertToByte(mColorKey.b) && 
-					(0 == mColorKey.a || colors[3] == Color::ConvertToByte(mColorKey.a)) ) {
-                    //Make transparent
-                    colors[0] = 000;
-                    colors[1] = 000;
-                    colors[2] = 000;
-                    colors[3] = 000;
-                }
-            }
-            
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glEnable(GL_ALPHA_TEST);
+			glAlphaFunc(GL_GREATER, 0);
             glGenTextures(1, &mTextureID);
             glBindTexture(static_cast<GLenum>(mDimension), mTextureID);
             switch (format) {
@@ -70,6 +73,9 @@ namespace Theodore {
             }
             
             // set parameters
+			// https://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/discard.php
+			mFilterMode = FilterMode::Nearest;
+
             SetMipmapBias(mMipMapBias);
             SetAnisoLevel(mAnisoLevel);
             SetFilter(mFilterMode);
@@ -200,6 +206,8 @@ namespace Theodore {
             }
             
             // set parameters
+			mFilterMode = FilterMode::Nearest;
+
             SetMipmapBias(mMipMapBias);
             SetAnisoLevel(mAnisoLevel);
             SetFilter(mFilterMode);

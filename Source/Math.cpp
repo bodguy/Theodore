@@ -7,6 +7,7 @@ namespace Theodore {
     const float Math::pi = 3.1415926f;
     const int Math::degrees = 360;
     const float Math::degrees_to_radians = Math::pi / 180.f;
+	const float Math::radians_to_degrees = 180.f / Math::pi;
     const float Math::flt_epsilon = std::numeric_limits<float>::epsilon();
 	const float Math::infinity = std::numeric_limits<float>::infinity();
     
@@ -55,7 +56,7 @@ namespace Theodore {
     }
     
     float Math::Degrees(float radians) {
-        return radians * (1 / degrees_to_radians);
+		return radians * radians_to_degrees;
     }
 	
 	float Math::Sign(float f) {
@@ -200,19 +201,19 @@ namespace Theodore {
 		return std::fabsf(v1.x * v2.x) + std::fabsf(v1.y * v2.y) + std::fabsf(v1.z * v2.z);
 	}
 
-	Vector3d Math::Power(const Vector3d& a, float exp) {
+	Vector3d Math::Pow(const Vector3d& a, float exp) {
 		return Vector3d(std::powf(a.x, exp), std::powf(a.x, exp), std::powf(a.x, exp));
 	}
 	
-	float Dot(const Vector2d& v1, const Vector2d& v2) {
+	float Math::Dot(const Vector2d& v1, const Vector2d& v2) {
 		return v1.x * v2.x + v1.y * v2.y;
 	}
 	
-	float AbsDot(const Vector2d& v1, const Vector2d& v2) {
+	float Math::AbsDot(const Vector2d& v1, const Vector2d& v2) {
 		return std::fabsf(v1.x * v2.x) + std::fabsf(v1.y * v2.y);
 	}
 	
-	Vector2d Power(const Vector2d& a, float exp) {
+	Vector2d Math::Pow(const Vector2d& a, float exp) {
 		return Vector2d(std::powf(a.x, exp), std::powf(a.x, exp));
 	}
 }

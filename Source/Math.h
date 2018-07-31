@@ -59,15 +59,16 @@ namespace Theodore {
 		
 		static float Dot(const Vector3d& v1, const Vector3d& v2);
 		static float AbsDot(const Vector3d& v1, const Vector3d& v2);
-		static Vector3d Power(const Vector3d& a, float exp);
+		static Vector3d Pow(const Vector3d& a, float exp);
 		
 		static float Dot(const Vector2d& v1, const Vector2d& v2);
 		static float AbsDot(const Vector2d& v1, const Vector2d& v2);
-		static Vector2d Power(const Vector2d& a, float exp);
+		static Vector2d Pow(const Vector2d& a, float exp);
 
         static const float pi;
         static const int degrees;
         static const float degrees_to_radians;
+		static const float radians_to_degrees;
 		static const float flt_epsilon;
 		static const float infinity;
     };

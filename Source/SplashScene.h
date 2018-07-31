@@ -28,14 +28,26 @@ namespace Theodore {
 		virtual void OnAwake() {
 			tiger = new GameObject("spriteTest", this);
 			tiger->AddComponent<SpriteRenderer>()->SetSprite(
-				Sprite::Create(AssetManager::RequestTexture("Contents/sprite.png", TextureFormat::RGBA32)));
+				Sprite::Create(AssetManager::RequestTexture("Contents/sprite.png", TextureFormat::RGBA32, Color(1.f, 1.f, 1.f, 1.f))));
 			rigidBody = tiger->AddComponent<RigidBody2D>();
+
+			dragon = new GameObject("test2", tiger, this);
+			dragon->AddComponent<SpriteRenderer>()->SetSprite(
+				Sprite::Create(AssetManager::RequestTexture("Contents/dragon.png", TextureFormat::RGBA32)));
+			dragon->GetTransform()->SetPosition(Vector3d(0.f, 0.f, 0.1f));
 
 			SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 20.f));
 		}
 
 		virtual void OnUpdate() {
 			Transform* trans = tiger->GetTransform();
+			Graphics::DrawLine(trans->GetPosition(), trans->GetRight() * 2.f + trans->GetPosition(), Color::red);
+			Graphics::DrawLine(trans->GetPosition(), trans->GetUp() * 2.f + trans->GetPosition(), Color::blue);
+			Graphics::DrawLine(trans->GetPosition(), trans->GetForward() * 2.f + trans->GetPosition(), Color::green);
+			Graphics::DrawFrustum(SceneManager::GetMainCamera()->GetTransform()->GetPosition(),
+				SceneManager::GetMainCamera()->GetFieldOfView(), SceneManager::GetMainCamera()->GetFarClipPlane() / 1000.f,
+				SceneManager::GetMainCamera()->GetNearClipPlane(), SceneManager::GetMainCamera()->GetAspectRatio(),
+				Color::white);
 
 			if (Input::GetKeyHeld(KEY_RIGHT)) {
 				trans->Translate(trans->GetRight() * Vector3d(0.2f, 0.f, 0.f));
@@ -49,11 +61,17 @@ namespace Theodore {
 			else if (Input::GetKeyHeld(KEY_DOWN)) {
 				trans->Translate(-trans->GetUp() * Vector3d(0.f, 0.2f, 0.f));
 			}
-			else if (Input::GetKeyDown(KEY_1)) {
-				rigidBody->AddForce(Vector2d(0.f, 2.f));
-			}
-			else if (Input::GetKeyDown(KEY_2)) {
+			//else if (Input::GetKeyDown(KEY_1)) {
+			//	rigidBody->AddForce(Vector2d(0.f, 2.f));
+			//}
+			else if (Input::GetKeyDown(KEY_3)) {
 				rigidBody->AddTorque(2.f);
+			}
+			else if (Input::GetKeyHeld(KEY_1)) {
+				trans->Rotate(Vector3d::forward, Time::DeltaTime() * 20.f);
+			}
+			else if (Input::GetKeyHeld(KEY_2)) {
+				trans->Rotate(Vector3d::backward, Time::DeltaTime() * 20.f);
 			}
 
 			CameraUpdate();
@@ -139,7 +157,7 @@ namespace Theodore {
 			}
 		}
 
-		GameObject* tiger;
+		GameObject* tiger, *dragon;
 		RigidBody2D* rigidBody;
 		float speed;
 		float rotationY;

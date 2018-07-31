@@ -43,7 +43,11 @@ namespace Theodore {
     std::string Texture::GetMappingType() const {
         return mMappingType;
     }
-    
+
+	Color Texture::GetColorKey() const {
+		return mColorKey;
+	}
+
     void Texture::SetMipmapBias(float bias) {
 		mMipMapBias = bias;
         // Set mipmap bias value

@@ -105,7 +105,7 @@ namespace Theodore {
 		Vector3d scale = Matrix4x4::DecomposeScale(world);
 
 		float newRadius = (mMaxLengthVector * scale).Length();
-		Vector3d newCenter = Matrix4x4::DecomposeTranslation(world) + Math::Power(scale, 2.f) * Vector3d(
+		Vector3d newCenter = Matrix4x4::DecomposeTranslation(world) + Math::Pow(scale, 2.f) * Vector3d(
 			Math::Dot(Vector3d(model.rows[0]), mCenter), 
 			Math::Dot(Vector3d(model.rows[1]), mCenter), 
 			Math::Dot(Vector3d(model.rows[2]), mCenter)

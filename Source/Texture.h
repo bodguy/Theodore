@@ -31,7 +31,9 @@ namespace Theodore {
         unsigned int GetHeight() const;
         unsigned int GetTextureID() const;
         std::string GetMappingType() const;
-        
+
+		Color GetColorKey() const;
+
         void SetMipmapBias(float bias);
         void SetAnisoLevel(float level);
         void SetFilter(FilterMode mode);
