@@ -10,22 +10,33 @@
 #define Math_h
 
 #include "Vector3d.h"
+#include "Vector2d.h"
 
 namespace Theodore {
     class Math {
     public:
         static bool IsEqual(const float a, const float b);
         static bool IsZero(const float a);
-        static float Clamp(float x, float a, float b);
+        static float Clamp(float x, float min, float max);
+		static int Clamp(int x, int min, int max);
+		static float Clamp01(float value);
         static float Lerp(float a, float b, float t);
+		static float LerpUnclamped(float a, float b, float t);
+		static float LerpAngle(float a, float b, float t);
+		static float InverseLerp(float a, float b, float value);
         static float Radians(float degrees);
         static float Degrees(float radians);
+		static float Sign(float f);
+		static float Repeat(float t, float length);
+		static float DeltaAngle(float current, float target);
 		static float PingPong(float t, float len);
 		static float KbToMb(int kb);
 		static float PerlinNoise(float x);
 		static float PerlinNoise(float x, float y);
         static float PerlinNoise(float x, float y, float z);
 		static float SmoothStep(float min, float max, float value);
+		static float MoveTowards(float current, float target, float maxDelta);
+		static float MoveTowardsAngle(float current, float target, float maxDelta);
 		static float EaseIn();
 
         static float Sin(float angle);
@@ -39,25 +50,21 @@ namespace Theodore {
 		static float Floor(float a);
 		static float Round(float a);
 		static float Abs(float a);
+		static float Log(float f);
+		static float Log10(float f);
+		static float Exp(float f);
 
 		static float Max(float a, float b);
 		static float Min(float a, float b);
+		
 		static float Dot(const Vector3d& v1, const Vector3d& v2);
 		static float AbsDot(const Vector3d& v1, const Vector3d& v2);
 		static Vector3d Power(const Vector3d& a, float exp);
+		
+		static float Dot(const Vector2d& v1, const Vector2d& v2);
+		static float AbsDot(const Vector2d& v1, const Vector2d& v2);
+		static Vector2d Power(const Vector2d& a, float exp);
 
-		// const time factorial
-		// how to use: Math::Factorial<3>::value;
-		template <int N>
-		struct Factorial {
-			enum { value = N * Factorial<N - 1>::value };
-		};
-
-		template <>
-		struct Factorial<0> {
-			enum { value = 1 };
-		};
-        
         static const float pi;
         static const int degrees;
         static const float degrees_to_radians;
