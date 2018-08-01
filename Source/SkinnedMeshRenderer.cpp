@@ -7,7 +7,7 @@ namespace Theodore {
 	SkinnedMeshRenderer::~SkinnedMeshRenderer() {
 	}
 
-	void SkinnedMeshRenderer::Update(double deltaTime) {
+	void SkinnedMeshRenderer::Update(float deltaTime) {
 	}
 
 	void SkinnedMeshRenderer::Render() {

@@ -33,8 +33,12 @@ namespace Theodore {
 		virtual void OnAwake() {}
 		// being called whenever scene is activated
 		virtual void OnStart() {}
+		// Fixed time step update
+		virtual void OnFixedUpdate() {}
 		// every frame
 		virtual void OnUpdate() {}
+		// last update every frame after OnUpdate called
+		virtual void OnLateUpdate() {}
 		// Pre Rendering function
 		virtual void OnPreRender() {}
 		// Pre Rendering function
@@ -47,7 +51,7 @@ namespace Theodore {
 		virtual void OnDestroy() {}
 
 	private:
-		virtual void Update(double deltaTime) final;
+		virtual void Update(float deltaTime) final;
 		virtual void Render() final;
 		virtual bool CompareEquality(const Object& rhs) const final;
 		virtual bool Destroy() final;

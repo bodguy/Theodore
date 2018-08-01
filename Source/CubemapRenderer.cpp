@@ -23,7 +23,7 @@ namespace Theodore {
 		return mTextureID;
 	}
 
-	void CubemapRenderer::Update(double deltaTime) {
+	void CubemapRenderer::Update(float deltaTime) {
 	}
 
 	void CubemapRenderer::Render() {

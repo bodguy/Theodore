@@ -63,7 +63,7 @@ namespace Theodore {
 		return mFlipY;
 	}
 
-	void SpriteRenderer::Update(double deltaTime) {
+	void SpriteRenderer::Update(float deltaTime) {
 	}
 
 	void SpriteRenderer::Render() {

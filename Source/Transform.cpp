@@ -184,7 +184,7 @@ namespace Theodore {
 
 	// private functions, for consistency with other components.
 
-	void Transform::Update(double deltaTime) {
+	void Transform::Update(float deltaTime) {
 
 	}
 

@@ -1,11 +1,18 @@
 #include "Object.h"
 #include "Vector3d.h"
+#include "Quaternion.h"
 #include "crc32.h"
+#include "GameObject.h"
+#include "Transform.h"
 
 namespace Theodore {
 	std::atomic<uint32_t> Unique_id::type_id;
 	Object::Object(const std::string& name) :mName(name), mHashValue(CRC32_STR(name.c_str())) {
 
+	}
+
+	Object::Object(const Object& rhs) {
+		// TODO
 	}
 
 	Object::~Object() {
@@ -37,25 +44,38 @@ namespace Theodore {
 		mHashValue = CRC32_STR(name.c_str());
 	}
 
-	bool Object::Destroy(Object* obj) {
+	bool Object::Destroy(GameObject* obj) {
 		if (!obj)
 			return false;
 
 		return obj->Destroy();
 	}
 
-	Object* Object::Instantiate(Object* original) {
-		// incomplete
-		return nullptr;
+	GameObject* Object::Instantiate(GameObject* original) {
+		if(!original)
+			return nullptr;
+		
+		return new GameObject(*original);
 	}
 
-	Object* Object::Instantiate(Object* original, const Vector3d& position) {
-		// incomplete
-		return nullptr;
+	GameObject* Object::Instantiate(GameObject* original, const Vector3d& position) {
+		if (!original)
+			return nullptr;
+
+		GameObject* clone = new GameObject(*original);
+		clone->GetTransform()->SetPosition(position);
+
+		return clone;
 	}
 
-	Object* Object::Instantiate(Object* original, const Vector3d& position, const Vector3d& rotation) {
-		// incomplete
-		return nullptr;
+	GameObject* Object::Instantiate(GameObject* original, const Vector3d& position, const Quaternion& rotation) {
+		if (!original)
+			return nullptr;
+
+		GameObject* clone = new GameObject(*original);
+		clone->GetTransform()->SetPosition(position);
+		clone->GetTransform()->SetRotation(rotation);
+
+		return clone;
 	}
 }

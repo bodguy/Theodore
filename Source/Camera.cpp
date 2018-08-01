@@ -140,7 +140,7 @@ namespace Theodore {
 
 	// private functions, for consistency with other components.
 
-	void Camera::Update(double deltaTime) {
+	void Camera::Update(float deltaTime) {
 
 	}
 

@@ -28,7 +28,7 @@ namespace Theodore {
 		static Application* instance;
 
 		void Render();
-		void Update(double deltaTime);
+		void Update(float deltaTime);
 
 		Platform* mPlatform;
 		Input* mInput;

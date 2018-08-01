@@ -90,7 +90,7 @@ namespace Theodore {
 		}
 	}
 
-	void BoxCollider::Update(double deltaTime) {
+	void BoxCollider::Update(float deltaTime) {
 
 	}
 

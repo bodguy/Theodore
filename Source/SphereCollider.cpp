@@ -99,7 +99,7 @@ namespace Theodore {
 		}
 	}
 
-	void SphereCollider::Update(double deltaTime) {
+	void SphereCollider::Update(float deltaTime) {
 		Matrix4x4 world = mTransform->GetLocalToWorldMatrix();
 		Matrix4x4 model = mTransform->GetWorldToLocalMatrix();
 		Vector3d scale = Matrix4x4::DecomposeScale(world);

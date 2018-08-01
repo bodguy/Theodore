@@ -32,7 +32,7 @@ namespace Theodore {
 		SafeDealloc(mShadowInfo);
 	}
 
-	void Light::Update(double deltaTime) {
+	void Light::Update(float deltaTime) {
 
 	}
 

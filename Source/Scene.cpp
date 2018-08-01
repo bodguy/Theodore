@@ -79,12 +79,13 @@ namespace Theodore {
 		return std::make_shared<std::vector<GameObject*> >(std::move(vectors));
 	}
 
-	void Scene::Update(double deltaTime) {
+	void Scene::Update(float deltaTime) {
 		//std::sort(sprites.begin(), sprites.end(), SpriteRenderer::SortLayer);
 		for (auto& i : mGameObjects)
 			if (i->mActiveSelf)
 				i->Update(deltaTime);
 		OnUpdate();
+		OnLateUpdate();
 	}
 
 	void Scene::Render() {

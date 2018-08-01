@@ -7,6 +7,7 @@
 #include "Random.h"
 #include "Utility.h"
 #include "Shader.h"
+#include "Debug.h"
 
 namespace Theodore {
 	Application* Application::instance = nullptr;
@@ -84,9 +85,13 @@ namespace Theodore {
 			mPlatform->Update();
 			mTime->Update();
 			mInput->Update();
+
 			Graphics::ClearColor(Color(0.f, 0.f, 0.f, 1.f), BufferBits::ColorBits | BufferBits::DepthBits);
-			Update(Time::DeltaTime());
-			Render();
+			{
+				// TODO FixedUpdate codes here
+				Update(Time::DeltaTime());
+				Render();
+			}
 			mPlatform->SwapBuffer();
 		}
 	}
@@ -99,7 +104,7 @@ namespace Theodore {
 		mSceneManager->Render();
 	}
 
-	void Application::Update(double deltaTime) {
+	void Application::Update(float deltaTime) {
 		mSceneManager->Update(deltaTime);
 	}
 }

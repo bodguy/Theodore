@@ -27,6 +27,10 @@ namespace Theodore {
 		scene->Attach(this);
 	}
 
+	GameObject::GameObject(const GameObject& other) : Object(other.mName) {
+		// TODO
+	}
+
 	GameObject::~GameObject() {
 		for (auto& i : mComponents) {
 			if (i.second) {
@@ -153,7 +157,7 @@ namespace Theodore {
 		return mTransform;
 	}
 
-	void GameObject::Update(double deltaTime) {
+	void GameObject::Update(float deltaTime) {
 		for (auto& i : mComponents) {
 			if (i.second->IsEnabled()) {
 				i.second->Update(deltaTime);
@@ -182,20 +186,15 @@ namespace Theodore {
 	}
 
 	bool GameObject::Destroy() {
-		for (auto& i : mComponents) {
-			if (i.second) {
-				i.second->~Component();
-				free(i.second);
-				i.second = nullptr;
-			}
+		for (auto& i : mChildren) {
+			if (mScene) 
+				mScene->Remove(i);
 		}
-		mComponents.clear();
-		mChildren.clear();
 
-		if (mScene)
+		if (mScene) 
 			return mScene->Remove(this);
 
-		return true;
+		return false;
 	}
 
 	std::vector<Light*>& GameObject::GetAllLights() const {

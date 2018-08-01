@@ -101,7 +101,7 @@ namespace Theodore {
 		return mMesh;
 	}
 
-	void MeshRenderer::Update(double deltaTime) {
+	void MeshRenderer::Update(float deltaTime) {
 		// See Christer Ericson's Real-time Collision Detection, p. 87, or
 		// James Arvo's "Transforming Axis-aligned Bounding Boxes" in Graphics Gems 1, pp. 548-550.
 		Matrix4x4 world = mTransform->GetLocalToWorldMatrix();

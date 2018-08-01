@@ -25,7 +25,7 @@ namespace Theodore {
 
 		virtual ~SplashScene() {}
 
-		virtual void OnAwake() {
+		virtual void OnStart() {
 			tiger = new GameObject("spriteTest", this);
 			tiger->AddComponent<SpriteRenderer>()->SetSprite(
 				Sprite::Create(AssetManager::RequestTexture("Contents/sprite.png", TextureFormat::RGBA32, Color(1.f, 1.f, 1.f, 1.f))));
@@ -40,10 +40,10 @@ namespace Theodore {
 		}
 
 		virtual void OnUpdate() {
-			Transform* trans = tiger->GetTransform();
-			Graphics::DrawLine(trans->GetPosition(), trans->GetRight() * 2.f + trans->GetPosition(), Color::red);
-			Graphics::DrawLine(trans->GetPosition(), trans->GetUp() * 2.f + trans->GetPosition(), Color::blue);
-			Graphics::DrawLine(trans->GetPosition(), trans->GetForward() * 2.f + trans->GetPosition(), Color::green);
+			Transform* trans = tiger != nullptr ? tiger->GetTransform() : nullptr;
+			//Graphics::DrawLine(trans->GetPosition(), trans->GetRight() * 2.f + trans->GetPosition(), Color::red);
+			//Graphics::DrawLine(trans->GetPosition(), trans->GetUp() * 2.f + trans->GetPosition(), Color::blue);
+			//Graphics::DrawLine(trans->GetPosition(), trans->GetForward() * 2.f + trans->GetPosition(), Color::green);
 			Graphics::DrawFrustum(SceneManager::GetMainCamera()->GetTransform()->GetPosition(),
 				SceneManager::GetMainCamera()->GetFieldOfView(), SceneManager::GetMainCamera()->GetFarClipPlane() / 1000.f,
 				SceneManager::GetMainCamera()->GetNearClipPlane(), SceneManager::GetMainCamera()->GetAspectRatio(),
@@ -80,6 +80,10 @@ namespace Theodore {
 		void CameraUpdate() {
 			if (Input::GetKeyDown(KEY_ESCAPE)) {
 				Platform::GetInstance()->Quit();
+			}
+
+			if (Input::GetKeyDown(KEY_BACKSPACE)) {
+				Object::Destroy(tiger);
 			}
 
 			Camera* cam = SceneManager::GetMainCamera();

@@ -29,9 +29,11 @@ namespace Theodore {
 		friend class Debug;
 		friend class Transform;
 		friend class MeshRenderer;
+		friend class Object;
 	public:
 		explicit GameObject(const std::string& name, Scene* scene);
 		GameObject(const std::string& name, GameObject* parent, Scene* scene);
+		GameObject(const GameObject& other); // copy constructor
 		virtual ~GameObject();
 
 		template<typename T, typename ...Ts>
@@ -61,7 +63,7 @@ namespace Theodore {
 		Transform* GetTransform() const;
 
 	private:
-		virtual void Update(double deltaTime) override;
+		virtual void Update(float deltaTime) override;
 		virtual void Render() override;
 		virtual bool CompareEquality(const Object& rhs) const override;
 		virtual bool Destroy() override;

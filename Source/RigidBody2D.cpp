@@ -25,7 +25,7 @@ namespace Theodore {
 		mTorque += torque;
 	}
 
-	void RigidBody2D::Update(double deltaTime) {
+	void RigidBody2D::Update(float deltaTime) {
 		mTorque += mCenterOfMass.x * mForce.y - mCenterOfMass.y * mForce.x;
 		Vector2d linearAcceleration = mForce / mMass;
 		mVelocity += linearAcceleration * deltaTime;

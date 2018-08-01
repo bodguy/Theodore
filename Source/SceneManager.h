@@ -53,7 +53,7 @@ namespace Theodore {
 		static void SetCurrentLight();
 
 		// Update current active scene in main game loop.
-		void Update(double deltaTime) const;
+		void Update(float deltaTime) const;
 		// Render current active scene in main game loop.
 		void Render() const;
 

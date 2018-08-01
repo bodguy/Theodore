@@ -99,7 +99,7 @@ namespace Theodore {
 			GetInstance()->mGlobalLight = GetActiveScene()->Find("GlobalLight")->GetComponent<Light>();
 	}
 
-	void SceneManager::Update(double deltaTime) const {
+	void SceneManager::Update(float deltaTime) const {
 		if (mCurrentScene && mCurrentScene->mActive)
 			mCurrentScene->Update(deltaTime);
 	}

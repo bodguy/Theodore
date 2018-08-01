@@ -24,15 +24,14 @@ namespace Theodore {
 		uint32_t mInstanceId;
 	};
 
-	class Vector3d;
+	class Vector3d; class Quaternion;
 	class Object : public Unique_id {
 		friend class GameObject;
 	public:
 		explicit Object(const std::string& name);
 		virtual ~Object();
 
-		// Delete copy constructor and assign operator.
-		Object(const Object& rhs) = delete;
+		// Delete assign operator.
 		Object& operator=(const Object& rhs) = delete;
 
 		// Compare operator.
@@ -47,18 +46,21 @@ namespace Theodore {
 		// Set name of object. 
 		void SetName(const std::string& name);
 
-		static bool Destroy(Object* obj);
-		static Object* Instantiate(Object* original);
-		static Object* Instantiate(Object* original, const Vector3d& position);
-		static Object* Instantiate(Object* original, const Vector3d& position, const Vector3d& rotation);
+		static bool Destroy(GameObject* obj);
+		static GameObject* Instantiate(GameObject* original);
+		static GameObject* Instantiate(GameObject* original, const Vector3d& position);
+		static GameObject* Instantiate(GameObject* original, const Vector3d& position, const Quaternion& rotation);
 
 	private:
-		virtual void Update(double deltaTime) = 0;
+		virtual void FixedUpdate(float deltaTime) {};
+		virtual void Update(float deltaTime) = 0;
 		virtual void Render() = 0;
 		virtual bool CompareEquality(const Object& rhs) const = 0;
 		virtual bool Destroy() = 0;
 
 	protected:
+		Object(const Object& rhs); // copy constructor
+
 		uint32_t mHashValue;
 		std::string mName;
 	};

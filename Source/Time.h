@@ -24,8 +24,14 @@ namespace Theodore {
         
         static void Reset();
         void Update();
-        static float DeltaTime();
-        static float ElapsedTime();
+        
+		static float DeltaTime();
+		static float DeltaTimeUnscaled();
+		static float ElapsedTime();
+		static float ElapsedTimeUnscaled();
+		static float FixedDeltaTime();
+		static float FixedDeltaTimeUnscaled();
+
         static int FPS();
         static void SetTimeScale(float value);
 		static std::string GetDateTime();
@@ -35,14 +41,19 @@ namespace Theodore {
     private:        
         static Time* instance;
         
-		TimePoint start;
-		TimePoint currentTime;
-        float elapsedtime;
-        float accumulation;
-        float realtimeSinceStartup;
-        int fps_counter;
-        int fps;
-        float scale;
+		TimePoint mStart;
+		TimePoint mCurrentTime;
+        float mAccumulator; // for internal use
+        int mFrameCounter; // for internal use
+        int mFrameRate;
+        float mTimeScale;
+
+		float mDeltaTime;
+		float mUnscaledDeltaTime;
+		float mTime;
+		float mUnscaledTime;
+		float mFixedDeltaTime;
+		float mUnscaledFixedDeltaTime;
     };
 }
 

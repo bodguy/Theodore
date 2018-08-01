@@ -3,44 +3,69 @@
 
 namespace Theodore {
     Time* Time::instance = nullptr;
-    Time::Time() : elapsedtime(0.f), accumulation(0.f), realtimeSinceStartup(0.f), fps_counter(0), fps(0) {
+    Time::Time() : mAccumulator(0.f), mFrameCounter(0), mFrameRate(0), 
+		mDeltaTime(0.f), mUnscaledDeltaTime(0.f), mTime(0.f), mUnscaledTime(0.f), mFixedDeltaTime(0.f) {
+		mUnscaledFixedDeltaTime = 20.f * 0.001f;
         instance = this;
         Reset();
     }
     
     void Time::Reset() {
-        instance->start = Clock::now();
-        instance->scale = 1 / 1000.f;
+        instance->mStart = Clock::now();
+		instance->mTimeScale = 1.f;
     }
     
     void Time::Update() {
-        currentTime = Clock::now();
-        elapsedtime = std::chrono::duration_cast<milli>(currentTime - start).count() * scale;
-        start = currentTime;
-        fps_counter++;
-        accumulation += elapsedtime; // accumulate
-        realtimeSinceStartup += elapsedtime;
-        if (accumulation > 1.0) { // elapsed after 1 sec
-            fps = fps_counter;
-            fps_counter = 0;
-            accumulation = 0.0;
+        mCurrentTime = Clock::now();
+	
+		mUnscaledDeltaTime = std::chrono::duration_cast<milli>(mCurrentTime - mStart).count() * 0.001f;
+        mDeltaTime = mUnscaledDeltaTime * mTimeScale;
+
+		mUnscaledTime += mUnscaledDeltaTime;
+		mTime += mDeltaTime;
+
+		mFixedDeltaTime = mUnscaledFixedDeltaTime * mTimeScale;
+		
+		mStart = mCurrentTime;
+		mFrameCounter++;
+		mAccumulator += mUnscaledDeltaTime; // accumulate
+        if (mAccumulator > 1.0f) { // elapsed after 1 sec
+            mFrameRate = mFrameCounter;
+            mFrameCounter = 0;
+            mAccumulator = 0.0f;
         }
     }
     
     float Time::DeltaTime() {
-        return instance->elapsedtime;
+        return instance->mDeltaTime;
     }
     
+	float Time::DeltaTimeUnscaled() {
+		return instance->mUnscaledDeltaTime;
+	}
+
     float Time::ElapsedTime() {
-        return instance->realtimeSinceStartup;
+        return instance->mTime;
     }
+
+	float Time::ElapsedTimeUnscaled() {
+		return instance->mUnscaledTime;
+	}
+
+	float Time::FixedDeltaTime() {
+		return instance->mFixedDeltaTime;
+	}
+
+	float Time::FixedDeltaTimeUnscaled() {
+		return instance->mUnscaledFixedDeltaTime;
+	}
     
     int Time::FPS() {
-        return instance->fps;
+        return instance->mFrameRate;
     }
     
     void Time::SetTimeScale(float value) {
-        instance->scale = value / 1000.f;
+		instance->mTimeScale = value;
     }
 
 	std::string Time::GetDateTime() {

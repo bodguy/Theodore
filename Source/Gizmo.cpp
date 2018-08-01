@@ -52,7 +52,7 @@ namespace Theodore {
 		SafeDealloc(mVao);
 	}
 
-	void Gizmo::Update(double deltaTime) {
+	void Gizmo::Update(float deltaTime) {
 		UnUsed(deltaTime);
 	}
 
