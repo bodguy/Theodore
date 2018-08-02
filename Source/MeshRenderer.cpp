@@ -154,6 +154,9 @@ namespace Theodore {
 	}
 
 	void MeshRenderer::InternalRender() {
+		Graphics::Disable(Capabilities::Blending);
+		Graphics::Disable(Capabilities::AlphaTest);
+
 		mProgram->Use();
 		mProgram->SetUniform("model", mTransform->GetLocalToWorldMatrix());
 		mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());

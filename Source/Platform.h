@@ -58,7 +58,8 @@ namespace Theodore {
         bool IsRunning() const { return mIsRunning; }
         static int GetWidth() { return GetInstance()->mWidth; }
         static int GetHeight() { return GetInstance()->mHeight; }
-        
+		static void ChangeTitle(const std::string& titleName);
+
 	private:
         static Platform* instance;
         

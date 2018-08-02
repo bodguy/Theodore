@@ -10,6 +10,7 @@
 #define SplashScene_h
 
 #include "TheodoreEngine.h"
+#include "MyNewScene.h"
 
 namespace Theodore {
 	class SplashScene : public Scene {
@@ -25,7 +26,7 @@ namespace Theodore {
 
 		virtual ~SplashScene() {}
 
-		virtual void OnStart() {
+		virtual void OnAwake() {
 			tiger = new GameObject("spriteTest", this);
 			tiger->AddComponent<SpriteRenderer>()->SetSprite(
 				Sprite::Create(AssetManager::RequestTexture("Contents/sprite.png", TextureFormat::RGBA32, Color(1.f, 1.f, 1.f, 1.f))));
@@ -39,15 +40,15 @@ namespace Theodore {
 			SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 20.f));
 		}
 
+		virtual void OnStart() {
+			Platform::ChangeTitle(SceneManager::GetActiveScene()->ToString());
+		}
+
 		virtual void OnUpdate() {
 			Transform* trans = tiger != nullptr ? tiger->GetTransform() : nullptr;
-			//Graphics::DrawLine(trans->GetPosition(), trans->GetRight() * 2.f + trans->GetPosition(), Color::red);
-			//Graphics::DrawLine(trans->GetPosition(), trans->GetUp() * 2.f + trans->GetPosition(), Color::blue);
-			//Graphics::DrawLine(trans->GetPosition(), trans->GetForward() * 2.f + trans->GetPosition(), Color::green);
-			Graphics::DrawFrustum(SceneManager::GetMainCamera()->GetTransform()->GetPosition(),
-				SceneManager::GetMainCamera()->GetFieldOfView(), SceneManager::GetMainCamera()->GetFarClipPlane() / 1000.f,
-				SceneManager::GetMainCamera()->GetNearClipPlane(), SceneManager::GetMainCamera()->GetAspectRatio(),
-				Color::white);
+			Graphics::DrawLine(trans->GetPosition(), trans->GetPosition() + trans->GetRight() * 2.f, Color::red);
+			Graphics::DrawLine(trans->GetPosition(), trans->GetPosition() + trans->GetUp() * 2.f, Color::blue);
+			Graphics::DrawLine(trans->GetPosition(), trans->GetPosition() + trans->GetForward() * 2.f, Color::green);
 
 			if (Input::GetKeyHeld(KEY_RIGHT)) {
 				trans->Translate(trans->GetRight() * Vector3d(0.2f, 0.f, 0.f));
@@ -74,6 +75,10 @@ namespace Theodore {
 				trans->Rotate(Vector3d::backward, Time::DeltaTime() * 20.f);
 			}
 
+			if (Input::GetKeyDown(KEY_0)) {
+				SceneManager::SetActiveScene(SceneManager::CreateScene<MyNewScene>("MyNewScene"));
+			}
+
 			CameraUpdate();
 		}
 
@@ -89,7 +94,7 @@ namespace Theodore {
 			Camera* cam = SceneManager::GetMainCamera();
 			Transform* trans = cam->GetTransform();
 
-			if (Input::GetMouseButtonHeld(MOUSE_LEFT)) {
+			if (Input::GetMouseButtonHeld(MOUSE_MIDDLE)) {
 				Vector3d right = SceneManager::GetMainCamera()->GetTransform()->GetRight();
 				right *= Input::GetMouseDeltaPosition().x * moveSensitivity * Time::DeltaTime();
 				SceneManager::GetMainCamera()->GetTransform()->Translate(right);
@@ -103,31 +108,19 @@ namespace Theodore {
 				speed = 100.f;
 			}
 			else {
-				speed = 20.f;
+				speed = 60.f;
 			}
 
 			// camera translation
-			if (Input::GetKeyHeld(KEY_D)) {
-				Vector3d right = trans->GetRight();
-				right *= speed * Time::DeltaTime();
-				SceneManager::GetMainCamera()->GetTransform()->Translate(right);
-			}
-			else if (Input::GetKeyHeld(KEY_A)) {
-				Vector3d left = trans->GetRight();
-				left *= -speed * Time::DeltaTime();
-				trans->Translate(left);
-			}
-			else if (Input::GetKeyHeld(KEY_W)) {
-				Vector3d forward = trans->GetForward();
-				forward *= speed * Time::DeltaTime();
-				trans->Translate(forward);
-			}
-			else if (Input::GetKeyHeld(KEY_S)) {
-				Vector3d backward = trans->GetForward();
-				backward *= -speed * Time::DeltaTime();
-				trans->Translate(backward);
-			}
-			else if (Input::GetKeyHeld(KEY_Q)) {
+			Vector3d right = trans->GetRight();
+			right *= Input::GetAxis("Horizontal") * speed * Time::DeltaTime();
+			trans->Translate(right);
+
+			Vector3d forward = trans->GetForward();
+			forward *= Input::GetAxis("Vertical") * speed * Time::DeltaTime();
+			trans->Translate(forward);
+
+			if (Input::GetKeyHeld(KEY_Q)) {
 				Vector3d down = trans->GetUp();
 				down *= -speed * Time::DeltaTime();
 				trans->Translate(down);
@@ -141,11 +134,12 @@ namespace Theodore {
 			// camera rotation
 			if (Input::GetMouseButtonHeld(MOUSE_RIGHT)) {
 				// zoom in, out
-				if (Input::GetKeyHeld(KEY_V)) {
-					fieldOfView++;
+				Vector3d pos = Input::GetMousePosition();
+				if (pos.z < 0.f) {
+					fieldOfView += 3;
 				}
-				else if (Input::GetKeyHeld(KEY_C)) {
-					fieldOfView--;
+				else if (pos.z > 0.f) {
+					fieldOfView -= 3;
 				}
 				cam->SetFieldOfView(fieldOfView);
 

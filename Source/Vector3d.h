@@ -90,8 +90,9 @@ namespace Theodore {
         Vector3d Perpendicular();
         Vector3d& Normalize();
         float Length() const;
+		float SquaredLength() const;
         float Distance(const Vector3d& other) const;
-        float DistanceSqrare(const Vector3d& other) const;
+        float DistanceSquare(const Vector3d& other) const;
 
 		Vector2d xx() const { return Vector2d(x, x); }
 		Vector2d xy() const { return Vector2d(x, y); } 

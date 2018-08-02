@@ -478,6 +478,8 @@ namespace Theodore {
 
 	void Platform::Update() {
 		MSG msg = { 0, };
+		mMousePosition.z = 0.f; // reset mouse wheel before do api call.
+
 		while (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)) {
 			if (msg.message == WM_QUIT) {
 				mIsRunning = false;
@@ -576,6 +578,10 @@ namespace Theodore {
 		}
 
 		return false;
+	}
+
+	void Platform::ChangeTitle(const std::string& titleName) {
+		SetWindowText(WindowsPlatform::instance->mHandle, titleName.c_str());
 	}
 }
 

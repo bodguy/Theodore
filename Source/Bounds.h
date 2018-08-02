@@ -13,6 +13,7 @@
 #include "Ray.h"
 
 namespace Theodore {
+	class Plane;
 	class Bounds {
 	public:
 		Bounds(const Vector3d& center, const Vector3d& size);
@@ -26,11 +27,14 @@ namespace Theodore {
 
 		bool IntersectRay(const Ray& ray);
 		bool Intersect(const Bounds& bounds);
+		bool Intersect(const Plane& bounds);
 		bool Contains(const Vector3d& point);
+		bool Contains(const Bounds& bounds);
 		void Encapsulate(const Vector3d& point);
 		void Encapsulate(const Bounds& bounds);
 		void ClosestPoint(const Vector3d& point);
 		float SqrDistance(const Vector3d& point);
+		float Distance(const Vector3d& point);
 		void Expand(float amount);
 		void SetMinMax(const Vector3d& min, const Vector3d& max);
 

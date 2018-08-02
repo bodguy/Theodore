@@ -59,16 +59,39 @@ namespace Theodore {
 		return true;
 	}
 
-	bool Bounds::Contains(const Vector3d& point) {
+	bool Bounds::Intersect(const Plane& bounds) {
 		return false;
 	}
 
-	void Bounds::Encapsulate(const Vector3d& point) {
+	bool Bounds::Contains(const Vector3d& point) {
+		return mMin.x <= point.x && point.x <= mMax.x &&
+			mMin.y <= point.y && point.y <= mMax.y &&
+			mMin.z <= point.z && point.z <= mMax.z;
+	}
 
+	bool Bounds::Contains(const Bounds& bounds) {
+		return mMin.x <= bounds.mMin.x &&
+			   mMin.y <= bounds.mMin.y &&
+			   mMin.z <= bounds.mMin.z &&
+			   bounds.mMax.x <= mMax.x &&
+			   bounds.mMax.y <= mMax.y &&
+			   bounds.mMax.z <= mMax.z;
+	}
+
+	void Bounds::Encapsulate(const Vector3d& point) {
+		if (Contains(point)) {
+			return;
+		}
+
+		// TODO
 	}
 
 	void Bounds::Encapsulate(const Bounds& bounds) {
+		if (Contains(bounds)) {
+			return;
+		}
 
+		// TODO
 	}
 
 	void Bounds::ClosestPoint(const Vector3d& point) {
@@ -76,11 +99,36 @@ namespace Theodore {
 	}
 
 	float Bounds::SqrDistance(const Vector3d& point) {
-		return 0.f;
+		if (Contains(point)) {
+			return 0.f;
+		} else {
+			Vector3d maxDist(0.f, 0.f, 0.f);
+
+			if (point.x < mMin.x)
+				maxDist.x = mMin.x - point.x;
+			else if (point.x > mMax.x)
+				maxDist.x = point.x - mMax.x;
+
+			if (point.y < mMin.y)
+				maxDist.y = mMin.y - point.y;
+			else if (point.y > mMax.y)
+				maxDist.y = point.y - mMax.y;
+
+			if (point.z < mMin.z)
+				maxDist.z = mMin.z - point.z;
+			else if (point.z > mMax.z)
+				maxDist.z = point.z - mMax.z;
+
+			return maxDist.SquaredLength();
+		}
+	}
+
+	float Bounds::Distance(const Vector3d& point) {
+		return std::sqrt(SqrDistance(point));
 	}
 
 	void Bounds::Expand(float amount) {
-
+		mExtents += amount;
 	}
 
 	void Bounds::SetMinMax(const Vector3d& min, const Vector3d& max) {

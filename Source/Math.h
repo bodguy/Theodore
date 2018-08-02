@@ -53,6 +53,7 @@ namespace Theodore {
 		static float Log(float f);
 		static float Log10(float f);
 		static float Exp(float f);
+		static float Sqrt(float f);
 
 		static float Max(float a, float b);
 		static float Min(float a, float b);

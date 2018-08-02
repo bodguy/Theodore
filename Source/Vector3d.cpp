@@ -218,12 +218,16 @@ namespace Theodore {
     float Vector3d::Length() const {
         return std::sqrt(x * x + y * y + z * z);
     }
+
+	float Vector3d::SquaredLength() const {
+		return x * x + y * y + z * z;
+	}
     
     float Vector3d::Distance(const Vector3d& other) const {
         return std::sqrt((x - other.x)*(x - other.x) + (y - other.y)*(y - other.y) + (z - other.z)*(z - other.z));
     }
     
-    float Vector3d::DistanceSqrare(const Vector3d& other) const {
+    float Vector3d::DistanceSquare(const Vector3d& other) const {
         Vector3d c = *this - other;
         return Vector3d::DotProduct(c, c);
     }

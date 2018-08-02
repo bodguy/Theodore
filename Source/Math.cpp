@@ -185,6 +185,10 @@ namespace Theodore {
 		return std::exp(f);
 	}
 
+	float Math::Sqrt(float f) {
+		return std::sqrtf(f);
+	}
+
 	float Math::Max(float a, float b) {
 		return std::fmaxf(a, b);
 	}

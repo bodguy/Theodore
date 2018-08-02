@@ -68,6 +68,11 @@ namespace Theodore {
 
 	void SpriteRenderer::Render() {
 		if (mSprite) {
+			Graphics::Enable(Capabilities::Blending);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			Graphics::Enable(Capabilities::AlphaTest);
+			glAlphaFunc(GL_GREATER, 0);
+
 			mProgram->Use();
 			mProgram->SetUniform("model", mTransform->GetLocalToWorldMatrix());
 			mProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
