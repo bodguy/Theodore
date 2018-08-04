@@ -277,6 +277,16 @@ namespace Theodore {
 
 	LRESULT CALLBACK WindowsPlatform::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		switch (msg) {
+		case WM_SYSCOMMAND:							// Intercept System Commands
+		{
+			switch (wParam)							// Check System Calls
+			{
+			case SC_SCREENSAVE:					// Screensaver Trying To Start?
+			case SC_MONITORPOWER:				// Monitor Trying To Enter Powersave?
+				return 0;							// Prevent From Happening
+			}
+			break;
+		}
 		//case WM_MOUSEHWHEEL:
 		case WM_MOUSEWHEEL:
 			// zDelta : Indicates that the mouse wheel was pressed, expressed in multiples or divisions of WHEEL_DELTA, which is 120.
@@ -284,6 +294,12 @@ namespace Theodore {
 			break;
 		case WM_SIZE:
 			instance->platform->WindowSizeChanged(LOWORD(lParam), HIWORD(lParam));
+			break;
+		case WM_SETFOCUS: 
+			instance->platform->mIsFocused = true;
+			break;
+		case WM_KILLFOCUS: 
+			instance->platform->mIsFocused = false;
 			break;
 		// WM_CLOSE -> WM_DESTROY -> WM_QUIT
 		//case WM_CLOSE:
@@ -333,7 +349,7 @@ namespace Theodore {
 	// Platform definition
 
 	Platform* Platform::instance = NULL;
-	Platform::Platform() :mWidth(0), mHeight(0), mIsShowCursor(true), mIsRunning(true), mMousePosition(), mIsMultisampleSupported(false) {
+	Platform::Platform() :mWidth(0), mHeight(0), mIsShowCursor(true), mIsFullScreen(false), mIsFocused(true), mIsRunning(true), mMousePosition(), mIsMultisampleSupported(false) {
 		WindowsPlatform::instance = new WindowsPlatform();
 		instance = this;
 		WindowsPlatform::instance->platform = this;
@@ -489,20 +505,20 @@ namespace Theodore {
 			DispatchMessage(&msg);
 		}
 
-		POINT mousePoint;
-		GetCursorPos(&mousePoint);
-		ScreenToClient(WindowsPlatform::instance->mHandle, &mousePoint);
+		//RECT rect;
+		//GetClientRect(WindowsPlatform::instance->mHandle, &rect);
+		//if (mMousePosition.x >= rect.left && mMousePosition.x <= rect.right && mMousePosition.y >= rect.top && mMousePosition.y <= rect.bottom) {
+			POINT mousePoint;
+			GetCursorPos(&mousePoint);
+			ScreenToClient(WindowsPlatform::instance->mHandle, &mousePoint);
 
-		RECT rect;
-		GetClientRect(WindowsPlatform::instance->mHandle, &rect);
-		if (mousePoint.x >= rect.left && mousePoint.x <= rect.right && mousePoint.y >= rect.top && mousePoint.y <= rect.bottom) {
 			mMousePosition.x = (float)mousePoint.x;
 			mMousePosition.y = (float)mousePoint.y;
 
 			mMouseButtons[MOUSE_LEFT] = static_cast<bool>(GetAsyncKeyState(VK_LBUTTON));
 			mMouseButtons[MOUSE_RIGHT] = static_cast<bool>(GetAsyncKeyState(VK_RBUTTON));
 			mMouseButtons[MOUSE_MIDDLE] = static_cast<bool>(GetAsyncKeyState(VK_MBUTTON));
-		}
+		//}
 
 		for (int i = 0; i < KEY_MAX; i++) {
 			mKeys[i] = static_cast<bool>(GetAsyncKeyState(mLocalKeymap[i]));
@@ -573,11 +589,14 @@ namespace Theodore {
 	}
 
 	bool Platform::IsFocus() const {
-		if (GetFocus() == WindowsPlatform::instance->mHandle) {
-			return true;
-		}
+		// I fix this code to handle in the windows message loop
+		//if (GetFocus() == WindowsPlatform::instance->mHandle) {
+		//	mIsFocused = true;
+		//} else {
+		//	mIsFocused = false;
+		//}
 
-		return false;
+		return mIsFocused;
 	}
 
 	void Platform::ChangeTitle(const std::string& titleName) {

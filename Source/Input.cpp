@@ -75,11 +75,20 @@ namespace Theodore {
 			mMouseDelta = Platform::GetInstance()->mMousePosition - mlastMousePos;
 			mMouseDelta.z = 0.f; // mouse wheel(z position) must be always 0 for Magnitude calculation
 			if (mMouseDelta.Length() > 50.0f) { // threshold value is 50.0f
-												   // renew old mouse position then wait for next frame when entering this function again
+												// renew old mouse position then wait for next frame when entering this function again
 				mlastMousePos = Platform::GetInstance()->mMousePosition;
 				return;
 			}
 			mlastMousePos = Platform::GetInstance()->mMousePosition;
+		} else {
+			memset(mPreviousKeys, 0, KEY_MAX);
+			memset(mCurrentKeys, 0, KEY_MAX);
+
+			memset(mPreviousMouseButtons, 0, MOUSE_BUTTON_MAX);
+			memset(mCurrentMouseButtons, 0, MOUSE_BUTTON_MAX);
+
+			memset(&mMouseDelta, 0, sizeof(Vector3d));
+			memset(&mlastMousePos, 0, sizeof(Vector3d));
 		}
     }
     

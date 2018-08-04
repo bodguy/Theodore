@@ -68,6 +68,7 @@ namespace Theodore {
         bool mIsShowCursor;
         bool mIsFullScreen;
         bool mKeys[KEY_MAX];
+		mutable bool mIsFocused;
         int mLocalKeymap[KEY_MAX];
         bool mMouseButtons[MOUSE_BUTTON_MAX];
 		bool mIsRunning;
