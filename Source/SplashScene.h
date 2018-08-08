@@ -10,7 +10,6 @@
 #define SplashScene_h
 
 #include "TheodoreEngine.h"
-#include "MyNewScene.h"
 
 namespace Theodore {
 	class SplashScene : public Scene {
@@ -27,68 +26,67 @@ namespace Theodore {
 		virtual ~SplashScene() {}
 
 		virtual void OnAwake() {
-			tiger = new GameObject("spriteTest", this);
-			tiger->AddComponent<SpriteRenderer>()->SetSprite(
-				Sprite::Create(AssetManager::RequestTexture("Contents/sprite.png", TextureFormat::RGBA32, Color(1.f, 1.f, 1.f, 1.f))));
-			rigidBody = tiger->AddComponent<RigidBody2D>();
+			//cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
+			//trans = cube->GetTransform();
+			//trans->SetPosition(Vector3d(0.f, 0.f, -4.f));
+			//cube->AddComponent<BoxCollider>();
 
-			dragon = new GameObject("test2", tiger, this);
-			dragon->AddComponent<SpriteRenderer>()->SetSprite(
-				Sprite::Create(AssetManager::RequestTexture("Contents/dragon.png", TextureFormat::RGBA32)));
-			dragon->GetTransform()->SetPosition(Vector3d(0.f, 0.f, 0.1f));
+			GameObject* skybox = new GameObject("skybox", this);
+			CubemapRenderer* cubemap = skybox->AddComponent<CubemapRenderer>();
+			AssetManager::RequestTexture(cubemap, "Contents/swedish/posx.jpg", TextureFormat::RGBA32, CubemapFace::PositiveX); // Right
+			AssetManager::RequestTexture(cubemap, "Contents/swedish/negx.jpg", TextureFormat::RGBA32, CubemapFace::NegativeX); // Left
+			AssetManager::RequestTexture(cubemap, "Contents/swedish/posy.jpg", TextureFormat::RGBA32, CubemapFace::PositiveY); // Top
+			AssetManager::RequestTexture(cubemap, "Contents/swedish/negy.jpg", TextureFormat::RGBA32, CubemapFace::NegativeY); // Bottom
+			AssetManager::RequestTexture(cubemap, "Contents/swedish/posz.jpg", TextureFormat::RGBA32, CubemapFace::PositiveZ); // Back
+			AssetManager::RequestTexture(cubemap, "Contents/swedish/negz.jpg", TextureFormat::RGBA32, CubemapFace::NegativeZ); // Front
 
-			SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 20.f));
+			GameObject* pointLight = new GameObject("pointLight", this);
+			Light* pl = pointLight->AddComponent<Light>(LightType::PointLight);
+			pl->ambient = Color::white;
+			pl->diffuse = Color::white;
+			pl->specular = Color::white;
+			pl->GetTransform()->SetLocalPosition(Vector3d(5.f, 0.f, 0.f));
+
+			sprite = new GameObject("sprite", this);
+			SpriteRenderer* rend = sprite->AddComponent<SpriteRenderer>();
+			rend->SetSprite(Sprite::Create(AssetManager::RequestTexture("Contents/dragon.png", TextureFormat::RGBA32)));
+			trans2 = sprite->GetTransform();
+			
+			SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 5.f));
 		}
 
 		virtual void OnStart() {
 			Platform::ChangeTitle(SceneManager::GetActiveScene()->ToString());
+			Input::AddAxis("Forward", new InputHandler(KEY_Q, KEY_E, 0.01f));
 		}
 
 		virtual void OnUpdate() {
-			Transform* trans = tiger != nullptr ? tiger->GetTransform() : nullptr;
-			Graphics::DrawLine(trans->GetPosition(), trans->GetPosition() + trans->GetRight() * 2.f, Color::red);
-			Graphics::DrawLine(trans->GetPosition(), trans->GetPosition() + trans->GetUp() * 2.f, Color::blue);
-			Graphics::DrawLine(trans->GetPosition(), trans->GetPosition() + trans->GetForward() * 2.f, Color::green);
+			//trans->Rotate(Vector3d::one, Time::DeltaTime() * 100.f);
+			trans2->Rotate(Vector3d::forward, Time::DeltaTime() * 40.f);
 
-			if (Input::GetKeyHeld(KEY_RIGHT)) {
-				trans->Translate(trans->GetRight() * Vector3d(0.2f, 0.f, 0.f));
+			if (Input::GetKeyHeld(KEY_LEFT)) {
+				Vector3d left = -trans2->GetRight();
+				trans2->Translate(left * 5.f * Time::DeltaTime());
 			}
-			else if (Input::GetKeyHeld(KEY_LEFT)) {
-				trans->Translate(-trans->GetRight() * Vector3d(0.2f, 0.f, 0.f));
+			else if (Input::GetKeyHeld(KEY_RIGHT)) {
+				Vector3d right = trans2->GetRight();
+				trans2->Translate(right * 5.f * Time::DeltaTime());
 			}
 			else if (Input::GetKeyHeld(KEY_UP)) {
-				trans->Translate(trans->GetUp() * Vector3d(0.f, 0.2f, 0.f));
+				Vector3d up = trans2->GetUp();
+				trans2->Translate(up * 5.f * Time::DeltaTime());
 			}
 			else if (Input::GetKeyHeld(KEY_DOWN)) {
-				trans->Translate(-trans->GetUp() * Vector3d(0.f, 0.2f, 0.f));
+				Vector3d down = -trans2->GetUp();
+				trans2->Translate(down * 5.f * Time::DeltaTime());
 			}
-			//else if (Input::GetKeyDown(KEY_1)) {
-			//	rigidBody->AddForce(Vector2d(0.f, 2.f));
-			//}
-			else if (Input::GetKeyDown(KEY_3)) {
-				rigidBody->AddTorque(2.f);
-			}
-			else if (Input::GetKeyHeld(KEY_1)) {
-				trans->Rotate(Vector3d::forward, Time::DeltaTime() * 20.f);
-			}
-			else if (Input::GetKeyHeld(KEY_2)) {
-				trans->Rotate(Vector3d::backward, Time::DeltaTime() * 20.f);
-			}
-
-			if (Input::GetKeyDown(KEY_0)) {
-				SceneManager::SetActiveScene(SceneManager::CreateScene<MyNewScene>("MyNewScene"));
-			}
-
+			
 			CameraUpdate();
 		}
 
 		void CameraUpdate() {
 			if (Input::GetKeyDown(KEY_ESCAPE)) {
 				Platform::GetInstance()->Quit();
-			}
-
-			if (Input::GetKeyDown(KEY_BACKSPACE)) {
-				Object::Destroy(tiger);
 			}
 
 			Camera* cam = SceneManager::GetMainCamera();
@@ -108,7 +106,7 @@ namespace Theodore {
 				speed = 100.f;
 			}
 			else {
-				speed = 60.f;
+				speed = 20.f;
 			}
 
 			// camera translation
@@ -120,16 +118,9 @@ namespace Theodore {
 			forward *= Input::GetAxis("Vertical") * speed * Time::DeltaTime();
 			trans->Translate(forward);
 
-			if (Input::GetKeyHeld(KEY_Q)) {
-				Vector3d down = trans->GetUp();
-				down *= -speed * Time::DeltaTime();
-				trans->Translate(down);
-			}
-			else if (Input::GetKeyHeld(KEY_E)) {
-				Vector3d up = trans->GetUp();
-				up *= speed * Time::DeltaTime();
-				trans->Translate(up);
-			}
+			Vector3d up = trans->GetUp();
+			up *= Input::GetAxis("Forward") * speed * Time::DeltaTime();
+			trans->Translate(up);
 
 			// camera rotation
 			if (Input::GetMouseButtonHeld(MOUSE_RIGHT)) {
@@ -155,8 +146,8 @@ namespace Theodore {
 			}
 		}
 
-		GameObject* tiger, *dragon;
-		RigidBody2D* rigidBody;
+		GameObject * cube, *sprite;
+		Transform* trans, *trans2;
 		float speed;
 		float rotationY;
 		float rotationX;

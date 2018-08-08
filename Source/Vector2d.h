@@ -10,6 +10,7 @@
 #define Vector2d_h
 
 namespace Theodore {
+	class Vector3d;
     class Vector2d {
     public:
         Vector2d();
@@ -17,6 +18,7 @@ namespace Theodore {
         Vector2d(const float tx, const float ty);
         //! copy constructor
         Vector2d(const Vector2d& other);
+		Vector2d(const Vector3d& other);
         //! assignment operator
         Vector2d& operator = (Vector2d other);
 		float operator[] (unsigned int i) const;

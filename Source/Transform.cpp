@@ -108,7 +108,7 @@ namespace Theodore {
 
 	Vector3d Transform::GetLocalEulerAngles() const {
 		mLocalEulerAngles = Quaternion::ToEuler(mLocalRotation);
-		return mEulerAngles;
+		return mLocalEulerAngles;
 	}
 
 	Matrix4x4 Transform::GetLocalToWorldMatrix() const {

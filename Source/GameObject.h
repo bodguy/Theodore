@@ -21,6 +21,8 @@
 #include "Light.h"
 #include "Camera.h"
 #include "Collider.h"
+#include "BoxCollider.h"
+#include "SphereCollider.h"
 
 namespace Theodore {
 	class Transform; class Scene; class Debug;
@@ -102,7 +104,7 @@ namespace Theodore {
 			return static_cast<T*>(nullptr);
 		// set the member variables...
 		component->mGameObject = this;
-		// call constructor.
+		// placement new and call constructor.
 		new (component) T(args...);
 		// store to unordered_map(hash map).
 		mComponents.insert(std::make_pair(std::type_index(typeid(T)), component));
@@ -120,10 +122,14 @@ namespace Theodore {
 		}
 
 		// caching collider components
-		//Collider* collider = this->GetComponent<Collider>();
-		//if (collider) {
-		//	mScene->mCollider.push_back(collider);
-		//}
+		Collider* collider = this->GetComponent<BoxCollider>();
+		if (collider) {
+			mScene->mCollider.push_back(collider);
+		}
+		collider = this->GetComponent<SphereCollider>();
+		if (collider) {
+			mScene->mCollider.push_back(collider);
+		}
 
 		return component;
 	}

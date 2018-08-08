@@ -278,7 +278,7 @@ namespace Theodore {
     }
     
     Vector3d Quaternion::ToEuler(const Quaternion& quat) {
-		// NEED TEST
+		// NEED TEST ( THIS DOES NOT WORK , DO NOT USE THIS FUNCTION )
         const float sqw = quat.w*quat.w;
         const float sqx = quat.x*quat.x;
         const float sqy = quat.y*quat.y;

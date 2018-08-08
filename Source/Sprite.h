@@ -14,6 +14,7 @@
 #include "Enumeration.h"
 #include "VertexBuffer.h"
 #include "Color.h"
+#include "Bounds.h"
 
 namespace Theodore {
 	class Texture2D; class Buffer; class VertexArray;
@@ -24,6 +25,7 @@ namespace Theodore {
 		~Sprite();
 
 		static Sprite* Create(Texture2D* texture, const Rect rect = Rect::zero);
+		void RecalculateBounds();
 		bool operator ==(const Sprite& rhs);
 		bool operator !=(const Sprite& rhs);
 
@@ -38,6 +40,7 @@ namespace Theodore {
 		Vector2d mUvs[4];
 		Color mColorKey;
 		unsigned short mIndices[6];
+		Bounds mBounds; // local space bounds
 	};
 }
 

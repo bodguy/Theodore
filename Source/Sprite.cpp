@@ -4,7 +4,8 @@
 #include "Utility.h"
 
 namespace Theodore {
-	Sprite::Sprite() : mFormat(IndexFormat::UInt16), mTexture(nullptr), mRect(), mTextureRect(), mTextureRectOffset(), mPivot(), mColorKey(Color::white) {
+	Sprite::Sprite() : mFormat(IndexFormat::UInt16), mTexture(nullptr), mRect(), mTextureRect(), 
+		mTextureRectOffset(), mPivot(), mColorKey(Color::white), mBounds(Vector3d::zero, Vector3d::one) {
 		memset(mVertices, 0, sizeof(Vector2d) * 4);
 		memset(mUvs, 0, sizeof(Vector2d) * 4);
 		memset(mIndices, 0, sizeof(unsigned short) * 6);
@@ -63,6 +64,29 @@ namespace Theodore {
 		sprite->mIndices[5] = 3;
 
 		return sprite;
+	}
+
+	void Sprite::RecalculateBounds() {
+		std::vector<Vector3d>::const_iterator iter;
+		Vector3d min, max;
+
+		for (int i = 0; i < 4; i++) {
+			if (mVertices[i].x < min.x) {
+				min.x = mVertices[i].x;
+			}
+			else if (mVertices[i].x > max.x) {
+				max.x = mVertices[i].x;
+			}
+
+			if (mVertices[i].y < min.y) {
+				min.y = mVertices[i].y;
+			}
+			else if (mVertices[i].y > max.y) {
+				max.y = mVertices[i].y;
+			}
+		}
+
+		mBounds.SetMinMax(min, max);
 	}
 
 	bool Sprite::operator ==(const Sprite& rhs) {

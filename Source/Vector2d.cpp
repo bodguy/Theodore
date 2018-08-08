@@ -17,6 +17,10 @@ namespace Theodore {
         x = other.x; y = other.y;
     }
     
+	Vector2d::Vector2d(const Vector3d& other) {
+		x = other.x; y = other.y;
+	}
+
     Vector2d& Vector2d::operator = (Vector2d other) {
         // copy and swap idiom (effective c++ section 11)
         Swap(*this, other);
