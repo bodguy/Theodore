@@ -41,7 +41,7 @@ namespace Theodore {
 		mSprite->RecalculateBounds();
 		mBounds.SetMinMax(mSprite->mBounds.GetMin(), mSprite->mBounds.GetMax());
 		// setup initial sprite pivot(center)
-		mSprite->mPivot = Vector2d((mSprite->mBounds.GetMin() + mSprite->mBounds.GetMax()) / 2.f);
+		mSprite->mInitialPivot = Vector2d((mSprite->mBounds.GetMin() + mSprite->mBounds.GetMax()) / 2.f);
 	}
 
 	void SpriteRenderer::SetColor(const Color& color) {
@@ -92,7 +92,7 @@ namespace Theodore {
 		// update bounds min, max every frame
 		mBounds.SetMinMax(Vector3d(newCenter - newExtents), Vector3d(newCenter + newExtents));
 		// update pivot every frame (TODO)
-		mSprite->mPivot = decompsedTranslation + (mSprite->mPivot * decomposedScale) / 2.f;
+		mSprite->mPivot = decompsedTranslation + (mSprite->mInitialPivot * decomposedScale);// / 2.f;
 	}
 
 	void SpriteRenderer::Render() {
@@ -113,6 +113,7 @@ namespace Theodore {
 			mProgram->SetUniform("flipY", mFlipY);
 			mProgram->SetUniform("color", mColor);
 			mProgram->SetUniform("colorKey", mSprite->mColorKey);
+			mProgram->SetUniform("useColorKey", mSprite->mUseColorKey);
 			Graphics::BindTexture(0, mSprite->mTexture);
 			Graphics::DrawElements(*mVao, mPrimitive, 0, 6, mSprite->mFormat);
 			Graphics::BindTexture(0, NULL);

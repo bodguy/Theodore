@@ -71,6 +71,7 @@ namespace Theodore {
             // set parameters
 			// https://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/discard.php
 			mFilterMode = FilterMode::Nearest;
+			mUseColorKey = true;
 
             SetMipmapBias(mMipMapBias);
             SetAnisoLevel(mAnisoLevel);
@@ -133,7 +134,8 @@ namespace Theodore {
 				default:
 					return false;
             }
-            
+			mFilterMode = FilterMode::Nearest;
+
             // set parameters
             SetMipmapBias(mMipMapBias);
             SetAnisoLevel(mAnisoLevel);
@@ -198,6 +200,7 @@ namespace Theodore {
             
             // set parameters
 			mFilterMode = FilterMode::Nearest;
+			mUseColorKey = true;
 
             SetMipmapBias(mMipMapBias);
             SetAnisoLevel(mAnisoLevel);
@@ -239,7 +242,8 @@ namespace Theodore {
 				default:
 					return false;
             }
-            
+			mFilterMode = FilterMode::Nearest;
+
             // set parameters
             SetMipmapBias(mMipMapBias);
             SetAnisoLevel(mAnisoLevel);
@@ -288,6 +292,7 @@ namespace Theodore {
 			default:
 				return false;
         }
+		mFilterMode = FilterMode::Nearest;
         
         SetFilter(mFilterMode);
         SetWrapMode(mWrapMode);

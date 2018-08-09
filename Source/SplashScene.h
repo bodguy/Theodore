@@ -26,10 +26,10 @@ namespace Theodore {
 		virtual ~SplashScene() {}
 
 		virtual void OnAwake() {
-			//cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
-			//trans = cube->GetTransform();
-			//trans->SetPosition(Vector3d(0.f, 0.f, -4.f));
-			//cube->AddComponent<BoxCollider>();
+			cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
+			trans = cube->GetTransform();
+			trans->SetPosition(Vector3d(0.f, 0.f, -4.f));
+			cube->AddComponent<BoxCollider>();
 
 			GameObject* skybox = new GameObject("skybox", this);
 			CubemapRenderer* cubemap = skybox->AddComponent<CubemapRenderer>();
@@ -49,9 +49,10 @@ namespace Theodore {
 
 			sprite = new GameObject("sprite", this);
 			SpriteRenderer* rend = sprite->AddComponent<SpriteRenderer>();
-			rend->SetSprite(Sprite::Create(AssetManager::RequestTexture("Contents/dragon.png", TextureFormat::RGBA32)));
+			rend->SetSprite(Sprite::Create(AssetManager::RequestTexture("Contents/sprite.png", TextureFormat::RGBA32, Color::white)));
 			trans2 = sprite->GetTransform();
-			
+			trans2->SetLocalScale(Vector3d(0.01f, 0.01f, 0.01f));
+
 			SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 5.f));
 		}
 
@@ -61,24 +62,23 @@ namespace Theodore {
 		}
 
 		virtual void OnUpdate() {
-			//trans->Rotate(Vector3d::one, Time::DeltaTime() * 100.f);
+			trans->Rotate(Vector3d::one, Time::DeltaTime() * 100.f);
 			trans2->Rotate(Vector3d::forward, Time::DeltaTime() * 40.f);
 
 			if (Input::GetKeyHeld(KEY_LEFT)) {
-				Vector3d left = -trans2->GetRight();
-				trans2->Translate(left * 5.f * Time::DeltaTime());
+				trans2->Translate(Vector3d::left * 5.f * Time::DeltaTime());
 			}
 			else if (Input::GetKeyHeld(KEY_RIGHT)) {
-				Vector3d right = trans2->GetRight();
-				trans2->Translate(right * 5.f * Time::DeltaTime());
+				trans2->Translate(-Vector3d::left * 5.f * Time::DeltaTime());
 			}
 			else if (Input::GetKeyHeld(KEY_UP)) {
-				Vector3d up = trans2->GetUp();
-				trans2->Translate(up * 5.f * Time::DeltaTime());
+				trans2->Translate(Vector3d::up * 5.f * Time::DeltaTime());
 			}
 			else if (Input::GetKeyHeld(KEY_DOWN)) {
-				Vector3d down = -trans2->GetUp();
-				trans2->Translate(down * 5.f * Time::DeltaTime());
+				trans2->Translate(-Vector3d::up * 5.f * Time::DeltaTime());
+			}
+			else if (Input::GetKeyHeld(KEY_L)) {
+				trans2->Scale(Vector3d::one * 0.1f);
 			}
 			
 			CameraUpdate();

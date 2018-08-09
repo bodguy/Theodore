@@ -33,6 +33,7 @@ namespace Theodore {
         std::string GetMappingType() const;
 
 		Color GetColorKey() const;
+		bool UseColorKey() const;
 
         void SetMipmapBias(float bias);
         void SetAnisoLevel(float level);
@@ -54,6 +55,7 @@ namespace Theodore {
         WrapMode mWrapMode;
         TextureDimension mDimension;
         Color mColorKey;
+		bool mUseColorKey;
     };
 }
 

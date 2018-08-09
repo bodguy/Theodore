@@ -36,9 +36,11 @@ namespace Theodore {
 		Rect mTextureRect; // for a sprite from an atlas
 		Vector2d mTextureRectOffset;
 		Vector2d mPivot;
+		Vector2d mInitialPivot;
 		Vector2d mVertices[4];
 		Vector2d mUvs[4];
 		Color mColorKey;
+		bool mUseColorKey;
 		unsigned short mIndices[6];
 		Bounds mBounds; // local space bounds
 	};

@@ -2,7 +2,7 @@
 
 namespace Theodore {
     Texture::Texture() : mNativeTexturePtr(nullptr), mTextureID(1), mWidth(0), mHeight(0), mMipMapBias(1000.f),
-    mFilterMode(FilterMode::Trilinear), mWrapMode(WrapMode::ClampEdge), mDimension(TextureDimension::None), mColorKey(Color::white) {
+    mFilterMode(FilterMode::Trilinear), mWrapMode(WrapMode::ClampEdge), mDimension(TextureDimension::None), mColorKey(Color::white), mUseColorKey(false) {
         mType = AssetType::TextureType;
         glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &mAnisoLevel);
     }
@@ -46,6 +46,10 @@ namespace Theodore {
 
 	Color Texture::GetColorKey() const {
 		return mColorKey;
+	}
+
+	bool Texture::UseColorKey() const {
+		return mUseColorKey;
 	}
 
     void Texture::SetMipmapBias(float bias) {
