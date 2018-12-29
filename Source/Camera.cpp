@@ -1,158 +1,128 @@
 #include "Camera.h"
-#include "Math.h"
-#include "Platform.h"
+#include "FrameBuffer.h"
 #include "GameObject.h"
-#include "Transform.h"
 #include "Graphics.h"
+#include "Material.h"
+#include "Math.h"
 #include "Mesh.h"
 #include "MeshRenderer.h"
-#include "Material.h"
+#include "Platform.h"
 #include "Shader.h"
+#include "Transform.h"
 #include "Utility.h"
-#include "FrameBuffer.h"
 
 namespace Theodore {
-	Camera::Camera() : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false), mRenderTexture(nullptr) {
-		ResetAspect();
-		ResetFieldOfView();
-		mTransform = this->mGameObject->GetTransform();
-	}
+  Camera::Camera()
+      : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false),
+        mRenderTexture(nullptr) {
+    ResetAspect();
+    ResetFieldOfView();
+    mTransform = this->mGameObject->GetTransform();
+  }
 
-	Camera::Camera(const Vector3d& position) : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false), mRenderTexture(nullptr) {
-		ResetAspect();
-		ResetFieldOfView();
-		mTransform = this->mGameObject->GetTransform();
-		mTransform->SetPosition(position);
-	}
+  Camera::Camera(const Vector3d& position)
+      : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false),
+        mRenderTexture(nullptr) {
+    ResetAspect();
+    ResetFieldOfView();
+    mTransform = this->mGameObject->GetTransform();
+    mTransform->SetPosition(position);
+  }
 
-	Camera::~Camera() {
-		SafeDealloc(mRenderTexture);
-	}
+  Camera::~Camera() { SafeDealloc(mRenderTexture); }
 
-	void Camera::ResetAspect() const {
-		mPixelWidth = static_cast<float>(Platform::GetWidth());
-		mPixelHeight = static_cast<float>(Platform::GetHeight());
-		mAspect = mPixelWidth / mPixelHeight;
-	}
+  void Camera::ResetAspect() const {
+    mPixelWidth = static_cast<float>(Platform::GetWidth());
+    mPixelHeight = static_cast<float>(Platform::GetHeight());
+    mAspect = mPixelWidth / mPixelHeight;
+  }
 
-	void Camera::ResetFieldOfView() const {
-		mFieldOfView = 60.0f;
-	}
+  void Camera::ResetFieldOfView() const { mFieldOfView = 60.0f; }
 
-	void Camera::ResetProjectionMatrix() const {
-		ResetAspect();
-	}
+  void Camera::ResetProjectionMatrix() const { ResetAspect(); }
 
-	Matrix4x4 Camera::GetProjectionMatrix() const {
-		ResetProjectionMatrix();
-		if (mOrthographic) {
-			mProjectionMatrix = Matrix4x4::Orthogonal(-10.f, 10.f, -10.f, 10.f, mNearClipPlane, mFarClipPlane);
-		} else {
-			mProjectionMatrix = Matrix4x4::Perspective(Math::Radians(mFieldOfView), mAspect, mNearClipPlane, mFarClipPlane);
-		}
-		return mProjectionMatrix;
-	}
+  Matrix4x4 Camera::GetProjectionMatrix() const {
+    ResetProjectionMatrix();
+    if (mOrthographic) {
+      mProjectionMatrix =
+          Matrix4x4::Orthogonal(-10.f, 10.f, -10.f, 10.f, mNearClipPlane, mFarClipPlane);
+    } else {
+      mProjectionMatrix = Matrix4x4::Perspective(Math::Radians(mFieldOfView), mAspect,
+                                                 mNearClipPlane, mFarClipPlane);
+    }
+    return mProjectionMatrix;
+  }
 
-	Matrix4x4 Camera::GetWorldToCameraMatrix() const {
-		mWorldToCameraMatrix = Matrix4x4::LookAt(mTransform->GetLocalPosition(), mTransform->GetLocalPosition() + mTransform->GetForward(), mTransform->GetUp());
-		return mWorldToCameraMatrix;
-	}
-	
-	Matrix4x4 Camera::GetCameraToWorldMatrix() const {
-		mCameraToWorldMatrix = Matrix4x4::Inverse(GetWorldToCameraMatrix());
-		return mCameraToWorldMatrix;
-	}
+  Matrix4x4 Camera::GetWorldToCameraMatrix() const {
+    mWorldToCameraMatrix = Matrix4x4::LookAt(
+        mTransform->GetLocalPosition(), mTransform->GetLocalPosition() + mTransform->GetForward(),
+        mTransform->GetUp());
+    return mWorldToCameraMatrix;
+  }
 
-	Ray Camera::ScreenPointToRay(const Vector3d& position) {
-		Ray ray;
-		ray.origin = mTransform->GetLocalPosition();
-		ray.direction = ScreenToWorldPoint(Vector2d(position.x, position.y));
-		ray.invDirection = Vector3d::Inverse(ray.direction);
-		return ray;
-	}
+  Matrix4x4 Camera::GetCameraToWorldMatrix() const {
+    mCameraToWorldMatrix = Matrix4x4::Inverse(GetWorldToCameraMatrix());
+    return mCameraToWorldMatrix;
+  }
 
-	Vector3d Camera::ScreenToWorldPoint(const Vector2d& position) {
-		int viewport[4];
-		Graphics::GetViewport(viewport);
-		Vector4d clipCoords;
-		clipCoords.x = (2.f * (position.x - viewport[0])) / viewport[2] - 1.f;
-		clipCoords.y = (2.f * (viewport[3] - position.y - (1 - viewport[1]))) / viewport[3] - 1.f;
-		clipCoords.z = -1.f; // forward
-		clipCoords.w = 1.f;
+  Ray Camera::ScreenPointToRay(const Vector3d& position) {
+    Ray ray;
+    ray.origin = mTransform->GetLocalPosition();
+    ray.direction = ScreenToWorldPoint(Vector2d(position.x, position.y));
+    ray.invDirection = Vector3d::Inverse(ray.direction);
+    return ray;
+  }
 
-		Vector4d eyeCoords = Matrix4x4::Inverse(GetProjectionMatrix()) * clipCoords;
-		eyeCoords.z = -1.f; // forward
-		eyeCoords.w = 0.f;
+  Vector3d Camera::ScreenToWorldPoint(const Vector2d& position) {
+    int viewport[4];
+    Graphics::GetViewport(viewport);
+    Vector4d clipCoords;
+    clipCoords.x = (2.f * (position.x - viewport[0])) / viewport[2] - 1.f;
+    clipCoords.y = (2.f * (viewport[3] - position.y - (1 - viewport[1]))) / viewport[3] - 1.f;
+    clipCoords.z = -1.f; // forward
+    clipCoords.w = 1.f;
 
-		// not the GetCameraToWorldMatrix()
-		Vector4d worldCoords = mTransform->GetLocalToWorldMatrix() * eyeCoords;
+    Vector4d eyeCoords = Matrix4x4::Inverse(GetProjectionMatrix()) * clipCoords;
+    eyeCoords.z = -1.f; // forward
+    eyeCoords.w = 0.f;
 
-		return Vector3d(worldCoords.x, worldCoords.y, worldCoords.z).Normalize();
-	}
+    // not the GetCameraToWorldMatrix()
+    Vector4d worldCoords = mTransform->GetLocalToWorldMatrix() * eyeCoords;
 
-	Vector2d Camera::WorldToScreenPoint(const Vector3d& position) {
-		return Vector2d();
-	}
+    return Vector3d(worldCoords.x, worldCoords.y, worldCoords.z).Normalize();
+  }
 
-	void Camera::SetOrthographic(bool isOrtho) {
-		mOrthographic = isOrtho;
-	}
+  Vector2d Camera::WorldToScreenPoint(const Vector3d& position) { return Vector2d(); }
 
-	float Camera::GetFieldOfView() const {
-		return mFieldOfView;
-	}
+  void Camera::SetOrthographic(bool isOrtho) { mOrthographic = isOrtho; }
 
-	float Camera::GetNearClipPlane() const {
-		return mNearClipPlane;
-	}
+  float Camera::GetFieldOfView() const { return mFieldOfView; }
 
-	float Camera::GetFarClipPlane() const {
-		return mFarClipPlane;
-	}
+  float Camera::GetNearClipPlane() const { return mNearClipPlane; }
 
-	float Camera::GetAspectRatio() const {
-		return mAspect;
-	}
+  float Camera::GetFarClipPlane() const { return mFarClipPlane; }
 
-	void Camera::SetFieldOfView(float view) {
-		mFieldOfView = view;
-	}
+  float Camera::GetAspectRatio() const { return mAspect; }
 
-	void Camera::SetNearClipPlane(float near) {
-		mNearClipPlane = near;
-	}
-		
-	void Camera::SetFarClipPlane(float far) {
-		mFarClipPlane = far;
-	}
+  void Camera::SetFieldOfView(float view) { mFieldOfView = view; }
 
-	Transform* Camera::GetTransform() const {
-		return mTransform;
-	}
+  void Camera::SetNearClipPlane(float near) { mNearClipPlane = near; }
 
-	FrameBuffer* Camera::GetRenderTexture() const {
-		return mRenderTexture;
-	}
+  void Camera::SetFarClipPlane(float far) { mFarClipPlane = far; }
 
-	void Camera::SetRenderTexture(FrameBuffer* texture) {
-		mRenderTexture = texture;
-	}
+  Transform* Camera::GetTransform() const { return mTransform; }
 
-	// private functions, for consistency with other components.
+  FrameBuffer* Camera::GetRenderTexture() const { return mRenderTexture; }
 
-	void Camera::Update(float deltaTime) {
+  void Camera::SetRenderTexture(FrameBuffer* texture) { mRenderTexture = texture; }
 
-	}
+  // private functions, for consistency with other components.
 
-	void Camera::Render() {
-		return;
-	}
+  void Camera::Update(float deltaTime) {}
 
-	bool Camera::CompareEquality(const Object& rhs) const {
-		return false;
-	}
+  void Camera::Render() { return; }
 
-	bool Camera::Destroy() {
-		return false;
-	}
+  bool Camera::CompareEquality(const Object& rhs) const { return false; }
+
+  bool Camera::Destroy() { return false; }
 }

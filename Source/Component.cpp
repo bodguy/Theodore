@@ -3,27 +3,17 @@
 #include "Transform.h"
 
 namespace Theodore {
-	Component::Component(const std::string& name) :Object(name), mIsEnable(true) {
-		mTransform = mGameObject->GetComponent<Transform>();
-	}
-	
-	Component::~Component() {
-	
-	}
+  Component::Component(const std::string& name) : Object(name), mIsEnable(true) {
+    mTransform = mGameObject->GetComponent<Transform>();
+  }
 
-	Transform* Component::GetTransform() const {
-		return mTransform;
-	}
+  Component::~Component() {}
 
-	bool Component::IsEnabled() const {
-		return mIsEnable;
-	}
+  Transform* Component::GetTransform() const { return mTransform; }
 
-	void Component::SetEnabled(bool enable) {
-		mIsEnable = enable;
-	}
+  bool Component::IsEnabled() const { return mIsEnable; }
 
-	MessageResult Component::HandleMessage(Message& msg) {
-		return MessageResult::Ignored;
-	}
+  void Component::SetEnabled(bool enable) { mIsEnable = enable; }
+
+  MessageResult Component::HandleMessage(Message& msg) { return MessageResult::Ignored; }
 }

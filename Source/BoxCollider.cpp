@@ -1,108 +1,89 @@
 #include "BoxCollider.h"
 #include "GameObject.h"
-#include "Transform.h"
 #include "Graphics.h"
-#include "MeshRenderer.h"
 #include "Mesh.h"
+#include "MeshRenderer.h"
+#include "Transform.h"
 
 namespace Theodore {
-	BoxCollider::BoxCollider() : Collider("BoxCollider"), mCenter(), mSize() {
-		mType = ColliderType::Box;
-		CalculateBoundingVolumes();
-	}
+  BoxCollider::BoxCollider() : Collider("BoxCollider"), mCenter(), mSize() {
+    mType = ColliderType::Box;
+    CalculateBoundingVolumes();
+  }
 
-	BoxCollider::~BoxCollider() {
-	
-	}
+  BoxCollider::~BoxCollider() {}
 
-	Vector3d BoxCollider::GetCenter() const {
-		return mCenter;
-	}
+  Vector3d BoxCollider::GetCenter() const { return mCenter; }
 
-	void BoxCollider::SetCenter(const Vector3d& center) {
-		mCenter = center;
-	}
-	
-	Vector3d BoxCollider::GetSize() const {
-		return mSize;
-	}
+  void BoxCollider::SetCenter(const Vector3d& center) { mCenter = center; }
 
-	void BoxCollider::SetSize(const Vector3d& size) {
-		mSize = size;
-	}
+  Vector3d BoxCollider::GetSize() const { return mSize; }
 
-	bool BoxCollider::Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) {
-		Vector3d min = mCenter - mSize * 0.5f;
-		Vector3d max = mCenter + mSize * 0.5f;
+  void BoxCollider::SetSize(const Vector3d& size) { mSize = size; }
 
-		float t1 = (min[0] - ray.origin[0]) * ray.invDirection[0];
-		float t2 = (max[0] - ray.origin[0]) * ray.invDirection[0];
+  bool BoxCollider::Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) {
+    Vector3d min = mCenter - mSize * 0.5f;
+    Vector3d max = mCenter + mSize * 0.5f;
 
-		float tmin = std::fminf(t1, t2);
-		float tmax = std::fmaxf(t1, t2);
+    float t1 = (min[0] - ray.origin[0]) * ray.invDirection[0];
+    float t2 = (max[0] - ray.origin[0]) * ray.invDirection[0];
 
-		for (unsigned int i = 1; i < 3; i++) {
-			t1 = (min[i] - ray.origin[i]) * ray.invDirection[i];
-			t2 = (max[i] - ray.origin[i]) * ray.invDirection[i];
+    float tmin = std::fminf(t1, t2);
+    float tmax = std::fmaxf(t1, t2);
 
-			tmin = std::fmaxf(tmin, std::fminf(t1, t2));
-			tmax = std::fminf(tmax, std::fmaxf(t1, t2));
-		}
+    for (unsigned int i = 1; i < 3; i++) {
+      t1 = (min[i] - ray.origin[i]) * ray.invDirection[i];
+      t2 = (max[i] - ray.origin[i]) * ray.invDirection[i];
 
-		return tmax > std::fmaxf(tmin, 0.f);
-	}
+      tmin = std::fmaxf(tmin, std::fminf(t1, t2));
+      tmax = std::fminf(tmax, std::fmaxf(t1, t2));
+    }
 
-	void BoxCollider::CalculateBoundingVolumes() {
-		MeshRenderer* meshRenderer = mGameObject->GetComponent<MeshRenderer>();
-		if (meshRenderer) {
-			Mesh* mesh = meshRenderer->GetMesh();
+    return tmax > std::fmaxf(tmin, 0.f);
+  }
 
-			if (mesh) {
-				std::vector<Vector3d>::const_iterator iter;
-				Vector3d min, max;
+  void BoxCollider::CalculateBoundingVolumes() {
+    MeshRenderer* meshRenderer = mGameObject->GetComponent<MeshRenderer>();
+    if (meshRenderer) {
+      Mesh* mesh = meshRenderer->GetMesh();
 
-				for (iter = mesh->GetVertexData().cbegin(); iter < mesh->GetVertexData().cend(); iter++) {
-					if ((*iter).x < min.x) {
-						min.x = (*iter).x;
-					}
-					else if ((*iter).x > max.x) {
-						max.x = (*iter).x;
-					}
+      if (mesh) {
+        std::vector<Vector3d>::const_iterator iter;
+        Vector3d min, max;
 
-					if ((*iter).y < min.y) {
-						min.y = (*iter).y;
-					}
-					else if ((*iter).y > max.y) {
-						max.y = (*iter).y;
-					}
+        for (iter = mesh->GetVertexData().cbegin(); iter < mesh->GetVertexData().cend(); iter++) {
+          if ((*iter).x < min.x) {
+            min.x = (*iter).x;
+          } else if ((*iter).x > max.x) {
+            max.x = (*iter).x;
+          }
 
-					if ((*iter).z < min.z) {
-						min.z = (*iter).z;
-					}
-					else if ((*iter).z > max.z) {
-						max.z = (*iter).z;
-					}
-				}
+          if ((*iter).y < min.y) {
+            min.y = (*iter).y;
+          } else if ((*iter).y > max.y) {
+            max.y = (*iter).y;
+          }
 
-				mCenter = (max + min) * 0.5f;
-				mSize = (mCenter - min) * 2.f;
-			}
-		}
-	}
+          if ((*iter).z < min.z) {
+            min.z = (*iter).z;
+          } else if ((*iter).z > max.z) {
+            max.z = (*iter).z;
+          }
+        }
 
-	void BoxCollider::Update(float deltaTime) {
+        mCenter = (max + min) * 0.5f;
+        mSize = (mCenter - min) * 2.f;
+      }
+    }
+  }
 
-	}
+  void BoxCollider::Update(float deltaTime) {}
 
-	void BoxCollider::Render() {
-		Graphics::DrawCube(mCenter, mSize, Color::purple, mTransform->GetLocalToWorldMatrix());
-	}
+  void BoxCollider::Render() {
+    Graphics::DrawCube(mCenter, mSize, Color::purple, mTransform->GetLocalToWorldMatrix());
+  }
 
-	bool BoxCollider::CompareEquality(const Object& rhs) const {
-		return false;
-	}
+  bool BoxCollider::CompareEquality(const Object& rhs) const { return false; }
 
-	bool BoxCollider::Destroy() {
-		return false;
-	}
+  bool BoxCollider::Destroy() { return false; }
 }

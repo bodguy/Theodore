@@ -1,28 +1,28 @@
 /**
-	@brief cloth simulation constraint
-	@author bodguy
-	@date 17.07.17
-	@todo 
-	@bug 
+  @brief cloth simulation constraint
+  @author bodguy
+  @date 17.07.17
+  @todo
+  @bug
 */
 
 #ifndef Constraint_h
 #define Constraint_h
 
 namespace Theodore {
-	class Particle;
-	class Constraint {
-	public:
-		Constraint(Particle* p1, Particle* p2);
-		~Constraint();
+  class Particle;
+  class Constraint {
+  public:
+    Constraint(Particle* p1, Particle* p2);
+    ~Constraint();
 
-		void Satisfy();
+    void Satisfy();
 
-	private:
-		float mRestDistance;
-		Particle* mP1;
-		Particle* mP2;
-	};
+  private:
+    float mRestDistance;
+    Particle* mP1;
+    Particle* mP2;
+  };
 }
 
 #endif // Constraint_h
