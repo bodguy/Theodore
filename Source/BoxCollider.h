@@ -1,9 +1,9 @@
 /**
-	@brief OBB(oriented bounding box) component for collision detection
-	@author bodguy
-	@date 17.07.17
-	@todo 
-	@bug 
+  @brief OBB(oriented bounding box) component for collision detection
+  @author bodguy
+  @date 17.07.17
+  @todo
+  @bug
 */
 
 #ifndef BoxCollider_h
@@ -13,32 +13,32 @@
 #include "Vector3d.h"
 
 namespace Theodore {
-	class BoxCollider : public Collider {
-	public:
-		BoxCollider();
-		virtual ~BoxCollider();
+  class BoxCollider : public Collider {
+  public:
+    BoxCollider();
+    virtual ~BoxCollider();
 
-		Vector3d GetCenter() const;
-		void SetCenter(const Vector3d& center);
-		Vector3d GetSize() const;
-		void SetSize(const Vector3d& size);
+    Vector3d GetCenter() const;
+    void SetCenter(const Vector3d& center);
+    Vector3d GetSize() const;
+    void SetSize(const Vector3d& size);
 
-		virtual bool Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) override;
+    virtual bool Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) override;
 
-	private:
-		virtual void CalculateBoundingVolumes() override;
+  private:
+    virtual void CalculateBoundingVolumes() override;
 
-		virtual void Update(float deltaTime) override;
-		virtual void Render() override;
-		virtual bool CompareEquality(const Object& rhs) const override;
-		virtual bool Destroy() override;
+    virtual void Update(float deltaTime) override;
+    virtual void Render() override;
+    virtual bool CompareEquality(const Object& rhs) const override;
+    virtual bool Destroy() override;
 
-	private:
-		// local space center
-		Vector3d mCenter;
-		// local space size
-		Vector3d mSize;
-	};
+  private:
+    // local space center
+    Vector3d mCenter;
+    // local space size
+    Vector3d mSize;
+  };
 }
 
 #endif /* BoxCollider_h */

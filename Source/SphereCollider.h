@@ -1,9 +1,9 @@
 /**
-	@brief sphere collider component for collision detection
-	@author bodguy
-	@date 17.07.17
-	@todo 
-	@bug 
+  @brief sphere collider component for collision detection
+  @author bodguy
+  @date 17.07.17
+  @todo
+  @bug
 */
 
 #ifndef SphereCollider_h
@@ -13,33 +13,33 @@
 #include "Vector3d.h"
 
 namespace Theodore {
-	class SphereCollider : public Collider {
-	public:
-		SphereCollider();
-		virtual ~SphereCollider();
+  class SphereCollider : public Collider {
+  public:
+    SphereCollider();
+    virtual ~SphereCollider();
 
-		virtual bool Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) override;
-		
-		Vector3d GetCenter() const;
-		void SetCenter(const Vector3d& center);
-		float GetRadius() const;
-		void SetRadius(float radius);
+    virtual bool Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) override;
 
-	private:
-		virtual void CalculateBoundingVolumes() override;
+    Vector3d GetCenter() const;
+    void SetCenter(const Vector3d& center);
+    float GetRadius() const;
+    void SetRadius(float radius);
 
-		virtual void Update(float deltaTime) override;
-		virtual void Render() override;
-		virtual bool CompareEquality(const Object& rhs) const override;
-		virtual bool Destroy() override;
+  private:
+    virtual void CalculateBoundingVolumes() override;
 
-	private:
-		// local space center
-		Vector3d mCenter;
-		// local space radius
-		float mRadius;
-		Vector3d mMaxLengthVector;
-	};
+    virtual void Update(float deltaTime) override;
+    virtual void Render() override;
+    virtual bool CompareEquality(const Object& rhs) const override;
+    virtual bool Destroy() override;
+
+  private:
+    // local space center
+    Vector3d mCenter;
+    // local space radius
+    float mRadius;
+    Vector3d mMaxLengthVector;
+  };
 }
 
 #endif /* SphereCollider_h */

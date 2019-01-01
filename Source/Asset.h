@@ -1,9 +1,9 @@
 /**
-	@brief represents every resource type
-	@author bodguy
-	@date 17.07.17
-	@todo 
-	@bug 
+  @brief represents every resource type
+  @author bodguy
+  @date 17.07.17
+  @todo
+  @bug
 */
 
 #ifndef Asset_h
@@ -13,26 +13,27 @@
 #include <string>
 
 namespace Theodore {
-    class Asset {
-        friend class AssetManager;
-    public:
-        Asset();
-        virtual ~Asset();
+  class Asset {
+    friend class AssetManager;
 
-		void SetAssetName(const std::string& filename);
-		bool IsManaged();
+  public:
+    Asset();
+    virtual ~Asset();
 
-    private:
-        void AddReference();
-        void RemoveReference();
-        
-    protected:
-        AssetType mType;
-        unsigned int mRefCount;
-        std::string mName;
-		std::string mFilePath;
-		bool mIsManaged;
-    };
+    void SetAssetName(const std::string& filename);
+    bool IsManaged();
+
+  private:
+    void AddReference();
+    void RemoveReference();
+
+  protected:
+    AssetType mType;
+    unsigned int mRefCount;
+    std::string mName;
+    std::string mFilePath;
+    bool mIsManaged;
+  };
 }
 
 #endif /* Asset_h */

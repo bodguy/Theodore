@@ -1,81 +1,72 @@
 #include "Object.h"
-#include "Vector3d.h"
-#include "Quaternion.h"
-#include "crc32.h"
 #include "GameObject.h"
+#include "Quaternion.h"
 #include "Transform.h"
+#include "Vector3d.h"
+#include "crc32.h"
 
 namespace Theodore {
-	std::atomic<uint32_t> Unique_id::type_id;
-	Object::Object(const std::string& name) :mName(name), mHashValue(CRC32_STR(name.c_str())) {
+  std::atomic<uint32_t> Unique_id::type_id;
+  Object::Object(const std::string& name) : mName(name), mHashValue(CRC32_STR(name.c_str())) {}
 
-	}
+  Object::Object(const Object& rhs) {
+    // TODO
+  }
 
-	Object::Object(const Object& rhs) {
-		// TODO
-	}
+  Object::~Object() {}
 
-	Object::~Object() {
+  bool Object::operator==(const Object& rhs) const {
+    return mHashValue == rhs.mHashValue && this->CompareEquality(rhs);
+  }
 
-	}
+  bool Object::operator!=(const Object& rhs) const {
+    return !(*this == rhs && this->CompareEquality(rhs));
+  }
 
-	bool Object::operator==(const Object& rhs) const {
-		return mHashValue == rhs.mHashValue  && this->CompareEquality(rhs);
-	}
+  const std::string& Object::ToString() const { return mName; }
 
-	bool Object::operator!=(const Object& rhs) const {
-		return !(*this == rhs && this->CompareEquality(rhs));
-	}
+  const uint32_t Object::GetHashCode() const { return mHashValue; }
 
-	const std::string& Object::ToString() const {
-		return mName;
-	}
+  uint32_t Object::GetInstanceID() const { return mInstanceId; }
 
-	const uint32_t Object::GetHashCode() const {
-		return mHashValue;
-	}
+  void Object::SetName(const std::string& name) {
+    mName = name;
+    mHashValue = CRC32_STR(name.c_str());
+  }
 
-	uint32_t Object::GetInstanceID() const {
-		return mInstanceId;
-	}
+  bool Object::Destroy(GameObject* obj) {
+    if (!obj)
+      return false;
 
-	void Object::SetName(const std::string& name) {
-		mName = name;
-		mHashValue = CRC32_STR(name.c_str());
-	}
+    return obj->Destroy();
+  }
 
-	bool Object::Destroy(GameObject* obj) {
-		if (!obj)
-			return false;
+  GameObject* Object::Instantiate(GameObject* original) {
+    if (!original)
+      return nullptr;
 
-		return obj->Destroy();
-	}
+    return new GameObject(*original);
+  }
 
-	GameObject* Object::Instantiate(GameObject* original) {
-		if(!original)
-			return nullptr;
-		
-		return new GameObject(*original);
-	}
+  GameObject* Object::Instantiate(GameObject* original, const Vector3d& position) {
+    if (!original)
+      return nullptr;
 
-	GameObject* Object::Instantiate(GameObject* original, const Vector3d& position) {
-		if (!original)
-			return nullptr;
+    GameObject* clone = new GameObject(*original);
+    clone->GetTransform()->SetPosition(position);
 
-		GameObject* clone = new GameObject(*original);
-		clone->GetTransform()->SetPosition(position);
+    return clone;
+  }
 
-		return clone;
-	}
+  GameObject* Object::Instantiate(GameObject* original, const Vector3d& position,
+                                  const Quaternion& rotation) {
+    if (!original)
+      return nullptr;
 
-	GameObject* Object::Instantiate(GameObject* original, const Vector3d& position, const Quaternion& rotation) {
-		if (!original)
-			return nullptr;
+    GameObject* clone = new GameObject(*original);
+    clone->GetTransform()->SetPosition(position);
+    clone->GetTransform()->SetRotation(rotation);
 
-		GameObject* clone = new GameObject(*original);
-		clone->GetTransform()->SetPosition(position);
-		clone->GetTransform()->SetRotation(rotation);
-
-		return clone;
-	}
+    return clone;
+  }
 }

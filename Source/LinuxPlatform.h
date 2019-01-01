@@ -1,9 +1,9 @@
 /**
-	@brief linux platform dependent class
-	@author bodguy
-	@date 17.07.17
-	@todo 
-	@bug 
+  @brief linux platform dependent class
+  @author bodguy
+  @date 17.07.17
+  @todo
+  @bug
 */
 
 #include "os_types.h"
@@ -16,24 +16,27 @@
 #include <string>
 
 namespace Theodore {
-    class LinuxPlatform {
-		friend class Platform;
-	private:
-		LinuxPlatform();
-		~LinuxPlatform();
+  class LinuxPlatform {
+    friend class Platform;
 
-		bool CreatePlatformLinux(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style, ContextProfile profile);
-		void KillPlatformLinux();
+  private:
+    LinuxPlatform();
+    ~LinuxPlatform();
 
-        static LinuxPlatform* instance;
-        static Platform *platform;
+    bool CreatePlatformLinux(const std::string& title, int width, int height, bool fullscreen,
+                             int majorVersion, int minorVersion, int multisample, WindowStyle style,
+                             ContextProfile profile);
+    void KillPlatformLinux();
 
-        Display* mDisplay;
-        Window mWindow;
-        int mScreen;
-        GLXContext mContext;
-        Atom mDestroyMessage;
-    };
+    static LinuxPlatform* instance;
+    static Platform* platform;
+
+    Display* mDisplay;
+    Window mWindow;
+    int mScreen;
+    GLXContext mContext;
+    Atom mDestroyMessage;
+  };
 }
 
 #endif /* LinuxPlatform_h */

@@ -1,37 +1,39 @@
 /**
-	@brief component interface
-	@author bodguy
-	@date 17.07.17
-	@todo 
-	@bug 
+  @brief component interface
+  @author bodguy
+  @date 17.07.17
+  @todo
+  @bug
 */
 
 #ifndef Component_h
 #define Component_h
 
-#include "Object.h"
 #include "Message.h"
+#include "Object.h"
 
 namespace Theodore {
-	class GameObject; class Transform;
-	class Component : public Object {
-		friend class GameObject;
-	public:
-		Component(const std::string& name);
-		virtual ~Component();
+  class GameObject;
+  class Transform;
+  class Component : public Object {
+    friend class GameObject;
 
-		Transform* GetTransform() const;
-		bool IsEnabled() const;
-		void SetEnabled(bool enable);
+  public:
+    Component(const std::string& name);
+    virtual ~Component();
 
-	private:
-		virtual MessageResult HandleMessage(Message& msg);
+    Transform* GetTransform() const;
+    bool IsEnabled() const;
+    void SetEnabled(bool enable);
 
-	protected:
-		GameObject* mGameObject;
-		Transform* mTransform;
-		bool mIsEnable;
-	};
+  private:
+    virtual MessageResult HandleMessage(Message& msg);
+
+  protected:
+    GameObject* mGameObject;
+    Transform* mTransform;
+    bool mIsEnable;
+  };
 }
 
 #endif /* Component_h */
