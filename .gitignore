@@ -3,9 +3,7 @@
 
 # add exception
 !/.gitignore
-!/.clang-format
 !/LICENSE
-!/CMakeLists.txt
 !/readme.md
 !/Contents/
 !/Libraries/
