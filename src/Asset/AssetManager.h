@@ -9,7 +9,7 @@
 #ifndef AssetManager_h
 #define AssetManager_h
 
-#include "Enumeration.h"
+#include "../Graphics/Enumeration.h"
 #include "Texture.h"
 #include <list>
 #include <vector>

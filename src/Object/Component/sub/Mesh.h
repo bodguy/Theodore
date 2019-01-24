@@ -9,14 +9,14 @@
 #ifndef Mesh_h
 #define Mesh_h
 
-#include "Asset.h"
+#include "../../../Asset/Asset.h"
 #include "BoneWeight.h"
-#include "Bounds.h"
-#include "Enumeration.h"
-#include "Matrix4x4.h"
-#include "Vector2d.h"
-#include "Vector3d.h"
-#include "Vector4d.h"
+#include "../../../Geometry/Bounds.h"
+#include "../../../Graphics/Enumeration.h"
+#include "../../../Math/Matrix4x4.h"
+#include "../../../Math/Vector2d.h"
+#include "../../../Math/Vector3d.h"
+#include "../../../Math/Vector4d.h"
 #include <vector>
 
 namespace Theodore {

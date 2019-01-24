@@ -1,5 +1,5 @@
 #include "RenderBuffer.h"
-#include "os_types.h"
+#include "../Platform/os_types.h"
 #include GLEW_INCLUDE_DIR
 
 namespace Theodore {

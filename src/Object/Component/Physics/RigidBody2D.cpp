@@ -1,6 +1,6 @@
 #include "RigidBody2D.h"
-#include "GameObject.h"
-#include "Transform.h"
+#include "../../GameObject.h"
+#include "../Transform.h"
 
 namespace Theodore {
   RigidBody2D::RigidBody2D() : Component("RigidBody2D"), mPosition(), mVelocity(), mForce() {

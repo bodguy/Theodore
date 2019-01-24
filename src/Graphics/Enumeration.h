@@ -9,7 +9,7 @@
 #ifndef Enumeration_h
 #define Enumeration_h
 
-#include "os_types.h"
+#include "../Platform/os_types.h"
 #include GLEW_INCLUDE_DIR
 
 namespace Theodore {

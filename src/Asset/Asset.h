@@ -9,7 +9,7 @@
 #ifndef Asset_h
 #define Asset_h
 
-#include "Enumeration.h"
+#include "../Graphics/Enumeration.h"
 #include <string>
 
 namespace Theodore {

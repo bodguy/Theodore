@@ -9,7 +9,7 @@
 #ifndef TextureCube_h
 #define TextureCube_h
 
-#include "Enumeration.h"
+#include "../Graphics/Enumeration.h"
 #include "Texture.h"
 #include <string>
 

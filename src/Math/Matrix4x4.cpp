@@ -428,7 +428,7 @@ namespace Theodore {
      |0 1 0 0|
      |0 0 1 0|
      |x y z 1|
-     */
+    */
     Matrix4x4 mat;
     mat.m16[12] = translation.x;
     mat.m16[13] = translation.y;
@@ -443,7 +443,7 @@ namespace Theodore {
      |0 y 0 0|
      |0 0 z 0|
      |0 0 0 1|
-     */
+    */
     Matrix4x4 mat;
     mat.m16[0] = scale.x;
     mat.m16[5] = scale.y;
@@ -468,7 +468,7 @@ namespace Theodore {
      | sin  cos 0 0 |
      |  0    0  1 0 |
      |  0    0  0 1 |
-     */
+    */
     float c = std::cos(radianAngle);
     float s = std::sin(radianAngle);
     float t = 1.f - c;

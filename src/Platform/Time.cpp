@@ -1,5 +1,5 @@
 #include "Time.h"
-#include "StringUtil.h"
+#include "../Helper/StringUtil.h"
 
 namespace Theodore {
   Time* Time::instance = nullptr;

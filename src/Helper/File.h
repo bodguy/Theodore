@@ -9,7 +9,7 @@
 #ifndef File_h
 #define File_h
 
-#include "Enumeration.h"
+#include "../Graphics/Enumeration.h"
 #include <string>
 
 namespace Theodore {

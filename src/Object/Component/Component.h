@@ -9,8 +9,8 @@
 #ifndef Component_h
 #define Component_h
 
-#include "Message.h"
-#include "Object.h"
+#include "../Message.h"
+#include "../Object.h"
 
 namespace Theodore {
   class GameObject;

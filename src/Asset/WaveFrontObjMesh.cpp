@@ -1,7 +1,7 @@
 #include "WaveFrontObjMesh.h"
-#include "Debug.h"
-#include "Time.h"
-#include "Utility.h"
+#include "../Helper/Debug.h"
+#include "../Helper/Utility.h"
+#include "../Platform/Time.h"
 #include <stdio.h>
 
 namespace Theodore {

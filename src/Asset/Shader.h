@@ -9,8 +9,8 @@
 #ifndef Shader_h
 #define Shader_h
 
-#include "Enumeration.h"
-#include "os_types.h"
+#include "../Graphics/Enumeration.h"
+#include "../Platform/os_types.h"
 #include GLEW_INCLUDE_DIR
 #include "Asset.h"
 #include <map>
@@ -20,6 +20,7 @@ namespace Theodore {
   typedef int Attribute;
   typedef int Uniform;
 
+	class Pipeline;
   class Shader : public Asset {
     friend class Pipeline;
 
@@ -101,7 +102,7 @@ namespace Theodore {
     void DispatchCompute(unsigned int x, unsigned int y, unsigned int z);
 
   private:
-    unsigned int mProgramID;
+    unsigned int mPipelineID;
     std::string mName;
   };
 
@@ -116,7 +117,7 @@ namespace Theodore {
 
   private:
     static ShaderManager* shaderManager;
-    std::map<std::string, Pipeline*> mPrograms;
+    std::map<std::string, Pipeline*> mPipelines;
   };
 }
 

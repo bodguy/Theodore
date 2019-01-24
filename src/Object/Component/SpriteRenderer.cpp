@@ -1,14 +1,14 @@
 #include "SpriteRenderer.h"
-#include "AssetManager.h"
+#include "../../Asset/AssetManager.h"
 #include "Camera.h"
-#include "GameObject.h"
-#include "Graphics.h"
-#include "SceneManager.h"
-#include "Shader.h"
-#include "Sprite.h"
-#include "Texture2D.h"
+#include "../GameObject.h"
+#include "../../Graphics/Graphics.h"
+#include "../SceneManager.h"
+#include "../../Asset/Shader.h"
+#include "./sub/Sprite.h"
+#include "../../Asset/Texture2D.h"
 #include "Transform.h"
-#include "Utility.h"
+#include "../../Helper/Utility.h"
 
 namespace Theodore {
   SpriteRenderer::SpriteRenderer()

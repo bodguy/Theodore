@@ -1,6 +1,6 @@
 #include "Transform.h"
-#include "GameObject.h"
-#include "Math.h"
+#include "../GameObject.h"
+#include "../../Math/Math.h"
 
 namespace Theodore {
   Transform::Transform()

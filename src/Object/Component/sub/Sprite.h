@@ -9,12 +9,12 @@
 #ifndef Sprite_h
 #define Sprite_h
 
-#include "Bounds.h"
-#include "Color.h"
-#include "Enumeration.h"
-#include "Rect.h"
-#include "Vector2d.h"
-#include "VertexBuffer.h"
+#include "../../../Geometry/Bounds.h"
+#include "../../../Math/Color.h"
+#include "../../../Graphics/Enumeration.h"
+#include "../../../Math/Rect.h"
+#include "../../../Math/Vector2d.h"
+#include "../../../Graphics/VertexBuffer.h"
 
 namespace Theodore {
   class Texture2D;

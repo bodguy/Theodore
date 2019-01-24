@@ -10,7 +10,7 @@
 #define SphereCollider_h
 
 #include "Collider.h"
-#include "Vector3d.h"
+#include "../../../Math/Vector3d.h"
 
 namespace Theodore {
   class SphereCollider : public Collider {

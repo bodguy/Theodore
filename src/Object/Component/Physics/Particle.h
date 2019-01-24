@@ -9,7 +9,7 @@
 #ifndef Particle_h
 #define Particle_h
 
-#include "Vector3d.h"
+#include "../../../Math/Vector3d.h"
 
 namespace Theodore {
   class Particle {

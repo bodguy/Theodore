@@ -1,5 +1,5 @@
 #include "ShapeGenerator.h"
-#include "Math.h"
+#include "../../../Math/Math.h"
 #include "Mesh.h"
 
 namespace Theodore {

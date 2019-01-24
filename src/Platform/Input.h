@@ -10,7 +10,7 @@
 #define Input_h
 
 #include "KeyCode.h"
-#include "Vector3d.h"
+#include "../Math/Vector3d.h"
 #include <map>
 
 namespace Theodore {

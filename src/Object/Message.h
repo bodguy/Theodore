@@ -9,7 +9,7 @@
 #ifndef Message_h
 #define Message_h
 
-#include "Enumeration.h"
+#include "../Graphics/Enumeration.h"
 
 namespace Theodore {
   class Message {

@@ -1,7 +1,7 @@
 #include "FrameBuffer.h"
-#include "Debug.h"
+#include "../Helper/Debug.h"
 #include "RenderBuffer.h"
-#include "Texture2D.h"
+#include "../Asset/Texture2D.h"
 
 namespace Theodore {
   FrameBuffer::FrameBuffer(unsigned int width, unsigned int height)

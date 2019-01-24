@@ -8,9 +8,9 @@
 #include <Carbon/Carbon.h>
 #include "Platform.h"
 #include "CocoaPlatform.h"
-#include "Utility.h"
+#include "../Helper/Utility.h"
 #include "KeyCode.h"
-#include "Debug.h"
+#include "../Helper/Debug.h"
 
 namespace Theodore {
 

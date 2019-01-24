@@ -9,10 +9,10 @@
 #ifndef ShapeGenerator_h
 #define ShapeGenerator_h
 
-#include "Matrix4x4.h"
-#include "Vector2d.h"
-#include "Vector3d.h"
-#include "Vector4d.h"
+#include "../../../Math/Matrix4x4.h"
+#include "../../../Math/Vector2d.h"
+#include "../../../Math/Vector3d.h"
+#include "../../../Math/Vector4d.h"
 #include <map>
 #include <vector>
 

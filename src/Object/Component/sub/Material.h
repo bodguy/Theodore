@@ -9,7 +9,7 @@
 #ifndef Material_h
 #define Material_h
 
-#include "Color.h"
+#include "../../../Math/Color.h"
 #include <vector>
 
 namespace Theodore {

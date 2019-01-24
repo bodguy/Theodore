@@ -1,5 +1,5 @@
 #include "Plane.h"
-#include "Math.h"
+#include "../Math/Math.h"
 
 namespace Theodore {
   Plane::Plane(Vector3d inNormal, const Vector3d& inPoint) {

@@ -9,8 +9,8 @@
 #ifndef Application_h
 #define Application_h
 
-#include "Enumeration.h"
-#include "Platform.h"
+#include "../Graphics/Enumeration.h"
+#include "../Platform/Platform.h"
 #include <string>
 
 namespace Theodore {
@@ -27,7 +27,8 @@ namespace Theodore {
 
     bool Initialize(const PlatformContext& param);
     void Run();
-    std::string GetDataPath();
+		static std::string GetResourcePath();
+		static std::string GetShaderPath();
 
   private:
     static Application* instance;
@@ -41,7 +42,8 @@ namespace Theodore {
     SceneManager* mSceneManager;
     AssetManager* mAssetManager;
     ShaderManager* mShaderManager;
-    static std::string dataPath;
+    static std::string ResourcePath;
+		static std::string ShaderPath;
   };
 }
 

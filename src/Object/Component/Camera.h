@@ -10,9 +10,9 @@
 #define Camera_h
 
 #include "Component.h"
-#include "Matrix4x4.h"
-#include "Ray.h"
-#include "Vector3d.h"
+#include "../../Math/Matrix4x4.h"
+#include "../../Geometry/Ray.h"
+#include "../../Math/Vector3d.h"
 #include <vector>
 
 namespace Theodore {

@@ -9,8 +9,8 @@
 #ifndef Ray_h
 #define Ray_h
 
-#include "Matrix4x4.h"
-#include "Vector3d.h"
+#include "../Math/Matrix4x4.h"
+#include "../Math/Vector3d.h"
 
 namespace Theodore {
   class Ray {

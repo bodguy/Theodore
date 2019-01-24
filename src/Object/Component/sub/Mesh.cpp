@@ -1,5 +1,5 @@
 #include "Mesh.h"
-#include "Utility.h"
+#include "../../../Helper/Utility.h"
 
 namespace Theodore {
   Mesh::Mesh()

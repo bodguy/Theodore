@@ -1,6 +1,6 @@
 #include "Bounds.h"
-#include "Debug.h"
-#include "Vector4d.h"
+#include "../Helper/Debug.h"
+#include "../Math/Vector4d.h"
 #include <cmath>
 
 namespace Theodore {

@@ -9,7 +9,7 @@
 #ifndef SpriteRenderer_h
 #define SpriteRenderer_h
 
-#include "Color.h"
+#include "../../Math/Color.h"
 #include "Renderer.h"
 
 namespace Theodore {

@@ -9,9 +9,9 @@
 #ifndef Physics_h
 #define Physics_h
 
-#include "Math.h"
-#include "Ray.h"
-#include "Vector3d.h"
+#include "../../../Math/Math.h"
+#include "../../../Geometry/Ray.h"
+#include "../../../Math/Vector3d.h"
 
 namespace Theodore {
   class RaycastHit {

@@ -1,5 +1,5 @@
 #include "Ray.h"
-#include "Math.h"
+#include "../Math/Math.h"
 
 namespace Theodore {
   Ray::Ray() : origin(), direction(), invDirection() {}

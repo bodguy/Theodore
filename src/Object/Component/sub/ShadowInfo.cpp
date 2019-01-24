@@ -1,10 +1,10 @@
 #include "ShadowInfo.h"
-#include "AssetManager.h"
-#include "FrameBuffer.h"
-#include "Platform.h"
-#include "Shader.h"
-#include "Texture2D.h"
-#include "Utility.h"
+#include "../../../Asset/AssetManager.h"
+#include "../../../Graphics/FrameBuffer.h"
+#include "../../../Platform/Platform.h"
+#include "../../../Asset/Shader.h"
+#include "../../../Asset/Texture2D.h"
+#include "../../../Helper/Utility.h"
 
 namespace Theodore {
   ShadowInfo::ShadowInfo() {

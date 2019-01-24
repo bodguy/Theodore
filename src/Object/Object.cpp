@@ -1,12 +1,12 @@
 #include "Object.h"
 #include "GameObject.h"
-#include "Quaternion.h"
-#include "Transform.h"
-#include "Vector3d.h"
-#include "crc32.h"
+#include "../Math/Quaternion.h"
+#include "./Component/Transform.h"
+#include "../Math/Vector3d.h"
+#include "../Helper/crc32.h"
 
 namespace Theodore {
-  std::atomic<uint32_t> Unique_id::type_id;
+  std::atomic<uint32_t> UniqueId::type_id;
   Object::Object(const std::string& name) : mName(name), mHashValue(CRC32_STR(name.c_str())) {}
 
   Object::Object(const Object& rhs) {

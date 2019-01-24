@@ -10,7 +10,7 @@
 #define Plane_h
 
 #include "Ray.h"
-#include "Vector3d.h"
+#include "../Math/Vector3d.h"
 
 namespace Theodore {
   class Plane {

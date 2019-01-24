@@ -13,7 +13,7 @@
 #ifndef WindowsPlatform_h
 #define WindowsPlatform_h
 
-#include "Enumeration.h"
+#include "../Graphics/Enumeration.h"
 #include <string>
 
 namespace Theodore {

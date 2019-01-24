@@ -9,7 +9,7 @@
 #ifndef DataStream_h
 #define DataStream_h
 
-#include "Enumeration.h"
+#include "../Graphics/Enumeration.h"
 #include "File.h"
 #include <cstdint>
 #include <string>

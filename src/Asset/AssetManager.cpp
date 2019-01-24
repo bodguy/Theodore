@@ -5,11 +5,11 @@
 #include "TextureCube.h"
 
 //#include "Font.h"
-#include "Color.h"
-#include "Debug.h"
-#include "File.h"
-#include "Shader.h"
-#include "Utility.h"
+#include "../Math/Color.h"
+#include "../Helper/Debug.h"
+#include "../Helper/File.h"
+#include "../Asset/Shader.h"
+#include "../Helper/Utility.h"
 #include "WaveFrontObjMesh.h"
 
 namespace Theodore {

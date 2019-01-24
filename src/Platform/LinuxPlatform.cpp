@@ -6,7 +6,7 @@
 #include <X11/Xlib.h>
 #include GLEW_INCLUDE_DIR
 #include GLEW_INCLUDE_DIR2
-#include "Default.h"
+#include "../Helper/Utility.h"
 #include "LinuxPlatform.h"
 #include "Platform.h"
 

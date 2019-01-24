@@ -1,6 +1,6 @@
 #include "Texture2D.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "os_types.h"
+#include "../Platform/os_types.h"
 #include <stb/stb_image.h>
 #include GLEW_INCLUDE_DIR
 

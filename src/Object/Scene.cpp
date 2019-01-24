@@ -1,12 +1,12 @@
 #include "Scene.h"
-#include "Camera.h"
+#include "./Component/Camera.h"
 #include "GameObject.h"
-#include "Graphics.h"
-#include "Light.h"
+#include "../Graphics/Graphics.h"
+#include "./Component/Light.h"
 #include "SceneManager.h"
-#include "Transform.h"
-#include "Utility.h"
-#include "crc32.h"
+#include "./Component/Transform.h"
+#include "../Helper/Utility.h"
+#include "../Helper/crc32.h"
 
 namespace Theodore {
   Scene::Scene(const std::string& name) : Object(name), mActive(true) {

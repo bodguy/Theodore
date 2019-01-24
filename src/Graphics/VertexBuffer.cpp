@@ -1,8 +1,8 @@
 #include "VertexBuffer.h"
-#include "Color.h"
-#include "Vector2d.h"
-#include "Vector3d.h"
-#include "Vector4d.h"
+#include "../Math/Color.h"
+#include "../Math/Vector2d.h"
+#include "../Math/Vector3d.h"
+#include "../Math/Vector4d.h"
 
 namespace Theodore {
 

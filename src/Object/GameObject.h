@@ -9,14 +9,14 @@
 #ifndef GameObject_h
 #define GameObject_h
 
-#include "BoxCollider.h"
-#include "Camera.h"
-#include "Collider.h"
-#include "Component.h"
-#include "Enumeration.h"
-#include "Light.h"
+#include "./Component/Collider/BoxCollider.h"
+#include "./Component/Camera.h"
+#include "./Component/Collider/Collider.h"
+#include "./Component/Component.h"
+#include "../Graphics/Enumeration.h"
+#include "./Component/Light.h"
 #include "Object.h"
-#include "SphereCollider.h"
+#include "./Component/Collider/SphereCollider.h"
 #include <set>
 #include <string>
 #include <typeindex>

@@ -9,9 +9,9 @@
 #ifndef Platform_h
 #define Platform_h
 
-#include "Enumeration.h"
+#include "../Graphics/Enumeration.h"
 #include "KeyCode.h"
-#include "Vector3d.h"
+#include "../Math/Vector3d.h"
 #include <string>
 
 namespace Theodore {

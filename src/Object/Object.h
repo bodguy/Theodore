@@ -13,9 +13,9 @@
 #include <string>
 
 namespace Theodore {
-  class Unique_id {
+  class UniqueId {
   public:
-    Unique_id() : mInstanceId(++type_id) {}
+    UniqueId() : mInstanceId(++type_id) {}
 
   private:
     static std::atomic<uint32_t> type_id;
@@ -26,7 +26,7 @@ namespace Theodore {
 
   class Vector3d;
   class Quaternion;
-  class Object : public Unique_id {
+  class Object : public UniqueId {
     friend class GameObject;
 
   public:

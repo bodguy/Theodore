@@ -9,7 +9,7 @@
 #ifndef Texture2D_h
 #define Texture2D_h
 
-#include "Enumeration.h"
+#include "../Graphics/Enumeration.h"
 #include "Texture.h"
 
 namespace Theodore {

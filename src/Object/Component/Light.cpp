@@ -1,9 +1,9 @@
 #include "Light.h"
-#include "Debug.h"
-#include "GameObject.h"
-#include "Math.h"
-#include "ShadowInfo.h"
-#include "Utility.h"
+#include "../../Helper/Debug.h"
+#include "../GameObject.h"
+#include "../../Math/Math.h"
+#include "./sub/ShadowInfo.h"
+#include "../../Helper/Utility.h"
 
 namespace Theodore {
   const unsigned int Light::MaxLightCount = 50;

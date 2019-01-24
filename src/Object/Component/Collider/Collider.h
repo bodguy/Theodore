@@ -9,11 +9,11 @@
 #ifndef Collider_h
 #define Collider_h
 
-#include "Color.h"
-#include "Component.h"
-#include "Enumeration.h"
-#include "Physics.h"
-#include "Ray.h"
+#include "../../../Math/Color.h"
+#include "../Component.h"
+#include "../../../Graphics/Enumeration.h"
+#include "../sub/Physics.h"
+#include "../../../Geometry/Ray.h"
 #include <string>
 
 namespace Theodore {

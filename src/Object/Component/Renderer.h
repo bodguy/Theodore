@@ -9,9 +9,9 @@
 #ifndef Renderer_h
 #define Renderer_h
 
-#include "Bounds.h"
+#include "../../Geometry/Bounds.h"
 #include "Component.h"
-#include "Enumeration.h"
+#include "../../Graphics/Enumeration.h"
 #include <vector>
 
 namespace Theodore {

@@ -9,12 +9,12 @@
 #ifndef Cloth_h
 #define Cloth_h
 
-#include "Camera.h"
+#include "../Camera.h"
 #include "Constraint.h"
 #include "Particle.h"
-#include "Shader.h"
-#include "Transform.h"
-#include "VertexBuffer.h"
+#include "../../../Asset/Shader.h"
+#include "../Transform.h"
+#include "../../../Graphics/VertexBuffer.h"
 #include <vector>
 
 namespace Theodore {

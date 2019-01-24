@@ -1,5 +1,5 @@
 #include "TextureCube.h"
-#include "CubemapRenderer.h"
+#include "../Object/Component/CubemapRenderer.h"
 #include <stb/stb_image.h>
 
 namespace Theodore {

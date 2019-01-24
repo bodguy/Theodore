@@ -10,8 +10,8 @@
 #define VertexBuffer_h
 
 #include "Enumeration.h"
-#include "Shader.h"
-#include "os_types.h"
+#include "../Asset/Shader.h"
+#include "../Platform/os_types.h"
 #include <vector>
 #include GLEW_INCLUDE_DIR
 

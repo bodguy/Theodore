@@ -9,11 +9,11 @@
 #ifndef Texture_h
 #define Texture_h
 
-#include "os_types.h"
+#include "../Platform/os_types.h"
 #include GLEW_INCLUDE_DIR
 #include "Asset.h"
-#include "Color.h"
-#include "Enumeration.h"
+#include "../Math/Color.h"
+#include "../Graphics/Enumeration.h"
 #include <vector>
 
 namespace Theodore {

@@ -1,7 +1,7 @@
 #include "Input.h"
-#include "Math.h"
+#include "../Math/Math.h"
 #include "Platform.h"
-#include "Utility.h"
+#include "../Helper/Utility.h"
 
 namespace Theodore {
   InputHandler::InputHandler(KeyCode positive, KeyCode negative, float delta)

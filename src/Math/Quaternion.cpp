@@ -282,7 +282,7 @@ namespace Theodore {
      Qz = [ cos(c/2), (0, 0, sin(c/2))]
 
      Qx * Qy * Qz
-     */
+    */
     // Suppose euler is in radian unit.
     Quaternion qx(std::cos(euler.x * 0.5f), std::sin(euler.x * 0.5f), 0.f, 0.f);
     Quaternion qy(std::cos(euler.y * 0.5f), 0.f, std::sin(euler.y * 0.5f), 0.f);
@@ -358,7 +358,7 @@ namespace Theodore {
      2xy+2wz			1-2x^2-2z^2	 2yz-2wx		0
      2xz-2wy			2yz+2wx		 1-2x^2-2y^2	0
      0				0			 0				1
-     */
+    */
     Matrix4x4 result;
 
     float xx = other.x * other.x;

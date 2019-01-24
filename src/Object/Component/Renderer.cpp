@@ -1,6 +1,6 @@
 #include "Renderer.h"
-#include "Utility.h"
-#include "VertexBuffer.h"
+#include "../../Helper/Utility.h"
+#include "../../Graphics/VertexBuffer.h"
 
 namespace Theodore {
   Renderer::Renderer(const std::string& name)

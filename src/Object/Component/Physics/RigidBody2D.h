@@ -1,8 +1,8 @@
 #ifndef RigidBody2D_h
 #define RigidBody2D_h
 
-#include "Component.h"
-#include "Vector2d.h"
+#include "../Component.h"
+#include "../../../Math/Vector2d.h"
 
 namespace Theodore {
   class Transform;

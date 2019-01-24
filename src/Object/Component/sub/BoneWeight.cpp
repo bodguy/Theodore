@@ -1,5 +1,5 @@
 #include "BoneWeight.h"
-#include "Math.h"
+#include "../../../Math/Math.h"
 
 namespace Theodore {
   BoneWeight::BoneWeight() {

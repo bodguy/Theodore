@@ -9,8 +9,8 @@
 #ifndef WaveFrontObjMesh_h
 #define WaveFrontObjMesh_h
 
-#include "Enumeration.h"
-#include "Mesh.h"
+#include "../Graphics/Enumeration.h"
+#include "../Object/Component/sub/Mesh.h"
 
 namespace Theodore {
   class WaveFrontObjMesh : public Mesh {

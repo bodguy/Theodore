@@ -1,9 +1,9 @@
 #include "SphereCollider.h"
-#include "GameObject.h"
-#include "Graphics.h"
-#include "Mesh.h"
-#include "MeshRenderer.h"
-#include "Transform.h"
+#include "../../GameObject.h"
+#include "../../../Graphics/Graphics.h"
+#include "../sub/Mesh.h"
+#include "../MeshRenderer.h"
+#include "../Transform.h"
 
 namespace Theodore {
   SphereCollider::SphereCollider()

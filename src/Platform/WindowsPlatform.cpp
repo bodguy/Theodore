@@ -7,8 +7,8 @@
 #include <windows.h>
 #include GLEW_INCLUDE_DIR
 #include GLEW_INCLUDE_DIR2
-#include "Debug.h"
-#include "Math.h"
+#include "../Helper/Debug.h"
+#include "../Math/Math.h"
 #include "Platform.h"
 #include "WindowsPlatform.h"
 
