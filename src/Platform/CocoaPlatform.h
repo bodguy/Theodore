@@ -38,6 +38,7 @@ namespace Theodore {
 
     NSWindow* window;
     View* view;
+    CVDisplayLinkRef displayLink;
 
   public:
     static CocoaPlatform* GetInstance();

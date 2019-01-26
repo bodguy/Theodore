@@ -19,13 +19,9 @@ namespace Theodore {
 
 	CocoaPlatform* CocoaPlatform::instance = NULL;
 	Platform* CocoaPlatform::platform = NULL;
-	CocoaPlatform::CocoaPlatform() :window(NULL), view(NULL) {
+	CocoaPlatform::CocoaPlatform() :window(NULL), view(NULL) {}
 
-	}
-
-	CocoaPlatform::~CocoaPlatform() {
-
-	}
+	CocoaPlatform::~CocoaPlatform() {}
 
 	bool CocoaPlatform::CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style, ContextProfile profile) {
 		@autoreleasepool {
@@ -110,12 +106,17 @@ namespace Theodore {
 
 			GLint swapInt = 1;
 			[[view openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+      
+//      TODO
+//      CVDisplayLinkCreateWithActiveCGDisplays(&displayLink);
+//      CVDisplayLinkSetOutputCallback(displayLink, &GlobalDisplayLinkCallback, self);
+      
 			if(glewInit() != GLEW_OK) return false;
 
-			Debug::Log("Vendor              : %s\n", glGetString(GL_VENDOR));
-			Debug::Log("Renderer            : %s\n", glGetString(GL_RENDERER));
-			Debug::Log("Version             : %s\n", glGetString(GL_VERSION));
-			Debug::Log("GLSL                : %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+			Debug::Log("Vendor              : %s", glGetString(GL_VENDOR));
+			Debug::Log("Renderer            : %s", glGetString(GL_RENDERER));
+			Debug::Log("Version             : %s", glGetString(GL_VERSION));
+			Debug::Log("GLSL                : %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
 			[window setAcceptsMouseMovedEvents:YES];
 			[window setContentView:view];
@@ -279,11 +280,13 @@ namespace Theodore {
 	}
 
 	bool Platform::Initialize(const PlatformContext& param) {
-		return CocoaPlatform::instance->CreatePlatformCocoa(param.name, param.width, param.height, param.fullscreen, param.majorVersion, param.minorVersion, param.multisample, param.style, param.profile);
+		return CocoaPlatform::instance->CreatePlatformCocoa(
+        param.name, param.width, param.height, param.fullscreen, param.majorVersion,
+        param.minorVersion, param.multisample, param.style, param.profile);
 	}
 
 	void Platform::Update() {
-		NSEvent * event;
+		NSEvent* event;
 		do {
 			event = [NSApp nextEventMatchingMask:NSEventMaskAny untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES];
 			[NSApp sendEvent: event];
@@ -314,27 +317,34 @@ namespace Theodore {
 	}
 
 	void Platform::SetMousePos(const int x, const int y) const {
-
+    Debug::Log("this feature does not support for MacOS");
 	}
 
 	int Platform::GetScreenDPI() {
-		return 0;
+    NSScreen* screen = [NSScreen mainScreen];
+    NSDictionary* description = [screen deviceDescription];
+    NSSize displayPixelSize = [[description objectForKey:NSDeviceSize] sizeValue];
+    CGSize displayPhysicalSize = CGDisplayScreenSize([[description objectForKey:@"NSScreenNumber"] unsignedIntValue]);
+		return (displayPixelSize.width / displayPhysicalSize.width) * 25.4f;
 	}
 
 	void Platform::SetVSync(bool sync) {
-
+    GLint syncValue = static_cast<GLint>(sync);
+    [[NSOpenGLContext currentContext] setValues:&syncValue forParameter:NSOpenGLCPSwapInterval];
 	}
 
 	int Platform::GetVSync() {
-		return 0;
+    GLint syncValue = 0;
+    [[NSOpenGLContext currentContext] getValues:&syncValue forParameter:NSOpenGLCPSwapInterval];
+		return syncValue;
 	}
 
 	bool Platform::IsFocus() const {
-		return true;
+		return mIsFocused;
 	}
   
   void Platform::ChangeTitle(const std::string& titleName) {
-    // nothing to do here
+    [Theodore::CocoaPlatform::GetInstance()->window setTitle: [NSString stringWithCString:titleName.c_str() encoding:[NSString defaultCStringEncoding]]];
   }
 }
 
