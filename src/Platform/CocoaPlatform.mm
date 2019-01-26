@@ -332,6 +332,10 @@ namespace Theodore {
 	bool Platform::IsFocus() const {
 		return true;
 	}
+  
+  void Platform::ChangeTitle(const std::string& titleName) {
+    // nothing to do here
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -340,12 +344,12 @@ namespace Theodore {
 @implementation View
 - (void)windowDidResize:(NSNotification *)notification {
   NSSize size = [[_window contentView] frame].size;
-  Quark::Platform::GetInstance()->WindowSizeChanged(size.width, size.height);
+  Theodore::Platform::GetInstance()->WindowSizeChanged(size.width, size.height);
 }
 // terminate window when the red X is pressed
 - (void)windowWillClose:(NSNotification *)notification {
-  Quark::Platform::GetInstance()->Quit();
-  Quark::CocoaPlatform::GetInstance()->KillPlatformCocoa();
+  Theodore::Platform::GetInstance()->Quit();
+  Theodore::CocoaPlatform::GetInstance()->KillPlatformCocoa();
 }
 
 - (BOOL)acceptsFirstResponder {
@@ -358,46 +362,46 @@ namespace Theodore {
 
 - (void)keyDown:(NSEvent *)event {
   NSLog(@"event monitor: %@", event);
-  Quark::Platform::GetInstance()->mKeys[[event keyCode]] = true;
+  Theodore::Platform::GetInstance()->mKeys[[event keyCode]] = true;
 }
 
 - (void)keyUp:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mKeys[[event keyCode]] = false;
+  Theodore::Platform::GetInstance()->mKeys[[event keyCode]] = false;
 }
 
 - (void)scrollWheel:(NSEvent *)event {
 	// horizontall [event deltaX], verticall [event deltaY]
-  Quark::Platform::GetInstance()->mMousePosition.z = [event deltaY];
+  Theodore::Platform::GetInstance()->mMousePosition.z = [event deltaY];
 }
 
 - (void)mouseMoved:(NSEvent *)event {
   NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
-  Quark::Platform::GetInstance()->mMousePosition.x = point.x;
-  Quark::Platform::GetInstance()->mMousePosition.y = point.y;
+  Theodore::Platform::GetInstance()->mMousePosition.x = point.x;
+  Theodore::Platform::GetInstance()->mMousePosition.y = point.y;
 }
 
 - (void)mouseDown:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_LEFT] = true;
+  Theodore::Platform::GetInstance()->mMouseButtons[Theodore::MOUSE_LEFT] = true;
 }
 
 - (void)mouseUp:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_LEFT] = false;
+  Theodore::Platform::GetInstance()->mMouseButtons[Theodore::MOUSE_LEFT] = false;
 }
 
 - (void)rightMouseDown:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_RIGHT] = true;
+  Theodore::Platform::GetInstance()->mMouseButtons[Theodore::MOUSE_RIGHT] = true;
 }
 
 - (void)rightMouseUp:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_RIGHT] = false;
+  Theodore::Platform::GetInstance()->mMouseButtons[Theodore::MOUSE_RIGHT] = false;
 }
 
 - (void)otherMouseDown:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_MIDDLE] = true;
+  Theodore::Platform::GetInstance()->mMouseButtons[Theodore::MOUSE_MIDDLE] = true;
 }
 
 - (void)otherMouseUp:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_MIDDLE] = false;
+  Theodore::Platform::GetInstance()->mMouseButtons[Theodore::MOUSE_MIDDLE] = false;
 }
 @end
 

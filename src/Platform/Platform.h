@@ -64,7 +64,7 @@ namespace Theodore {
     static int GetHeight() { return GetInstance()->mHeight; }
     static void ChangeTitle(const std::string& titleName);
 
-  private:
+  public:
     static Platform* instance;
 
     int mWidth, mHeight;

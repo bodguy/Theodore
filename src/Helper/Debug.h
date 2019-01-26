@@ -30,7 +30,7 @@ namespace Theodore {
 
 #ifdef _DEBUG
 #define FUNCNAME() Debug::LogFuncName __logFuncName(__FUNCTION__)
-#elif
+#else
 #define FUNCNAME()
 #endif
 

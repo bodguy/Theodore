@@ -33,17 +33,23 @@ namespace Theodore {
 
       GameObject* skybox = new GameObject("skybox", this);
       CubemapRenderer* cubemap = skybox->AddComponent<CubemapRenderer>();
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posx.jpg", TextureFormat::RGBA32,
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posx.jpg",
+                                   TextureFormat::RGBA32,
                                    CubemapFace::PositiveX); // Right
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negx.jpg", TextureFormat::RGBA32,
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negx.jpg",
+                                   TextureFormat::RGBA32,
                                    CubemapFace::NegativeX); // Left
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posy.jpg", TextureFormat::RGBA32,
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posy.jpg",
+                                   TextureFormat::RGBA32,
                                    CubemapFace::PositiveY); // Top
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negy.jpg", TextureFormat::RGBA32,
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negy.jpg",
+                                   TextureFormat::RGBA32,
                                    CubemapFace::NegativeY); // Bottom
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posz.jpg", TextureFormat::RGBA32,
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posz.jpg",
+                                   TextureFormat::RGBA32,
                                    CubemapFace::PositiveZ); // Back
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negz.jpg", TextureFormat::RGBA32,
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negz.jpg",
+                                   TextureFormat::RGBA32,
                                    CubemapFace::NegativeZ); // Front
 
       GameObject* pointLight = new GameObject("pointLight", this);
@@ -55,7 +61,8 @@ namespace Theodore {
 
       sprite = new GameObject("sprite", this);
       SpriteRenderer* rend = sprite->AddComponent<SpriteRenderer>();
-      rend->SetSprite(Sprite::Create(AssetManager::RequestTexture(Application::GetResourcePath() + "sprite.png", TextureFormat::RGBA32, Color::white)));
+      rend->SetSprite(Sprite::Create(AssetManager::RequestTexture(
+          Application::GetResourcePath() + "sprite.png", TextureFormat::RGBA32, Color::white)));
       trans2 = sprite->GetTransform();
       trans2->SetLocalScale(Vector3d(0.01f, 0.01f, 0.01f));
 

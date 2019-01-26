@@ -10,6 +10,13 @@
 #define StringUtil_h
 
 #include <vector>
+#include "../Platform/os_types.h"
+
+#ifdef Theodore_MacOS
+#define DateTime tm
+#else
+#define DateTime std::tm
+#endif
 
 namespace Theodore {
   class StringUtil {
@@ -27,7 +34,7 @@ namespace Theodore {
                                   const std::string& to);
     static bool StartsWith(const std::string& str, const std::string& prefix);
     static bool EndsWith(const std::string& str, const std::string& suffix);
-    static std::string DateToUTCString(std::tm* date);
+    static std::string DateToUTCString(DateTime* date);
     static float ParseFloat(const std::string& str);
     static double ParseDouble(const std::string& str);
     static int ParseInteger(const std::string& str);

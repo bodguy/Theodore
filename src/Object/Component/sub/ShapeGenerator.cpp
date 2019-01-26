@@ -266,7 +266,7 @@ namespace Theodore {
   Mesh* ShapeGenerator::GenerateIcoSphere(unsigned int subdivisions) {
     Mesh* mesh = new Mesh();
 
-    float t = (1.f + std::sqrtf(5.f) / 2.f);
+    float t = (1.f + Math::Sqrt(5.f) / 2.f);
     std::vector<Vector3d> vertices = {
         Vector3d(-1.f, t, 0.f).Normalize(),  Vector3d(1.f, t, 0.f).Normalize(),
         Vector3d(-1.f, -t, 0.f).Normalize(), Vector3d(1.f, -t, 0.f).Normalize(),
@@ -388,9 +388,9 @@ namespace Theodore {
           float s = (i + k) % numc + 0.5f;
           float t = (float)(j % numt);
 
-          float x = (1 + radius * cos(s * twopi / numc)) * cos(t * twopi / numt);
-          float y = (1 + radius * cos(s * twopi / numc)) * sin(t * twopi / numt);
-          float z = radius * sin(s * twopi / numc);
+          float x = (1 + radius * Math::Cos(s * twopi / numc)) * Math::Cos(t * twopi / numt);
+          float y = (1 + radius * Math::Cos(s * twopi / numc)) * Math::Sin(t * twopi / numt);
+          float z = radius * Math::Sin(s * twopi / numc);
           vertices.push_back(Vector3d(x, y, z));
           normals.push_back(Vector3d(x, y, z).Normalize());
         }
@@ -416,8 +416,8 @@ namespace Theodore {
     vertices.push_back(Vector3d(0.f, height, 0.f));
     normals.push_back(Vector3d(0.f, height, 0.f));
     for (int i = 0; i < nPhi; i++) {
-      vertices.push_back(Vector3d(cos(phi) * radius, -height, sin(phi) * radius));
-      normals.push_back(Vector3d(height * cos(phi), radius, height * sin(phi)));
+      vertices.push_back(Vector3d(Math::Cos(phi) * radius, -height, Math::Sin(phi) * radius));
+      normals.push_back(Vector3d(height * Math::Cos(phi), radius, height * Math::Sin(phi)));
       phi += dPhi;
     }
 

@@ -16,6 +16,7 @@
 #include "../Graphics/Enumeration.h"
 #include "./Component/Light.h"
 #include "Object.h"
+#include "Scene.h"
 #include "./Component/Collider/SphereCollider.h"
 #include <set>
 #include <string>
@@ -26,7 +27,6 @@
 
 namespace Theodore {
   class Transform;
-  class Scene;
   class Debug;
   class GameObject : public Object {
     friend class Scene;
