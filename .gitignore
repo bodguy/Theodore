@@ -1,0 +1,14 @@
+# exclude all files and folders
+/*
+
+# add exception
+!/.gitignore
+!/.clang-format
+!/CMakeLists.txt
+!/LICENSE
+!/license.svg
+!/readme.md
+!/libs/
+!/src/
+!/Resources/
+!/Shaders/
