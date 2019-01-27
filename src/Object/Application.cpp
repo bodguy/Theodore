@@ -11,8 +11,8 @@
 
 namespace Theodore {
   Application* Application::instance = nullptr;
-  std::string Application::ResourcePath = "../../../../../Resources/";
-	std::string Application::ShaderPath = "../../../../../Shaders/";
+  std::string Application::ResourcePath = "../Resources/";
+  std::string Application::ShaderPath = "../Shaders/";
   Application::Application() { instance = this; }
 
   Application::~Application() {
