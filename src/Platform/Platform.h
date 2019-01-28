@@ -73,7 +73,7 @@ namespace Theodore {
     bool mIsFullScreen;
     bool mKeys[KEY_MAX];
     mutable bool mIsFocused;
-    int mLocalKeymap[KEY_MAX];
+    unsigned short mLocalKeymap[KEY_MAX];
     bool mMouseButtons[MOUSE_BUTTON_MAX];
     bool mIsRunning;
     Vector3d mMousePosition;

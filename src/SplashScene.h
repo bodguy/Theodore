@@ -81,11 +81,11 @@ namespace Theodore {
       if (Input::GetKeyHeld(KEY_LEFT)) {
         trans2->Translate(Vector3d::left * 5.f * Time::DeltaTime());
       } else if (Input::GetKeyHeld(KEY_RIGHT)) {
-        trans2->Translate(-Vector3d::left * 5.f * Time::DeltaTime());
+        trans2->Translate(Vector3d::right * 5.f * Time::DeltaTime());
       } else if (Input::GetKeyHeld(KEY_UP)) {
         trans2->Translate(Vector3d::up * 5.f * Time::DeltaTime());
       } else if (Input::GetKeyHeld(KEY_DOWN)) {
-        trans2->Translate(-Vector3d::up * 5.f * Time::DeltaTime());
+        trans2->Translate(Vector3d::down * 5.f * Time::DeltaTime());
       } else if (Input::GetKeyHeld(KEY_L)) {
         trans2->Scale(Vector3d::one * 0.1f);
       }
