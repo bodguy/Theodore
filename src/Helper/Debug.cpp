@@ -85,8 +85,8 @@ namespace Theodore {
   }
 
   void Debug::Log(const Texture* object) {
-    Debug::Log("Texture loaded %s[w=%d, h=%d], ref=%d, id=%d", object->mName.c_str(),
-               object->mWidth, object->mHeight, object->mRefCount, object->mTextureID);
+    Debug::Log("Texture loaded %s[w=%d, h=%d], ref=%d, id=%d format=%d", object->mName.c_str(),
+               object->mWidth, object->mHeight, object->mRefCount, object->mTextureID, object->mTextureFormat);
   }
 
   void Debug::LogOnOff(bool b) { Debug::__logSwitch = b; }

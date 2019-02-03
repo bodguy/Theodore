@@ -38,9 +38,10 @@ namespace Theodore {
 
     void SetMipmapBias(float bias);
     void SetAnisoLevel(float level);
-    void SetFilter(FilterMode mode);
-    void SetWrapMode(WrapMode mode);
+    void SetFilter(const FilterMode mode);
+    void SetWrapMode(const WrapMode mode);
     void SetMappingType(const std::string& type);
+    void SetTextureFormet(const TextureFormat format);
 
     TextureDimension GetDimension() const;
 
@@ -55,6 +56,7 @@ namespace Theodore {
     FilterMode mFilterMode;
     WrapMode mWrapMode;
     TextureDimension mDimension;
+    TextureFormat mTextureFormat;
     Color mColorKey;
     bool mUseColorKey;
   };
