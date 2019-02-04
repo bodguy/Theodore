@@ -66,6 +66,15 @@ namespace Theodore {
       trans2 = sprite->GetTransform();
       trans2->SetLocalScale(Vector3d(0.01f, 0.01f, 0.01f));
 
+      GameObject* buda = new GameObject("buda", this);
+      Mesh* model = AssetManager::RequestMesh(Application::GetResourcePath() + "model/budda.obj", MeshFormat::WaveFrontObj);
+      Material* material = new Material(Shader::Find("Phong"));
+      MeshRenderer* meshRend = buda->AddComponent<MeshRenderer>();
+      meshRend->SetMaterial(material);
+      meshRend->SetMesh(model);
+      Transform* transBuda = buda->GetComponent<Transform>();
+      transBuda->SetLocalScale(Vector3d(10.f, 10.f, 10.f));
+
       SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 5.f));
     }
 
