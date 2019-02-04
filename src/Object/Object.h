@@ -26,6 +26,7 @@ namespace Theodore {
 
   class Vector3d;
   class Quaternion;
+  class GameObject;
   class Object : public UniqueId {
     friend class GameObject;
 

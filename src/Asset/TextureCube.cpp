@@ -22,6 +22,7 @@ namespace Theodore {
       mWidth = w;
       mHeight = h;
       SetAssetName(filename);
+      SetTextureFormet(format);
 
       glBindTexture(static_cast<GLenum>(mDimension), cubemap->GetTextureID());
       switch (format) {

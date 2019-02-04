@@ -27,8 +27,8 @@ namespace Theodore {
 
     bool Initialize(const PlatformContext& param);
     void Run();
-		static std::string GetResourcePath();
-		static std::string GetShaderPath();
+	static std::string GetResourcePath();
+	static std::string GetShaderPath();
 
   private:
     static Application* instance;
@@ -43,7 +43,7 @@ namespace Theodore {
     AssetManager* mAssetManager;
     ShaderManager* mShaderManager;
     static std::string ResourcePath;
-		static std::string ShaderPath;
+    static std::string ShaderPath;
   };
 }
 

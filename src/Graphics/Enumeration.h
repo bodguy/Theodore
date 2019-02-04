@@ -87,6 +87,7 @@ namespace Theodore {
   };
 
   enum class TextureFormat {
+    UNKNOWN,
     RGB24 = 3,
     RGBA32 = 4,
     Red8,

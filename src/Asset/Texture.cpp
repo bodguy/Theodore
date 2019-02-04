@@ -4,7 +4,7 @@ namespace Theodore {
   Texture::Texture()
       : mNativeTexturePtr(nullptr), mTextureID(1), mWidth(0), mHeight(0), mMipMapBias(1000.f),
         mFilterMode(FilterMode::Trilinear), mWrapMode(WrapMode::ClampEdge),
-        mDimension(TextureDimension::None), mColorKey(Color::white), mUseColorKey(false) {
+        mDimension(TextureDimension::None), mTextureFormat(TextureFormat::UNKNOWN), mColorKey(Color::white), mUseColorKey(false) {
     mType = AssetType::TextureType;
     glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &mAnisoLevel);
   }
@@ -53,7 +53,7 @@ namespace Theodore {
     glTexParameterf(static_cast<GLenum>(mDimension), GL_TEXTURE_MAX_ANISOTROPY_EXT, mAnisoLevel);
   }
 
-  void Texture::SetFilter(FilterMode mode) {
+  void Texture::SetFilter(const FilterMode mode) {
     mFilterMode = mode;
     // Set filtering mode
     glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_MIN_FILTER,
@@ -64,7 +64,7 @@ namespace Theodore {
       glGenerateMipmap(static_cast<GLenum>(mDimension));
   }
 
-  void Texture::SetWrapMode(WrapMode mode) {
+  void Texture::SetWrapMode(const WrapMode mode) {
     mWrapMode = mode;
     // Set wrap mode
     glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_S,
@@ -77,6 +77,10 @@ namespace Theodore {
   }
 
   void Texture::SetMappingType(const std::string& type) { mMappingType = type; }
+
+  void Texture::SetTextureFormet(const TextureFormat format) {
+    mTextureFormat = format;
+  }
 
   TextureDimension Texture::GetDimension() const { return mDimension; }
 }

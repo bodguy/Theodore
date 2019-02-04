@@ -33,17 +33,23 @@ namespace Theodore {
 
       GameObject* skybox = new GameObject("skybox", this);
       CubemapRenderer* cubemap = skybox->AddComponent<CubemapRenderer>();
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posx.jpg", TextureFormat::RGBA32,
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posx.jpg",
+                                   TextureFormat::RGBA32,
                                    CubemapFace::PositiveX); // Right
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negx.jpg", TextureFormat::RGBA32,
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negx.jpg",
+                                   TextureFormat::RGBA32,
                                    CubemapFace::NegativeX); // Left
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posy.jpg", TextureFormat::RGBA32,
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posy.jpg",
+                                   TextureFormat::RGBA32,
                                    CubemapFace::PositiveY); // Top
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negy.jpg", TextureFormat::RGBA32,
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negy.jpg",
+                                   TextureFormat::RGBA32,
                                    CubemapFace::NegativeY); // Bottom
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posz.jpg", TextureFormat::RGBA32,
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posz.jpg",
+                                   TextureFormat::RGBA32,
                                    CubemapFace::PositiveZ); // Back
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negz.jpg", TextureFormat::RGBA32,
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negz.jpg",
+                                   TextureFormat::RGBA32,
                                    CubemapFace::NegativeZ); // Front
 
       GameObject* pointLight = new GameObject("pointLight", this);
@@ -55,9 +61,19 @@ namespace Theodore {
 
       sprite = new GameObject("sprite", this);
       SpriteRenderer* rend = sprite->AddComponent<SpriteRenderer>();
-      rend->SetSprite(Sprite::Create(AssetManager::RequestTexture(Application::GetResourcePath() + "sprite.png", TextureFormat::RGBA32, Color::white)));
+      rend->SetSprite(Sprite::Create(AssetManager::RequestTexture(
+          Application::GetResourcePath() + "sprite.png", TextureFormat::RGBA32, Color::white)));
       trans2 = sprite->GetTransform();
       trans2->SetLocalScale(Vector3d(0.01f, 0.01f, 0.01f));
+
+      GameObject* buda = new GameObject("buda", this);
+      Mesh* model = AssetManager::RequestMesh(Application::GetResourcePath() + "model/budda.obj", MeshFormat::WaveFrontObj);
+      Material* material = new Material(Shader::Find("Phong"));
+      MeshRenderer* meshRend = buda->AddComponent<MeshRenderer>();
+      meshRend->SetMaterial(material);
+      meshRend->SetMesh(model);
+      Transform* transBuda = buda->GetComponent<Transform>();
+      transBuda->SetLocalScale(Vector3d(10.f, 10.f, 10.f));
 
       SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 5.f));
     }
@@ -74,11 +90,11 @@ namespace Theodore {
       if (Input::GetKeyHeld(KEY_LEFT)) {
         trans2->Translate(Vector3d::left * 5.f * Time::DeltaTime());
       } else if (Input::GetKeyHeld(KEY_RIGHT)) {
-        trans2->Translate(-Vector3d::left * 5.f * Time::DeltaTime());
+        trans2->Translate(Vector3d::right * 5.f * Time::DeltaTime());
       } else if (Input::GetKeyHeld(KEY_UP)) {
         trans2->Translate(Vector3d::up * 5.f * Time::DeltaTime());
       } else if (Input::GetKeyHeld(KEY_DOWN)) {
-        trans2->Translate(-Vector3d::up * 5.f * Time::DeltaTime());
+        trans2->Translate(Vector3d::down * 5.f * Time::DeltaTime());
       } else if (Input::GetKeyHeld(KEY_L)) {
         trans2->Scale(Vector3d::one * 0.1f);
       }

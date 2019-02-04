@@ -148,7 +148,7 @@ namespace Theodore {
 
     char* tmpline = new char[w * 3];
 
-    const int linewidth = w * 3;
+    // const int linewidth = w * 3;
 
     // flip the image
     // for (int y = 0; y < (h / 2); y++) {
@@ -170,8 +170,8 @@ namespace Theodore {
       break;
     }
 
-    delete tmpline;
-    delete data;
+    delete [] tmpline;
+    delete [] data;
   }
 
   void Graphics::GetViewport(int* viewport) { glGetIntegerv(GL_VIEWPORT, viewport); }
@@ -264,7 +264,7 @@ namespace Theodore {
 
   void Graphics::DrawSphere(const Vector3d& center, float radius, const Color color) {
     sphereProgram->Use();
-    Camera* cam = SceneManager::GetMainCamera();
+//    Camera* cam = SceneManager::GetMainCamera();
     sphereProgram->SetUniform("model", Matrix4x4::Identity());
     sphereProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
     sphereProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
@@ -278,7 +278,7 @@ namespace Theodore {
 
   void Graphics::DrawFrustum(const Vector3d& center, float fov, float maxRange, float minRange,
                              float aspect, const Color color) {
-    float tanAngle = tan(fov / 2);
+    float tanAngle = Math::Tan(fov / 2);
 
     float yNear = minRange * tanAngle;
     float xNear = aspect * yNear;
@@ -358,7 +358,7 @@ namespace Theodore {
     glBegin(GL_LINE_LOOP);
     for (int i = 0; i < Math::degrees; i++) {
       const float rad = i * Math::degrees_to_radians;
-      Vertex(Vector3d(center.x + std::cos(rad) * radius, center.y + std::sin(rad) * radius));
+      Vertex(Vector3d(center.x + Math::Cos(rad) * radius, center.y + Math::Sin(rad) * radius));
     }
     glEnd();
   }

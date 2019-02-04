@@ -19,13 +19,9 @@ namespace Theodore {
 
 	CocoaPlatform* CocoaPlatform::instance = NULL;
 	Platform* CocoaPlatform::platform = NULL;
-	CocoaPlatform::CocoaPlatform() :window(NULL), view(NULL) {
+	CocoaPlatform::CocoaPlatform() :window(NULL), view(NULL) {}
 
-	}
-
-	CocoaPlatform::~CocoaPlatform() {
-
-	}
+	CocoaPlatform::~CocoaPlatform() {}
 
 	bool CocoaPlatform::CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style, ContextProfile profile) {
 		@autoreleasepool {
@@ -110,12 +106,17 @@ namespace Theodore {
 
 			GLint swapInt = 1;
 			[[view openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+      
+//      TODO
+//      CVDisplayLinkCreateWithActiveCGDisplays(&displayLink);
+//      CVDisplayLinkSetOutputCallback(displayLink, &GlobalDisplayLinkCallback, self);
+      
 			if(glewInit() != GLEW_OK) return false;
 
-			Debug::Log("Vendor              : %s\n", glGetString(GL_VENDOR));
-			Debug::Log("Renderer            : %s\n", glGetString(GL_RENDERER));
-			Debug::Log("Version             : %s\n", glGetString(GL_VERSION));
-			Debug::Log("GLSL                : %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+			Debug::Log("Vendor              : %s", glGetString(GL_VENDOR));
+			Debug::Log("Renderer            : %s", glGetString(GL_RENDERER));
+			Debug::Log("Version             : %s", glGetString(GL_VERSION));
+			Debug::Log("GLSL                : %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
 			[window setAcceptsMouseMovedEvents:YES];
 			[window setContentView:view];
@@ -156,120 +157,134 @@ namespace Theodore {
 			mMouseButtons[i] = false;
 
 		{ // optimized to Apple Extended Keyboard II (domestic layout)
-			mLocalKeymap[KEY_A] = kVK_ANSI_A;
-			mLocalKeymap[KEY_B] = kVK_ANSI_B;
-			mLocalKeymap[KEY_C] = kVK_ANSI_C;
-			mLocalKeymap[KEY_D] = kVK_ANSI_D;
-			mLocalKeymap[KEY_E] = kVK_ANSI_E;
-			mLocalKeymap[KEY_F] = kVK_ANSI_F;
-			mLocalKeymap[KEY_G] = kVK_ANSI_G;
-			mLocalKeymap[KEY_H] = kVK_ANSI_H;
-			mLocalKeymap[KEY_I] = kVK_ANSI_I;
-			mLocalKeymap[KEY_J] = kVK_ANSI_J;
-			mLocalKeymap[KEY_K] = kVK_ANSI_K;
-			mLocalKeymap[KEY_L] = kVK_ANSI_L;
-			mLocalKeymap[KEY_M] = kVK_ANSI_M;
-			mLocalKeymap[KEY_N] = kVK_ANSI_N;
-			mLocalKeymap[KEY_O] = kVK_ANSI_O;
-			mLocalKeymap[KEY_P] = kVK_ANSI_P;
-			mLocalKeymap[KEY_Q] = kVK_ANSI_Q;
-			mLocalKeymap[KEY_R] = kVK_ANSI_R;
-			mLocalKeymap[KEY_S] = kVK_ANSI_S;
-			mLocalKeymap[KEY_T] = kVK_ANSI_T;
-			mLocalKeymap[KEY_U] = kVK_ANSI_U;
-			mLocalKeymap[KEY_V] = kVK_ANSI_V;
-			mLocalKeymap[KEY_W] = kVK_ANSI_W;
-			mLocalKeymap[KEY_X] = kVK_ANSI_X;
-			mLocalKeymap[KEY_Y] = kVK_ANSI_Y;
-			mLocalKeymap[KEY_Z] = kVK_ANSI_Z;
-
-			mLocalKeymap[KEY_0] = kVK_ANSI_0;
-			mLocalKeymap[KEY_1] = kVK_ANSI_1;
-			mLocalKeymap[KEY_2] = kVK_ANSI_2;
-			mLocalKeymap[KEY_3] = kVK_ANSI_3;
-			mLocalKeymap[KEY_4] = kVK_ANSI_4;
-			mLocalKeymap[KEY_5] = kVK_ANSI_5;
-			mLocalKeymap[KEY_6] = kVK_ANSI_6;
-			mLocalKeymap[KEY_7] = kVK_ANSI_7;
-			mLocalKeymap[KEY_8] = kVK_ANSI_8;
-			mLocalKeymap[KEY_9] = kVK_ANSI_9;
-
-			mLocalKeymap[KEY_SPACE] = kVK_Space;
-			mLocalKeymap[KEY_SEMICOLON] = kVK_ANSI_Semicolon;
-			mLocalKeymap[KEY_EQUALS] = kVK_ANSI_Equal;
-			mLocalKeymap[KEY_APOSTROPHE] = kVK_ANSI_Quote;
-			mLocalKeymap[KEY_COMMA] = kVK_ANSI_Comma;
-			mLocalKeymap[KEY_MINUS] = kVK_ANSI_Minus;
-			mLocalKeymap[KEY_PERIOD] = kVK_ANSI_Period;
-			mLocalKeymap[KEY_SLASH] = kVK_ANSI_Slash;
-			mLocalKeymap[KEY_LEFTBRACKET] = kVK_ANSI_LeftBracket;
-			mLocalKeymap[KEY_BACKSLASH] = kVK_ANSI_Backslash;
-			mLocalKeymap[KEY_RIGHTBRACKET] = kVK_ANSI_RightBracket;
-			mLocalKeymap[KEY_GRAVE_ACCENT] = kVK_ANSI_Grave;
-
-			mLocalKeymap[KEY_ESCAPE] = kVK_Escape;
-			mLocalKeymap[KEY_RETURN] = kVK_Return;
-			mLocalKeymap[KEY_TAB] = kVK_Tab;
-			mLocalKeymap[KEY_BACKSPACE] = kVK_ForwardDelete;
-			mLocalKeymap[KEY_INSERT] = kVK_Help;
-			mLocalKeymap[KEY_DELETE] = kVK_Delete;
-			mLocalKeymap[KEY_UP] = kVK_UpArrow;
-			mLocalKeymap[KEY_DOWN] = kVK_DownArrow;
-			mLocalKeymap[KEY_RIGHT] = kVK_RightArrow;
-			mLocalKeymap[KEY_LEFT] = kVK_LeftArrow;
-			mLocalKeymap[KEY_PAGEUP] = kVK_PageUp;
-			mLocalKeymap[KEY_PAGEDOWN] = kVK_PageDown;
-			mLocalKeymap[KEY_HOME] = kVK_Home;
-			mLocalKeymap[KEY_END] = kVK_End;
-			mLocalKeymap[KEY_CAPSLOCK] = kVK_CapsLock;
-			mLocalKeymap[KEY_SCROLLOCK] = kVK_F14; // F14
-			mLocalKeymap[KEY_NUMLOCK] = kVK_ANSI_KeypadClear;
-			mLocalKeymap[KEY_PRINTSCREEN] = kVK_F13; // F13
-			mLocalKeymap[KEY_PAUSE] = kVK_F15; // F15
-
-			mLocalKeymap[KEY_F1] = kVK_F1;
-			mLocalKeymap[KEY_F2] = kVK_F2;
-			mLocalKeymap[KEY_F3] = kVK_F3;
-			mLocalKeymap[KEY_F4] = kVK_F4;
-			mLocalKeymap[KEY_F5] = kVK_F5;
-			mLocalKeymap[KEY_F6] = kVK_F6;
-			mLocalKeymap[KEY_F7] = kVK_F7;
-			mLocalKeymap[KEY_F8] = kVK_F8;
-			mLocalKeymap[KEY_F9] = kVK_F9;
-			mLocalKeymap[KEY_F10] = kVK_F10;
-			mLocalKeymap[KEY_F11] = kVK_F11;
-			mLocalKeymap[KEY_F12] = kVK_F12;
-
-			mLocalKeymap[KEY_LSHIFT] = kVK_Shift;
-			mLocalKeymap[KEY_LCTRL] = kVK_Control;
-			mLocalKeymap[KEY_LALT] = kVK_Option;
-			mLocalKeymap[KEY_LSUPER] = kVK_Command;
-			mLocalKeymap[KEY_RSHIFT] = kVK_RightShift;
-			mLocalKeymap[KEY_RCTRL] = kVK_RightControl;
-			mLocalKeymap[KEY_RALT] = kVK_RightOption;
-			mLocalKeymap[KEY_RSUPER] = kVK_RightCommand;
-			mLocalKeymap[KEY_MENU] = kVK_Function; // maybe?
-			mLocalKeymap[KEY_HANGUL] = KEY_UNDEFINED;
-			mLocalKeymap[KEY_HANJA] = KEY_UNDEFINED;
-
-			mLocalKeymap[KEY_KP_0] = kVK_ANSI_Keypad0;
-			mLocalKeymap[KEY_KP_1] = kVK_ANSI_Keypad1;
-			mLocalKeymap[KEY_KP_2] = kVK_ANSI_Keypad2;
-			mLocalKeymap[KEY_KP_3] = kVK_ANSI_Keypad3;
-			mLocalKeymap[KEY_KP_4] = kVK_ANSI_Keypad4;
-			mLocalKeymap[KEY_KP_5] = kVK_ANSI_Keypad5;
-			mLocalKeymap[KEY_KP_6] = kVK_ANSI_Keypad6;
-			mLocalKeymap[KEY_KP_7] = kVK_ANSI_Keypad7;
-			mLocalKeymap[KEY_KP_8] = kVK_ANSI_Keypad8;
-			mLocalKeymap[KEY_KP_9] = kVK_ANSI_Keypad9;
-
-			mLocalKeymap[KEY_KP_DECIMAL] = kVK_ANSI_KeypadDecimal;
-			mLocalKeymap[KEY_KP_DIVIDE] = kVK_ANSI_KeypadDivide;
-			mLocalKeymap[KEY_KP_MULTIPLY] = kVK_ANSI_KeypadMultiply;
-			mLocalKeymap[KEY_KP_SUBTRACT] = kVK_ANSI_KeypadMinus;
-			mLocalKeymap[KEY_KP_ADD] = kVK_ANSI_KeypadPlus;
-			mLocalKeymap[KEY_KP_ENTER] = kVK_ANSI_KeypadEnter;
-			mLocalKeymap[KEY_KP_EQUAL] = kVK_ANSI_KeypadEquals;
+			mLocalKeymap[0] = KEY_A;
+      mLocalKeymap[1] = KEY_S;
+      mLocalKeymap[2] = KEY_D;
+      mLocalKeymap[3] = KEY_F;
+      mLocalKeymap[4] = KEY_H;
+      mLocalKeymap[5] = KEY_G;
+      mLocalKeymap[6] = KEY_Z;
+      mLocalKeymap[7] = KEY_X;
+      mLocalKeymap[8] = KEY_C;
+      mLocalKeymap[9] = KEY_V;
+      mLocalKeymap[10] = KEY_UNDEFINED; // for historical reason
+			mLocalKeymap[11] = KEY_B;
+      mLocalKeymap[12] = KEY_Q;
+      mLocalKeymap[13] = KEY_W;
+			mLocalKeymap[14] = KEY_E;
+      mLocalKeymap[15] = KEY_R;
+      mLocalKeymap[16] = KEY_Y;
+      mLocalKeymap[17] = KEY_T;
+      mLocalKeymap[18] = KEY_1;
+      mLocalKeymap[19] = KEY_2;
+      mLocalKeymap[20] = KEY_3;
+      mLocalKeymap[21] = KEY_4;
+      mLocalKeymap[22] = KEY_6;
+      mLocalKeymap[23] = KEY_5;
+      mLocalKeymap[24] = KEY_EQUALS;
+      mLocalKeymap[25] = KEY_9;
+      mLocalKeymap[26] = KEY_7;
+      mLocalKeymap[27] = KEY_MINUS;
+      mLocalKeymap[28] = KEY_8;
+      mLocalKeymap[29] = KEY_0;
+      mLocalKeymap[30] = KEY_RIGHTBRACKET;
+			mLocalKeymap[31] = KEY_O;
+      mLocalKeymap[32] = KEY_U;
+      mLocalKeymap[33] = KEY_LEFTBRACKET;
+      mLocalKeymap[34] = KEY_I;
+			mLocalKeymap[35] = KEY_P;
+      mLocalKeymap[36] = KEY_RETURN;
+      mLocalKeymap[37] = KEY_L;
+      mLocalKeymap[38] = KEY_J;
+      mLocalKeymap[39] = KEY_APOSTROPHE;
+      mLocalKeymap[40] = KEY_K;
+      mLocalKeymap[41] = KEY_SEMICOLON;
+      mLocalKeymap[42] = KEY_BACKSLASH;
+      mLocalKeymap[43] = KEY_COMMA;
+      mLocalKeymap[44] = KEY_SLASH;
+      mLocalKeymap[45] = KEY_N;
+      mLocalKeymap[46] = KEY_M;
+      mLocalKeymap[47] = KEY_PERIOD;
+      mLocalKeymap[48] = KEY_TAB;
+      mLocalKeymap[49] = KEY_SPACE;
+      mLocalKeymap[50] = KEY_GRAVE_ACCENT;
+      mLocalKeymap[51] = KEY_BACKSPACE;
+      mLocalKeymap[52] = KEY_KP_ENTER;
+      mLocalKeymap[53] = KEY_ESCAPE;
+      mLocalKeymap[54] = KEY_RSUPER;
+      mLocalKeymap[55] = KEY_LSUPER;
+      mLocalKeymap[56] = KEY_LSHIFT;
+      mLocalKeymap[57] = KEY_CAPSLOCK;
+      mLocalKeymap[58] = KEY_LALT;
+      mLocalKeymap[59] = KEY_LCTRL;
+      mLocalKeymap[60] = KEY_RSHIFT;
+      mLocalKeymap[61] = KEY_RALT;
+      mLocalKeymap[62] = KEY_RCTRL;
+      mLocalKeymap[63] = KEY_UNDEFINED; // KEY_RGUI
+      mLocalKeymap[64] = KEY_UNDEFINED; // KEY_UNKNOWN
+      mLocalKeymap[65] = KEY_UNDEFINED; // KEY_KP_PERIOD
+      mLocalKeymap[66] = KEY_UNDEFINED; // KEY_UNKNOWN
+      mLocalKeymap[67] = KEY_KP_MULTIPLY;
+      mLocalKeymap[68] = KEY_UNDEFINED; // KEY_UNKNOWN
+      mLocalKeymap[69] = KEY_KP_ADD;
+      mLocalKeymap[70] = KEY_UNDEFINED; // KEY_UNKNOWN
+      mLocalKeymap[71] = KEY_UNDEFINED; // KEY_NUMLOCKCLEAR
+      mLocalKeymap[72] = KEY_UNDEFINED; // KEY_VOLUMEUP
+      mLocalKeymap[73] = KEY_UNDEFINED; // KEY_VOLUMEDOWN
+      mLocalKeymap[74] = KEY_UNDEFINED; // KEY_MUTE
+      mLocalKeymap[75] = KEY_KP_DIVIDE;
+      mLocalKeymap[76] = KEY_KP_ENTER;
+      mLocalKeymap[77] = KEY_UNDEFINED; // KEY_UNKNOWN
+      mLocalKeymap[78] = KEY_KP_SUBTRACT;
+      mLocalKeymap[79] = KEY_UNDEFINED; // KEY_UNKNOWN
+      mLocalKeymap[80] = KEY_UNDEFINED; // KEY_UNKNOWN
+      mLocalKeymap[81] = KEY_KP_EQUAL;
+      mLocalKeymap[82] = KEY_UNDEFINED; // KEY_KP_0
+      mLocalKeymap[83] = KEY_UNDEFINED; // KEY_KP_1
+      mLocalKeymap[84] = KEY_UNDEFINED; // KEY_KP_2
+      mLocalKeymap[85] = KEY_UNDEFINED; // KEY_KP_3
+      mLocalKeymap[86] = KEY_UNDEFINED; // KEY_KP_4
+      mLocalKeymap[87] = KEY_UNDEFINED; // KEY_KP_5
+      mLocalKeymap[88] = KEY_UNDEFINED; // KEY_KP_6
+      mLocalKeymap[89] = KEY_UNDEFINED; // KEY_KP_7
+      mLocalKeymap[90] = KEY_UNDEFINED; // KEY_UNKNOWN
+      mLocalKeymap[91] = KEY_UNDEFINED; // KEY_KP_8
+      mLocalKeymap[92] = KEY_UNDEFINED; // KEY_KP_9
+      mLocalKeymap[93] = KEY_UNDEFINED; // KEY_INTERNATIONAL3
+      mLocalKeymap[94] = KEY_UNDEFINED; // KEY_INTERNATIONAL1
+      mLocalKeymap[95] = KEY_UNDEFINED; // KEY_KP_COMMA
+      mLocalKeymap[96] = KEY_F5;
+      mLocalKeymap[97] = KEY_F6;
+      mLocalKeymap[98] = KEY_F7;
+      mLocalKeymap[99] = KEY_F3;
+      mLocalKeymap[100] = KEY_F8;
+      mLocalKeymap[101] = KEY_F9;
+      mLocalKeymap[102] = KEY_UNDEFINED; // KEY_LANG2
+      mLocalKeymap[103] = KEY_F11;
+      mLocalKeymap[104] = KEY_UNDEFINED; // KEY_LANG1
+      mLocalKeymap[105] = KEY_PRINTSCREEN;
+      mLocalKeymap[106] = KEY_UNDEFINED; // KEY_F16
+      mLocalKeymap[107] = KEY_UNDEFINED; // KEY_SCROLLLOCK
+      mLocalKeymap[108] = KEY_UNDEFINED; // KEY_UNKNOWN
+      mLocalKeymap[109] = KEY_F10;
+      mLocalKeymap[110] = KEY_UNDEFINED; // KEY_APPLICATION
+      mLocalKeymap[111] = KEY_F12;
+      mLocalKeymap[112] = KEY_UNDEFINED; // KEY_UNKNOWN
+      mLocalKeymap[113] = KEY_PAUSE;
+      mLocalKeymap[114] = KEY_INSERT;
+      mLocalKeymap[115] = KEY_HOME;
+      mLocalKeymap[116] = KEY_PAGEUP;
+      mLocalKeymap[117] = KEY_DELETE;
+      mLocalKeymap[118] = KEY_F4;
+      mLocalKeymap[119] = KEY_END;
+      mLocalKeymap[120] = KEY_F2;
+      mLocalKeymap[121] = KEY_PAGEDOWN;
+      mLocalKeymap[122] = KEY_F1;
+      mLocalKeymap[123] = KEY_LEFT;
+      mLocalKeymap[124] = KEY_RIGHT;
+      mLocalKeymap[125] = KEY_DOWN;
+      mLocalKeymap[126] = KEY_UP;
+      mLocalKeymap[127] = KEY_UNDEFINED; // KEY_POWER
 		}
 	}
 
@@ -279,11 +294,13 @@ namespace Theodore {
 	}
 
 	bool Platform::Initialize(const PlatformContext& param) {
-		return CocoaPlatform::instance->CreatePlatformCocoa(param.name, param.width, param.height, param.fullscreen, param.majorVersion, param.minorVersion, param.multisample, param.style, param.profile);
+		return CocoaPlatform::instance->CreatePlatformCocoa(
+        param.name, param.width, param.height, param.fullscreen, param.majorVersion,
+        param.minorVersion, param.multisample, param.style, param.profile);
 	}
 
 	void Platform::Update() {
-		NSEvent * event;
+		NSEvent* event;
 		do {
 			event = [NSApp nextEventMatchingMask:NSEventMaskAny untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES];
 			[NSApp sendEvent: event];
@@ -314,24 +331,39 @@ namespace Theodore {
 	}
 
 	void Platform::SetMousePos(const int x, const int y) const {
-
+    // not work
+    Debug::Log("this feature does not support for MacOS");
 	}
 
 	int Platform::GetScreenDPI() {
-		return 0;
+	  // TODO: test this method
+    NSScreen* screen = [NSScreen mainScreen];
+    NSDictionary* description = [screen deviceDescription];
+    NSSize displayPixelSize = [[description objectForKey:NSDeviceSize] sizeValue];
+    CGSize displayPhysicalSize = CGDisplayScreenSize([[description objectForKey:@"NSScreenNumber"] unsignedIntValue]);
+		return (displayPixelSize.width / displayPhysicalSize.width) * 25.4f;
 	}
 
 	void Platform::SetVSync(bool sync) {
-
+	  // not work
+    GLint syncValue = static_cast<GLint>(sync);
+    [[NSOpenGLContext currentContext] setValues:&syncValue forParameter:NSOpenGLCPSwapInterval];
 	}
 
 	int Platform::GetVSync() {
-		return 0;
+    // not work
+    GLint syncValue = 0;
+    [[NSOpenGLContext currentContext] getValues:&syncValue forParameter:NSOpenGLCPSwapInterval];
+		return syncValue;
 	}
 
 	bool Platform::IsFocus() const {
-		return true;
+		return mIsFocused;
 	}
+  
+  void Platform::ChangeTitle(const std::string& titleName) {
+    [Theodore::CocoaPlatform::GetInstance()->window setTitle: [NSString stringWithCString:titleName.c_str() encoding:[NSString defaultCStringEncoding]]];
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -340,12 +372,12 @@ namespace Theodore {
 @implementation View
 - (void)windowDidResize:(NSNotification *)notification {
   NSSize size = [[_window contentView] frame].size;
-  Quark::Platform::GetInstance()->WindowSizeChanged(size.width, size.height);
+  Theodore::Platform::GetInstance()->WindowSizeChanged(size.width, size.height);
 }
 // terminate window when the red X is pressed
 - (void)windowWillClose:(NSNotification *)notification {
-  Quark::Platform::GetInstance()->Quit();
-  Quark::CocoaPlatform::GetInstance()->KillPlatformCocoa();
+  Theodore::Platform::GetInstance()->Quit();
+  Theodore::CocoaPlatform::GetInstance()->KillPlatformCocoa();
 }
 
 - (BOOL)acceptsFirstResponder {
@@ -356,48 +388,73 @@ namespace Theodore {
   return YES;
 }
 
+- (void)windowDidBecomeKey:(NSEvent *)event {
+	Theodore::Platform::GetInstance()->mIsFocused = true;
+}
+
+- (void)windowDidResignKey:(NSEvent *)event {
+	Theodore::Platform::GetInstance()->mIsFocused = false;
+}
+
 - (void)keyDown:(NSEvent *)event {
-  NSLog(@"event monitor: %@", event);
-  Quark::Platform::GetInstance()->mKeys[[event keyCode]] = true;
+  unsigned short scancode = [event keyCode];
+  if (scancode < 128) {
+    unsigned short localKey = Theodore::Platform::GetInstance()->mLocalKeymap[scancode];
+    if (localKey != -1)
+      Theodore::Platform::GetInstance()->mKeys[localKey] = true;
+  }
 }
 
 - (void)keyUp:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mKeys[[event keyCode]] = false;
+  unsigned short scancode = [event keyCode];
+  if (scancode < 128) {
+    unsigned short localKey = Theodore::Platform::GetInstance()->mLocalKeymap[scancode];
+    if (localKey != -1)
+      Theodore::Platform::GetInstance()->mKeys[localKey] = false;
+  }
+}
+
+- (void)flagsChanged:(NSEvent *)event {
+  unsigned short scancode = [event keyCode];
+  unsigned short localKey = Theodore::Platform::GetInstance()->mLocalKeymap[scancode];
+  if (localKey != -1) {
+    Theodore::Platform::GetInstance()->mKeys[localKey] = !Theodore::Platform::GetInstance()->mKeys[localKey];
+  }
 }
 
 - (void)scrollWheel:(NSEvent *)event {
 	// horizontall [event deltaX], verticall [event deltaY]
-  Quark::Platform::GetInstance()->mMousePosition.z = [event deltaY];
+  Theodore::Platform::GetInstance()->mMousePosition.z = [event deltaY];
 }
 
 - (void)mouseMoved:(NSEvent *)event {
   NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
-  Quark::Platform::GetInstance()->mMousePosition.x = point.x;
-  Quark::Platform::GetInstance()->mMousePosition.y = point.y;
+  Theodore::Platform::GetInstance()->mMousePosition.x = point.x;
+  Theodore::Platform::GetInstance()->mMousePosition.y = point.y;
 }
 
 - (void)mouseDown:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_LEFT] = true;
+  Theodore::Platform::GetInstance()->mMouseButtons[Theodore::MOUSE_LEFT] = true;
 }
 
 - (void)mouseUp:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_LEFT] = false;
+  Theodore::Platform::GetInstance()->mMouseButtons[Theodore::MOUSE_LEFT] = false;
 }
 
 - (void)rightMouseDown:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_RIGHT] = true;
+  Theodore::Platform::GetInstance()->mMouseButtons[Theodore::MOUSE_RIGHT] = true;
 }
 
 - (void)rightMouseUp:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_RIGHT] = false;
+  Theodore::Platform::GetInstance()->mMouseButtons[Theodore::MOUSE_RIGHT] = false;
 }
 
 - (void)otherMouseDown:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_MIDDLE] = true;
+  Theodore::Platform::GetInstance()->mMouseButtons[Theodore::MOUSE_MIDDLE] = true;
 }
 
 - (void)otherMouseUp:(NSEvent *)event {
-  Quark::Platform::GetInstance()->mMouseButtons[Quark::MOUSE_MIDDLE] = false;
+  Theodore::Platform::GetInstance()->mMouseButtons[Theodore::MOUSE_MIDDLE] = false;
 }
 @end
 

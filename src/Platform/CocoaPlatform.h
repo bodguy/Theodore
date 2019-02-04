@@ -14,13 +14,14 @@
 #define CocoaPlatform_h
 
 #include <string>
+#include "../Graphics/Enumeration.h"
 
 @class View;
 @interface View : NSOpenGLView <NSWindowDelegate> {
 }
 @end
 
-namespace Quark {
+namespace Theodore {
   class CocoaPlatform {
     friend class Platform;
 
@@ -31,16 +32,18 @@ namespace Quark {
     bool CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen,
                              int majorVersion, int minorVersion, int multisample, WindowStyle style,
                              ContextProfile profile);
-    void KillPlatformCocoa();
 
     static CocoaPlatform* instance;
     static Platform* platform;
 
     NSWindow* window;
     View* view;
+    CVDisplayLinkRef displayLink;
 
   public:
     static CocoaPlatform* GetInstance();
+    
+    void KillPlatformCocoa();
   };
 }
 
