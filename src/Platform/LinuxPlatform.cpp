@@ -76,9 +76,7 @@ namespace Theodore {
     if (glewInit() != GLEW_OK)
       return false;
 
-    Debug::Log("Renderer: %s\n", glGetString(GL_RENDERER));
-    Debug::Log("OpenGL version supported by this platform (%s) \n", glGetString(GL_VERSION));
-    Debug::Log("GLSL version = %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+    Platform::LogSystemInfo();
 
     return true;
   }

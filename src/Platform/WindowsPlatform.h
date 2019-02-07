@@ -31,7 +31,6 @@ namespace Theodore {
 
     static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
     static bool QueryWGLExtensionSupported(const std::string& extionsion_name);
-    static bool QueryExtentionSupported(const std::string& extionsion_name);
 
     static WindowsPlatform* instance;
     static Platform* platform;

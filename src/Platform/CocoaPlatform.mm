@@ -16,6 +16,7 @@ namespace Theodore {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// CocoaPlatform definition
+	// TODO: mIsMultisampleSupported
 
 	CocoaPlatform* CocoaPlatform::instance = NULL;
 	Platform* CocoaPlatform::platform = NULL;
@@ -25,109 +26,93 @@ namespace Theodore {
 
 	bool CocoaPlatform::CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style, ContextProfile profile) {
 		@autoreleasepool {
+      platform->mTitle = title;
 			platform->mWidth = width;
 			platform->mHeight = height;
-			platform->mTitle = title;
+      platform->mIsFullScreen = fullscreen;
 
 			[NSApplication sharedApplication];
-			const PointCoord pos = platform->CenterOnWindow();
-			NSUInteger windowStyle = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable| NSWindowStyleMaskResizable;
-			NSRect windowRect = NSMakeRect(pos.x, pos.y, width, height); // x, y, w, h
-			window = [[NSWindow alloc] initWithContentRect:windowRect styleMask:windowStyle backing:NSBackingStoreBuffered defer:NO];
+      NSUInteger windowStyle = 0;
+      NSRect windowRect;
 
-			[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+			if (platform->mIsFullScreen) {
+        windowRect = [[NSScreen mainScreen] frame];
+        windowStyle = NSWindowStyleMaskBorderless;
+        window = [[CocoaWindow alloc] initWithContentRect:windowRect styleMask:windowStyle backing:NSBackingStoreBuffered defer:NO];
+        [window setLevel:NSMainMenuWindowLevel+1];
+        platform->mIsShowCursor = false;
+			} else {
+        const PointCoord pos = platform->CenterOnWindow();
+        windowRect = NSMakeRect(pos.x, pos.y, platform->mWidth, platform->mHeight); // x, y, w, h
 
-			// convert from CString to NSString.
-			NSString* title_name = [NSString stringWithCString:title.c_str() encoding:[NSString defaultCStringEncoding]];
+        windowStyle = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable;
+        if (style == WindowStyle::Resizable) {
+          windowStyle |= NSWindowStyleMaskResizable;
+        }
+        window = [[CocoaWindow alloc] initWithContentRect:windowRect styleMask:windowStyle backing:NSBackingStoreBuffered defer:NO];
+        [window setLevel:NSNormalWindowLevel];
+			}
 
-			NSMenu *appleMenu;
-			NSString* title;
-			NSMenuItem *menuItem;
+      NSWindowController* windowController = [[NSWindowController alloc] initWithWindow: window];
+      [NSApp setActivationPolicy:NSApplicationActivationPolicyAccessory];
 
-			/* Create the main menu bar */
-			[NSApp setMainMenu:[[NSMenu alloc] init]];
+      if (!PrepareContext(windowRect, majorVersion, minorVersion, multisample, profile))
+        return false;
 
-			/* Create the application menu */
-			appleMenu = [[NSMenu alloc] initWithTitle:@""];
-
-			/* Add menu items */
-			title = [@"About " stringByAppendingString:title_name];
-			[appleMenu addItemWithTitle:title action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
-
-			title = [@"Hide " stringByAppendingString:title_name];
-			[appleMenu addItemWithTitle:title action:@selector(hide:) keyEquivalent:@"h"];
-
-			menuItem = (NSMenuItem *)[appleMenu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"];
-			[menuItem setKeyEquivalentModifierMask:(NSEventModifierFlagOption|NSEventModifierFlagCommand)];
-
-			[appleMenu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""];
-
-			[appleMenu addItem:[NSMenuItem separatorItem]];
-
-			title = [@"Quit " stringByAppendingString:title_name];
-			[appleMenu addItemWithTitle:title action:@selector(terminate:) keyEquivalent:@"q"];
-
-			/* Put menu into the menubar */
-			menuItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
-			[menuItem setSubmenu:appleMenu];
-			[[NSApp mainMenu] addItem:menuItem];
-
-			/* Tell the application object that this is now the application menu */
-			[NSApp setMainMenu:appleMenu];
-
-			// no multisampling
-			int samples = 0;
-
-			NSOpenGLPixelFormatAttribute windowedAttrs[] =
-			{
-				NSOpenGLPFAMultisample,
-				NSOpenGLPFASampleBuffers, static_cast<NSOpenGLPixelFormatAttribute>(samples ? 1 : 0),
-				NSOpenGLPFASamples, static_cast<NSOpenGLPixelFormatAttribute>(samples),
-				NSOpenGLPFAAccelerated,
-				NSOpenGLPFADoubleBuffer,
-				NSOpenGLPFAColorSize, 24,
-				NSOpenGLPFADepthSize, 24,
-				NSOpenGLPFAAlphaSize, 8,
-				NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion4_1Core, //NSOpenGLProfileVersionLegacy,
-				0
-			};
-
-			// try to choose a supported pixel format
-			NSOpenGLPixelFormat* pf = [[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrs];
-			if(!pf) return false;
-
-			view = [[View alloc] initWithFrame:windowRect pixelFormat:pf];
-			[[view window] setLevel:NSNormalWindowLevel];
-			[[view window] makeKeyAndOrderFront:window];
-			glewExperimental = GL_TRUE;
-
-			// make all the OpenGL calls to setup rendering and build the necessary rendering objects.
-			[[view openGLContext] makeCurrentContext];
-
-			GLint swapInt = 1;
-			[[view openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
-      
-//      TODO
-//      CVDisplayLinkCreateWithActiveCGDisplays(&displayLink);
-//      CVDisplayLinkSetOutputCallback(displayLink, &GlobalDisplayLinkCallback, self);
-      
-			if(glewInit() != GLEW_OK) return false;
-
-			Debug::Log("Vendor              : %s", glGetString(GL_VENDOR));
-			Debug::Log("Renderer            : %s", glGetString(GL_RENDERER));
-			Debug::Log("Version             : %s", glGetString(GL_VERSION));
-			Debug::Log("GLSL                : %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
-
+      Platform::LogSystemInfo();
 			[window setAcceptsMouseMovedEvents:YES];
 			[window setContentView:view];
 			[window setDelegate:view];
 
-			[window setTitle:title_name];
+			[window setTitle: CocoaPlatform::toNSString(platform->mTitle)];
+      [window makeKeyAndOrderFront:window];
 			[window setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
 			[window orderFrontRegardless];
 
+			if (platform->mIsShowCursor) {
+        [NSCursor unhide];
+			} else {
+        [NSCursor hide];
+			}
+
 			return true;
 		}
+	}
+
+  bool CocoaPlatform::PrepareContext(const NSRect windowRect, int majorVersion, int minorVersion, int multisample, const ContextProfile profile) {
+    // major, minor version deprecated
+	  const unsigned int openGLVersion = profile == ContextProfile::Core ? NSOpenGLProfileVersion4_1Core : NSOpenGLProfileVersionLegacy;
+
+    NSOpenGLPixelFormatAttribute windowedAttrs[] =
+    {
+      NSOpenGLPFAMultisample,
+      NSOpenGLPFASampleBuffers, static_cast<NSOpenGLPixelFormatAttribute>(multisample ? 1 : 0),
+      NSOpenGLPFASamples, static_cast<NSOpenGLPixelFormatAttribute>(multisample),
+      NSOpenGLPFAAccelerated,
+      NSOpenGLPFADoubleBuffer,
+      NSOpenGLPFAColorSize, 24,
+      NSOpenGLPFADepthSize, 24,
+      NSOpenGLPFAAlphaSize, 8,
+      NSOpenGLPFAStencilSize, 8,
+      NSOpenGLPFAOpenGLProfile, openGLVersion,
+      0
+    };
+
+    // try to choose a supported pixel format
+    NSOpenGLPixelFormat* pf = [[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrs];
+    if(!pf) return false;
+
+    view = [[View alloc] initWithFrame:windowRect pixelFormat:pf];
+    if (!view) return false;
+    [[view openGLContext] makeCurrentContext];
+
+    GLint swapInt = 1;
+    [[view openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+
+    glewExperimental = GL_TRUE;
+    if(glewInit() != GLEW_OK) return false;
+
+    return true;
 	}
 
 	void CocoaPlatform::KillPlatformCocoa() {
@@ -137,6 +122,10 @@ namespace Theodore {
 
 	CocoaPlatform* CocoaPlatform::GetInstance() {
 		return CocoaPlatform::instance;
+	}
+
+	NSString* CocoaPlatform::toNSString(const std::string& str) {
+    return [NSString stringWithCString:str.c_str() encoding:[NSString defaultCStringEncoding]];
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -362,12 +351,24 @@ namespace Theodore {
 	}
   
   void Platform::ChangeTitle(const std::string& titleName) {
-    [Theodore::CocoaPlatform::GetInstance()->window setTitle: [NSString stringWithCString:titleName.c_str() encoding:[NSString defaultCStringEncoding]]];
+    [Theodore::CocoaPlatform::GetInstance()->window setTitle: CocoaPlatform::toNSString(titleName)];
   }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Cocoa objective-c definition
+
+@implementation CocoaWindow
+- (BOOL)canBecomeKeyWindow
+{
+  return YES;
+}
+
+- (BOOL)canBecomeMainWindow
+{
+  return YES;
+}
+@end
 
 @implementation View
 - (void)windowDidResize:(NSNotification *)notification {

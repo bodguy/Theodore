@@ -16,6 +16,12 @@
 #include <string>
 #include "../Graphics/Enumeration.h"
 
+@interface CocoaWindow : NSWindow
+  /* These are needed for borderless/fullscreen windows */
+  - (BOOL)canBecomeKeyWindow;
+  - (BOOL)canBecomeMainWindow;
+@end
+
 @class View;
 @interface View : NSOpenGLView <NSWindowDelegate> {
 }
@@ -32,18 +38,18 @@ namespace Theodore {
     bool CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen,
                              int majorVersion, int minorVersion, int multisample, WindowStyle style,
                              ContextProfile profile);
+    bool PrepareContext(const NSRect windowRect, int majorVersion, int minorVersion, int multisample, const ContextProfile profile);
 
     static CocoaPlatform* instance;
     static Platform* platform;
 
     NSWindow* window;
     View* view;
-    CVDisplayLinkRef displayLink;
 
   public:
-    static CocoaPlatform* GetInstance();
-    
     void KillPlatformCocoa();
+    static CocoaPlatform* GetInstance();
+    static NSString* toNSString(const std::string& str);
   };
 }
 
