@@ -5,7 +5,6 @@
 // the including order is matters!
 #include GLEW_INCLUDE_DIR
 #import <Cocoa/Cocoa.h>
-#include <Carbon/Carbon.h>
 #include "Platform.h"
 #include "CocoaPlatform.h"
 #include "../Helper/Utility.h"
@@ -16,7 +15,6 @@ namespace Theodore {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// CocoaPlatform definition
-	// TODO: mIsMultisampleSupported
 
 	CocoaPlatform* CocoaPlatform::instance = NULL;
 	Platform* CocoaPlatform::platform = NULL;
@@ -45,7 +43,7 @@ namespace Theodore {
         const PointCoord pos = platform->CenterOnWindow();
         windowRect = NSMakeRect(pos.x, pos.y, platform->mWidth, platform->mHeight); // x, y, w, h
 
-        windowStyle = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable;
+        windowStyle = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable;
         if (style == WindowStyle::Resizable) {
           windowStyle |= NSWindowStyleMaskResizable;
         }
@@ -65,7 +63,7 @@ namespace Theodore {
 			[window setDelegate:view];
 
 			[window setTitle: CocoaPlatform::toNSString(platform->mTitle)];
-      [window makeKeyAndOrderFront:window];
+      [window makeKeyAndOrderFront:nil];
 			[window setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
 			[window orderFrontRegardless];
 
@@ -82,6 +80,7 @@ namespace Theodore {
   bool CocoaPlatform::PrepareContext(const NSRect windowRect, int majorVersion, int minorVersion, int multisample, const ContextProfile profile) {
     // major, minor version deprecated
 	  const unsigned int openGLVersion = profile == ContextProfile::Core ? NSOpenGLProfileVersion4_1Core : NSOpenGLProfileVersionLegacy;
+    platform->mIsMultisampleSupported = multisample ? true : false;
 
     NSOpenGLPixelFormatAttribute windowedAttrs[] =
     {
@@ -107,7 +106,7 @@ namespace Theodore {
     [[view openGLContext] makeCurrentContext];
 
     GLint swapInt = 1;
-    [[view openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+    [[view openGLContext] setValues:&swapInt forParameter:NSOpenGLContextParameterSwapInterval];
 
     glewExperimental = GL_TRUE;
     if(glewInit() != GLEW_OK) return false;
@@ -311,7 +310,7 @@ namespace Theodore {
 		int w,h;
 		GetDesktopSize(w, h);
 
-		return PointCoord((w - mWidth) / 2, (h - mHeight) / 2);
+		return PointCoord((w - mWidth) / 2.f, (h - mHeight) / 2.f);
 	}
 
 	void Platform::GetDesktopSize(int& width, int& height) {
@@ -336,13 +335,13 @@ namespace Theodore {
 	void Platform::SetVSync(bool sync) {
 	  // not work
     GLint syncValue = static_cast<GLint>(sync);
-    [[NSOpenGLContext currentContext] setValues:&syncValue forParameter:NSOpenGLCPSwapInterval];
+    [[NSOpenGLContext currentContext] setValues:&syncValue forParameter:NSOpenGLContextParameterSwapInterval];
 	}
 
 	int Platform::GetVSync() {
     // not work
     GLint syncValue = 0;
-    [[NSOpenGLContext currentContext] getValues:&syncValue forParameter:NSOpenGLCPSwapInterval];
+    [[NSOpenGLContext currentContext] getValues:&syncValue forParameter:NSOpenGLContextParameterSwapInterval];
 		return syncValue;
 	}
 
@@ -371,6 +370,11 @@ namespace Theodore {
 @end
 
 @implementation View
+
+- (CVReturn)GetFrameForTime:(const CVTimeStamp *)outputTime {
+  return kCVReturnSuccess;
+}
+
 - (void)windowDidResize:(NSNotification *)notification {
   NSSize size = [[_window contentView] frame].size;
   Theodore::Platform::GetInstance()->WindowSizeChanged(size.width, size.height);
@@ -379,6 +383,7 @@ namespace Theodore {
 - (void)windowWillClose:(NSNotification *)notification {
   Theodore::Platform::GetInstance()->Quit();
   Theodore::CocoaPlatform::GetInstance()->KillPlatformCocoa();
+//  CVDisplayLinkStop(displayLink);
 }
 
 - (BOOL)acceptsFirstResponder {
@@ -456,6 +461,21 @@ namespace Theodore {
 
 - (void)otherMouseUp:(NSEvent *)event {
   Theodore::Platform::GetInstance()->mMouseButtons[Theodore::MOUSE_MIDDLE] = false;
+}
+
+- (void)mouseDragged:(NSEvent *)event
+{
+  [self mouseMoved:event];
+}
+
+- (void)rightMouseDragged:(NSEvent *)event
+{
+  [self mouseMoved:event];
+}
+
+- (void)otherMouseDragged:(NSEvent *)event
+{
+  [self mouseMoved:event];
 }
 @end
 

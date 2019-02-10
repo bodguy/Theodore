@@ -26,6 +26,8 @@ namespace Theodore {
       linear = 0.09f;
       quadratic = 0.032f;
       break;
+    default:
+      break;
     }
     mShadowInfo = new ShadowInfo();
   }

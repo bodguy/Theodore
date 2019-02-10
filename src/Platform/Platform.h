@@ -74,9 +74,9 @@ namespace Theodore {
       int param;
       glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &param);
       if (param == GL_CONTEXT_CORE_PROFILE_BIT) {
-        Debug::Log("Context Profile: Core");
+        Debug::Log("Context Profile   : Core");
       } else {
-        Debug::Log("Context Profile: Compatibility");
+        Debug::Log("Context Profile   : Compatibility");
       }
       // if (QueryExtentionSupported("GL_ARB_get_program_binary")) {
       //	Debug::Log("program binary supported!\n");

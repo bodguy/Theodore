@@ -23,8 +23,7 @@
 @end
 
 @class View;
-@interface View : NSOpenGLView <NSWindowDelegate> {
-}
+@interface View : NSOpenGLView <NSWindowDelegate>
 @end
 
 namespace Theodore {

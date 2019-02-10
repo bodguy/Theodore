@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 project(Theodore LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_WARN_DEPRECATED 0)
 set(GLEW_INCLUDE_DIRS "libs/include/")
 set(SOURCE_PREFIX "src/")
 

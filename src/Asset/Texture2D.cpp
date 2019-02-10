@@ -82,7 +82,7 @@ namespace Theodore {
       SetFilter(mFilterMode);
       SetWrapMode(mWrapMode);
 
-      glBindTexture(static_cast<GLenum>(mDimension), NULL);
+      glBindTexture(static_cast<GLenum>(mDimension), static_cast<GLuint>(NULL));
 
       return true;
     }
@@ -151,7 +151,7 @@ namespace Theodore {
       SetFilter(mFilterMode);
       SetWrapMode(mWrapMode);
 
-      glBindTexture(static_cast<GLenum>(mDimension), NULL);
+      glBindTexture(static_cast<GLenum>(mDimension), static_cast<GLuint>(NULL));
 
       return true;
     }
@@ -221,7 +221,7 @@ namespace Theodore {
       SetFilter(mFilterMode);
       SetWrapMode(mWrapMode);
 
-      glBindTexture(static_cast<GLenum>(mDimension), NULL);
+      glBindTexture(static_cast<GLenum>(mDimension), static_cast<GLuint>(NULL));
 
       return true;
     }
@@ -269,7 +269,7 @@ namespace Theodore {
       SetFilter(mFilterMode);
       SetWrapMode(mWrapMode);
 
-      glBindTexture(static_cast<GLenum>(mDimension), NULL);
+      glBindTexture(static_cast<GLenum>(mDimension), static_cast<GLuint>(NULL));
 
       return true;
     }
@@ -326,7 +326,7 @@ namespace Theodore {
 
     SetFilter(mFilterMode);
     SetWrapMode(mWrapMode);
-    glBindTexture(static_cast<GLenum>(mDimension), NULL);
+    glBindTexture(static_cast<GLenum>(mDimension), static_cast<GLuint>(NULL));
 
     return true;
   }

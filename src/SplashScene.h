@@ -18,7 +18,7 @@ namespace Theodore {
       speed = 20.f;
       rotationY = 0.f;
       rotationX = 0.f;
-      sensitivity = 8.0f;
+      sensitivity = 15.0f;
       moveSensitivity = 0.5f;
       fieldOfView = 60.f;
     }
@@ -73,7 +73,7 @@ namespace Theodore {
       meshRend->SetMaterial(material);
       meshRend->SetMesh(model);
       Transform* transBuda = buda->GetComponent<Transform>();
-      transBuda->SetLocalScale(Vector3d(10.f, 10.f, 10.f));
+      transBuda->SetLocalScale(Vector3d(100.f, 100.f, 100.f));
 
       SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 5.f));
     }
@@ -154,7 +154,7 @@ namespace Theodore {
         rotationX = Input::GetMouseDeltaPosition().y * sensitivity * Time::DeltaTime();
 
         trans->Rotate(Vector3d::up, -rotationY);
-        trans->Rotate(trans->GetRight(), -rotationX);
+        trans->Rotate(trans->GetRight(), rotationX);
       } else {
         fieldOfView = 60.f;
         cam->ResetFieldOfView();
