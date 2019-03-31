@@ -33,7 +33,7 @@ namespace Theodore {
 
   void MeshRenderer::SetMaterial(Material* mat) {
     mMaterial = mat;
-    mProgram = mMaterial->shader;
+    mProgram = mMaterial->GetShader();
   }
 
   void MeshRenderer::SetMesh(Mesh* mesh) {

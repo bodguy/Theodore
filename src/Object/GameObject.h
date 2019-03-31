@@ -57,6 +57,7 @@ namespace Theodore {
     void SetTag(const std::string& newTag);
     const std::string& GetTag() const;
     bool CompareTag(const std::string& tag) const;
+//    static GameObject FindWithTag(const std::string& tag);
 
     template <typename T>
     bool RemoveComponent();

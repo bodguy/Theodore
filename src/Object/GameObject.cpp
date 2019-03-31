@@ -70,6 +70,10 @@ namespace Theodore {
     return false;
   }
 
+//  GameObject GameObject::FindWithTag(const std::string& tag) {
+//    return new GameObject();
+//  }
+
   bool GameObject::SendMessageUpwards(Message& msg) {
     unsigned int base = msg.GetType();
     for (auto& i : mSubscriber[base])

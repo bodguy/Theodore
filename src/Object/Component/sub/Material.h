@@ -22,18 +22,7 @@ namespace Theodore {
     Material(Color ambient, Color diffse, Color specular, float shininess);
     ~Material();
 
-    Pipeline* shader;
-    Texture* texture0;
-    Texture* texture1;
-    Texture* texture2;
-    Texture* texture3;
-    Texture* texture4;
-    FrameBuffer* renderTexture;
-
-    Color ambient;
-    Color diffuse;
-    Color specular;
-    float shininess;
+    Pipeline* GetShader() const;
 
     static const Material emerald;
     static const Material jade;
@@ -49,6 +38,20 @@ namespace Theodore {
     static const Material silver;
     static const Material black_plastic;
     static const Material black_rubber;
+
+  private:
+    Pipeline* shader;
+    Texture* texture0;
+    Texture* texture1;
+    Texture* texture2;
+    Texture* texture3;
+    Texture* texture4;
+    FrameBuffer* renderTexture;
+
+    Color ambient;
+    Color diffuse;
+    Color specular;
+    float shininess;
   };
 }
 
