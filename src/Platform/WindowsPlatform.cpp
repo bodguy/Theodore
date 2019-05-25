@@ -262,12 +262,12 @@ namespace Theodore {
 
     GLint nTotalMemoryInKB = 0;
     GLint nCurAvailMemoryInKB = 0;
-    if (QueryExtentionSupported("GL_NVX_gpu_memory_info")) {
+    if (QueryWGLExtensionSupported("GL_NVX_gpu_memory_info")) {
       glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &nTotalMemoryInKB);
       glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &nCurAvailMemoryInKB);
     }
 
-    if (QueryExtentionSupported("GL_ATI_meminfo")) {
+    if (QueryWGLExtensionSupported("GL_ATI_meminfo")) {
       GLuint uNoOfGPUs = wglGetGPUIDsAMD(0, 0);
       GLuint* uGPUIDs = new GLuint[uNoOfGPUs];
       wglGetGPUIDsAMD(uNoOfGPUs, uGPUIDs);

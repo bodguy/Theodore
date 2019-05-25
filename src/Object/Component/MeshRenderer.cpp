@@ -165,29 +165,29 @@ namespace Theodore {
     unsigned int spotLightCount = 0;
     unsigned int pointLightCount = 0;
 
-    if (mMaterial->renderTexture) {
+    if (mMaterial->GetRenderTexture()) {
       mProgram->SetUniform("material.renderTexture", 0);
       mProgram->SetUniform("material.isRenderTexture", true);
-      Graphics::BindTexture(0, mMaterial->renderTexture->GetTexture(Attachment::Color0));
+      Graphics::BindTexture(0, mMaterial->GetRenderTexture()->GetTexture(Attachment::Color0));
     } else {
       mProgram->SetUniform("material.isRenderTexture", false);
-      mProgram->SetUniform("material.ambient", mMaterial->ambient);
-      mProgram->SetUniform("material.diffuse", mMaterial->diffuse);
-      mProgram->SetUniform("material.specular", mMaterial->specular);
-      mProgram->SetUniform("material.shininess", mMaterial->shininess);
+      mProgram->SetUniform("material.ambient", mMaterial->GetAmbient());
+      mProgram->SetUniform("material.diffuse", mMaterial->GetDiffuse());
+      mProgram->SetUniform("material.specular", mMaterial->GetSpecular());
+      mProgram->SetUniform("material.shininess", mMaterial->GetShininess());
 
-      if (mMaterial->texture0) {
+      if (mMaterial->GetTexture0()) {
         mProgram->SetUniform("material.texture0", 0);
         mProgram->SetUniform("material.isTexture0", true);
-        Graphics::BindTexture(0, mMaterial->texture0);
+        Graphics::BindTexture(0, mMaterial->GetTexture0());
       } else {
         mProgram->SetUniform("material.isTexture0", false);
       }
 
-      if (mMaterial->texture1) {
+      if (mMaterial->GetTexture1()) {
         mProgram->SetUniform("material.texture1", 1);
         mProgram->SetUniform("material.isTexture1", true);
-        Graphics::BindTexture(1, mMaterial->texture1);
+        Graphics::BindTexture(1, mMaterial->GetTexture1());
       } else {
         mProgram->SetUniform("material.isTexture1", false);
       }

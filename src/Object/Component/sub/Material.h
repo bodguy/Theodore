@@ -23,6 +23,16 @@ namespace Theodore {
     ~Material();
 
     Pipeline* GetShader() const;
+		Texture* GetTexture0() const;
+		Texture* GetTexture1() const;
+		Texture* GetTexture2() const;
+		Texture* GetTexture3() const;
+		Texture* GetTexture4() const;
+		FrameBuffer* GetRenderTexture() const;
+		Color GetAmbient() const;
+		Color GetDiffuse() const;
+		Color GetSpecular() const;
+		float GetShininess() const;
 
     static const Material emerald;
     static const Material jade;
