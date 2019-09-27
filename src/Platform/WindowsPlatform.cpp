@@ -258,14 +258,16 @@ namespace Theodore {
     if (glewInit() != GLEW_OK)
       return false;
 
+    Platform::LogSystemInfo();
+
     GLint nTotalMemoryInKB = 0;
     GLint nCurAvailMemoryInKB = 0;
-    if (QueryExtentionSupported("GL_NVX_gpu_memory_info")) {
+    if (QueryWGLExtensionSupported("GL_NVX_gpu_memory_info")) {
       glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &nTotalMemoryInKB);
       glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &nCurAvailMemoryInKB);
     }
 
-    if (QueryExtentionSupported("GL_ATI_meminfo")) {
+    if (QueryWGLExtensionSupported("GL_ATI_meminfo")) {
       GLuint uNoOfGPUs = wglGetGPUIDsAMD(0, 0);
       GLuint* uGPUIDs = new GLuint[uNoOfGPUs];
       wglGetGPUIDsAMD(uNoOfGPUs, uGPUIDs);
@@ -273,25 +275,8 @@ namespace Theodore {
                        &nTotalMemoryInKB);
       glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, &nCurAvailMemoryInKB);
     }
-
-    int param;
-    glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &param);
-
-    Debug::Log("Vendor : %s", glGetString(GL_VENDOR));
-    Debug::Log("Renderer : %s", glGetString(GL_RENDERER));
-    Debug::Log("Version : %s", glGetString(GL_VERSION));
-    Debug::Log("GLSL : %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
-    if (param == GL_CONTEXT_CORE_PROFILE_BIT) {
-      Debug::Log("Context Profile: Core");
-    } else {
-      Debug::Log("Context Profile: Compatibility");
-    }
     Debug::Log("GPU Total Memory : %.0f MB", Math::Round(Math::KbToMb(nTotalMemoryInKB)));
     Debug::Log("GPU Available Memory : %.0f MB", Math::Round(Math::KbToMb(nCurAvailMemoryInKB)));
-
-    // if (QueryExtentionSupported("GL_ARB_get_program_binary")) {
-    //	Debug::Log("program binary supported!\n");
-    //}
 
     ShowWindow(mHandle, SW_SHOWDEFAULT);
     UpdateWindow(mHandle);
@@ -371,19 +356,6 @@ namespace Theodore {
 
     // extension is supported
     return true;
-  }
-
-  bool WindowsPlatform::QueryExtentionSupported(const std::string& extionsion_name) {
-    GLint n;
-    glGetIntegerv(GL_NUM_EXTENSIONS, &n);
-    for (int i = 0; i < n; i++) {
-      std::string ext = (const char*)glGetStringi(GL_EXTENSIONS, i);
-      if (ext == extionsion_name) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////

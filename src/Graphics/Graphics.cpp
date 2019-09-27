@@ -53,7 +53,7 @@ namespace Theodore {
     if (texture) {
       glBindTexture(static_cast<GLenum>(texture->GetDimension()), texture->GetTextureID());
     } else {
-      glBindTexture(GL_TEXTURE_2D, NULL);
+      glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(NULL));
     }
   }
 

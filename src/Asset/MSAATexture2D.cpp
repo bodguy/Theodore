@@ -36,9 +36,11 @@ namespace Theodore {
       glTexImage2DMultisample(static_cast<GLenum>(mDimension), sample, GL_BLUE, mWidth, mHeight,
                               GL_TRUE);
       break;
+    default:
+      return false;
     }
 
-    glBindTexture(static_cast<GLenum>(mDimension), NULL);
+    glBindTexture(static_cast<GLenum>(mDimension), static_cast<GLuint>(NULL));
 
     return true;
   }

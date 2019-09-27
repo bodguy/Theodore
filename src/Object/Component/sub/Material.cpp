@@ -13,6 +13,50 @@ namespace Theodore {
 
   Material::~Material() {}
 
+  Pipeline* Material::GetShader() const {
+    return shader;
+  }
+
+	Texture* Material::GetTexture0() const {
+		return texture0;
+	}
+
+	Texture* Material::GetTexture1() const {
+		return texture1;
+	}
+
+	Texture* Material::GetTexture2() const {
+		return texture2;
+	}
+
+	Texture* Material::GetTexture3() const {
+		return texture3;
+	}
+
+	Texture* Material::GetTexture4() const {
+		return texture4;
+	}
+
+	FrameBuffer* Material::GetRenderTexture() const {
+		return renderTexture;
+	}
+
+	Color Material::GetAmbient() const {
+		return ambient;
+	}
+
+	Color Material::GetDiffuse() const {
+		return diffuse;
+	}
+
+	Color Material::GetSpecular() const {
+		return specular;
+	}
+
+	float Material::GetShininess() const {
+		return shininess;
+	}
+
   const Material Material::emerald =
       Material(Color(0.0215f, 0.1745f, 0.0215f, 1.f), Color(0.07568f, 0.61424f, 0.07568f, 1.f),
                Color(0.633f, 0.727811f, 0.633f, 1.f), 0.6f);

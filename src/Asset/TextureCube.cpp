@@ -36,10 +36,8 @@ namespace Theodore {
         glTexImage2D(static_cast<GLenum>(face), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA,
                      GL_UNSIGNED_BYTE, data);
         break;
-      case TextureFormat::Red8:
-      case TextureFormat::Blue8:
-      case TextureFormat::Green8:
-        break;
+      default:
+        return false;
       }
 
       // set parameters
@@ -47,7 +45,7 @@ namespace Theodore {
       SetWrapMode(mWrapMode);
       mFace = face;
 
-      glBindTexture(static_cast<GLenum>(mDimension), NULL);
+      glBindTexture(static_cast<GLenum>(mDimension), static_cast<GLuint>(NULL));
 
       return true;
     }

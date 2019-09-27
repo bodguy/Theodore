@@ -22,11 +22,9 @@
 #elif defined(__linux__)
 #define Theodore_Linux
 #define GLEW_INCLUDE_DIR <GL/glx.h>
-#define GLEW_INCLUDE_DIR2 ""
 #elif defined(__APPLE__) || defined(__MACH__)
 #define Theodore_MacOS
 #define GLEW_INCLUDE_DIR <GL/glew.h>
-#define GLEW_INCLUDE_DIR2 ""
 #endif
 
 #endif /* os_types_h */
