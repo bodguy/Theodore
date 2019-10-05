@@ -4,6 +4,7 @@
 # add exception
 !/.gitignore
 !/.clang-format
+!/clang-format-all
 !/CMakeLists.txt
 !/LICENSE
 !/license.svg
