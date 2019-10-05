@@ -3,9 +3,7 @@
 #include <vector>
 
 namespace Theodore {
-  DataStream::DataStream(void* b, size_t n)
-      : mByteOrder(ByteOrder::BigEndian), mPrecision(FloatingPointPrecision::DoublePrecision),
-        mOccupied(0) {
+  DataStream::DataStream(void* b, size_t n) : mByteOrder(ByteOrder::BigEndian), mPrecision(FloatingPointPrecision::DoublePrecision), mOccupied(0) {
     mStart = (uint8_t*)b;
     mData = mStart;
 
@@ -515,9 +513,7 @@ namespace Theodore {
 
   void DataStream::SetByteOrder(ByteOrder bo) { mByteOrder = bo; }
 
-  void DataStream::SetFloatingPointPrecision(FloatingPointPrecision precision) {
-    mPrecision = precision;
-  }
+  void DataStream::SetFloatingPointPrecision(FloatingPointPrecision precision) { mPrecision = precision; }
 
   bool DataStream::TestBigEndian() {
     union {
@@ -541,4 +537,4 @@ namespace Theodore {
     val = ((val << 16) & 0xFFFF0000FFFF0000ULL) | ((val >> 16) & 0x0000FFFF0000FFFFULL);
     return (val << 32) | (val >> 32);
   }
-};
+}; // namespace Theodore

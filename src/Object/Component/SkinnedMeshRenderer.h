@@ -13,16 +13,16 @@
 
 namespace Theodore {
   class SkinnedMeshRenderer : public Renderer {
-  public:
+    public:
     SkinnedMeshRenderer();
     virtual ~SkinnedMeshRenderer();
 
-  private:
+    private:
     virtual void Update(float deltaTime) override;
     virtual void Render() override;
     virtual bool CompareEquality(const Object& rhs) const override;
     virtual bool Destroy() override;
   };
-}
+} // namespace Theodore
 
 #endif /* SkinnedMeshRenderer_h */

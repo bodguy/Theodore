@@ -21,16 +21,16 @@ namespace Theodore {
   class AssetManager;
   class ShaderManager;
   class Application {
-  public:
+    public:
     Application();
     ~Application();
 
     bool Initialize(const PlatformContext& param);
     void Run();
-	static std::string GetResourcePath();
-	static std::string GetShaderPath();
+    static std::string GetResourcePath();
+    static std::string GetShaderPath();
 
-  private:
+    private:
     static Application* instance;
 
     void Render();
@@ -45,6 +45,6 @@ namespace Theodore {
     static std::string ResourcePath;
     static std::string ShaderPath;
   };
-}
+} // namespace Theodore
 
 #endif /* Application_h */

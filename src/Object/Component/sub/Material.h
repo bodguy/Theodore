@@ -17,22 +17,22 @@ namespace Theodore {
   class Texture;
   class FrameBuffer;
   class Material {
-  public:
+    public:
     Material(Pipeline* program);
     Material(Color ambient, Color diffse, Color specular, float shininess);
     ~Material();
 
     Pipeline* GetShader() const;
-		Texture* GetTexture0() const;
-		Texture* GetTexture1() const;
-		Texture* GetTexture2() const;
-		Texture* GetTexture3() const;
-		Texture* GetTexture4() const;
-		FrameBuffer* GetRenderTexture() const;
-		Color GetAmbient() const;
-		Color GetDiffuse() const;
-		Color GetSpecular() const;
-		float GetShininess() const;
+    Texture* GetTexture0() const;
+    Texture* GetTexture1() const;
+    Texture* GetTexture2() const;
+    Texture* GetTexture3() const;
+    Texture* GetTexture4() const;
+    FrameBuffer* GetRenderTexture() const;
+    Color GetAmbient() const;
+    Color GetDiffuse() const;
+    Color GetSpecular() const;
+    float GetShininess() const;
 
     static const Material emerald;
     static const Material jade;
@@ -49,7 +49,7 @@ namespace Theodore {
     static const Material black_plastic;
     static const Material black_rubber;
 
-  private:
+    private:
     Pipeline* shader;
     Texture* texture0;
     Texture* texture1;
@@ -63,6 +63,6 @@ namespace Theodore {
     Color specular;
     float shininess;
   };
-}
+} // namespace Theodore
 
 #endif /* Material_h */

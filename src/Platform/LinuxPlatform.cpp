@@ -21,9 +21,7 @@ namespace Theodore {
 
   LinuxPlatform::~LinuxPlatform() {}
 
-  bool LinuxPlatform::CreatePlatformLinux(const std::string& title, int width, int height,
-                                          bool fullscreen, int majorVersion, int minorVersion,
-                                          int multisample, WindowStyle style,
+  bool LinuxPlatform::CreatePlatformLinux(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style,
                                           ContextProfile profile) {
     platform->mWidth = width;
     platform->mHeight = height;
@@ -39,8 +37,7 @@ namespace Theodore {
     mScreen = DefaultScreen(mDisplay);
 
     // set the visual info
-    GLint att[] = {GLX_RGBA, GLX_DEPTH_SIZE, DefaultDepth(mDisplay, mScreen), GLX_DOUBLEBUFFER,
-                   None};
+    GLint att[] = {GLX_RGBA, GLX_DEPTH_SIZE, DefaultDepth(mDisplay, mScreen), GLX_DOUBLEBUFFER, None};
     XVisualInfo* vi = glXChooseVisual(mDisplay, mScreen, att);
     if (!vi)
       return false;
@@ -51,14 +48,12 @@ namespace Theodore {
       return false;
     XSetWindowAttributes attribs;
     attribs.colormap = cmap;
-    attribs.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask | ButtonPressMask |
-                         ButtonReleaseMask | PointerMotionMask;
+    attribs.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask;
 
     // create window
     const Point p = platform->CenterOnWindow();
-    mWindow = XCreateWindow(mDisplay, rootWindow, static_cast<int>(p.x), static_cast<int>(p.y),
-                            width, height, 1, DefaultDepth(mDisplay, mScreen), InputOutput,
-                            vi->visual, CWColormap | CWEventMask, &attribs);
+    mWindow = XCreateWindow(mDisplay, rootWindow, static_cast<int>(p.x), static_cast<int>(p.y), width, height, 1, DefaultDepth(mDisplay, mScreen), InputOutput, vi->visual, CWColormap | CWEventMask,
+                            &attribs);
     if (!mWindow)
       return false;
     XMapWindow(mDisplay, mWindow);
@@ -92,8 +87,7 @@ namespace Theodore {
   // Platform definition
 
   Platform* Platform::instance = NULL;
-  Platform::Platform()
-      : mWidth(0), mHeight(0), mIsShowCursor(true), mIsRunning(true), mMousePosition() {
+  Platform::Platform() : mWidth(0), mHeight(0), mIsShowCursor(true), mIsRunning(true), mMousePosition() {
     LinuxPlatform::instance = new LinuxPlatform();
     instance = this;
     LinuxPlatform::instance->platform = this;
@@ -229,9 +223,7 @@ namespace Theodore {
   }
 
   bool Platform::Initialize(const PlatformContext& param) {
-    return LinuxPlatform::instance->CreatePlatformLinux(
-        param.title, param.width, param.height, param.fullscreen, param.majorVersion,
-        param.minorVersion, param.style, param.profile);
+    return LinuxPlatform::instance->CreatePlatformLinux(param.title, param.width, param.height, param.fullscreen, param.majorVersion, param.minorVersion, param.style, param.profile);
   }
 
   void Platform::Update() {
@@ -289,8 +281,7 @@ namespace Theodore {
         mMousePosition.y = static_cast<float>(event.xmotion.y);
         break;
       case ClientMessage:
-        if (static_cast<unsigned long>(event.xclient.data.l[0]) ==
-            LinuxPlatform::instance->mDestroyMessage) {
+        if (static_cast<unsigned long>(event.xclient.data.l[0]) == LinuxPlatform::instance->mDestroyMessage) {
           mIsRunning = false;
         }
         break;
@@ -298,9 +289,7 @@ namespace Theodore {
     }
   }
 
-  void Platform::SwapBuffer() {
-    glXSwapBuffers(LinuxPlatform::instance->mDisplay, LinuxPlatform::instance->mWindow);
-  }
+  void Platform::SwapBuffer() { glXSwapBuffers(LinuxPlatform::instance->mDisplay, LinuxPlatform::instance->mWindow); }
 
   void Platform::WindowSizeChanged(int width, int height) {
     mWidth = width;
@@ -333,6 +322,6 @@ namespace Theodore {
   int Platform::GetVSync() {}
 
   bool Platform::IsFocus() const {}
-}
+} // namespace Theodore
 
 #endif /* Theodore_Linux */

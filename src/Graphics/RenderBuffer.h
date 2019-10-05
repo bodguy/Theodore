@@ -11,16 +11,16 @@
 
 namespace Theodore {
   class RenderBuffer {
-  public:
+    public:
     RenderBuffer();
     ~RenderBuffer();
 
     unsigned int GetRenderBufferID() const;
     void Storage(unsigned int width, unsigned int height);
 
-  private:
+    private:
     unsigned int mRenderBufferID;
   };
-}
+} // namespace Theodore
 
 #endif /* RenderBuffer_h */

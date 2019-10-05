@@ -15,8 +15,7 @@ namespace Theodore {
     glDeleteTextures(1, &mTextureID);
   }
 
-  bool Texture2D::LoadImage(const std::string& filename, TextureFormat format,
-                            const Color& colorKey) {
+  bool Texture2D::LoadImage(const std::string& filename, TextureFormat format, const Color& colorKey) {
     int w, h, bpp;
     unsigned char* data = stbi_load(filename.c_str(), &w, &h, &bpp, static_cast<int>(format));
 
@@ -57,12 +56,10 @@ namespace Theodore {
       glBindTexture(static_cast<GLenum>(mDimension), mTextureID);
       switch (format) {
       case TextureFormat::RGB24:
-        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB,
-                     GL_UNSIGNED_BYTE, data);
+        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         break;
       case TextureFormat::RGBA32:
-        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA,
-                     GL_UNSIGNED_BYTE, data);
+        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         break;
       case TextureFormat::Red8:
       case TextureFormat::Blue8:
@@ -120,14 +117,12 @@ namespace Theodore {
       glBindTexture(static_cast<GLenum>(mDimension), mTextureID);
       switch (format) {
       case TextureFormat::RGB24:
-        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB,
-                     GL_UNSIGNED_BYTE, data);
+        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         break;
       case TextureFormat::RGBA32:
         glEnable(GL_ALPHA_TEST);
         glAlphaFunc(GL_GREATER, 0);
-        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA,
-                     GL_UNSIGNED_BYTE, data);
+        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         break;
       case TextureFormat::Red8:
       case TextureFormat::Blue8:
@@ -159,11 +154,9 @@ namespace Theodore {
     return false;
   }
 
-  bool Texture2D::LoadRawTextureData(const std::string& filename, TextureFormat format,
-                                     std::vector<unsigned char>& native, const Color& colorKey) {
+  bool Texture2D::LoadRawTextureData(const std::string& filename, TextureFormat format, std::vector<unsigned char>& native, const Color& colorKey) {
     int w, h, bpp;
-    unsigned char* data = stbi_load_from_memory(&native.front(), (int)native.size(), &w, &h, &bpp,
-                                                static_cast<int>(format));
+    unsigned char* data = stbi_load_from_memory(&native.front(), (int)native.size(), &w, &h, &bpp, static_cast<int>(format));
 
     if (data) {
       mColorKey = colorKey;
@@ -182,9 +175,7 @@ namespace Theodore {
         GLubyte* colors = (GLubyte*)&data[i];
 
         // Color matches
-        if (colors[0] == Color::ConvertToByte(mColorKey.r) &&
-            colors[1] == Color::ConvertToByte(mColorKey.g) &&
-            colors[2] == Color::ConvertToByte(mColorKey.b) &&
+        if (colors[0] == Color::ConvertToByte(mColorKey.r) && colors[1] == Color::ConvertToByte(mColorKey.g) && colors[2] == Color::ConvertToByte(mColorKey.b) &&
             (0 == mColorKey.a || colors[3] == Color::ConvertToByte(mColorKey.a))) {
           // Make transparent
           colors[0] = 000;
@@ -198,12 +189,10 @@ namespace Theodore {
       glBindTexture(static_cast<GLenum>(mDimension), mTextureID);
       switch (format) {
       case TextureFormat::RGB24:
-        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB,
-                     GL_UNSIGNED_BYTE, data);
+        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         break;
       case TextureFormat::RGBA32:
-        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA,
-                     GL_UNSIGNED_BYTE, data);
+        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         break;
       case TextureFormat::Red8:
       case TextureFormat::Blue8:
@@ -229,11 +218,9 @@ namespace Theodore {
     return false;
   }
 
-  bool Texture2D::LoadRawTextureData(const std::string& filename, TextureFormat format,
-                                     std::vector<unsigned char>& native) {
+  bool Texture2D::LoadRawTextureData(const std::string& filename, TextureFormat format, std::vector<unsigned char>& native) {
     int w, h, bpp;
-    unsigned char* data = stbi_load_from_memory(&native.front(), (int)native.size(), &w, &h, &bpp,
-                                                static_cast<int>(format));
+    unsigned char* data = stbi_load_from_memory(&native.front(), (int)native.size(), &w, &h, &bpp, static_cast<int>(format));
 
     if (data) {
       mNativeTexturePtr = data;
@@ -246,14 +233,12 @@ namespace Theodore {
       glBindTexture(static_cast<GLenum>(mDimension), mTextureID);
       switch (format) {
       case TextureFormat::RGB24:
-        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB,
-                     GL_UNSIGNED_BYTE, data);
+        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         break;
       case TextureFormat::RGBA32:
         glEnable(GL_ALPHA_TEST);
         glAlphaFunc(GL_GREATER, 0);
-        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA,
-                     GL_UNSIGNED_BYTE, data);
+        glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         break;
       case TextureFormat::Red8:
       case TextureFormat::Blue8:
@@ -277,8 +262,7 @@ namespace Theodore {
     return false;
   }
 
-  bool Texture2D::LoadCustomTexture(unsigned int width, unsigned int height, TextureFormat format,
-                                    unsigned char* data) {
+  bool Texture2D::LoadCustomTexture(unsigned int width, unsigned int height, TextureFormat format, unsigned char* data) {
     glGenTextures(1, &mTextureID);
     glBindTexture(static_cast<GLenum>(mDimension), mTextureID);
     mWidth = width;
@@ -288,36 +272,28 @@ namespace Theodore {
 
     switch (format) {
     case TextureFormat::RGBA32:
-      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA,
-                   GL_UNSIGNED_BYTE, data);
+      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
       break;
     case TextureFormat::RGB24:
-      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB,
-                   GL_UNSIGNED_BYTE, data);
+      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
       break;
     case TextureFormat::Red8:
-      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RED, mWidth, mHeight, 0, GL_RED,
-                   GL_UNSIGNED_BYTE, data);
+      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_RED, mWidth, mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, data);
       break;
     case TextureFormat::Green8:
-      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_GREEN, mWidth, mHeight, 0, GL_GREEN,
-                   GL_UNSIGNED_BYTE, data);
+      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_GREEN, mWidth, mHeight, 0, GL_GREEN, GL_UNSIGNED_BYTE, data);
       break;
     case TextureFormat::Blue8:
-      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_BLUE, mWidth, mHeight, 0, GL_BLUE,
-                   GL_UNSIGNED_BYTE, data);
+      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_BLUE, mWidth, mHeight, 0, GL_BLUE, GL_UNSIGNED_BYTE, data);
       break;
     case TextureFormat::Depth:
-      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_DEPTH_COMPONENT, mWidth, mHeight, 0,
-                   GL_DEPTH_COMPONENT, GL_FLOAT, data);
+      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_DEPTH_COMPONENT, mWidth, mHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, data);
       break;
     case TextureFormat::Stencil:
-      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_STENCIL_INDEX, mWidth, mHeight, 0,
-                   GL_STENCIL_INDEX, GL_FLOAT, data);
+      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_STENCIL_INDEX, mWidth, mHeight, 0, GL_STENCIL_INDEX, GL_FLOAT, data);
       break;
     case TextureFormat::Depth24Stencil8:
-      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_DEPTH24_STENCIL8, mWidth, mHeight, 0,
-                   GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, data);
+      glTexImage2D(static_cast<GLenum>(mDimension), 0, GL_DEPTH24_STENCIL8, mWidth, mHeight, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, data);
       break;
     default:
       return false;
@@ -330,4 +306,4 @@ namespace Theodore {
 
     return true;
   }
-}
+} // namespace Theodore

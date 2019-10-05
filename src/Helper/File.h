@@ -14,7 +14,7 @@
 
 namespace Theodore {
   class File {
-  public:
+    public:
     File();
     File(const std::string& name, OpenMode accessType);
     File(FILE* file);
@@ -47,7 +47,7 @@ namespace Theodore {
 
     bool Validate(void) const;
 
-  private:
+    private:
 #if (_MSC_VER == 1700)
     int vfscanf(FILE* file, const char* format, va_list argPtr);
 #endif
@@ -73,6 +73,6 @@ namespace Theodore {
 
     return 0;
   }
-}
+} // namespace Theodore
 
 #endif /* File_h */

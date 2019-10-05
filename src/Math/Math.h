@@ -14,7 +14,7 @@
 
 namespace Theodore {
   class Math {
-  public:
+    public:
     static bool IsEqual(const float a, const float b);
     static bool IsZero(const float a);
     static float Clamp(float x, float min, float max);
@@ -73,6 +73,6 @@ namespace Theodore {
     static const float flt_epsilon;
     static const float infinity;
   };
-}
+} // namespace Theodore
 
 #endif /* Math_h */

@@ -3,9 +3,7 @@
 #include "Transform.h"
 
 namespace Theodore {
-  Component::Component(const std::string& name) : Object(name), mIsEnable(true) {
-    mTransform = mGameObject->GetComponent<Transform>();
-  }
+  Component::Component(const std::string& name) : Object(name), mIsEnable(true) { mTransform = mGameObject->GetComponent<Transform>(); }
 
   Component::~Component() {}
 
@@ -16,4 +14,4 @@ namespace Theodore {
   void Component::SetEnabled(bool enable) { mIsEnable = enable; }
 
   MessageResult Component::HandleMessage(Message& msg) { return MessageResult::Ignored; }
-}
+} // namespace Theodore

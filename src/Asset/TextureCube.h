@@ -16,17 +16,16 @@
 namespace Theodore {
   class CubemapRenderer;
   class TextureCube : public Texture {
-  public:
+    public:
     TextureCube();
     ~TextureCube();
 
-    bool LoadCubemapTexture(const CubemapRenderer* cubemap, const std::string& filename,
-                            TextureFormat format, CubemapFace face);
+    bool LoadCubemapTexture(const CubemapRenderer* cubemap, const std::string& filename, TextureFormat format, CubemapFace face);
     CubemapFace GetFace() const;
 
-  private:
+    private:
     CubemapFace mFace;
   };
-}
+} // namespace Theodore
 
 #endif /* TextureCube_h */

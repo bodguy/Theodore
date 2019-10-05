@@ -9,9 +9,9 @@
 #ifndef VertexBuffer_h
 #define VertexBuffer_h
 
-#include "Enumeration.h"
 #include "../Asset/Shader.h"
 #include "../Platform/os_types.h"
+#include "Enumeration.h"
 #include <vector>
 #include GLEW_INCLUDE_DIR
 
@@ -21,7 +21,7 @@ namespace Theodore {
   class Vector4d;
   class Color;
   class InputStream {
-  public:
+    public:
     void Float(float v);
     void Int8(char v);
     void Int16(short v);
@@ -38,14 +38,14 @@ namespace Theodore {
     void* Pointer();
     unsigned long Size();
 
-  private:
+    private:
     std::vector<unsigned char> mData;
 
     void Bytes(unsigned char* bytes, unsigned int count);
   };
 
   class Buffer {
-  public:
+    public:
     Buffer(BufferType type);
     Buffer(const void* data, size_t length, BufferUsage usage, BufferType type);
     ~Buffer();
@@ -65,14 +65,14 @@ namespace Theodore {
     void* Lock(LockMode mode);
     void UnLock();
 
-  private:
+    private:
     GLuint mVertexBufferID;
     BufferType mType;
     size_t mLength;
   };
 
   class VertexArray {
-  public:
+    public:
     VertexArray();
     ~VertexArray();
     VertexArray(const VertexArray& other);
@@ -80,14 +80,13 @@ namespace Theodore {
 
     unsigned int GetArrayID() const;
 
-    void BindAttribute(const Attribute& attribute, const Buffer& buffer, unsigned int count,
-                       unsigned int stride, unsigned int offset);
+    void BindAttribute(const Attribute& attribute, const Buffer& buffer, unsigned int count, unsigned int stride, unsigned int offset);
     void BindElements(const Buffer& elements);
     void AttributeDivisor(const Attribute& attribute, unsigned int divisor);
 
-  private:
+    private:
     GLuint mVertexArrayID;
   };
-}
+} // namespace Theodore
 
 #endif /* VertexBuffer_h */

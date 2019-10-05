@@ -8,10 +8,7 @@ namespace Theodore {
 
   Color::Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {}
 
-  bool Color::operator==(const Color& rhs) {
-    return (Math::IsEqual(r, rhs.r) && Math::IsEqual(g, rhs.g) && Math::IsEqual(b, rhs.b) &&
-            Math::IsEqual(a, rhs.a));
-  }
+  bool Color::operator==(const Color& rhs) { return (Math::IsEqual(r, rhs.r) && Math::IsEqual(g, rhs.g) && Math::IsEqual(b, rhs.b) && Math::IsEqual(a, rhs.a)); }
 
   bool Color::operator!=(const Color& rhs) { return !(*this == rhs); }
 
@@ -30,9 +27,7 @@ namespace Theodore {
 
   Color Color::Lerp(const Color& a, const Color& b, float t) {
     // c = a+(b-a)*t
-    return Color(std::max(0.f, std::min(1.f, a.r + (b.r - a.r) * t)),
-                 std::max(0.f, std::min(1.f, a.g + (b.g - a.g) * t)),
-                 std::max(0.f, std::min(1.f, a.b + (b.b - a.b) * t)),
+    return Color(std::max(0.f, std::min(1.f, a.r + (b.r - a.r) * t)), std::max(0.f, std::min(1.f, a.g + (b.g - a.g) * t)), std::max(0.f, std::min(1.f, a.b + (b.b - a.b) * t)),
                  std::max(0.f, std::min(1.f, a.a + (b.a - a.a) * t)));
   }
 
@@ -66,9 +61,7 @@ namespace Theodore {
     float k2 = std::min(100.f, k);
     float precomputed = 1.f - k2 * cmyk_scale;
 
-    return Color((1.f - std::min(100.f, c) * cmyk_scale) * precomputed,
-                 (1.f - std::min(100.f, m) * cmyk_scale) * precomputed,
-                 (1.f - std::min(100.f, y) * cmyk_scale) * precomputed, 1.f);
+    return Color((1.f - std::min(100.f, c) * cmyk_scale) * precomputed, (1.f - std::min(100.f, m) * cmyk_scale) * precomputed, (1.f - std::min(100.f, y) * cmyk_scale) * precomputed, 1.f);
   }
 
   Color Color::HSVToColor(float h, float s, float v) {
@@ -88,4 +81,4 @@ namespace Theodore {
   Color Color::GizmoRed = Color(0.65f, 0.2f, 0.11f, 1.0f);
   Color Color::GizmoGreen = Color(0.47f, 0.8f, 0.29f, 1.0f);
   Color Color::GizmoBlue = Color(0.2f, 0.39f, 0.84f, 1.0f);
-}
+} // namespace Theodore

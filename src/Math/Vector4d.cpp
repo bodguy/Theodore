@@ -122,9 +122,7 @@ namespace Theodore {
     return *this;
   }
 
-  float Vector4d::DotProduct(const Vector4d& a, const Vector4d& b) {
-    return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
-  }
+  float Vector4d::DotProduct(const Vector4d& a, const Vector4d& b) { return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w; }
 
   Vector4d Vector4d::operator+(const float scalar) const { return Vector4d(*this) += scalar; }
 
@@ -170,44 +168,25 @@ namespace Theodore {
     return *this;
   }
 
-  bool Vector4d::operator<(const Vector4d& other) const {
-    return x < other.x && y < other.y && z < other.z && w < other.w;
-  }
+  bool Vector4d::operator<(const Vector4d& other) const { return x < other.x && y < other.y && z < other.z && w < other.w; }
 
-  bool Vector4d::operator>(const Vector4d& other) const {
-    return x > other.x && y > other.y && z > other.z && w > other.w;
-  }
+  bool Vector4d::operator>(const Vector4d& other) const { return x > other.x && y > other.y && z > other.z && w > other.w; }
 
-  bool Vector4d::operator<=(const Vector4d& other) const {
-    return x <= other.x && y <= other.y && z <= other.z && w <= other.w;
-  }
+  bool Vector4d::operator<=(const Vector4d& other) const { return x <= other.x && y <= other.y && z <= other.z && w <= other.w; }
 
-  bool Vector4d::operator>=(const Vector4d& other) const {
-    return x >= other.x && y >= other.y && z >= other.z && w >= other.w;
-  }
+  bool Vector4d::operator>=(const Vector4d& other) const { return x >= other.x && y >= other.y && z >= other.z && w >= other.w; }
 
-  bool Vector4d::operator==(const Vector4d& other) const {
-    return (Math::IsEqual(x, other.x) && Math::IsEqual(y, other.y) && Math::IsEqual(z, other.z) &&
-            Math::IsEqual(w, other.w));
-  }
+  bool Vector4d::operator==(const Vector4d& other) const { return (Math::IsEqual(x, other.x) && Math::IsEqual(y, other.y) && Math::IsEqual(z, other.z) && Math::IsEqual(w, other.w)); }
 
   bool Vector4d::operator!=(const Vector4d& other) const { return !(*this == other); }
 
-  bool Vector4d::operator<(const float scalar) const {
-    return x < scalar && y < scalar && z < scalar;
-  }
+  bool Vector4d::operator<(const float scalar) const { return x < scalar && y < scalar && z < scalar; }
 
-  bool Vector4d::operator>(const float scalar) const {
-    return x > scalar && y > scalar && z > scalar;
-  }
+  bool Vector4d::operator>(const float scalar) const { return x > scalar && y > scalar && z > scalar; }
 
-  bool Vector4d::operator<=(const float scalar) const {
-    return x <= scalar && y <= scalar && z <= scalar;
-  }
+  bool Vector4d::operator<=(const float scalar) const { return x <= scalar && y <= scalar && z <= scalar; }
 
-  bool Vector4d::operator>=(const float scalar) const {
-    return x >= scalar && y >= scalar && z >= scalar;
-  }
+  bool Vector4d::operator>=(const float scalar) const { return x >= scalar && y >= scalar && z >= scalar; }
 
   bool Vector4d::operator==(const float scalar) const {
     // scalar only equal with vector components.
@@ -232,14 +211,9 @@ namespace Theodore {
 
   float Vector4d::Length() { return std::sqrt(x * x + y * y + z * z + w * w); }
 
-  Vector3d Vector4d::ToVector3d(const Vector4d& other) {
-    return Vector3d(other.x, other.y, other.z);
-  }
+  Vector3d Vector4d::ToVector3d(const Vector4d& other) { return Vector3d(other.x, other.y, other.z); }
 
-  Vector4d Vector4d::Absolute(const Vector4d& other) {
-    return Vector4d(std::fabsf(other.x), std::fabsf(other.y), std::fabsf(other.z),
-                    std::fabsf(other.w));
-  }
+  Vector4d Vector4d::Absolute(const Vector4d& other) { return Vector4d(std::fabsf(other.x), std::fabsf(other.y), std::fabsf(other.z), std::fabsf(other.w)); }
 
   void Vector4d::Swap(Vector4d& first, Vector4d& second) {
     using std::swap;
@@ -257,4 +231,4 @@ namespace Theodore {
   const Vector4d Vector4d::backward = Vector4d(0.f, 0.f, 1.f, 1.f);
   const Vector4d Vector4d::one = Vector4d(1.f, 1.f, 1.f, 1.f);
   const Vector4d Vector4d::zero = Vector4d(0.f, 0.f, 0.f, 0.f);
-}
+} // namespace Theodore

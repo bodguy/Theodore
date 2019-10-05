@@ -71,9 +71,7 @@ namespace Theodore {
     return *this;
   }
 
-  float Vector2d::CrossProduct(const Vector2d& a, const Vector2d& b) {
-    return a.x * b.y - a.y * b.x;
-  }
+  float Vector2d::CrossProduct(const Vector2d& a, const Vector2d& b) { return a.x * b.y - a.y * b.x; }
 
   float Vector2d::DotProduct(const Vector2d& a, const Vector2d& b) { return a.x * b.x + a.y * b.y; }
 
@@ -117,9 +115,7 @@ namespace Theodore {
 
   bool Vector2d::operator>=(const Vector2d& other) const { return x >= other.x && y >= other.y; }
 
-  bool Vector2d::operator==(const Vector2d& other) const {
-    return (Math::IsEqual(x, other.x) && Math::IsEqual(y, other.y));
-  }
+  bool Vector2d::operator==(const Vector2d& other) const { return (Math::IsEqual(x, other.x) && Math::IsEqual(y, other.y)); }
 
   bool Vector2d::operator!=(const Vector2d& other) const { return !(*this == other); }
 
@@ -131,9 +127,7 @@ namespace Theodore {
 
   bool Vector2d::operator>=(const float scalar) const { return x >= scalar && y >= scalar; }
 
-  bool Vector2d::operator==(const float scalar) const {
-    return (Math::IsEqual(x, scalar) && Math::IsEqual(y, scalar));
-  }
+  bool Vector2d::operator==(const float scalar) const { return (Math::IsEqual(x, scalar) && Math::IsEqual(y, scalar)); }
 
   bool Vector2d::operator!=(const float scalar) const { return !(*this == scalar); }
 
@@ -158,22 +152,16 @@ namespace Theodore {
 
   float Vector2d::Length() { return std::sqrt(x * x + y * y); }
 
-  float Vector2d::Distance(const Vector2d& other) {
-    return std::sqrt((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y));
-  }
+  float Vector2d::Distance(const Vector2d& other) { return std::sqrt((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y)); }
 
   float Vector2d::DistanceSqrare(const Vector2d& other) {
     Vector2d c = *this - other;
     return Vector2d::DotProduct(c, c);
   }
 
-  Vector2d Vector2d::Absolute(const Vector2d& other) {
-    return Vector2d(std::fabsf(other.x), std::fabsf(other.y));
-  }
+  Vector2d Vector2d::Absolute(const Vector2d& other) { return Vector2d(std::fabsf(other.x), std::fabsf(other.y)); }
 
-  Vector2d Vector2d::Lerp(const Vector2d& a, const Vector2d& b, float t) {
-    return (a + (b - a) * t);
-  }
+  Vector2d Vector2d::Lerp(const Vector2d& a, const Vector2d& b, float t) { return (a + (b - a) * t); }
 
   Vector2d Vector2d::Slerp(const Vector2d& a, const Vector2d& b, float t) {
     // Dot product - the cosine of the angle between 2 vectors.
@@ -217,4 +205,4 @@ namespace Theodore {
   const Vector2d Vector2d::right = Vector2d(1.f, 0.f);
   const Vector2d Vector2d::one = Vector2d(1.f, 1.f);
   const Vector2d Vector2d::zero = Vector2d(0.f, 0.f);
-}
+} // namespace Theodore

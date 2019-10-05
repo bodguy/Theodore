@@ -1,9 +1,9 @@
 #include "Object.h"
-#include "GameObject.h"
-#include "../Math/Quaternion.h"
-#include "./Component/Transform.h"
-#include "../Math/Vector3d.h"
 #include "../Helper/crc32.h"
+#include "../Math/Quaternion.h"
+#include "../Math/Vector3d.h"
+#include "./Component/Transform.h"
+#include "GameObject.h"
 
 namespace Theodore {
   std::atomic<uint32_t> UniqueId::type_id;
@@ -15,13 +15,9 @@ namespace Theodore {
 
   Object::~Object() {}
 
-  bool Object::operator==(const Object& rhs) const {
-    return mHashValue == rhs.mHashValue && this->CompareEquality(rhs);
-  }
+  bool Object::operator==(const Object& rhs) const { return mHashValue == rhs.mHashValue && this->CompareEquality(rhs); }
 
-  bool Object::operator!=(const Object& rhs) const {
-    return !(*this == rhs && this->CompareEquality(rhs));
-  }
+  bool Object::operator!=(const Object& rhs) const { return !(*this == rhs && this->CompareEquality(rhs)); }
 
   const std::string& Object::ToString() const { return mName; }
 
@@ -58,8 +54,7 @@ namespace Theodore {
     return clone;
   }
 
-  GameObject* Object::Instantiate(GameObject* original, const Vector3d& position,
-                                  const Quaternion& rotation) {
+  GameObject* Object::Instantiate(GameObject* original, const Vector3d& position, const Quaternion& rotation) {
     if (!original)
       return nullptr;
 
@@ -69,4 +64,4 @@ namespace Theodore {
 
     return clone;
   }
-}
+} // namespace Theodore

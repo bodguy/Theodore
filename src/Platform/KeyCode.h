@@ -10,13 +10,7 @@
 #define KeyCode_h
 
 namespace Theodore {
-  enum MouseButton {
-    MOUSE_UNDEFINED = -1,
-    MOUSE_LEFT = 0,
-    MOUSE_RIGHT,
-    MOUSE_MIDDLE,
-    MOUSE_BUTTON_MAX
-  };
+  enum MouseButton { MOUSE_UNDEFINED = -1, MOUSE_LEFT = 0, MOUSE_RIGHT, MOUSE_MIDDLE, MOUSE_BUTTON_MAX };
 
   enum KeyCode {
     KEY_UNDEFINED = -1,
@@ -153,5 +147,5 @@ namespace Theodore {
     KEY_UNKNOWN21,
     KEY_MAX
   };
-}
+} // namespace Theodore
 #endif /* KeyCode_h */

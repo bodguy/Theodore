@@ -3,9 +3,7 @@
 
 namespace Theodore {
   Time* Time::instance = nullptr;
-  Time::Time()
-      : mAccumulator(0.f), mFrameCounter(0), mFrameRate(0), mDeltaTime(0.f),
-        mUnscaledDeltaTime(0.f), mTime(0.f), mUnscaledTime(0.f), mFixedDeltaTime(0.f) {
+  Time::Time() : mAccumulator(0.f), mFrameCounter(0), mFrameRate(0), mDeltaTime(0.f), mUnscaledDeltaTime(0.f), mTime(0.f), mUnscaledTime(0.f), mFixedDeltaTime(0.f) {
     mUnscaledFixedDeltaTime = 20.f * 0.001f;
     instance = this;
     Reset();
@@ -60,7 +58,5 @@ namespace Theodore {
 
   TimePoint Time::GetTime() { return Clock::now(); }
 
-  float Time::GetInterval(TimePoint start, TimePoint end) {
-    return std::chrono::duration_cast<milli>(end - start).count();
-  }
-}
+  float Time::GetInterval(TimePoint start, TimePoint end) { return std::chrono::duration_cast<milli>(end - start).count(); }
+} // namespace Theodore

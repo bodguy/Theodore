@@ -1,11 +1,9 @@
 #include "Transform.h"
-#include "../GameObject.h"
 #include "../../Math/Math.h"
+#include "../GameObject.h"
 
 namespace Theodore {
-  Transform::Transform()
-      : Component("Transform"), mRotation(), mLocalToWorldMatrix(), mWorldToLocalMatrix(),
-        mLocalRotation() {
+  Transform::Transform() : Component("Transform"), mRotation(), mLocalToWorldMatrix(), mWorldToLocalMatrix(), mLocalRotation() {
     mPosition = Vector3d::zero;
     mLossyScale = Vector3d::one;
 
@@ -32,28 +30,20 @@ namespace Theodore {
 
   void Transform::Rotate(const Vector3d& axis, float angle, Space relativeTo) {
     if (relativeTo == Space::Self) {
-      mLocalRotation =
-          Quaternion::AngleAxis(Math::Radians(angle), Vector3d(axis).Normalize()) * mLocalRotation;
+      mLocalRotation = Quaternion::AngleAxis(Math::Radians(angle), Vector3d(axis).Normalize()) * mLocalRotation;
       mLocalRotation.Normalize();
     } else if (relativeTo == Space::World) {
-      mRotation =
-          Quaternion::AngleAxis(Math::Radians(angle), Vector3d(axis).Normalize()) * mRotation;
+      mRotation = Quaternion::AngleAxis(Math::Radians(angle), Vector3d(axis).Normalize()) * mRotation;
       mRotation.Normalize();
     }
   }
 
   void Transform::Rotate(const Vector3d& eulerAngles, Space relativeTo) {
     if (relativeTo == Space::Self) {
-      mLocalRotation =
-          Quaternion::FromEuler(Vector3d(Math::Radians(eulerAngles.x), Math::Radians(eulerAngles.y),
-                                         Math::Radians(eulerAngles.z))) *
-          mLocalRotation;
+      mLocalRotation = Quaternion::FromEuler(Vector3d(Math::Radians(eulerAngles.x), Math::Radians(eulerAngles.y), Math::Radians(eulerAngles.z))) * mLocalRotation;
       mLocalRotation.Normalize();
     } else if (relativeTo == Space::World) {
-      mRotation =
-          Quaternion::FromEuler(Vector3d(Math::Radians(eulerAngles.x), Math::Radians(eulerAngles.y),
-                                         Math::Radians(eulerAngles.z))) *
-          mRotation;
+      mRotation = Quaternion::FromEuler(Vector3d(Math::Radians(eulerAngles.x), Math::Radians(eulerAngles.y), Math::Radians(eulerAngles.z))) * mRotation;
       mRotation.Normalize();
     }
   }
@@ -122,8 +112,7 @@ namespace Theodore {
   void Transform::SetLossyScale(const Vector3d& scale) { mLossyScale = scale; }
 
   void Transform::SetEulerAngles(const Vector3d& euler) {
-    mRotation = Quaternion::FromEuler(
-        Vector3d(Math::Radians(euler.x), Math::Radians(euler.y), Math::Radians(euler.z)));
+    mRotation = Quaternion::FromEuler(Vector3d(Math::Radians(euler.x), Math::Radians(euler.y), Math::Radians(euler.z)));
     mRotation.Normalize();
   }
 
@@ -134,8 +123,7 @@ namespace Theodore {
   void Transform::SetLocalScale(const Vector3d& scale) { mLocalScale = scale; }
 
   void Transform::SetLocalEulerAngles(const Vector3d& euler) {
-    mLocalRotation = Quaternion::FromEuler(
-        Vector3d(Math::Radians(euler.x), Math::Radians(euler.y), Math::Radians(euler.z)));
+    mLocalRotation = Quaternion::FromEuler(Vector3d(Math::Radians(euler.x), Math::Radians(euler.y), Math::Radians(euler.z)));
     mLocalRotation.Normalize();
   }
 
@@ -152,23 +140,16 @@ namespace Theodore {
     mRight = Vector3d::CrossProduct(mUp, mForward);
   }
 
-  Matrix4x4 Transform::GetWorldMatrix() const {
-    return Matrix4x4::Scale(mLossyScale) * Quaternion::ToRotationMatrix(mRotation) *
-           Matrix4x4::Translate(mPosition);
-  }
+  Matrix4x4 Transform::GetWorldMatrix() const { return Matrix4x4::Scale(mLossyScale) * Quaternion::ToRotationMatrix(mRotation) * Matrix4x4::Translate(mPosition); }
 
-  Matrix4x4 Transform::GetLocalMatrix() const {
-    return Matrix4x4::Scale(mLocalScale) * Quaternion::ToRotationMatrix(mLocalRotation) *
-           Matrix4x4::Translate(mLocalPosition);
-  }
+  Matrix4x4 Transform::GetLocalMatrix() const { return Matrix4x4::Scale(mLocalScale) * Quaternion::ToRotationMatrix(mLocalRotation) * Matrix4x4::Translate(mLocalPosition); }
 
   Matrix4x4 Transform::GetParentLocalMatrix() const {
     if (!mGameObject || !mGameObject->mParent) {
       return Matrix4x4::Identity();
     }
 
-    return mGameObject->mParent->GetTransform()->GetLocalMatrix() *
-           mGameObject->mParent->GetTransform()->GetParentLocalMatrix();
+    return mGameObject->mParent->GetTransform()->GetLocalMatrix() * mGameObject->mParent->GetTransform()->GetParentLocalMatrix();
   }
 
   // private functions, for consistency with other components.
@@ -195,15 +176,12 @@ namespace Theodore {
 
   Vector3d Transform::InverseTransformPoint(const Vector3d& position) const {
     Matrix4x4 model = GetWorldToLocalMatrix();
-    return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) *
-               (position * Matrix4x4::DecomposeScale(model)) +
-           Matrix4x4::DecomposeTranslation(model);
+    return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) * (position * Matrix4x4::DecomposeScale(model)) + Matrix4x4::DecomposeTranslation(model);
   }
 
   Vector3d Transform::InverseTransformVector(const Vector3d& vector) const {
     Matrix4x4 model = GetWorldToLocalMatrix();
-    return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) *
-           (vector * Matrix4x4::DecomposeScale(model));
+    return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) * (vector * Matrix4x4::DecomposeScale(model));
   }
 
   Vector3d Transform::TransformDirection(const Vector3d& direction) const {
@@ -213,14 +191,11 @@ namespace Theodore {
 
   Vector3d Transform::TransformPoint(const Vector3d& position) const {
     Matrix4x4 model = GetLocalToWorldMatrix();
-    return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) *
-               (position * Matrix4x4::DecomposeScale(model)) +
-           Matrix4x4::DecomposeTranslation(model);
+    return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) * (position * Matrix4x4::DecomposeScale(model)) + Matrix4x4::DecomposeTranslation(model);
   }
 
   Vector3d Transform::TransformVector(const Vector3d& vector) const {
     Matrix4x4 model = GetLocalToWorldMatrix();
-    return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) *
-           (vector * Matrix4x4::DecomposeScale(model));
+    return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) * (vector * Matrix4x4::DecomposeScale(model));
   }
-}
+} // namespace Theodore

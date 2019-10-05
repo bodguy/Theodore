@@ -13,14 +13,14 @@ namespace Theodore {
   class FrameBuffer;
   class Pipeline;
   class ShadowInfo {
-  public:
+    public:
     ShadowInfo();
     ~ShadowInfo();
 
-  private:
+    private:
     FrameBuffer* frame;
     Pipeline* shadowProgram;
   };
-}
+} // namespace Theodore
 
 #endif /* ShadowInfo_h */

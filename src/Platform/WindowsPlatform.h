@@ -20,13 +20,11 @@ namespace Theodore {
   class WindowsPlatform {
     friend class Platform;
 
-  private:
+    private:
     WindowsPlatform();
     ~WindowsPlatform();
 
-    bool CreatePlatformWindows(const std::string& title, int width, int height, bool fullscreen,
-                               int majorVersion, int minorVersion, int multisample,
-                               WindowStyle style, ContextProfile profile);
+    bool CreatePlatformWindows(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style, ContextProfile profile);
     void KillPlatformWindows();
 
     static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -40,7 +38,7 @@ namespace Theodore {
     HDC mHdc;
     HGLRC mContext;
   };
-}
+} // namespace Theodore
 
 #endif /* WindowsPlatform_h */
 

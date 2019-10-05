@@ -11,7 +11,7 @@
 
 namespace Theodore {
   class Rect {
-  public:
+    public:
     //! default contructor
     Rect();
     //! constructor with all elements
@@ -43,7 +43,7 @@ namespace Theodore {
 
     Rect& SetRect(const float _left, const float _top, const float _right, const float _bottom);
 
-  public:
+    public:
     // anonymous union
     union {
       struct {
@@ -54,10 +54,10 @@ namespace Theodore {
 
     static const Rect zero, one;
 
-  private:
+    private:
     //! non-throwing swap function
     void Swap(Rect& first, Rect& second) noexcept;
   };
-}
+} // namespace Theodore
 
 #endif /* Rect_h */

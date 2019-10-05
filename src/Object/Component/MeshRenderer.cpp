@@ -1,28 +1,26 @@
 #include "MeshRenderer.h"
-#include "../../Geometry/Bounds.h"
-#include "./Collider/BoxCollider.h"
-#include "Camera.h"
-#include "../../Helper/Debug.h"
-#include "../../Graphics/FrameBuffer.h"
-#include "../GameObject.h"
-#include "../../Graphics/Graphics.h"
-#include "Light.h"
-#include "./sub/Material.h"
-#include "../../Math/Math.h"
-#include "./sub/Mesh.h"
-#include "../SceneManager.h"
 #include "../../Asset/Shader.h"
 #include "../../Asset/Texture2D.h"
-#include "Transform.h"
+#include "../../Geometry/Bounds.h"
+#include "../../Graphics/FrameBuffer.h"
+#include "../../Graphics/Graphics.h"
+#include "../../Graphics/VertexBuffer.h"
+#include "../../Helper/Debug.h"
 #include "../../Helper/Utility.h"
+#include "../../Math/Math.h"
 #include "../../Math/Vector2d.h"
 #include "../../Math/Vector3d.h"
-#include "../../Graphics/VertexBuffer.h"
+#include "../GameObject.h"
+#include "../SceneManager.h"
+#include "./Collider/BoxCollider.h"
+#include "./sub/Material.h"
+#include "./sub/Mesh.h"
+#include "Camera.h"
+#include "Light.h"
+#include "Transform.h"
 
 namespace Theodore {
-  MeshRenderer::MeshRenderer() : Renderer("MeshRenderer"), mMaterial(nullptr), mMesh(nullptr) {
-    mPrimitive = Primitive::Triangles;
-  }
+  MeshRenderer::MeshRenderer() : Renderer("MeshRenderer"), mMaterial(nullptr), mMesh(nullptr) { mPrimitive = Primitive::Triangles; }
 
   MeshRenderer::~MeshRenderer() {
     SafeDealloc(mMaterial);
@@ -47,11 +45,7 @@ namespace Theodore {
     VertexSemantic semantic = mMesh->GetVertexSemantic();
     size_t size = 0;
 
-    buffer->Data(nullptr,
-                 mMesh->GetVertexCount() * sizeof(Vector3d) +
-                     mMesh->GetUvCount() * sizeof(Vector2d) +
-                     mMesh->GetNormalCount() * sizeof(Vector3d),
-                 mMesh->GetBufferUsage());
+    buffer->Data(nullptr, mMesh->GetVertexCount() * sizeof(Vector3d) + mMesh->GetUvCount() * sizeof(Vector2d) + mMesh->GetNormalCount() * sizeof(Vector3d), mMesh->GetBufferUsage());
     if (semantic & VertexSemantic::SemanticPosition) {
       buffer->SubData(&mMesh->mVertices.front(), size, mMesh->GetVertexCount() * sizeof(Vector3d));
       size += mMesh->GetVertexCount() * sizeof(Vector3d);
@@ -78,26 +72,22 @@ namespace Theodore {
         break;
       }
 
-      index->Data(&mMesh->mFaces.front(), mMesh->GetFaceCount() * indexSize,
-                  mMesh->GetBufferUsage());
+      index->Data(&mMesh->mFaces.front(), mMesh->GetFaceCount() * indexSize, mMesh->GetBufferUsage());
       mEbos.push_back(index);
       mVao->BindElements(*mEbos.front());
     }
 
     size_t offset = 0;
     if (semantic & VertexSemantic::SemanticPosition) {
-      mVao->BindAttribute(mProgram->GetAttribute("position"), *mVbos.front(), 3, sizeof(Vector3d),
-                          offset);
+      mVao->BindAttribute(mProgram->GetAttribute("position"), *mVbos.front(), 3, sizeof(Vector3d), offset);
       offset += mMesh->GetVertexCount() * sizeof(Vector3d);
     }
     if (semantic & VertexSemantic::SemanticTexCoord) {
-      mVao->BindAttribute(mProgram->GetAttribute("uvs"), *mVbos.front(), 2, sizeof(Vector2d),
-                          offset);
+      mVao->BindAttribute(mProgram->GetAttribute("uvs"), *mVbos.front(), 2, sizeof(Vector2d), offset);
       offset += mMesh->GetUvCount() * sizeof(Vector2d);
     }
     if (semantic & VertexSemantic::SemanticNormal) {
-      mVao->BindAttribute(mProgram->GetAttribute("normal"), *mVbos.front(), 3, sizeof(Vector3d),
-                          offset);
+      mVao->BindAttribute(mProgram->GetAttribute("normal"), *mVbos.front(), 3, sizeof(Vector3d), offset);
       offset += mMesh->GetNormalCount() * sizeof(Vector3d);
     }
 
@@ -118,13 +108,9 @@ namespace Theodore {
     Vector3d powScale = Math::Pow(Matrix4x4::DecomposeScale(world), 2.f);
 
     Vector3d newCenter = Matrix4x4::DecomposeTranslation(world) +
-                         powScale * Vector3d(Math::Dot(Vector3d(model.rows[0]), center),
-                                             Math::Dot(Vector3d(model.rows[1]), center),
-                                             Math::Dot(Vector3d(model.rows[2]), center));
+                         powScale * Vector3d(Math::Dot(Vector3d(model.rows[0]), center), Math::Dot(Vector3d(model.rows[1]), center), Math::Dot(Vector3d(model.rows[2]), center));
 
-    Vector3d newExtents = powScale * Vector3d(Math::AbsDot(Vector3d(model.rows[0]), extents),
-                                              Math::AbsDot(Vector3d(model.rows[1]), extents),
-                                              Math::AbsDot(Vector3d(model.rows[2]), extents));
+    Vector3d newExtents = powScale * Vector3d(Math::AbsDot(Vector3d(model.rows[0]), extents), Math::AbsDot(Vector3d(model.rows[1]), extents), Math::AbsDot(Vector3d(model.rows[2]), extents));
 
     mBounds.SetMinMax(newCenter - newExtents, newCenter + newExtents);
   }
@@ -193,8 +179,7 @@ namespace Theodore {
       }
 
       // Global directional light
-      mProgram->SetUniform("dirLight.direction",
-                           SceneManager::GetGlobalLight()->GetTransform()->GetPosition().Negate());
+      mProgram->SetUniform("dirLight.direction", SceneManager::GetGlobalLight()->GetTransform()->GetPosition().Negate());
       mProgram->SetUniform("dirLight.ambient", SceneManager::GetGlobalLight()->ambient);
       mProgram->SetUniform("dirLight.diffuse", SceneManager::GetGlobalLight()->diffuse);
       mProgram->SetUniform("dirLight.specular", SceneManager::GetGlobalLight()->specular);
@@ -203,45 +188,28 @@ namespace Theodore {
       for (unsigned int i = 0; i < lights.size(); i++) {
         switch (lights[i]->type) {
         case LightType::SpotLight:
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].position",
-                               lights[i]->GetTransform()->GetPosition());
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].direction",
-                               lights[i]->GetTransform()->GetForward());
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].cutOff",
-                               lights[i]->cutOff);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].outerCutOff",
-                               lights[i]->outerCutOff);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].constant",
-                               lights[i]->constant);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].linear",
-                               lights[i]->linear);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].quadratic",
-                               lights[i]->quadratic);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].ambient",
-                               lights[i]->ambient);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].diffuse",
-                               lights[i]->diffuse);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].specular",
-                               lights[i]->specular);
+          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].position", lights[i]->GetTransform()->GetPosition());
+          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].direction", lights[i]->GetTransform()->GetForward());
+          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].cutOff", lights[i]->cutOff);
+          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].outerCutOff", lights[i]->outerCutOff);
+          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].constant", lights[i]->constant);
+          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].linear", lights[i]->linear);
+          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].quadratic", lights[i]->quadratic);
+          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].ambient", lights[i]->ambient);
+          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].diffuse", lights[i]->diffuse);
+          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].specular", lights[i]->specular);
           if (Light::MaxLightCount > spotLightCount) {
             spotLightCount++;
           }
           break;
         case LightType::PointLight:
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].position",
-                               lights[i]->GetTransform()->GetPosition());
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].constant",
-                               lights[i]->constant);
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].linear",
-                               lights[i]->linear);
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].quadratic",
-                               lights[i]->quadratic);
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].ambient",
-                               lights[i]->ambient);
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].diffuse",
-                               lights[i]->diffuse);
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].specular",
-                               lights[i]->specular);
+          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].position", lights[i]->GetTransform()->GetPosition());
+          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].constant", lights[i]->constant);
+          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].linear", lights[i]->linear);
+          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].quadratic", lights[i]->quadratic);
+          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].ambient", lights[i]->ambient);
+          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].diffuse", lights[i]->diffuse);
+          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].specular", lights[i]->specular);
           if (Light::MaxLightCount > spotLightCount) {
             pointLightCount++;
           }
@@ -270,8 +238,7 @@ namespace Theodore {
 
     if (mMesh) {
       if (mMesh->mSemantic & VertexSemantic::SemanticFaces) {
-        Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(),
-                               mMesh->GetIndexFormat());
+        Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());
       } else {
         Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
       }
@@ -284,14 +251,11 @@ namespace Theodore {
     if (mIsVisibleGizmos) {
       mNormalVisualizeProgram->Use();
       mNormalVisualizeProgram->SetUniform("model", mTransform->GetLocalToWorldMatrix());
-      mNormalVisualizeProgram->SetUniform("view",
-                                          SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-      mNormalVisualizeProgram->SetUniform("projection",
-                                          SceneManager::GetMainCamera()->GetProjectionMatrix());
+      mNormalVisualizeProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+      mNormalVisualizeProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
       if (mMesh) {
         if (mMesh->GetFaceCount() > 0) {
-          Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(),
-                                 mMesh->GetIndexFormat());
+          Graphics::DrawElements(*mVao, mPrimitive, 0, mMesh->GetFaceCount(), mMesh->GetIndexFormat());
         } else {
           Graphics::DrawArrays(*mVao, mPrimitive, 0, mMesh->GetVertexCount());
         }
@@ -299,4 +263,4 @@ namespace Theodore {
       mNormalVisualizeProgram->UnUse();
     }
   }
-}
+} // namespace Theodore

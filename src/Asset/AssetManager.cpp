@@ -5,11 +5,11 @@
 #include "TextureCube.h"
 
 //#include "Font.h"
-#include "../Math/Color.h"
+#include "../Asset/Shader.h"
 #include "../Helper/Debug.h"
 #include "../Helper/File.h"
-#include "../Asset/Shader.h"
 #include "../Helper/Utility.h"
+#include "../Math/Color.h"
 #include "WaveFrontObjMesh.h"
 
 namespace Theodore {
@@ -21,8 +21,7 @@ namespace Theodore {
 
   AssetManager::~AssetManager() { SafeContDealloc(mAssets); }
 
-  Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format,
-                                          const Color& colorKey) {
+  Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format, const Color& colorKey) {
     Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
 
     if (!asset) {
@@ -30,8 +29,7 @@ namespace Theodore {
       if (asset->LoadImage(filename, format, colorKey)) {
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!",
-                   filename.c_str());
+        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -40,8 +38,7 @@ namespace Theodore {
     if (asset) {
       asset->AddReference();
       if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d",
-                   filename.c_str(), asset->mRefCount);
+        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
       } else {
         Debug::Log(asset);
       }
@@ -58,8 +55,7 @@ namespace Theodore {
       if (asset->LoadImage(filename, format)) {
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!",
-                   filename.c_str());
+        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -68,8 +64,7 @@ namespace Theodore {
     if (asset) {
       asset->AddReference();
       if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d",
-                   filename.c_str(), asset->mRefCount);
+        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
       } else {
         Debug::Log(asset);
       }
@@ -78,8 +73,7 @@ namespace Theodore {
     return asset;
   }
 
-  Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format,
-                                          std::vector<unsigned char>& data, const Color& colorKey) {
+  Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format, std::vector<unsigned char>& data, const Color& colorKey) {
     Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
 
     if (!asset) {
@@ -87,8 +81,7 @@ namespace Theodore {
       if (asset->LoadRawTextureData(filename, format, data, colorKey)) {
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!",
-                   filename.c_str());
+        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -97,8 +90,7 @@ namespace Theodore {
     if (asset) {
       asset->AddReference();
       if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d",
-                   filename.c_str(), asset->mRefCount);
+        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
       } else {
         Debug::Log(asset);
       }
@@ -107,8 +99,7 @@ namespace Theodore {
     return asset;
   }
 
-  Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format,
-                                          std::vector<unsigned char>& data) {
+  Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format, std::vector<unsigned char>& data) {
     Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
 
     if (!asset) {
@@ -116,8 +107,7 @@ namespace Theodore {
       if (asset->LoadRawTextureData(filename, format, data)) {
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!",
-                   filename.c_str());
+        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -126,8 +116,7 @@ namespace Theodore {
     if (asset) {
       asset->AddReference();
       if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d",
-                   filename.c_str(), asset->mRefCount);
+        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
       } else {
         Debug::Log(asset);
       }
@@ -136,9 +125,7 @@ namespace Theodore {
     return asset;
   }
 
-  Texture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width,
-                                          unsigned int height, TextureFormat format,
-                                          unsigned char* data) {
+  Texture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, TextureFormat format, unsigned char* data) {
     Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
 
     if (!asset) {
@@ -147,8 +134,7 @@ namespace Theodore {
         asset->SetAssetName(filename);
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!",
-                   filename.c_str());
+        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -157,8 +143,7 @@ namespace Theodore {
     if (asset) {
       asset->AddReference();
       if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d",
-                   filename.c_str(), asset->mRefCount);
+        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
       } else {
         Debug::Log(asset);
       }
@@ -167,9 +152,7 @@ namespace Theodore {
     return asset;
   }
 
-  TextureCube* AssetManager::RequestTexture(const CubemapRenderer* cubemap,
-                                            const std::string& filename, TextureFormat format,
-                                            CubemapFace face) {
+  TextureCube* AssetManager::RequestTexture(const CubemapRenderer* cubemap, const std::string& filename, TextureFormat format, CubemapFace face) {
     TextureCube* asset = static_cast<TextureCube*>(GetAssetByFilename(filename));
 
     if (!asset) {
@@ -177,8 +160,7 @@ namespace Theodore {
       if (asset->LoadCubemapTexture(cubemap, filename, format, face)) {
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!",
-                   filename.c_str());
+        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<TextureCube*>(nullptr);
       }
@@ -187,8 +169,7 @@ namespace Theodore {
     if (asset) {
       asset->AddReference();
       if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d",
-                   filename.c_str(), asset->mRefCount);
+        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
       } else {
         Debug::Log(asset);
       }
@@ -197,9 +178,7 @@ namespace Theodore {
     return asset;
   }
 
-  MSAATexture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width,
-                                              unsigned int height, TextureFormat format,
-                                              unsigned int sample) {
+  MSAATexture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, TextureFormat format, unsigned int sample) {
     MSAATexture2D* asset = static_cast<MSAATexture2D*>(GetAssetByFilename(filename));
 
     if (!asset) {
@@ -208,8 +187,7 @@ namespace Theodore {
         asset->SetAssetName(filename);
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!",
-                   filename.c_str());
+        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<MSAATexture2D*>(nullptr);
       }
@@ -218,8 +196,7 @@ namespace Theodore {
     if (asset) {
       asset->AddReference();
       if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d",
-                   filename.c_str(), asset->mRefCount);
+        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
       } else {
         Debug::Log(asset);
       }
@@ -273,8 +250,7 @@ namespace Theodore {
     if (asset) {
       asset->AddReference();
       if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d",
-                   filename.c_str(), asset->mRefCount);
+        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
       }
     }
 
@@ -300,8 +276,7 @@ namespace Theodore {
     if (asset) {
       asset->AddReference();
       if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d",
-                   filename.c_str(), asset->mRefCount);
+        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
       }
     }
 
@@ -320,11 +295,6 @@ namespace Theodore {
     return nullptr;
   }
 
-  void AssetManager::StoreAsset(Asset* asset) {
-    mAssets.push_back(asset);
-    asset->mIsManaged = true;
-  }
-
   void AssetManager::RemoveAsset(Asset* asset) {
     if (asset) {
       if (asset->mRefCount != 0) {
@@ -336,4 +306,9 @@ namespace Theodore {
       }
     }
   }
-}
+
+  void AssetManager::StoreAsset(Asset* asset) {
+    mAssets.push_back(asset);
+    asset->mIsManaged = true;
+  }
+} // namespace Theodore

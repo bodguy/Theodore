@@ -10,13 +10,13 @@
 #define Mesh_h
 
 #include "../../../Asset/Asset.h"
-#include "BoneWeight.h"
 #include "../../../Geometry/Bounds.h"
 #include "../../../Graphics/Enumeration.h"
 #include "../../../Math/Matrix4x4.h"
 #include "../../../Math/Vector2d.h"
 #include "../../../Math/Vector3d.h"
 #include "../../../Math/Vector4d.h"
+#include "BoneWeight.h"
 #include <vector>
 
 namespace Theodore {
@@ -26,7 +26,7 @@ namespace Theodore {
     friend class MeshRenderer;
     friend class SkinndedMeshRenderer;
 
-  public:
+    public:
     Mesh();
     virtual ~Mesh();
 
@@ -61,7 +61,7 @@ namespace Theodore {
     void RecalculateBounds();
     void MarkDynamic();
 
-  protected:
+    protected:
     IndexFormat mFormat;
     VertexSemantic mSemantic;
     BufferUsage mUsage;
@@ -85,8 +85,7 @@ namespace Theodore {
 
     unsigned int stride = 3;
     for (unsigned int i = 0; i < size / stride; i++) {
-      mVertices.push_back(
-          Vector3d(verts[i * stride], verts[i * stride + 1], verts[i * stride + 2]));
+      mVertices.push_back(Vector3d(verts[i * stride], verts[i * stride + 1], verts[i * stride + 2]));
     }
   }
 
@@ -106,8 +105,7 @@ namespace Theodore {
 
     unsigned int stride = 3;
     for (unsigned int i = 0; i < size / stride; i++) {
-      mNormals.push_back(
-          Vector3d(normals[i * stride], normals[i * stride + 1], normals[i * stride + 2]));
+      mNormals.push_back(Vector3d(normals[i * stride], normals[i * stride + 1], normals[i * stride + 2]));
     }
   }
 
@@ -119,6 +117,6 @@ namespace Theodore {
       mFaces.push_back(faces[i]);
     }
   }
-}
+} // namespace Theodore
 
 #endif /* Mesh_h */

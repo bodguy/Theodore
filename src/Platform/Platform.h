@@ -10,20 +10,17 @@
 #define Platform_h
 
 #include "../Graphics/Enumeration.h"
-#include "KeyCode.h"
-#include "../Math/Vector3d.h"
 #include "../Helper/Debug.h"
 #include "../Math/Math.h"
+#include "../Math/Vector3d.h"
+#include "KeyCode.h"
 #include <string>
 
 namespace Theodore {
   typedef Vector3d PointCoord;
   class PlatformContext {
-  public:
-    PlatformContext()
-        : name("No Title"), width(800), height(600), fullscreen(false), majorVersion(4),
-          minorVersion(3), multisample(0), style(WindowStyle::Resizable),
-          profile(ContextProfile::Core) {}
+    public:
+    PlatformContext() : name("No Title"), width(800), height(600), fullscreen(false), majorVersion(4), minorVersion(3), multisample(0), style(WindowStyle::Resizable), profile(ContextProfile::Core) {}
     ~PlatformContext() {}
 
     std::string name;
@@ -43,7 +40,7 @@ namespace Theodore {
     friend class CocoaPlatform;
     friend class LinuxPlatform;
 
-  public:
+    public:
     Platform();
     ~Platform();
 
@@ -97,7 +94,7 @@ namespace Theodore {
       return false;
     }
 
-  public:
+    public:
     static Platform* instance;
 
     int mWidth, mHeight;
@@ -112,6 +109,6 @@ namespace Theodore {
     Vector3d mMousePosition;
     bool mIsMultisampleSupported;
   };
-}
+} // namespace Theodore
 
 #endif /* Platform_h */

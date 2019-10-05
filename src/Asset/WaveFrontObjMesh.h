@@ -14,16 +14,15 @@
 
 namespace Theodore {
   class WaveFrontObjMesh : public Mesh {
-  public:
+    public:
     WaveFrontObjMesh();
     virtual ~WaveFrontObjMesh();
 
     bool LoadObj(const std::string& filepath);
 
-  private:
-    void ProcessVertex(FILE* file, const std::vector<Vector2d>& uvsIn,
-                       const std::vector<Vector3d>& normalsIn, States states);
+    private:
+    void ProcessVertex(FILE* file, const std::vector<Vector2d>& uvsIn, const std::vector<Vector3d>& normalsIn, States states);
   };
-}
+} // namespace Theodore
 
 #endif /* ObjMesh_h */

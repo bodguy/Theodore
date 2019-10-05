@@ -250,4 +250,4 @@ namespace Theodore {
     return 0;
   }
 #endif
-}
+} // namespace Theodore

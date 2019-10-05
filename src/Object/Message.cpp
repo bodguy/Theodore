@@ -21,4 +21,4 @@ namespace Theodore {
   MessageType Message::GetType() const { return mType; }
 
   void* Message::GetData() const { return mData; }
-}
+} // namespace Theodore

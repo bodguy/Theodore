@@ -1,9 +1,9 @@
 #include "SceneManager.h"
-#include "./Component/Camera.h"
-#include "GameObject.h"
-#include "./Component/Light.h"
-#include "../SplashScene.h"
 #include "../Helper/crc32.h"
+#include "../SplashScene.h"
+#include "./Component/Camera.h"
+#include "./Component/Light.h"
+#include "GameObject.h"
 
 namespace Theodore {
   SceneManager* SceneManager::instance = nullptr;
@@ -41,9 +41,7 @@ namespace Theodore {
     return true;
   }
 
-  Scene* SceneManager::GetSceneAt(uint32_t sceneBuildIndex) {
-    return GetInstance()->mScenes.at(sceneBuildIndex);
-  }
+  Scene* SceneManager::GetSceneAt(uint32_t sceneBuildIndex) { return GetInstance()->mScenes.at(sceneBuildIndex); }
 
   Scene* SceneManager::GetSceneByName(const std::string& sceneName) {
     uint32_t find = CRC32_STR(sceneName.c_str());
@@ -55,13 +53,9 @@ namespace Theodore {
     return nullptr;
   }
 
-  bool SceneManager::LoadScene(uint32_t sceneBuildIndex) {
-    return SetActiveScene(GetSceneAt(sceneBuildIndex));
-  }
+  bool SceneManager::LoadScene(uint32_t sceneBuildIndex) { return SetActiveScene(GetSceneAt(sceneBuildIndex)); }
 
-  bool SceneManager::LoadScene(const std::string& sceneName) {
-    return SetActiveScene(GetSceneByName(sceneName));
-  }
+  bool SceneManager::LoadScene(const std::string& sceneName) { return SetActiveScene(GetSceneByName(sceneName)); }
 
   uint32_t SceneManager::GetSceneCount() { return GetInstance()->mSceneCount; }
 
@@ -114,4 +108,4 @@ namespace Theodore {
 
     return false;
   }
-}
+} // namespace Theodore

@@ -1,12 +1,12 @@
 #include "Scene.h"
-#include "./Component/Camera.h"
-#include "GameObject.h"
 #include "../Graphics/Graphics.h"
-#include "./Component/Light.h"
-#include "SceneManager.h"
-#include "./Component/Transform.h"
 #include "../Helper/Utility.h"
 #include "../Helper/crc32.h"
+#include "./Component/Camera.h"
+#include "./Component/Light.h"
+#include "./Component/Transform.h"
+#include "GameObject.h"
+#include "SceneManager.h"
 
 namespace Theodore {
   Scene::Scene(const std::string& name) : Object(name), mActive(true) {
@@ -66,8 +66,7 @@ namespace Theodore {
     return nullptr;
   }
 
-  std::shared_ptr<std::vector<GameObject*>>
-  Scene::FindGameObjectsWithTag(const std::string& tag) const {
+  std::shared_ptr<std::vector<GameObject*>> Scene::FindGameObjectsWithTag(const std::string& tag) const {
     std::vector<GameObject*> vectors;
     uint32_t value = CRC32_STR(tag.c_str());
     for (auto& i : mGameObjects) {
@@ -135,4 +134,4 @@ namespace Theodore {
 
     return true;
   }
-}
+} // namespace Theodore

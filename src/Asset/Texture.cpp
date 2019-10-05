@@ -2,9 +2,8 @@
 
 namespace Theodore {
   Texture::Texture()
-      : mNativeTexturePtr(nullptr), mTextureID(1), mWidth(0), mHeight(0), mMipMapBias(1000.f),
-        mFilterMode(FilterMode::Trilinear), mWrapMode(WrapMode::ClampEdge),
-        mDimension(TextureDimension::None), mTextureFormat(TextureFormat::UNKNOWN), mColorKey(Color::white), mUseColorKey(false) {
+      : mNativeTexturePtr(nullptr), mTextureID(1), mWidth(0), mHeight(0), mMipMapBias(1000.f), mFilterMode(FilterMode::Trilinear), mWrapMode(WrapMode::ClampEdge), mDimension(TextureDimension::None),
+        mTextureFormat(TextureFormat::UNKNOWN), mColorKey(Color::white), mUseColorKey(false) {
     mType = AssetType::TextureType;
     glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &mAnisoLevel);
   }
@@ -56,10 +55,8 @@ namespace Theodore {
   void Texture::SetFilter(const FilterMode mode) {
     mFilterMode = mode;
     // Set filtering mode
-    glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_MIN_FILTER,
-                    static_cast<GLenum>(mFilterMode));
-    glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_MAG_FILTER,
-                    static_cast<GLenum>(mFilterMode));
+    glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(mFilterMode));
+    glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(mFilterMode));
     if (mFilterMode == FilterMode::Trilinear)
       glGenerateMipmap(static_cast<GLenum>(mDimension));
   }
@@ -67,20 +64,15 @@ namespace Theodore {
   void Texture::SetWrapMode(const WrapMode mode) {
     mWrapMode = mode;
     // Set wrap mode
-    glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_S,
-                    static_cast<GLenum>(mWrapMode));
-    glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_T,
-                    static_cast<GLenum>(mWrapMode));
+    glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_S, static_cast<GLenum>(mWrapMode));
+    glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_T, static_cast<GLenum>(mWrapMode));
     if (mDimension == TextureDimension::CubeMap)
-      glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_R,
-                      static_cast<GLenum>(mWrapMode));
+      glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_R, static_cast<GLenum>(mWrapMode));
   }
 
   void Texture::SetMappingType(const std::string& type) { mMappingType = type; }
 
-  void Texture::SetTextureFormet(const TextureFormat format) {
-    mTextureFormat = format;
-  }
+  void Texture::SetTextureFormet(const TextureFormat format) { mTextureFormat = format; }
 
   TextureDimension Texture::GetDimension() const { return mDimension; }
-}
+} // namespace Theodore

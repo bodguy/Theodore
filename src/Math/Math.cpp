@@ -143,25 +143,15 @@ namespace Theodore {
 
   float Math::Min(float a, float b) { return std::fminf(a, b); }
 
-  float Math::Dot(const Vector3d& v1, const Vector3d& v2) {
-    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
-  }
+  float Math::Dot(const Vector3d& v1, const Vector3d& v2) { return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; }
 
-  float Math::AbsDot(const Vector3d& v1, const Vector3d& v2) {
-    return std::fabsf(v1.x * v2.x) + std::fabsf(v1.y * v2.y) + std::fabsf(v1.z * v2.z);
-  }
+  float Math::AbsDot(const Vector3d& v1, const Vector3d& v2) { return std::fabsf(v1.x * v2.x) + std::fabsf(v1.y * v2.y) + std::fabsf(v1.z * v2.z); }
 
-  Vector3d Math::Pow(const Vector3d& a, float exp) {
-    return Vector3d(std::powf(a.x, exp), std::powf(a.x, exp), std::powf(a.x, exp));
-  }
+  Vector3d Math::Pow(const Vector3d& a, float exp) { return Vector3d(std::powf(a.x, exp), std::powf(a.x, exp), std::powf(a.x, exp)); }
 
   float Math::Dot(const Vector2d& v1, const Vector2d& v2) { return v1.x * v2.x + v1.y * v2.y; }
 
-  float Math::AbsDot(const Vector2d& v1, const Vector2d& v2) {
-    return std::fabsf(v1.x * v2.x) + std::fabsf(v1.y * v2.y);
-  }
+  float Math::AbsDot(const Vector2d& v1, const Vector2d& v2) { return std::fabsf(v1.x * v2.x) + std::fabsf(v1.y * v2.y); }
 
-  Vector2d Math::Pow(const Vector2d& a, float exp) {
-    return Vector2d(std::powf(a.x, exp), std::powf(a.x, exp));
-  }
-}
+  Vector2d Math::Pow(const Vector2d& a, float exp) { return Vector2d(std::powf(a.x, exp), std::powf(a.x, exp)); }
+} // namespace Theodore

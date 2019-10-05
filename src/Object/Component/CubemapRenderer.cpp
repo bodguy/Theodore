@@ -1,11 +1,11 @@
 #include "CubemapRenderer.h"
-#include "Camera.h"
+#include "../../Asset/Shader.h"
 #include "../../Graphics/Graphics.h"
 #include "../../Math/Math.h"
-#include "./sub/Mesh.h"
 #include "../SceneManager.h"
-#include "../../Asset/Shader.h"
+#include "./sub/Mesh.h"
 #include "./sub/ShapeGenerator.h"
+#include "Camera.h"
 
 namespace Theodore {
   CubemapRenderer::CubemapRenderer() : MeshRenderer() {
@@ -27,10 +27,7 @@ namespace Theodore {
 
     Camera* cam = SceneManager::GetMainCamera();
     mProgram->SetUniform("view", Matrix4x4::ToMatrix3x3(cam->GetWorldToCameraMatrix()));
-    mProgram->SetUniform("projection",
-                         Matrix4x4::Perspective(Math::Radians(cam->GetFieldOfView()),
-                                                cam->GetAspectRatio(), cam->GetNearClipPlane(),
-                                                cam->GetFarClipPlane()));
+    mProgram->SetUniform("projection", Matrix4x4::Perspective(Math::Radians(cam->GetFieldOfView()), cam->GetAspectRatio(), cam->GetNearClipPlane(), cam->GetFarClipPlane()));
 
     mProgram->SetUniform("cubemap", 0);
     glActiveTexture(GL_TEXTURE0);
@@ -45,4 +42,4 @@ namespace Theodore {
   bool CubemapRenderer::CompareEquality(const Object& rhs) const { return false; }
 
   bool CubemapRenderer::Destroy() { return false; }
-}
+} // namespace Theodore

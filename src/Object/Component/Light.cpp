@@ -1,16 +1,15 @@
 #include "Light.h"
 #include "../../Helper/Debug.h"
-#include "../GameObject.h"
-#include "../../Math/Math.h"
-#include "./sub/ShadowInfo.h"
 #include "../../Helper/Utility.h"
+#include "../../Math/Math.h"
+#include "../GameObject.h"
+#include "./sub/ShadowInfo.h"
 
 namespace Theodore {
   const unsigned int Light::MaxLightCount = 50;
   Light::Light(LightType type)
-      : Component("Light"), type(type), ambient(Color(0.01f, 0.01f, 0.01f, 0.01f)),
-        diffuse(Color(0.01f, 0.01f, 0.01f, 0.01f)), specular(Color(0.1f, 0.1f, 0.1f, 0.1f)),
-        constant(0.f), linear(0.f), quadratic(0.f), cutOff(0.f), outerCutOff(0.f) {
+      : Component("Light"), type(type), ambient(Color(0.01f, 0.01f, 0.01f, 0.01f)), diffuse(Color(0.01f, 0.01f, 0.01f, 0.01f)), specular(Color(0.1f, 0.1f, 0.1f, 0.1f)), constant(0.f), linear(0.f),
+        quadratic(0.f), cutOff(0.f), outerCutOff(0.f) {
     switch (type) {
     case LightType::DirectionalLight:
       break;
@@ -41,4 +40,4 @@ namespace Theodore {
   bool Light::CompareEquality(const Object& rhs) const { return false; }
 
   bool Light::Destroy() { return false; }
-}
+} // namespace Theodore

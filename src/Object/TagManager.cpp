@@ -8,23 +8,13 @@ namespace Theodore {
     mLayers.clear();
   }
 
-  TagManager::~TagManager() {
+  TagManager::~TagManager() {}
 
-  }
+  void TagManager::AddTag(uint32_t tag) {}
 
-  void TagManager::AddTag(uint32_t tag) {
+  void TagManager::RemoveTag(uint32_t tag) {}
 
-  }
+  void TagManager::AddLayer(uint32_t layer) {}
 
-  void TagManager::RemoveTag(uint32_t tag) {
-
-  }
-
-  void TagManager::AddLayer(uint32_t layer) {
-
-  }
-
-  void TagManager::RemoveLayer(uint32_t layer) {
-
-  }
-}
+  void TagManager::RemoveLayer(uint32_t layer) {}
+} // namespace Theodore

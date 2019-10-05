@@ -42,9 +42,7 @@ namespace Theodore {
     return *this;
   }
 
-  Quaternion Quaternion::operator-(const Quaternion& other) const {
-    return Quaternion(*this) -= other;
-  }
+  Quaternion Quaternion::operator-(const Quaternion& other) const { return Quaternion(*this) -= other; }
 
   Quaternion& Quaternion::operator-=(const Quaternion& other) {
     w -= other.w;
@@ -55,9 +53,7 @@ namespace Theodore {
     return *this;
   }
 
-  Quaternion Quaternion::operator*(const Quaternion& other) const {
-    return Quaternion(*this) *= other;
-  }
+  Quaternion Quaternion::operator*(const Quaternion& other) const { return Quaternion(*this) *= other; }
 
   Quaternion& Quaternion::operator*=(const Quaternion& other) {
     Quaternion tmp;
@@ -103,12 +99,9 @@ namespace Theodore {
     float num12 = w * num3;
 
     Vector3d result;
-    result.x =
-        (1.f - (num5 + num6)) * other.x + (num7 - num12) * other.y + (num8 + num11) * other.z;
-    result.y =
-        (num7 + num12) * other.x + (1.f - (num4 + num6)) * other.y + (num9 - num10) * other.z;
-    result.z =
-        (num8 - num11) * other.x + (num9 + num10) * other.y + (1.f - (num4 + num5)) * other.z;
+    result.x = (1.f - (num5 + num6)) * other.x + (num7 - num12) * other.y + (num8 + num11) * other.z;
+    result.y = (num7 + num12) * other.x + (1.f - (num4 + num6)) * other.y + (num9 - num10) * other.z;
+    result.z = (num8 - num11) * other.x + (num9 + num10) * other.y + (1.f - (num4 + num5)) * other.z;
 
     return result;
   }
@@ -157,43 +150,25 @@ namespace Theodore {
     return *this;
   }
 
-  bool Quaternion::operator<(const Quaternion& other) const {
-    return x < other.x && y < other.y && z < other.z && w < other.w;
-  }
+  bool Quaternion::operator<(const Quaternion& other) const { return x < other.x && y < other.y && z < other.z && w < other.w; }
 
-  bool Quaternion::operator>(const Quaternion& other) const {
-    return x > other.x && y > other.y && z > other.z && w > other.w;
-  }
+  bool Quaternion::operator>(const Quaternion& other) const { return x > other.x && y > other.y && z > other.z && w > other.w; }
 
-  bool Quaternion::operator<=(const Quaternion& other) const {
-    return x <= other.x && y <= other.y && z <= other.z && w <= other.w;
-  }
+  bool Quaternion::operator<=(const Quaternion& other) const { return x <= other.x && y <= other.y && z <= other.z && w <= other.w; }
 
-  bool Quaternion::operator>=(const Quaternion& other) const {
-    return x >= other.x && y >= other.y && z >= other.z && w >= other.w;
-  }
+  bool Quaternion::operator>=(const Quaternion& other) const { return x >= other.x && y >= other.y && z >= other.z && w >= other.w; }
 
-  bool Quaternion::operator==(const Quaternion& other) const {
-    return (x == other.x && y == other.y && z == other.z && w == other.w);
-  }
+  bool Quaternion::operator==(const Quaternion& other) const { return (x == other.x && y == other.y && z == other.z && w == other.w); }
 
   bool Quaternion::operator!=(const Quaternion& other) const { return !(*this == other); }
 
-  bool Quaternion::operator<(const float scalar) const {
-    return x < scalar && y < scalar && z < scalar && w < scalar;
-  }
+  bool Quaternion::operator<(const float scalar) const { return x < scalar && y < scalar && z < scalar && w < scalar; }
 
-  bool Quaternion::operator>(const float scalar) const {
-    return x > scalar && y > scalar && z > scalar && w > scalar;
-  }
+  bool Quaternion::operator>(const float scalar) const { return x > scalar && y > scalar && z > scalar && w > scalar; }
 
-  bool Quaternion::operator<=(const float scalar) const {
-    return x <= scalar && y <= scalar && z <= scalar && w <= scalar;
-  }
+  bool Quaternion::operator<=(const float scalar) const { return x <= scalar && y <= scalar && z <= scalar && w <= scalar; }
 
-  bool Quaternion::operator>=(const float scalar) const {
-    return x >= scalar && y >= scalar && z >= scalar && w >= scalar;
-  }
+  bool Quaternion::operator>=(const float scalar) const { return x >= scalar && y >= scalar && z >= scalar && w >= scalar; }
 
   Quaternion& Quaternion::Conjugate() {
     x = -x;
@@ -229,9 +204,7 @@ namespace Theodore {
     return Vector3d(q.x, q.y, q.z);
   }
 
-  float Quaternion::DotProduct(const Quaternion& a, const Quaternion& b) {
-    return (a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w);
-  }
+  float Quaternion::DotProduct(const Quaternion& a, const Quaternion& b) { return (a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w); }
 
   Quaternion Quaternion::Inverse(const Quaternion& other) {
     Quaternion tmp(other);
@@ -263,11 +236,9 @@ namespace Theodore {
       eulerAngle.y = Math::pi / -2.0f;
     } else {
       // heading = rotation about z-axis
-      eulerAngle.z =
-          std::atan2(2.0f * (quat.x * quat.y + quat.z * quat.w), (sqx - sqy - sqz + sqw));
+      eulerAngle.z = std::atan2(2.0f * (quat.x * quat.y + quat.z * quat.w), (sqx - sqy - sqz + sqw));
       // bank = rotation about x-axis
-      eulerAngle.x =
-          std::atan2(2.0f * (quat.y * quat.z + quat.x * quat.w), (-sqx - sqy + sqz + sqw));
+      eulerAngle.x = std::atan2(2.0f * (quat.y * quat.z + quat.x * quat.w), (-sqx - sqy + sqz + sqw));
       // attitude = rotation about y-axis
       eulerAngle.y = std::asin(Math::Clamp(test, -1.0, 1.0));
     }
@@ -437,4 +408,4 @@ namespace Theodore {
     swap(first.z, second.z);
     swap(first.w, second.w);
   }
-}
+} // namespace Theodore

@@ -19,13 +19,11 @@ namespace Theodore {
   class LinuxPlatform {
     friend class Platform;
 
-  private:
+    private:
     LinuxPlatform();
     ~LinuxPlatform();
 
-    bool CreatePlatformLinux(const std::string& title, int width, int height, bool fullscreen,
-                             int majorVersion, int minorVersion, int multisample, WindowStyle style,
-                             ContextProfile profile);
+    bool CreatePlatformLinux(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style, ContextProfile profile);
     void KillPlatformLinux();
 
     static LinuxPlatform* instance;
@@ -37,7 +35,7 @@ namespace Theodore {
     GLXContext mContext;
     Atom mDestroyMessage;
   };
-}
+} // namespace Theodore
 
 #endif /* LinuxPlatform_h */
 

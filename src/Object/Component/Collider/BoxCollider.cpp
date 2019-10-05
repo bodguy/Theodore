@@ -1,9 +1,9 @@
 #include "BoxCollider.h"
-#include "../../GameObject.h"
 #include "../../../Graphics/Graphics.h"
-#include "../sub/Mesh.h"
+#include "../../GameObject.h"
 #include "../MeshRenderer.h"
 #include "../Transform.h"
+#include "../sub/Mesh.h"
 
 namespace Theodore {
   BoxCollider::BoxCollider() : Collider("BoxCollider"), mCenter(), mSize() {
@@ -79,11 +79,9 @@ namespace Theodore {
 
   void BoxCollider::Update(float deltaTime) {}
 
-  void BoxCollider::Render() {
-    Graphics::DrawCube(mCenter, mSize, Color::purple, mTransform->GetLocalToWorldMatrix());
-  }
+  void BoxCollider::Render() { Graphics::DrawCube(mCenter, mSize, Color::purple, mTransform->GetLocalToWorldMatrix()); }
 
   bool BoxCollider::CompareEquality(const Object& rhs) const { return false; }
 
   bool BoxCollider::Destroy() { return false; }
-}
+} // namespace Theodore

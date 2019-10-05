@@ -11,14 +11,14 @@
 
 namespace Theodore {
   class KeyFrame {
-  public:
+    public:
     KeyFrame(float time, float value);
     ~KeyFrame();
 
-  private:
+    private:
     float mTime;
     float mValue;
   };
-}
+} // namespace Theodore
 
 #endif /* KeyFrame_h */

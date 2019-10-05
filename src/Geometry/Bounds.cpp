@@ -53,14 +53,10 @@ namespace Theodore {
 
   bool Bounds::Intersect(const Plane& bounds) { return false; }
 
-  bool Bounds::Contains(const Vector3d& point) {
-    return mMin.x <= point.x && point.x <= mMax.x && mMin.y <= point.y && point.y <= mMax.y &&
-           mMin.z <= point.z && point.z <= mMax.z;
-  }
+  bool Bounds::Contains(const Vector3d& point) { return mMin.x <= point.x && point.x <= mMax.x && mMin.y <= point.y && point.y <= mMax.y && mMin.z <= point.z && point.z <= mMax.z; }
 
   bool Bounds::Contains(const Bounds& bounds) {
-    return mMin.x <= bounds.mMin.x && mMin.y <= bounds.mMin.y && mMin.z <= bounds.mMin.z &&
-           bounds.mMax.x <= mMax.x && bounds.mMax.y <= mMax.y && bounds.mMax.z <= mMax.z;
+    return mMin.x <= bounds.mMin.x && mMin.y <= bounds.mMin.y && mMin.z <= bounds.mMin.z && bounds.mMax.x <= mMax.x && bounds.mMax.y <= mMax.y && bounds.mMax.z <= mMax.z;
   }
 
   void Bounds::Encapsulate(const Vector3d& point) {
@@ -117,4 +113,4 @@ namespace Theodore {
     mExtents = mCenter - mMin;
     mSize = mExtents * 2.f;
   }
-}
+} // namespace Theodore

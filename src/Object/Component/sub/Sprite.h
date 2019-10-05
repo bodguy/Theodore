@@ -10,11 +10,11 @@
 #define Sprite_h
 
 #include "../../../Geometry/Bounds.h"
-#include "../../../Math/Color.h"
 #include "../../../Graphics/Enumeration.h"
+#include "../../../Graphics/VertexBuffer.h"
+#include "../../../Math/Color.h"
 #include "../../../Math/Rect.h"
 #include "../../../Math/Vector2d.h"
-#include "../../../Graphics/VertexBuffer.h"
 
 namespace Theodore {
   class Texture2D;
@@ -23,7 +23,7 @@ namespace Theodore {
   class Sprite {
     friend class SpriteRenderer;
 
-  public:
+    public:
     Sprite();
     ~Sprite();
 
@@ -32,7 +32,7 @@ namespace Theodore {
     bool operator==(const Sprite& rhs);
     bool operator!=(const Sprite& rhs);
 
-  private:
+    private:
     IndexFormat mFormat;
     Texture2D* mTexture;
     Rect mRect;        // for a sprite with a single texture
@@ -47,6 +47,6 @@ namespace Theodore {
     unsigned short mIndices[6];
     Bounds mBounds; // local space bounds
   };
-}
+} // namespace Theodore
 
 #endif /* Sprite_h */

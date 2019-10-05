@@ -9,8 +9,8 @@
 #ifndef StringUtil_h
 #define StringUtil_h
 
-#include <vector>
 #include "../Platform/os_types.h"
+#include <vector>
 
 #ifdef Theodore_MacOS
 #define DateTime tm
@@ -20,18 +20,17 @@
 
 namespace Theodore {
   class StringUtil {
-  private:
+    private:
     StringUtil();
     ~StringUtil();
 
-  public:
+    public:
     static bool Contains(const std::string& txt, const std::string& contain);
     static bool Match(const std::string& txt, const std::string& regex);
     static bool Comment(const std::string& c);
     static size_t Split(const std::string& txt, std::vector<std::string>& strs, char ch);
     static bool EqualsIgnoreCase(const std::string& strA, const std::string& strB);
-    static std::string ReplaceAll(const std::string& str, const std::string& from,
-                                  const std::string& to);
+    static std::string ReplaceAll(const std::string& str, const std::string& from, const std::string& to);
     static bool StartsWith(const std::string& str, const std::string& prefix);
     static bool EndsWith(const std::string& str, const std::string& suffix);
     static std::string DateToUTCString(DateTime* date);
@@ -41,7 +40,7 @@ namespace Theodore {
     // template<typename ...Args>
     // static std::string Join(const std::string& delimiter, Args... args);
 
-  private:
+    private:
     static std::string monthTable[];
   };
 
@@ -49,6 +48,6 @@ namespace Theodore {
   // std::string StringUtil::Join(const std::string& delimiter, const Args& ... args) {
   //	return "";
   //}
-}
+} // namespace Theodore
 
 #endif // StringUtil_h

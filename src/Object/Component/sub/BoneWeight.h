@@ -11,7 +11,7 @@
 
 namespace Theodore {
   class BoneWeight {
-  public:
+    public:
     BoneWeight();
     ~BoneWeight();
 
@@ -21,6 +21,6 @@ namespace Theodore {
     int boneIndex0, boneIndex1, boneIndex2, boneIndex3;
     float weight0, weight1, weight2, weight3;
   };
-}
+} // namespace Theodore
 
 #endif /* BoneWeight_h */

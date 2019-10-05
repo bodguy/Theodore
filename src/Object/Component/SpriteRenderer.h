@@ -15,7 +15,7 @@
 namespace Theodore {
   class Sprite;
   class SpriteRenderer : public Renderer {
-  public:
+    public:
     SpriteRenderer();
     virtual ~SpriteRenderer();
 
@@ -27,17 +27,17 @@ namespace Theodore {
     bool GetFlipX() const;
     bool GetFlipY() const;
 
-  private:
+    private:
     virtual void Update(float deltaTime) override;
     virtual void Render() override;
     virtual bool CompareEquality(const Object& rhs) const override;
     virtual bool Destroy() override;
 
-  private:
+    private:
     Sprite* mSprite;
     Color mColor;
     bool mFlipX, mFlipY;
   };
-}
+} // namespace Theodore
 
 #endif /* SpriteRenderer_h */

@@ -81,10 +81,7 @@ namespace Theodore {
     return *this;
   }
 
-  Rect& Rect::SetRect(const float _left, const float _top, const float _right,
-                      const float _bottom) {
-    return *this = Rect(_left, _top, _right, _bottom);
-  }
+  Rect& Rect::SetRect(const float _left, const float _top, const float _right, const float _bottom) { return *this = Rect(_left, _top, _right, _bottom); }
 
   void Rect::Swap(Rect& first, Rect& second) noexcept {
     using std::swap;
@@ -96,4 +93,4 @@ namespace Theodore {
 
   const Rect Rect::zero = Rect(0.f, 0.f, 0.f, 0.f);
   const Rect Rect::one = Rect(1.f, 1.f, 1.f, 1.f);
-}
+} // namespace Theodore

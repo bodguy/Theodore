@@ -19,14 +19,11 @@ namespace Theodore {
 
   WindowsPlatform* WindowsPlatform::instance = NULL;
   Platform* WindowsPlatform::platform = NULL;
-  WindowsPlatform::WindowsPlatform()
-      : mhInstance(NULL), mHandle(NULL), mHdc(NULL), mContext(NULL) {}
+  WindowsPlatform::WindowsPlatform() : mhInstance(NULL), mHandle(NULL), mHdc(NULL), mContext(NULL) {}
 
   WindowsPlatform::~WindowsPlatform() {}
 
-  bool WindowsPlatform::CreatePlatformWindows(const std::string& title, int width, int height,
-                                              bool fullscreen, int majorVersion, int minorVersion,
-                                              int multisample, WindowStyle style,
+  bool WindowsPlatform::CreatePlatformWindows(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style,
                                               ContextProfile profile) {
     mhInstance = GetModuleHandle(NULL);
     if (!mhInstance)
@@ -93,9 +90,7 @@ namespace Theodore {
       wglMakeCurrent -> wglGetProcAddress
                    wglChoosePixelFormatARB				wglCreateContextAttribsARB
     */
-    mHandle = CreateWindowEx(mExStyle, platform->mTitle.c_str(), platform->mTitle.c_str(), mStyle,
-                             static_cast<int>(p.x), static_cast<int>(p.y), w, h, NULL, NULL,
-                             mhInstance, NULL);
+    mHandle = CreateWindowEx(mExStyle, platform->mTitle.c_str(), platform->mTitle.c_str(), mStyle, static_cast<int>(p.x), static_cast<int>(p.y), w, h, NULL, NULL, mhInstance, NULL);
     if (!mHandle)
       return false;
 
@@ -130,25 +125,21 @@ namespace Theodore {
     // We need to query about modern opengl functions.
     if (majorVersion != 0 || minorVersion != 0) {
       PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB = nullptr;
-      wglChoosePixelFormatARB = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(
-          wglGetProcAddress("wglChoosePixelFormatARB"));
+      wglChoosePixelFormatARB = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(wglGetProcAddress("wglChoosePixelFormatARB"));
       if (wglChoosePixelFormatARB == nullptr) {
         Debug::Log("wglChoosePixelFormatARB() failed.");
         return false;
       }
 
       PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB = nullptr;
-      wglCreateContextAttribsARB = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>(
-          wglGetProcAddress("wglCreateContextAttribsARB"));
+      wglCreateContextAttribsARB = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>(wglGetProcAddress("wglCreateContextAttribsARB"));
       if (wglCreateContextAttribsARB == nullptr) {
         Debug::Log("wglCreateContextAttribsARB() failed.");
         return false;
       }
 
       // To create, real window
-      HWND handle = CreateWindowEx(mExStyle, platform->mTitle.c_str(), platform->mTitle.c_str(),
-                                   mStyle, static_cast<int>(p.x), static_cast<int>(p.y), w, h, NULL,
-                                   NULL, mhInstance, NULL);
+      HWND handle = CreateWindowEx(mExStyle, platform->mTitle.c_str(), platform->mTitle.c_str(), mStyle, static_cast<int>(p.x), static_cast<int>(p.y), w, h, NULL, NULL, mhInstance, NULL);
       if (!handle)
         return false;
 
@@ -192,8 +183,7 @@ namespace Theodore {
                                     WGL_DOUBLE_BUFFER_ARB,
                                     GL_TRUE,
                                     0};
-        nPixelFormat2 =
-            wglChoosePixelFormatARB(hdc, pixelAttribs, NULL, 1, &pixelFormatID, &numFormats);
+        nPixelFormat2 = wglChoosePixelFormatARB(hdc, pixelAttribs, NULL, 1, &pixelFormatID, &numFormats);
       } else {
         // without multisampling
         const int pixelAttribs[] = {WGL_DRAW_TO_WINDOW_ARB,
@@ -219,8 +209,7 @@ namespace Theodore {
                                     WGL_DOUBLE_BUFFER_ARB,
                                     GL_TRUE,
                                     0};
-        nPixelFormat2 =
-            wglChoosePixelFormatARB(hdc, pixelAttribs, NULL, 1, &pixelFormatID, &numFormats);
+        nPixelFormat2 = wglChoosePixelFormatARB(hdc, pixelAttribs, NULL, 1, &pixelFormatID, &numFormats);
         Debug::Log("Does not support multisampling");
       }
 
@@ -232,9 +221,7 @@ namespace Theodore {
       SetPixelFormat(hdc, pixelFormatID, &pfd2);
 
       const int major_min = majorVersion, minor_min = minorVersion;
-      int contextAttribs[] = {WGL_CONTEXT_MAJOR_VERSION_ARB, major_min,
-                              WGL_CONTEXT_MINOR_VERSION_ARB, minor_min,
-                              WGL_CONTEXT_PROFILE_MASK_ARB, static_cast<int>(profile),
+      int contextAttribs[] = {WGL_CONTEXT_MAJOR_VERSION_ARB, major_min, WGL_CONTEXT_MINOR_VERSION_ARB, minor_min, WGL_CONTEXT_PROFILE_MASK_ARB, static_cast<int>(profile),
                               // WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_DEBUG_BIT_ARB,
                               0};
 
@@ -271,8 +258,7 @@ namespace Theodore {
       GLuint uNoOfGPUs = wglGetGPUIDsAMD(0, 0);
       GLuint* uGPUIDs = new GLuint[uNoOfGPUs];
       wglGetGPUIDsAMD(uNoOfGPUs, uGPUIDs);
-      wglGetGPUInfoAMD(uGPUIDs[0], WGL_GPU_RAM_AMD, GL_UNSIGNED_INT, sizeof(GLuint),
-                       &nTotalMemoryInKB);
+      wglGetGPUInfoAMD(uGPUIDs[0], WGL_GPU_RAM_AMD, GL_UNSIGNED_INT, sizeof(GLuint), &nTotalMemoryInKB);
       glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, &nCurAvailMemoryInKB);
     }
     Debug::Log("GPU Total Memory : %.0f MB", Math::Round(Math::KbToMb(nTotalMemoryInKB)));
@@ -346,8 +332,7 @@ namespace Theodore {
     PFNWGLGETEXTENSIONSSTRINGEXTPROC _wglGetExtensionsStringEXT = NULL;
 
     // determine pointer to wglGetExtensionsStringEXT function
-    _wglGetExtensionsStringEXT =
-        (PFNWGLGETEXTENSIONSSTRINGEXTPROC)wglGetProcAddress("wglGetExtensionsStringEXT");
+    _wglGetExtensionsStringEXT = (PFNWGLGETEXTENSIONSSTRINGEXTPROC)wglGetProcAddress("wglGetExtensionsStringEXT");
 
     if (strstr(_wglGetExtensionsStringEXT(), extionsion_name.c_str()) == NULL) {
       // string was not found
@@ -362,9 +347,7 @@ namespace Theodore {
   // Platform definition
 
   Platform* Platform::instance = NULL;
-  Platform::Platform()
-      : mWidth(0), mHeight(0), mIsShowCursor(true), mIsFullScreen(false), mIsFocused(true),
-        mIsRunning(true), mMousePosition(), mIsMultisampleSupported(false) {
+  Platform::Platform() : mWidth(0), mHeight(0), mIsShowCursor(true), mIsFullScreen(false), mIsFocused(true), mIsRunning(true), mMousePosition(), mIsMultisampleSupported(false) {
     WindowsPlatform::instance = new WindowsPlatform();
     instance = this;
     WindowsPlatform::instance->platform = this;
@@ -504,9 +487,8 @@ namespace Theodore {
   }
 
   bool Platform::Initialize(const PlatformContext& param) {
-    return WindowsPlatform::instance->CreatePlatformWindows(
-        param.name, param.width, param.height, param.fullscreen, param.majorVersion,
-        param.minorVersion, param.multisample, param.style, param.profile);
+    return WindowsPlatform::instance->CreatePlatformWindows(param.name, param.width, param.height, param.fullscreen, param.majorVersion, param.minorVersion, param.multisample, param.style,
+                                                            param.profile);
   }
 
   void Platform::Update() {
@@ -598,8 +580,7 @@ namespace Theodore {
     PFNWGLGETSWAPINTERVALEXTPROC wglGetSwapIntervalEXT = NULL;
 
     if (WindowsPlatform::QueryWGLExtensionSupported("WGL_EXT_swap_control")) {
-      wglGetSwapIntervalEXT =
-          (PFNWGLGETSWAPINTERVALEXTPROC)wglGetProcAddress("wglGetSwapIntervalEXT");
+      wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC)wglGetProcAddress("wglGetSwapIntervalEXT");
       if (wglGetSwapIntervalEXT) {
         return wglGetSwapIntervalEXT();
       }
@@ -619,9 +600,7 @@ namespace Theodore {
     return mIsFocused;
   }
 
-  void Platform::ChangeTitle(const std::string& titleName) {
-    SetWindowText(WindowsPlatform::instance->mHandle, titleName.c_str());
-  }
-}
+  void Platform::ChangeTitle(const std::string& titleName) { SetWindowText(WindowsPlatform::instance->mHandle, titleName.c_str()); }
+} // namespace Theodore
 
 #endif

@@ -1,14 +1,14 @@
 #include "Debug.h"
-#include "../Math/Color.h"
+#include "../Asset/Texture2D.h"
+#include "../Geometry/Ray.h"
 #include "../Graphics/Enumeration.h"
+#include "../Math/Color.h"
 #include "../Math/Matrix4x4.h"
 #include "../Math/Quaternion.h"
-#include "../Geometry/Ray.h"
-#include "../Asset/Texture2D.h"
-#include "../Platform/Time.h"
 #include "../Math/Vector2d.h"
 #include "../Math/Vector3d.h"
 #include "../Math/Vector4d.h"
+#include "../Platform/Time.h"
 #include <stdarg.h> // for va_list
 #include <stdio.h>  // for vprintf
 
@@ -45,8 +45,7 @@ namespace Theodore {
   void Debug::Log(double d) { Debug::Log("%lf", d); }
 
   void Debug::Log(const Matrix4x4& matrix, unsigned int precision) {
-    static const char* presition_table[7] = {"%.0f ", "%.1f ", "%.2f ", "%.3f ",
-                                             "%.4f ", "%.5f ", "%.6f "};
+    static const char* presition_table[7] = {"%.0f ", "%.1f ", "%.2f ", "%.3f ", "%.4f ", "%.5f ", "%.6f "};
     Debug::Log("Matrix4x4 = ");
 
     for (int i = 0; i < 4; i++) {
@@ -57,39 +56,26 @@ namespace Theodore {
     }
   }
 
-  void Debug::Log(const Vector4d& vector4) {
-    Debug::Log("Vector4d = x: %f, y: %f, z: %f, w: %f", vector4.x, vector4.y, vector4.z, vector4.w);
-  }
+  void Debug::Log(const Vector4d& vector4) { Debug::Log("Vector4d = x: %f, y: %f, z: %f, w: %f", vector4.x, vector4.y, vector4.z, vector4.w); }
 
-  void Debug::Log(const Vector3d& vector3) {
-    Debug::Log("Vector3d = x: %f, y: %f, z: %f", vector3.x, vector3.y, vector3.z);
-  }
+  void Debug::Log(const Vector3d& vector3) { Debug::Log("Vector3d = x: %f, y: %f, z: %f", vector3.x, vector3.y, vector3.z); }
 
-  void Debug::Log(const Vector2d& vector2) {
-    Debug::Log("Vector2d = x: %f, y: %f", vector2.x, vector2.y);
-  }
+  void Debug::Log(const Vector2d& vector2) { Debug::Log("Vector2d = x: %f, y: %f", vector2.x, vector2.y); }
 
   void Debug::Log(const Color& color) {
-    Debug::Log("Color = r:%f[%d] g:%f[%d] b:%f[%d] a:%f[%d]", color.r,
-               Color::ConvertToByte(color.r), color.g, Color::ConvertToByte(color.g), color.b,
-               Color::ConvertToByte(color.b), color.a, Color::ConvertToByte(color.a));
+    Debug::Log("Color = r:%f[%d] g:%f[%d] b:%f[%d] a:%f[%d]", color.r, Color::ConvertToByte(color.r), color.g, Color::ConvertToByte(color.g), color.b, Color::ConvertToByte(color.b), color.a,
+               Color::ConvertToByte(color.a));
   }
 
-  void Debug::Log(const Quaternion& quat) {
-    Debug::Log("Quaternion = w: %f, x: %f, y: %f, z: %f", quat.w, quat.x, quat.y, quat.z);
-  }
+  void Debug::Log(const Quaternion& quat) { Debug::Log("Quaternion = w: %f, x: %f, y: %f, z: %f", quat.w, quat.x, quat.y, quat.z); }
 
-  void Debug::Log(const Ray& ray) {
-    Debug::Log("Origin: (%f, %f, %f), Dir: (%f, %f, %f)", ray.origin.x, ray.origin.y, ray.origin.z,
-               ray.direction.x, ray.direction.y, ray.direction.z);
-  }
+  void Debug::Log(const Ray& ray) { Debug::Log("Origin: (%f, %f, %f), Dir: (%f, %f, %f)", ray.origin.x, ray.origin.y, ray.origin.z, ray.direction.x, ray.direction.y, ray.direction.z); }
 
   void Debug::Log(const Texture* object) {
-    Debug::Log("Texture loaded %s[w=%d, h=%d], ref=%d, id=%d format=%d", object->mName.c_str(),
-               object->mWidth, object->mHeight, object->mRefCount, object->mTextureID, object->mTextureFormat);
+    Debug::Log("Texture loaded %s[w=%d, h=%d], ref=%d, id=%d format=%d", object->mName.c_str(), object->mWidth, object->mHeight, object->mRefCount, object->mTextureID, object->mTextureFormat);
   }
 
   void Debug::LogOnOff(bool b) { Debug::__logSwitch = b; }
 
   bool Debug::GetLogSwitch() { return Debug::__logSwitch; }
-}
+} // namespace Theodore

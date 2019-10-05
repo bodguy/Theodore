@@ -1,19 +1,14 @@
 #include "FrameBuffer.h"
+#include "../Asset/Texture2D.h"
 #include "../Helper/Debug.h"
 #include "RenderBuffer.h"
-#include "../Asset/Texture2D.h"
 
 namespace Theodore {
-  FrameBuffer::FrameBuffer(unsigned int width, unsigned int height)
-      : mWidth(width), mHeight(height), mRender(nullptr), mIsCreated(false) {
-    mTextures.clear();
-  }
+  FrameBuffer::FrameBuffer(unsigned int width, unsigned int height) : mWidth(width), mHeight(height), mRender(nullptr), mIsCreated(false) { mTextures.clear(); }
 
   FrameBuffer::~FrameBuffer() { glDeleteFramebuffers(1, &mFrameBufferID); }
 
-  bool FrameBuffer::AttachTexture(Texture2D* tex, Attachment attach) {
-    return mTextures.insert(std::make_pair(attach, tex)).second;
-  }
+  bool FrameBuffer::AttachTexture(Texture2D* tex, Attachment attach) { return mTextures.insert(std::make_pair(attach, tex)).second; }
 
   Texture2D* FrameBuffer::GetRenderTexture(Attachment attach) { return mTextures[attach]; }
 
@@ -23,14 +18,11 @@ namespace Theodore {
     glGenFramebuffers(1, &mFrameBufferID);
     glBindFramebuffer(GL_FRAMEBUFFER, mFrameBufferID);
     for (std::pair<Attachment, Texture2D*> p : mTextures) {
-      glFramebufferTexture2D(GL_FRAMEBUFFER, static_cast<GLenum>(p.first),
-                             static_cast<int>(p.second->GetDimension()), p.second->GetTextureID(),
-                             0);
+      glFramebufferTexture2D(GL_FRAMEBUFFER, static_cast<GLenum>(p.first), static_cast<int>(p.second->GetDimension()), p.second->GetTextureID(), 0);
     }
 
     if (mRender) {
-      glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER,
-                                mRender->GetRenderBufferID());
+      glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, mRender->GetRenderBufferID());
     }
 
     if (!writable) {
@@ -96,16 +88,12 @@ namespace Theodore {
     do {
       glGetIntegerv(GL_DRAW_BUFFER0 + i, &buffer);
       if (buffer != GL_NONE) {
-        Debug::Log("Shader Output Location %d - color attachment %d", i,
-                   buffer - GL_COLOR_ATTACHMENT0);
-        glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, buffer,
-                                              GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &res);
+        Debug::Log("Shader Output Location %d - color attachment %d", i, buffer - GL_COLOR_ATTACHMENT0);
+        glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, buffer, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &res);
         Debug::Log("\tAttachment Type: %s", res == GL_TEXTURE ? "Texture" : "Render Buffer");
-        glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, buffer,
-                                              GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &res);
+        glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, buffer, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &res);
         Debug::Log("\tAttachment object name: %d", res);
-        glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, buffer,
-                                              GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL, &res);
+        glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, buffer, GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL, &res);
         Debug::Log("\tAttachment object level: %d", res);
       }
       ++i;
@@ -118,4 +106,4 @@ namespace Theodore {
     mWidth = w;
     mHeight = h;
   }
-}
+} // namespace Theodore

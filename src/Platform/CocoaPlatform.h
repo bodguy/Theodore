@@ -34,9 +34,7 @@ namespace Theodore {
     CocoaPlatform();
     ~CocoaPlatform();
 
-    bool CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen,
-                             int majorVersion, int minorVersion, int multisample, WindowStyle style,
-                             ContextProfile profile);
+    bool CreatePlatformCocoa(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style, ContextProfile profile);
     bool PrepareContext(const NSRect windowRect, int majorVersion, int minorVersion, int multisample, const ContextProfile profile);
 
     static CocoaPlatform* instance;

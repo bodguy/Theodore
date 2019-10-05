@@ -54,8 +54,7 @@ namespace Theodore {
           states = States::ONLY_B;
         }
 
-        if (mSemantic & VertexSemantic::SemanticTexCoord &&
-            mSemantic & VertexSemantic::SemanticNormal) {
+        if (mSemantic & VertexSemantic::SemanticTexCoord && mSemantic & VertexSemantic::SemanticNormal) {
           states = States::BOTH;
         }
 
@@ -89,8 +88,7 @@ namespace Theodore {
     return true;
   }
 
-  void WaveFrontObjMesh::ProcessVertex(FILE* file, const std::vector<Vector2d>& uvsIn,
-                                       const std::vector<Vector3d>& normalsIn, States states) {
+  void WaveFrontObjMesh::ProcessVertex(FILE* file, const std::vector<Vector2d>& uvsIn, const std::vector<Vector3d>& normalsIn, States states) {
     unsigned int vertexIndex[3];
     unsigned int uvIndex[3];
     unsigned int normalIndex[3];
@@ -99,22 +97,18 @@ namespace Theodore {
     if (states == States::NONE) {
       fscanf(file, "%d %d %d\n", &vertexIndex[0], &vertexIndex[1], &vertexIndex[2]);
     } else if (states == States::ONLY_A) {
-      fscanf(file, "%d/%d %d/%d %d/%d\n", &vertexIndex[0], &uvIndex[0], &vertexIndex[1],
-             &uvIndex[1], &vertexIndex[2], &uvIndex[2]);
+      fscanf(file, "%d/%d %d/%d %d/%d\n", &vertexIndex[0], &uvIndex[0], &vertexIndex[1], &uvIndex[1], &vertexIndex[2], &uvIndex[2]);
       // flip the uv coordinate
       mUvs[vertexIndex[0] - 1] = Vector2d(uvsIn[uvIndex[0] - 1].x, 1.f - uvsIn[uvIndex[0] - 1].y);
       mUvs[vertexIndex[1] - 1] = Vector2d(uvsIn[uvIndex[1] - 1].x, 1.f - uvsIn[uvIndex[1] - 1].y);
       mUvs[vertexIndex[2] - 1] = Vector2d(uvsIn[uvIndex[2] - 1].x, 1.f - uvsIn[uvIndex[2] - 1].y);
     } else if (states == States::ONLY_B) {
-      fscanf(file, "%d//%d %d//%d %d//%d\n", &vertexIndex[0], &normalIndex[0], &vertexIndex[1],
-             &normalIndex[1], &vertexIndex[2], &normalIndex[2]);
+      fscanf(file, "%d//%d %d//%d %d//%d\n", &vertexIndex[0], &normalIndex[0], &vertexIndex[1], &normalIndex[1], &vertexIndex[2], &normalIndex[2]);
       mNormals[vertexIndex[0] - 1] = normalsIn[normalIndex[0] - 1];
       mNormals[vertexIndex[1] - 1] = normalsIn[normalIndex[1] - 1];
       mNormals[vertexIndex[2] - 1] = normalsIn[normalIndex[2] - 1];
     } else if (states == States::BOTH) {
-      fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0],
-             &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2],
-             &normalIndex[2]);
+      fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
       // flip the uv coordinate
       mUvs[vertexIndex[0] - 1] = Vector2d(uvsIn[uvIndex[0] - 1].x, 1.f - uvsIn[uvIndex[0] - 1].y);
       mUvs[vertexIndex[1] - 1] = Vector2d(uvsIn[uvIndex[1] - 1].x, 1.f - uvsIn[uvIndex[1] - 1].y);
@@ -129,4 +123,4 @@ namespace Theodore {
     mFaces.push_back(vertexIndex[1] - 1);
     mFaces.push_back(vertexIndex[2] - 1);
   }
-}
+} // namespace Theodore

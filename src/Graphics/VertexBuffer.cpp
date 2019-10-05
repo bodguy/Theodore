@@ -100,17 +100,11 @@ namespace Theodore {
     glGetBufferSubData(static_cast<GLenum>(mType), offset, length, data);
   }
 
-  void Buffer::BindBase(unsigned int index) {
-    glBindBufferBase(static_cast<GLenum>(mType), index, mVertexBufferID);
-  }
+  void Buffer::BindBase(unsigned int index) { glBindBufferBase(static_cast<GLenum>(mType), index, mVertexBufferID); }
 
-  void Buffer::BindRange(unsigned int index, unsigned int offset, unsigned int size) {
-    glBindBufferRange(static_cast<GLenum>(mType), index, mVertexBufferID, offset, size);
-  }
+  void Buffer::BindRange(unsigned int index, unsigned int offset, unsigned int size) { glBindBufferRange(static_cast<GLenum>(mType), index, mVertexBufferID, offset, size); }
 
-  void* Buffer::Lock(LockMode mode) {
-    return glMapBuffer(static_cast<GLenum>(mType), static_cast<GLenum>(mode));
-  }
+  void* Buffer::Lock(LockMode mode) { return glMapBuffer(static_cast<GLenum>(mType), static_cast<GLenum>(mode)); }
 
   void Buffer::UnLock() { glUnmapBuffer(static_cast<GLenum>(mType)); }
 
@@ -130,13 +124,11 @@ namespace Theodore {
     return *this;
   }
 
-  void VertexArray::BindAttribute(const Attribute& attribute, const Buffer& buffer,
-                                  unsigned int count, unsigned int stride, unsigned int offset) {
+  void VertexArray::BindAttribute(const Attribute& attribute, const Buffer& buffer, unsigned int count, unsigned int stride, unsigned int offset) {
     glBindVertexArray(mVertexArrayID);
     glBindBuffer(GL_ARRAY_BUFFER, buffer.GetBufferID());
     glEnableVertexAttribArray(attribute);
-    glVertexAttribPointer(attribute, count, GL_FLOAT, GL_FALSE, stride,
-                          reinterpret_cast<const void*>(offset));
+    glVertexAttribPointer(attribute, count, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<const void*>(offset));
     glBindVertexArray(NULL);
   }
 
@@ -151,4 +143,4 @@ namespace Theodore {
     glVertexAttribDivisor(attribute, divisor);
     glBindVertexArray(NULL);
   }
-}
+} // namespace Theodore

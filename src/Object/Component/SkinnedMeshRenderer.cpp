@@ -12,4 +12,4 @@ namespace Theodore {
   bool SkinnedMeshRenderer::CompareEquality(const Object& rhs) const { return false; }
 
   bool SkinnedMeshRenderer::Destroy() { return false; }
-}
+} // namespace Theodore

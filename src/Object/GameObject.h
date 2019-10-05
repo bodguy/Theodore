@@ -9,15 +9,15 @@
 #ifndef GameObject_h
 #define GameObject_h
 
-#include "./Component/Collider/BoxCollider.h"
-#include "./Component/Camera.h"
-#include "./Component/Collider/Collider.h"
-#include "./Component/Component.h"
 #include "../Graphics/Enumeration.h"
+#include "./Component/Camera.h"
+#include "./Component/Collider/BoxCollider.h"
+#include "./Component/Collider/Collider.h"
+#include "./Component/Collider/SphereCollider.h"
+#include "./Component/Component.h"
 #include "./Component/Light.h"
 #include "Object.h"
 #include "Scene.h"
-#include "./Component/Collider/SphereCollider.h"
 #include <set>
 #include <string>
 #include <typeindex>
@@ -35,7 +35,7 @@ namespace Theodore {
     friend class MeshRenderer;
     friend class Object;
 
-  public:
+    public:
     explicit GameObject(const std::string& name, Scene* scene);
     GameObject(const std::string& name, GameObject* parent, Scene* scene);
     GameObject(const GameObject& other); // copy constructor
@@ -57,7 +57,7 @@ namespace Theodore {
     void SetTag(const std::string& newTag);
     const std::string& GetTag() const;
     bool CompareTag(const std::string& tag) const;
-//    static GameObject FindWithTag(const std::string& tag);
+    //    static GameObject FindWithTag(const std::string& tag);
 
     template <typename T>
     bool RemoveComponent();
@@ -68,7 +68,7 @@ namespace Theodore {
     static GameObject* CreatePrimitive(PrimitiveType type, Scene* scene);
     Transform* GetTransform() const;
 
-  private:
+    private:
     virtual void Update(float deltaTime) override;
     virtual void Render() override;
     virtual bool CompareEquality(const Object& rhs) const override;
@@ -232,6 +232,6 @@ namespace Theodore {
 
     return true;
   }
-}
+} // namespace Theodore
 
 #endif /* GameObject_h */

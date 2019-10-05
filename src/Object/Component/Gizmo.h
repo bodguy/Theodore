@@ -9,29 +9,29 @@
 #ifndef Gizmo_h
 #define Gizmo_h
 
-#include "Component.h"
 #include "../../Graphics/Enumeration.h"
+#include "Component.h"
 
 namespace Theodore {
   class VertexArray;
   class Pipeline;
   class Transform;
   class Gizmo : public Component {
-  public:
+    public:
     Gizmo(GizmoType type);
     virtual ~Gizmo();
 
-  private:
+    private:
     virtual void Update(float deltaTime) override;
     virtual void Render() override;
     virtual bool CompareEquality(const Object& rhs) const override;
     virtual bool Destroy() override;
 
-  protected:
+    protected:
     VertexArray* mVao;
     Pipeline* mProgram;
     GizmoType mType;
   };
-}
+} // namespace Theodore
 
 #endif // Gizmo_h

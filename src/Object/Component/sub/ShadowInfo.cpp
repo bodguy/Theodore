@@ -1,10 +1,10 @@
 #include "ShadowInfo.h"
 #include "../../../Asset/AssetManager.h"
-#include "../../../Graphics/FrameBuffer.h"
-#include "../../../Platform/Platform.h"
 #include "../../../Asset/Shader.h"
 #include "../../../Asset/Texture2D.h"
+#include "../../../Graphics/FrameBuffer.h"
 #include "../../../Helper/Utility.h"
+#include "../../../Platform/Platform.h"
 
 namespace Theodore {
   ShadowInfo::ShadowInfo() {
@@ -24,4 +24,4 @@ namespace Theodore {
   ShadowInfo::~ShadowInfo() {
     // SafeDealloc(frame);
   }
-}
+} // namespace Theodore

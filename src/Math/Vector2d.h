@@ -12,7 +12,7 @@
 namespace Theodore {
   class Vector3d;
   class Vector2d {
-  public:
+    public:
     Vector2d();
     //! constructor with two elements
     Vector2d(const float tx, const float ty);
@@ -96,9 +96,9 @@ namespace Theodore {
     float x, y;
     static const Vector2d up, down, left, right, one, zero;
 
-  private:
+    private:
     void Swap(Vector2d& fisrt, Vector2d& second);
   };
-}
+} // namespace Theodore
 
 #endif /* Vector2d_h */

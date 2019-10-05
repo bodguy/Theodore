@@ -1,11 +1,10 @@
 #include "Input.h"
+#include "../Helper/Utility.h"
 #include "../Math/Math.h"
 #include "Platform.h"
-#include "../Helper/Utility.h"
 
 namespace Theodore {
-  InputHandler::InputHandler(KeyCode positive, KeyCode negative, float delta)
-      : mPositive(positive), mNegative(negative), mAccumulator(0.f), mDeltaSpeed(delta) {}
+  InputHandler::InputHandler(KeyCode positive, KeyCode negative, float delta) : mPositive(positive), mNegative(negative), mAccumulator(0.f), mDeltaSpeed(delta) {}
 
   InputHandler::~InputHandler() {}
 
@@ -15,9 +14,7 @@ namespace Theodore {
 
   float InputHandler::GetAccumulator() const { return mAccumulator; }
 
-  void InputHandler::Accumulate(float delta) {
-    mAccumulator = Math::Clamp(mAccumulator + delta, -1.f, 1.f);
-  }
+  void InputHandler::Accumulate(float delta) { mAccumulator = Math::Clamp(mAccumulator + delta, -1.f, 1.f); }
 
   void InputHandler::ResetAccumulator() { mAccumulator = 0.f; }
 
@@ -36,10 +33,8 @@ namespace Theodore {
     }
 
     // default input handler
-    mHandlerMapping.insert(
-        std::make_pair(std::string("Horizontal"), new InputHandler(KEY_D, KEY_A, 0.01f)));
-    mHandlerMapping.insert(
-        std::make_pair(std::string("Vertical"), new InputHandler(KEY_W, KEY_S, 0.01f)));
+    mHandlerMapping.insert(std::make_pair(std::string("Horizontal"), new InputHandler(KEY_D, KEY_A, 0.01f)));
+    mHandlerMapping.insert(std::make_pair(std::string("Vertical"), new InputHandler(KEY_W, KEY_S, 0.01f)));
   }
 
   Input::~Input() {
@@ -61,7 +56,7 @@ namespace Theodore {
       }
 
       mMouseDelta = Platform::GetInstance()->mMousePosition - mlastMousePos;
-      mMouseDelta.z = 0.f; // mouse wheel(z position) must be always 0 for Magnitude calculation
+      mMouseDelta.z = 0.f;                // mouse wheel(z position) must be always 0 for Magnitude calculation
       if (mMouseDelta.Length() > 50.0f) { // threshold value is 50.0f
         // renew old mouse position then wait for next frame when entering this function again
         mlastMousePos = Platform::GetInstance()->mMousePosition;
@@ -80,13 +75,9 @@ namespace Theodore {
     }
   }
 
-  bool Input::GetKeyDown(KeyCode keyCode) {
-    return instance->mCurrentKeys[keyCode] && !instance->mPreviousKeys[keyCode];
-  }
+  bool Input::GetKeyDown(KeyCode keyCode) { return instance->mCurrentKeys[keyCode] && !instance->mPreviousKeys[keyCode]; }
 
-  bool Input::GetKeyUp(KeyCode keyCode) {
-    return !instance->mCurrentKeys[keyCode] && instance->mPreviousKeys[keyCode];
-  }
+  bool Input::GetKeyUp(KeyCode keyCode) { return !instance->mCurrentKeys[keyCode] && instance->mPreviousKeys[keyCode]; }
 
   bool Input::GetKeyHeld(KeyCode keyCode) { return instance->mCurrentKeys[keyCode]; }
 
@@ -94,17 +85,11 @@ namespace Theodore {
 
   Vector3d Input::GetMouseDeltaPosition() { return instance->mMouseDelta; }
 
-  bool Input::GetMouseButtonDown(MouseButton button) {
-    return instance->mCurrentMouseButtons[button] && !instance->mPreviousMouseButtons[button];
-  }
+  bool Input::GetMouseButtonDown(MouseButton button) { return instance->mCurrentMouseButtons[button] && !instance->mPreviousMouseButtons[button]; }
 
-  bool Input::GetMouseButtonUp(MouseButton button) {
-    return !instance->mCurrentMouseButtons[button] && instance->mPreviousMouseButtons[button];
-  }
+  bool Input::GetMouseButtonUp(MouseButton button) { return !instance->mCurrentMouseButtons[button] && instance->mPreviousMouseButtons[button]; }
 
-  bool Input::GetMouseButtonHeld(MouseButton button) {
-    return instance->mCurrentMouseButtons[button];
-  }
+  bool Input::GetMouseButtonHeld(MouseButton button) { return instance->mCurrentMouseButtons[button]; }
 
   bool Input::AddAxis(const std::string& axisName, InputHandler* handler) {
     if (instance->mHandlerMapping.find(axisName) != instance->mHandlerMapping.end())
@@ -201,4 +186,4 @@ namespace Theodore {
 
     return isDown;
   }
-}
+} // namespace Theodore

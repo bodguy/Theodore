@@ -28,4 +28,4 @@ namespace Theodore {
     *enter = -(numer / denom);
     return true;
   }
-}
+} // namespace Theodore

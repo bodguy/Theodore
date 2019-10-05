@@ -5,9 +5,8 @@
 
 namespace Theodore {
   Sprite::Sprite()
-      : mFormat(IndexFormat::UInt16), mTexture(nullptr), mRect(), mTextureRect(),
-        mTextureRectOffset(), mPivot(), mInitialPivot(), mColorKey(Color::white),
-        mUseColorKey(false), mBounds(Vector3d::zero, Vector3d::one) {
+      : mFormat(IndexFormat::UInt16), mTexture(nullptr), mRect(), mTextureRect(), mTextureRectOffset(), mPivot(), mInitialPivot(), mColorKey(Color::white), mUseColorKey(false),
+        mBounds(Vector3d::zero, Vector3d::one) {
     memset(mVertices, 0, sizeof(Vector2d) * 4);
     memset(mUvs, 0, sizeof(Vector2d) * 4);
     memset(mIndices, 0, sizeof(unsigned short) * 6);
@@ -29,10 +28,8 @@ namespace Theodore {
       const_cast<Rect&>(rect).right = sprite->mTextureRect.right;
       const_cast<Rect&>(rect).bottom = sprite->mTextureRect.bottom;
     }
-    sprite->mTextureRectOffset.x =
-        sprite->mTextureRect.right * 0.5f; // (rect.right - rect.left) / sprite->mTextureRect.right;
-    sprite->mTextureRectOffset.y = sprite->mTextureRect.bottom *
-                                   0.5f; // (rect.bottom - rect.top) / sprite->mTextureRect.bottom;
+    sprite->mTextureRectOffset.x = sprite->mTextureRect.right * 0.5f;  // (rect.right - rect.left) / sprite->mTextureRect.right;
+    sprite->mTextureRectOffset.y = sprite->mTextureRect.bottom * 0.5f; // (rect.bottom - rect.top) / sprite->mTextureRect.bottom;
 
     //	   Vertex		  Texture
     //	0----------1	0----------1
@@ -95,4 +92,4 @@ namespace Theodore {
   }
 
   bool Sprite::operator!=(const Sprite& rhs) { return !(*this == rhs); }
-}
+} // namespace Theodore

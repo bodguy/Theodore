@@ -19,7 +19,7 @@
 namespace Theodore {
   class Mesh;
   class ShapeGenerator {
-  public:
+    public:
     static Mesh* GeneratePlane(unsigned int dimensions = 50);
     static Mesh* GenerateCube();
     static Mesh* GenerateIcoSphere(unsigned int subdivisions = 3);
@@ -31,12 +31,11 @@ namespace Theodore {
     static Mesh* GenerateUtahTeapot(unsigned int tesselation = 10);
     static Mesh* GenerateKnots();
 
-  private:
+    private:
     ShapeGenerator() {}
     ~ShapeGenerator() {}
 
-    static unsigned int Subdivide(unsigned int p1, unsigned int p2,
-                                  std::vector<Vector3d>& positions);
+    static unsigned int Subdivide(unsigned int p1, unsigned int p2, std::vector<Vector3d>& positions);
     /*static void GeneratePatches(float * v, float * n, float * tc, unsigned short* el, int grid);
     static void MoveLid(int grid, float *v, Matrix4x4 lidTransform);
     static void BuildPatchReflect(int patchNum, float *B, float *dB, float *v, float *n, float *tc,
@@ -51,6 +50,6 @@ namespace Theodore {
     static Vector3d EvaluateNormal(int gridU, int gridV, float *B, float *dB, Vector3d
     patch[][4]);*/
   };
-}
+} // namespace Theodore
 
 #endif /* ShapeGenerator_h */

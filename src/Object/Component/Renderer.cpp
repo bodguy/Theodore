@@ -1,11 +1,9 @@
 #include "Renderer.h"
-#include "../../Helper/Utility.h"
 #include "../../Graphics/VertexBuffer.h"
+#include "../../Helper/Utility.h"
 
 namespace Theodore {
-  Renderer::Renderer(const std::string& name)
-      : Component(name), mProgram(nullptr), mPrimitive(Primitive::Triangles),
-        mBounds(Vector3d::zero, Vector3d::one), mIsVisibleGizmos(false) {
+  Renderer::Renderer(const std::string& name) : Component(name), mProgram(nullptr), mPrimitive(Primitive::Triangles), mBounds(Vector3d::zero, Vector3d::one), mIsVisibleGizmos(false) {
     mVao = new VertexArray();
     mVbos.clear();
     mEbos.clear();
@@ -24,4 +22,4 @@ namespace Theodore {
   void Renderer::SetVisibleGizmos(bool visible) { mIsVisibleGizmos = visible; }
 
   Bounds* Renderer::GetBounds() { return &mBounds; }
-}
+} // namespace Theodore

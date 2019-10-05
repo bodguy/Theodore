@@ -1,19 +1,17 @@
 #include "SpriteRenderer.h"
 #include "../../Asset/AssetManager.h"
-#include "Camera.h"
-#include "../GameObject.h"
-#include "../../Graphics/Graphics.h"
-#include "../SceneManager.h"
 #include "../../Asset/Shader.h"
-#include "./sub/Sprite.h"
 #include "../../Asset/Texture2D.h"
-#include "Transform.h"
+#include "../../Graphics/Graphics.h"
 #include "../../Helper/Utility.h"
+#include "../GameObject.h"
+#include "../SceneManager.h"
+#include "./sub/Sprite.h"
+#include "Camera.h"
+#include "Transform.h"
 
 namespace Theodore {
-  SpriteRenderer::SpriteRenderer()
-      : Renderer("SpriteRenderer"), mSprite(nullptr), mColor(Color::white), mFlipX(false),
-        mFlipY(false) {
+  SpriteRenderer::SpriteRenderer() : Renderer("SpriteRenderer"), mSprite(nullptr), mColor(Color::white), mFlipX(false), mFlipY(false) {
     mProgram = Shader::Find("2D");
     mPrimitive = Primitive::Triangles;
   }
@@ -34,15 +32,13 @@ namespace Theodore {
     mEbos.push_back(index);
 
     mVao->BindAttribute(mProgram->GetAttribute("position"), *mVbos.front(), 2, sizeof(Vector2d), 0);
-    mVao->BindAttribute(mProgram->GetAttribute("texcoord"), *mVbos.front(), 2, sizeof(Vector2d),
-                        sizeof(Vector2d) * 4);
+    mVao->BindAttribute(mProgram->GetAttribute("texcoord"), *mVbos.front(), 2, sizeof(Vector2d), sizeof(Vector2d) * 4);
     mVao->BindElements(*mEbos.front());
 
     mSprite->RecalculateBounds();
     mBounds.SetMinMax(mSprite->mBounds.GetMin(), mSprite->mBounds.GetMax());
     // setup initial sprite pivot(center)
-    mSprite->mInitialPivot =
-        Vector2d((mSprite->mBounds.GetMin() + mSprite->mBounds.GetMax()) / 2.f);
+    mSprite->mInitialPivot = Vector2d((mSprite->mBounds.GetMin() + mSprite->mBounds.GetMax()) / 2.f);
   }
 
   void SpriteRenderer::SetColor(const Color& color) { mColor = color; }
@@ -68,12 +64,9 @@ namespace Theodore {
     Vector2d decomposedScale = Vector2d(Matrix4x4::DecomposeScale(world));
     Vector2d powScale = Math::Pow(decomposedScale, 2.f);
 
-    Vector2d newCenter = decompsedTranslation +
-                         powScale * Vector2d(Math::Dot(Vector3d(model.rows[0]), center),
-                                             Math::Dot(Vector3d(model.rows[1]), center));
+    Vector2d newCenter = decompsedTranslation + powScale * Vector2d(Math::Dot(Vector3d(model.rows[0]), center), Math::Dot(Vector3d(model.rows[1]), center));
 
-    Vector2d newExtents = powScale * Vector2d(Math::AbsDot(Vector3d(model.rows[0]), extents),
-                                              Math::AbsDot(Vector3d(model.rows[1]), extents));
+    Vector2d newExtents = powScale * Vector2d(Math::AbsDot(Vector3d(model.rows[0]), extents), Math::AbsDot(Vector3d(model.rows[1]), extents));
 
     // update bounds min, max every frame
     mBounds.SetMinMax(Vector3d(newCenter - newExtents), Vector3d(newCenter + newExtents));
@@ -110,12 +103,11 @@ namespace Theodore {
   bool SpriteRenderer::CompareEquality(const Object& rhs) const {
     const SpriteRenderer* target = dynamic_cast<const SpriteRenderer*>(&rhs);
     if (target) {
-      return (mFlipX == target->mFlipX && mFlipY == target->mFlipY &&
-              *(const_cast<Color*>(&(mColor))) == target->mColor && *mSprite == *(target->mSprite));
+      return (mFlipX == target->mFlipX && mFlipY == target->mFlipY && *(const_cast<Color*>(&(mColor))) == target->mColor && *mSprite == *(target->mSprite));
     }
 
     return false;
   }
 
   bool SpriteRenderer::Destroy() { return mGameObject->RemoveComponent<SpriteRenderer>(); }
-}
+} // namespace Theodore

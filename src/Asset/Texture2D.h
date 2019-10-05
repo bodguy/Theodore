@@ -14,19 +14,16 @@
 
 namespace Theodore {
   class Texture2D : public Texture {
-  public:
+    public:
     Texture2D();
     virtual ~Texture2D();
 
     bool LoadImage(const std::string& filename, TextureFormat format, const Color& colorKey);
     bool LoadImage(const std::string& filename, TextureFormat format);
-    bool LoadRawTextureData(const std::string& filename, TextureFormat format,
-                            std::vector<unsigned char>& native, const Color& colorKey);
-    bool LoadRawTextureData(const std::string& filename, TextureFormat format,
-                            std::vector<unsigned char>& native);
-    bool LoadCustomTexture(unsigned int width, unsigned int height, TextureFormat format,
-                           unsigned char* data);
+    bool LoadRawTextureData(const std::string& filename, TextureFormat format, std::vector<unsigned char>& native, const Color& colorKey);
+    bool LoadRawTextureData(const std::string& filename, TextureFormat format, std::vector<unsigned char>& native);
+    bool LoadCustomTexture(unsigned int width, unsigned int height, TextureFormat format, unsigned char* data);
   };
-}
+} // namespace Theodore
 
 #endif /* Texture2D_h */

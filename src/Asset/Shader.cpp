@@ -1,9 +1,9 @@
 #include "Shader.h"
-#include "../Math/Color.h"
 #include "../Helper/Debug.h"
 #include "../Helper/File.h"
-#include "../Math/Matrix4x4.h"
 #include "../Helper/Utility.h"
+#include "../Math/Color.h"
+#include "../Math/Matrix4x4.h"
 #include "../Math/Vector2d.h"
 #include "../Math/Vector3d.h"
 #include "../Math/Vector4d.h"
@@ -16,7 +16,7 @@ namespace Theodore {
   // Shader
 
   Shader::Shader(const ShaderType type) : mIsCompiled(0) {
-		// BinaryShaderType is not implemented yet. Future consideration
+    // BinaryShaderType is not implemented yet. Future consideration
     mType = AssetType::TextShaderType;
     mShaderID = glCreateShader(static_cast<GLenum>(type));
   }
@@ -78,9 +78,7 @@ namespace Theodore {
     return output.str();
   }
 
-  Pipeline* Shader::Find(const std::string& name) {
-    return ShaderManager::shaderManager->mPipelines.find(name)->second;
-  }
+  Pipeline* Shader::Find(const std::string& name) { return ShaderManager::shaderManager->mPipelines.find(name)->second; }
 
   ////////////////////////////////////////////////////////////////////////////////////
   // Program
@@ -105,8 +103,7 @@ namespace Theodore {
     Link();
   }
 
-  Pipeline::Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment,
-                     const Shader& geometry) {
+  Pipeline::Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry) {
     mPipelineID = glCreateProgram();
     mName = name;
     AttachShader(vertex);
@@ -115,8 +112,7 @@ namespace Theodore {
     Link();
   }
 
-  Pipeline::Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment,
-                     const Shader& geometry, const Shader& tessControl, const Shader& tessEval) {
+  Pipeline::Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry, const Shader& tessControl, const Shader& tessEval) {
     mPipelineID = glCreateProgram();
     mName = name;
     AttachShader(vertex);
@@ -129,13 +125,9 @@ namespace Theodore {
 
   Pipeline::~Pipeline() { glDeleteProgram(mPipelineID); }
 
-  void Pipeline::AttachShader(const Shader& shader) {
-		glAttachShader(mPipelineID, shader.mShaderID);
-  }
+  void Pipeline::AttachShader(const Shader& shader) { glAttachShader(mPipelineID, shader.mShaderID); }
 
-  void Pipeline::DetachShader(const Shader& shader) {
-    glDetachShader(mPipelineID, shader.mShaderID);
-  }
+  void Pipeline::DetachShader(const Shader& shader) { glDetachShader(mPipelineID, shader.mShaderID); }
 
   int Pipeline::Link() {
     Debug::Log("Linking program...");
@@ -170,135 +162,73 @@ namespace Theodore {
 
   unsigned int Pipeline::GetProgramID() const { return mPipelineID; }
 
-  Attribute Pipeline::GetAttribute(const std::string& name) {
-    return glGetAttribLocation(mPipelineID, name.c_str());
-  }
+  Attribute Pipeline::GetAttribute(const std::string& name) { return glGetAttribLocation(mPipelineID, name.c_str()); }
 
-  Uniform Pipeline::GetUniform(const std::string& name) {
-    return glGetUniformLocation(mPipelineID, name.c_str());
-  }
+  Uniform Pipeline::GetUniform(const std::string& name) { return glGetUniformLocation(mPipelineID, name.c_str()); }
 
-  Uniform Pipeline::GetUniformBlockIndex(const std::string& name) {
-    return glGetUniformBlockIndex(mPipelineID, name.c_str());
-  }
+  Uniform Pipeline::GetUniformBlockIndex(const std::string& name) { return glGetUniformBlockIndex(mPipelineID, name.c_str()); }
 
   void Pipeline::SetUniform(const Uniform& uniform, int value) { glUniform1i(uniform, value); }
 
-  void Pipeline::SetUniform(const Uniform& uniform, unsigned int value) {
-    glUniform1i(uniform, value);
-  }
+  void Pipeline::SetUniform(const Uniform& uniform, unsigned int value) { glUniform1i(uniform, value); }
 
   void Pipeline::SetUniform(const Uniform& uniform, float value) { glUniform1f(uniform, value); }
 
-  void Pipeline::SetUniform(const Uniform& uniform, const Vector2d& value) {
-    glUniform2f(uniform, value.x, value.y);
-  }
+  void Pipeline::SetUniform(const Uniform& uniform, const Vector2d& value) { glUniform2f(uniform, value.x, value.y); }
 
-  void Pipeline::SetUniform(const Uniform& uniform, const Vector3d& value) {
-    glUniform3f(uniform, value.x, value.y, value.z);
-  }
+  void Pipeline::SetUniform(const Uniform& uniform, const Vector3d& value) { glUniform3f(uniform, value.x, value.y, value.z); }
 
-  void Pipeline::SetUniform(const Uniform& uniform, const Vector4d& value) {
-    glUniform4f(uniform, value.x, value.y, value.z, value.w);
-  }
+  void Pipeline::SetUniform(const Uniform& uniform, const Vector4d& value) { glUniform4f(uniform, value.x, value.y, value.z, value.w); }
 
-  void Pipeline::SetUniform(const Uniform& uniform, const Color& value) {
-    glUniform4f(uniform, value.r, value.g, value.b, value.a);
-  }
+  void Pipeline::SetUniform(const Uniform& uniform, const Color& value) { glUniform4f(uniform, value.r, value.g, value.b, value.a); }
 
-  void Pipeline::SetUniform(const Uniform& uniform, const float* values, int count) {
-    glUniform1fv(uniform, count, values);
-  }
+  void Pipeline::SetUniform(const Uniform& uniform, const float* values, int count) { glUniform1fv(uniform, count, values); }
 
-  void Pipeline::SetUniform(const Uniform& uniform, const Vector2d* values, int count) {
-    glUniform2fv(uniform, count, (float*)values);
-  }
+  void Pipeline::SetUniform(const Uniform& uniform, const Vector2d* values, int count) { glUniform2fv(uniform, count, (float*)values); }
 
-  void Pipeline::SetUniform(const Uniform& uniform, const Vector3d* values, int count) {
-    glUniform3fv(uniform, count, (float*)values);
-  }
+  void Pipeline::SetUniform(const Uniform& uniform, const Vector3d* values, int count) { glUniform3fv(uniform, count, (float*)values); }
 
-  void Pipeline::SetUniform(const Uniform& uniform, const Vector4d* values, int count) {
-    glUniform4fv(uniform, count, (float*)values);
-  }
+  void Pipeline::SetUniform(const Uniform& uniform, const Vector4d* values, int count) { glUniform4fv(uniform, count, (float*)values); }
 
-  void Pipeline::SetUniform(const Uniform& uniform, const Color* values, int count) {
-    glUniform4fv(uniform, count, (float*)values);
-  }
+  void Pipeline::SetUniform(const Uniform& uniform, const Color* values, int count) { glUniform4fv(uniform, count, (float*)values); }
 
-  void Pipeline::SetUniform(const Uniform& uniform, const Matrix4x4& value) {
-    glUniformMatrix4fv(uniform, 1, GL_FALSE, value.Pointer());
-  }
+  void Pipeline::SetUniform(const Uniform& uniform, const Matrix4x4& value) { glUniformMatrix4fv(uniform, 1, GL_FALSE, value.Pointer()); }
 
   void Pipeline::SetUniform(const Uniform& uniform, bool value) { glUniform1i(uniform, value); }
 
-  void Pipeline::SetUniformBlock(const Uniform& uniform, const unsigned int bindingPoint) {
-    glUniformBlockBinding(mPipelineID, uniform, bindingPoint);
-  }
+  void Pipeline::SetUniformBlock(const Uniform& uniform, const unsigned int bindingPoint) { glUniformBlockBinding(mPipelineID, uniform, bindingPoint); }
 
-  void Pipeline::SetUniform(const std::string& name, int value) {
-    glUniform1i(GetUniform(name), value);
-  }
+  void Pipeline::SetUniform(const std::string& name, int value) { glUniform1i(GetUniform(name), value); }
 
-  void Pipeline::SetUniform(const std::string& name, unsigned int value) {
-    glUniform1i(GetUniform(name), value);
-  }
+  void Pipeline::SetUniform(const std::string& name, unsigned int value) { glUniform1i(GetUniform(name), value); }
 
-  void Pipeline::SetUniform(const std::string& name, float value) {
-    glUniform1f(GetUniform(name), value);
-  }
+  void Pipeline::SetUniform(const std::string& name, float value) { glUniform1f(GetUniform(name), value); }
 
-  void Pipeline::SetUniform(const std::string& name, const Vector2d& value) {
-    glUniform2f(GetUniform(name), value.x, value.y);
-  }
+  void Pipeline::SetUniform(const std::string& name, const Vector2d& value) { glUniform2f(GetUniform(name), value.x, value.y); }
 
-  void Pipeline::SetUniform(const std::string& name, const Vector3d& value) {
-    glUniform3f(GetUniform(name), value.x, value.y, value.z);
-  }
+  void Pipeline::SetUniform(const std::string& name, const Vector3d& value) { glUniform3f(GetUniform(name), value.x, value.y, value.z); }
 
-  void Pipeline::SetUniform(const std::string& name, const Vector4d& value) {
-    glUniform4f(GetUniform(name), value.x, value.y, value.z, value.w);
-  }
+  void Pipeline::SetUniform(const std::string& name, const Vector4d& value) { glUniform4f(GetUniform(name), value.x, value.y, value.z, value.w); }
 
-  void Pipeline::SetUniform(const std::string& name, const Color& value) {
-    glUniform4f(GetUniform(name), value.r, value.g, value.b, value.a);
-  }
+  void Pipeline::SetUniform(const std::string& name, const Color& value) { glUniform4f(GetUniform(name), value.r, value.g, value.b, value.a); }
 
-  void Pipeline::SetUniform(const std::string& name, const float* values, int count) {
-    glUniform1fv(GetUniform(name), count, values);
-  }
+  void Pipeline::SetUniform(const std::string& name, const float* values, int count) { glUniform1fv(GetUniform(name), count, values); }
 
-  void Pipeline::SetUniform(const std::string& name, const Vector2d* values, int count) {
-    glUniform2fv(GetUniform(name), count, (float*)values);
-  }
+  void Pipeline::SetUniform(const std::string& name, const Vector2d* values, int count) { glUniform2fv(GetUniform(name), count, (float*)values); }
 
-  void Pipeline::SetUniform(const std::string& name, const Vector3d* values, int count) {
-    glUniform3fv(GetUniform(name), count, (float*)values);
-  }
+  void Pipeline::SetUniform(const std::string& name, const Vector3d* values, int count) { glUniform3fv(GetUniform(name), count, (float*)values); }
 
-  void Pipeline::SetUniform(const std::string& name, const Vector4d* values, int count) {
-    glUniform4fv(GetUniform(name), count, (float*)values);
-  }
+  void Pipeline::SetUniform(const std::string& name, const Vector4d* values, int count) { glUniform4fv(GetUniform(name), count, (float*)values); }
 
-  void Pipeline::SetUniform(const std::string& name, const Color* values, int count) {
-    glUniform4fv(GetUniform(name), count, (float*)values);
-  }
+  void Pipeline::SetUniform(const std::string& name, const Color* values, int count) { glUniform4fv(GetUniform(name), count, (float*)values); }
 
-  void Pipeline::SetUniform(const std::string& name, const Matrix4x4& value) {
-    glUniformMatrix4fv(GetUniform(name), 1, GL_FALSE, value.Pointer());
-  }
+  void Pipeline::SetUniform(const std::string& name, const Matrix4x4& value) { glUniformMatrix4fv(GetUniform(name), 1, GL_FALSE, value.Pointer()); }
 
-  void Pipeline::SetUniform(const std::string& name, bool value) {
-    glUniform1i(GetUniform(name), value);
-  }
+  void Pipeline::SetUniform(const std::string& name, bool value) { glUniform1i(GetUniform(name), value); }
 
-  void Pipeline::SetUniformBlock(const std::string& name, const unsigned int bindingPoint) {
-    glUniformBlockBinding(mPipelineID, GetUniform(name), bindingPoint);
-  }
+  void Pipeline::SetUniformBlock(const std::string& name, const unsigned int bindingPoint) { glUniformBlockBinding(mPipelineID, GetUniform(name), bindingPoint); }
 
-  void Pipeline::DispatchCompute(unsigned int x, unsigned int y, unsigned int z) {
-    glDispatchCompute(x, y, z);
-  }
+  void Pipeline::DispatchCompute(unsigned int x, unsigned int y, unsigned int z) { glDispatchCompute(x, y, z); }
 
   ShaderManager* ShaderManager::shaderManager = nullptr;
   ShaderManager::ShaderManager() {
@@ -315,8 +245,7 @@ namespace Theodore {
 
   bool ShaderManager::Append(Pipeline* program) {
     std::pair<std::map<std::string, Pipeline*>::iterator, bool> result;
-    result =
-        shaderManager->mPipelines.insert(std::pair<std::string, Pipeline*>(program->mName, program));
+    result = shaderManager->mPipelines.insert(std::pair<std::string, Pipeline*>(program->mName, program));
     return result.second;
   }
-}
+} // namespace Theodore

@@ -19,7 +19,7 @@ namespace Theodore {
   class SceneManager {
     friend class Scene;
 
-  public:
+    public:
     SceneManager();
     ~SceneManager();
 
@@ -60,7 +60,7 @@ namespace Theodore {
     // Render current active scene in main game loop.
     void Render() const;
 
-  private:
+    private:
     bool Remove(const std::string& sceneName);
 
     std::vector<Scene*> mScenes;
@@ -92,11 +92,11 @@ namespace Theodore {
     scene->OnAwake();                        // call awake function before stored it
     GetInstance()->mScenes.push_back(scene); // store new build scene in array.
     GetInstance()->mSceneCount++;            // increment scene counter.
-    SetCurrentCamera(); // restore to current scene main camera as the scena manager main camera.
-    SetCurrentLight();  // retore to current scene global light source.
+    SetCurrentCamera();                      // restore to current scene main camera as the scena manager main camera.
+    SetCurrentLight();                       // retore to current scene global light source.
 
     // succesfully initialized the scene then return it.
     return scene;
   }
-}
+} // namespace Theodore
 #endif /* SceneManager_h */

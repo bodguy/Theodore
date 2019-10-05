@@ -1,13 +1,13 @@
 #include "Graphics.h"
-#include "../Object/Component/Camera.h"
-#include "../Math/Color.h"
-#include "../Helper/Debug.h"
-#include "FrameBuffer.h"
-#include "../Math/Math.h"
-#include "../Platform/Platform.h"
-#include "../Object/SceneManager.h"
 #include "../Asset/Shader.h"
+#include "../Helper/Debug.h"
 #include "../Helper/Utility.h"
+#include "../Math/Color.h"
+#include "../Math/Math.h"
+#include "../Object/Component/Camera.h"
+#include "../Object/SceneManager.h"
+#include "../Platform/Platform.h"
+#include "FrameBuffer.h"
 #include "VertexBuffer.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -29,10 +29,8 @@ namespace Theodore {
     gizmoBuffer = new Buffer(BufferType::BufferVertex);
     gizmoBuffer->Data(nullptr, 24 * sizeof(Vector3d), BufferUsage::DynamicDraw);
     gizmoVao = new VertexArray();
-    gizmoVao->BindAttribute(gizmoProgram->GetAttribute("position"), *gizmoBuffer, 3,
-                            sizeof(Vector3d), 0);
-    gizmoVao->BindAttribute(sphereProgram->GetAttribute("position"), *gizmoBuffer, 3,
-                            sizeof(Vector3d), 0);
+    gizmoVao->BindAttribute(gizmoProgram->GetAttribute("position"), *gizmoBuffer, 3, sizeof(Vector3d), 0);
+    gizmoVao->BindAttribute(sphereProgram->GetAttribute("position"), *gizmoBuffer, 3, sizeof(Vector3d), 0);
   }
 
   void Graphics::Dispose() {
@@ -67,34 +65,27 @@ namespace Theodore {
     }
   }
 
-  void Graphics::DrawArrays(const VertexArray& vao, Primitive mode, unsigned int offset,
-                            unsigned int vertices) {
+  void Graphics::DrawArrays(const VertexArray& vao, Primitive mode, unsigned int offset, unsigned int vertices) {
     glBindVertexArray(vao.GetArrayID());
     glDrawArrays(static_cast<GLenum>(mode), offset, vertices);
     glBindVertexArray(0);
   }
 
-  void Graphics::DrawElements(const VertexArray& vao, Primitive mode, unsigned int offset,
-                              unsigned int count, IndexFormat format) {
+  void Graphics::DrawElements(const VertexArray& vao, Primitive mode, unsigned int offset, unsigned int count, IndexFormat format) {
     glBindVertexArray(vao.GetArrayID());
-    glDrawElements(static_cast<GLenum>(mode), count, static_cast<GLenum>(format),
-                   reinterpret_cast<const void*>(offset));
+    glDrawElements(static_cast<GLenum>(mode), count, static_cast<GLenum>(format), reinterpret_cast<const void*>(offset));
     glBindVertexArray(0);
   }
 
-  void Graphics::DrawArraysInstanced(const VertexArray& vao, Primitive mode, unsigned int offset,
-                                     unsigned int vertices, unsigned int count) {
+  void Graphics::DrawArraysInstanced(const VertexArray& vao, Primitive mode, unsigned int offset, unsigned int vertices, unsigned int count) {
     glBindVertexArray(vao.GetArrayID());
     glDrawArraysInstanced(static_cast<GLenum>(mode), offset, vertices, count);
     glBindVertexArray(0);
   }
 
-  void Graphics::DrawElementsInstanced(const VertexArray& vao, Primitive mode, unsigned int offset,
-                                       unsigned int count, unsigned int type,
-                                       unsigned int primcount) {
+  void Graphics::DrawElementsInstanced(const VertexArray& vao, Primitive mode, unsigned int offset, unsigned int count, unsigned int type, unsigned int primcount) {
     glBindVertexArray(vao.GetArrayID());
-    glDrawElementsInstanced(static_cast<GLenum>(mode), count, type,
-                            reinterpret_cast<const void*>(offset), primcount);
+    glDrawElementsInstanced(static_cast<GLenum>(mode), count, type, reinterpret_cast<const void*>(offset), primcount);
     glBindVertexArray(0);
   }
 
@@ -124,21 +115,15 @@ namespace Theodore {
     }
   }
 
-  void Graphics::SetPolygonMode(FillMode value) {
-    glPolygonMode(GL_FRONT_AND_BACK, static_cast<GLenum>(value));
-  }
+  void Graphics::SetPolygonMode(FillMode value) { glPolygonMode(GL_FRONT_AND_BACK, static_cast<GLenum>(value)); }
 
   void Graphics::Enable(Capabilities value) { glEnable(static_cast<GLenum>(value)); }
 
   void Graphics::Disable(Capabilities value) { glDisable(static_cast<GLenum>(value)); }
 
-  void Graphics::PatchParameter(PatchParameters param, int value) {
-    glPatchParameteri(static_cast<GLenum>(param), value);
-  }
+  void Graphics::PatchParameter(PatchParameters param, int value) { glPatchParameteri(static_cast<GLenum>(param), value); }
 
-  void Graphics::PatchParameter(PatchParameters param, float* values) {
-    glPatchParameterfv(static_cast<GLenum>(param), values);
-  }
+  void Graphics::PatchParameter(PatchParameters param, float* values) { glPatchParameterfv(static_cast<GLenum>(param), values); }
 
   void Graphics::ScreenToImage(const std::string& filename, ImageType type) {
     int w = Platform::GetWidth();
@@ -170,8 +155,8 @@ namespace Theodore {
       break;
     }
 
-    delete [] tmpline;
-    delete [] data;
+    delete[] tmpline;
+    delete[] data;
   }
 
   void Graphics::GetViewport(int* viewport) { glGetIntegerv(GL_VIEWPORT, viewport); }
@@ -230,27 +215,20 @@ namespace Theodore {
     gizmoProgram->UnUse();
   }
 
-  void Graphics::DrawCube(const Vector3d& center, const Vector3d& size, const Color color,
-                          const Matrix4x4 model) {
+  void Graphics::DrawCube(const Vector3d& center, const Vector3d& size, const Color color, const Matrix4x4 model) {
     Vector3d extent = size * 0.5f;
     Vector3d vertices[24] = {
         // top
-        center + extent * Vector3d(1.f, 1.f, 1.f), center + extent * Vector3d(-1.f, 1.f, 1.f),
-        center + extent * Vector3d(-1.f, 1.f, 1.f), center + extent * Vector3d(-1.f, 1.f, -1.f),
-        center + extent * Vector3d(-1.f, 1.f, -1.f), center + extent * Vector3d(1.f, 1.f, -1.f),
-        center + extent * Vector3d(1.f, 1.f, -1.f), center + extent * Vector3d(1.f, 1.f, 1.f),
+        center + extent * Vector3d(1.f, 1.f, 1.f), center + extent * Vector3d(-1.f, 1.f, 1.f), center + extent * Vector3d(-1.f, 1.f, 1.f), center + extent * Vector3d(-1.f, 1.f, -1.f),
+        center + extent * Vector3d(-1.f, 1.f, -1.f), center + extent * Vector3d(1.f, 1.f, -1.f), center + extent * Vector3d(1.f, 1.f, -1.f), center + extent * Vector3d(1.f, 1.f, 1.f),
 
         // vertical
-        center + extent * Vector3d(1.f, 1.f, 1.f), center + extent * Vector3d(1.f, -1.f, 1.f),
-        center + extent * Vector3d(-1.f, 1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, 1.f),
-        center + extent * Vector3d(-1.f, 1.f, -1.f), center + extent * Vector3d(-1.f, -1.f, -1.f),
-        center + extent * Vector3d(1.f, 1.f, -1.f), center + extent * Vector3d(1.f, -1.f, -1.f),
+        center + extent * Vector3d(1.f, 1.f, 1.f), center + extent * Vector3d(1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, 1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, 1.f),
+        center + extent * Vector3d(-1.f, 1.f, -1.f), center + extent * Vector3d(-1.f, -1.f, -1.f), center + extent * Vector3d(1.f, 1.f, -1.f), center + extent * Vector3d(1.f, -1.f, -1.f),
 
         // bottom
-        center + extent * Vector3d(-1.f, -1.f, -1.f), center + extent * Vector3d(1.f, -1.f, -1.f),
-        center + extent * Vector3d(1.f, -1.f, -1.f), center + extent * Vector3d(1.f, -1.f, 1.f),
-        center + extent * Vector3d(1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, 1.f),
-        center + extent * Vector3d(-1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, -1.f)};
+        center + extent * Vector3d(-1.f, -1.f, -1.f), center + extent * Vector3d(1.f, -1.f, -1.f), center + extent * Vector3d(1.f, -1.f, -1.f), center + extent * Vector3d(1.f, -1.f, 1.f),
+        center + extent * Vector3d(1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, -1.f)};
 
     gizmoProgram->Use();
     gizmoProgram->SetUniform("model", model);
@@ -264,7 +242,7 @@ namespace Theodore {
 
   void Graphics::DrawSphere(const Vector3d& center, float radius, const Color color) {
     sphereProgram->Use();
-//    Camera* cam = SceneManager::GetMainCamera();
+    //    Camera* cam = SceneManager::GetMainCamera();
     sphereProgram->SetUniform("model", Matrix4x4::Identity());
     sphereProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
     sphereProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
@@ -276,8 +254,7 @@ namespace Theodore {
     sphereProgram->UnUse();
   }
 
-  void Graphics::DrawFrustum(const Vector3d& center, float fov, float maxRange, float minRange,
-                             float aspect, const Color color) {
+  void Graphics::DrawFrustum(const Vector3d& center, float fov, float maxRange, float minRange, float aspect, const Color color) {
     float tanAngle = Math::Tan(fov / 2);
 
     float yNear = minRange * tanAngle;
@@ -325,8 +302,7 @@ namespace Theodore {
     glEnd();
   }
 
-  void Graphics::Line(const Vector3d& start, const Vector3d& end, const Color& color,
-                      float thickness) {
+  void Graphics::Line(const Vector3d& start, const Vector3d& end, const Color& color, float thickness) {
     glLineWidth(thickness);
     SetColor(color);
     glBegin(GL_LINE_LOOP);
@@ -335,15 +311,13 @@ namespace Theodore {
     glEnd();
   }
 
-  void Graphics::Triangle(const Vector3d& a, const Vector3d& b, const Vector3d& c,
-                          const Color& color, float thickness) {
+  void Graphics::Triangle(const Vector3d& a, const Vector3d& b, const Vector3d& c, const Color& color, float thickness) {
     Line(a, b, color, thickness);
     Line(b, c, color, thickness);
     Line(c, a, color, thickness);
   }
 
-  void Graphics::SolidTriangle(const Vector3d& a, const Vector3d& b, const Vector3d& c,
-                               const Color& color) {
+  void Graphics::SolidTriangle(const Vector3d& a, const Vector3d& b, const Vector3d& c, const Color& color) {
     SetColor(color);
     glBegin(GL_TRIANGLES);
     Vertex(a);
@@ -363,19 +337,14 @@ namespace Theodore {
     glEnd();
   }
 
-  void Graphics::Quad(const Vector3d& center, float w, float h, const Color& color,
-                      float thickness) {
+  void Graphics::Quad(const Vector3d& center, float w, float h, const Color& color, float thickness) {
     float halfWidth = w * 0.5f;
     float halfHeight = h * 0.5f;
 
-    Line(Vector3d(-halfWidth + center.x, halfHeight + center.y),
-         Vector3d(halfWidth + center.x, halfHeight + center.y), color, thickness);
-    Line(Vector3d(halfWidth + center.x, halfHeight + center.y),
-         Vector3d(halfWidth + center.x, -halfHeight + center.y), color, thickness);
-    Line(Vector3d(halfWidth + center.x, -halfHeight + center.y),
-         Vector3d(-halfWidth + center.x, -halfHeight + center.y), color, thickness);
-    Line(Vector3d(-halfWidth + center.x, -halfHeight + center.y),
-         Vector3d(-halfWidth + center.x, halfHeight + center.y), color, thickness);
+    Line(Vector3d(-halfWidth + center.x, halfHeight + center.y), Vector3d(halfWidth + center.x, halfHeight + center.y), color, thickness);
+    Line(Vector3d(halfWidth + center.x, halfHeight + center.y), Vector3d(halfWidth + center.x, -halfHeight + center.y), color, thickness);
+    Line(Vector3d(halfWidth + center.x, -halfHeight + center.y), Vector3d(-halfWidth + center.x, -halfHeight + center.y), color, thickness);
+    Line(Vector3d(-halfWidth + center.x, -halfHeight + center.y), Vector3d(-halfWidth + center.x, halfHeight + center.y), color, thickness);
   }
 
   void Graphics::SolidQuad(const Vector3d& center, float w, float h, const Color& color) {
@@ -392,8 +361,7 @@ namespace Theodore {
     glEnd();
   }
 
-  void Graphics::TexturedQuad(const Vector3d& center, float w, float h, const Vector3d& offset,
-                              const Vector3d& scale, const Color& color) {
+  void Graphics::TexturedQuad(const Vector3d& center, float w, float h, const Vector3d& offset, const Vector3d& scale, const Color& color) {
     SetColor(color);
     float halfWidth = w * 0.5f;
     float halfHeight = h * 0.5f;
@@ -478,4 +446,4 @@ namespace Theodore {
       break;
     }
   }
-}
+} // namespace Theodore

@@ -1,28 +1,24 @@
 #include "Camera.h"
+#include "../../Asset/Shader.h"
 #include "../../Graphics/FrameBuffer.h"
-#include "../GameObject.h"
 #include "../../Graphics/Graphics.h"
-#include "./sub/Material.h"
+#include "../../Helper/Utility.h"
 #include "../../Math/Math.h"
+#include "../../Platform/Platform.h"
+#include "../GameObject.h"
+#include "./sub/Material.h"
 #include "./sub/Mesh.h"
 #include "MeshRenderer.h"
-#include "../../Platform/Platform.h"
-#include "../../Asset/Shader.h"
 #include "Transform.h"
-#include "../../Helper/Utility.h"
 
 namespace Theodore {
-  Camera::Camera()
-      : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false),
-        mRenderTexture(nullptr) {
+  Camera::Camera() : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false), mRenderTexture(nullptr) {
     ResetAspect();
     ResetFieldOfView();
     mTransform = this->mGameObject->GetTransform();
   }
 
-  Camera::Camera(const Vector3d& position)
-      : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false),
-        mRenderTexture(nullptr) {
+  Camera::Camera(const Vector3d& position) : Component("Camera"), mNearClipPlane(0.1f), mFarClipPlane(5000.f), mOrthographic(false), mRenderTexture(nullptr) {
     ResetAspect();
     ResetFieldOfView();
     mTransform = this->mGameObject->GetTransform();
@@ -44,19 +40,15 @@ namespace Theodore {
   Matrix4x4 Camera::GetProjectionMatrix() const {
     ResetProjectionMatrix();
     if (mOrthographic) {
-      mProjectionMatrix =
-          Matrix4x4::Orthogonal(-10.f, 10.f, -10.f, 10.f, mNearClipPlane, mFarClipPlane);
+      mProjectionMatrix = Matrix4x4::Orthogonal(-10.f, 10.f, -10.f, 10.f, mNearClipPlane, mFarClipPlane);
     } else {
-      mProjectionMatrix = Matrix4x4::Perspective(Math::Radians(mFieldOfView), mAspect,
-                                                 mNearClipPlane, mFarClipPlane);
+      mProjectionMatrix = Matrix4x4::Perspective(Math::Radians(mFieldOfView), mAspect, mNearClipPlane, mFarClipPlane);
     }
     return mProjectionMatrix;
   }
 
   Matrix4x4 Camera::GetWorldToCameraMatrix() const {
-    mWorldToCameraMatrix = Matrix4x4::LookAt(
-        mTransform->GetLocalPosition(), mTransform->GetLocalPosition() + mTransform->GetForward(),
-        mTransform->GetUp());
+    mWorldToCameraMatrix = Matrix4x4::LookAt(mTransform->GetLocalPosition(), mTransform->GetLocalPosition() + mTransform->GetForward(), mTransform->GetUp());
     return mWorldToCameraMatrix;
   }
 
@@ -125,4 +117,4 @@ namespace Theodore {
   bool Camera::CompareEquality(const Object& rhs) const { return false; }
 
   bool Camera::Destroy() { return false; }
-}
+} // namespace Theodore

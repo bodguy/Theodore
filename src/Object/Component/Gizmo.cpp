@@ -1,15 +1,15 @@
 #include "Gizmo.h"
 #include "../../Asset/AssetManager.h"
-#include "Camera.h"
-#include "../../Helper/File.h"
-#include "../GameObject.h"
-#include "../../Graphics/Graphics.h"
-#include "../../Math/Math.h"
-#include "../SceneManager.h"
 #include "../../Asset/Shader.h"
-#include "Transform.h"
-#include "../../Helper/Utility.h"
+#include "../../Graphics/Graphics.h"
 #include "../../Graphics/VertexBuffer.h"
+#include "../../Helper/File.h"
+#include "../../Helper/Utility.h"
+#include "../../Math/Math.h"
+#include "../GameObject.h"
+#include "../SceneManager.h"
+#include "Camera.h"
+#include "Transform.h"
 
 namespace Theodore {
   Gizmo::Gizmo(GizmoType type) : Component("Gizmo"), mVao(nullptr), mProgram(nullptr), mType(type) {
@@ -121,4 +121,4 @@ namespace Theodore {
   bool Gizmo::CompareEquality(const Object& rhs) const { return false; }
 
   bool Gizmo::Destroy() { return false; }
-}
+} // namespace Theodore

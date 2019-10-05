@@ -24,23 +24,11 @@ namespace Theodore {
     Patches = GL_PATCHES
   };
 
-  enum class BufferBits {
-    ColorBits = GL_COLOR_BUFFER_BIT,
-    DepthBits = GL_DEPTH_BUFFER_BIT,
-    StencilBits = GL_STENCIL_BUFFER_BIT
-  };
+  enum class BufferBits { ColorBits = GL_COLOR_BUFFER_BIT, DepthBits = GL_DEPTH_BUFFER_BIT, StencilBits = GL_STENCIL_BUFFER_BIT };
 
   enum class FillMode { Point = GL_POINT, WireFrame = GL_LINE, Solid = GL_FILL };
 
-  enum class CompareMode {
-    Always = GL_ALWAYS,
-    Equal = GL_EQUAL,
-    NotEqual = GL_NOTEQUAL,
-    Less = GL_LESS,
-    LessEqaul = GL_LEQUAL,
-    Greater = GL_GREATER,
-    GreaterEqual = GL_GEQUAL
-  };
+  enum class CompareMode { Always = GL_ALWAYS, Equal = GL_EQUAL, NotEqual = GL_NOTEQUAL, Less = GL_LESS, LessEqaul = GL_LEQUAL, Greater = GL_GREATER, GreaterEqual = GL_GEQUAL };
 
   enum class CullMode { CounterClockWise = GL_CCW, ClockWise = GL_CW };
 
@@ -56,16 +44,11 @@ namespace Theodore {
     DynamicCopy = GL_DYNAMIC_COPY
   };
 
-  enum class BufferType {
-    BufferVertex = GL_ARRAY_BUFFER,
-    BufferIndex = GL_ELEMENT_ARRAY_BUFFER,
-    BufferUniform = GL_UNIFORM_BUFFER,
-    BufferStorage = GL_SHADER_STORAGE_BUFFER
-  };
+  enum class BufferType { BufferVertex = GL_ARRAY_BUFFER, BufferIndex = GL_ELEMENT_ARRAY_BUFFER, BufferUniform = GL_UNIFORM_BUFFER, BufferStorage = GL_SHADER_STORAGE_BUFFER };
 
   enum class FilterMode {
-    Nearest = GL_NEAREST, // texture pixels become blocky up close. it is equal to GL_NEAREST.
-    Bilinear = GL_LINEAR, // texture samples are averaged. it is eqaul to GL_LINEAR.
+    Nearest = GL_NEAREST,               // texture pixels become blocky up close. it is equal to GL_NEAREST.
+    Bilinear = GL_LINEAR,               // texture samples are averaged. it is eqaul to GL_LINEAR.
     Trilinear = GL_LINEAR_MIPMAP_LINEAR // texture samples are averaged and also blended between
                                         // mipmap levels. it is equal to GL_LINEAR_MIPMAP_LINEAR.
   };
@@ -78,37 +61,11 @@ namespace Theodore {
     MirroredRepeat = GL_MIRRORED_REPEAT
   };
 
-  enum class TextureDimension {
-    None = -1,
-    Tex2D = GL_TEXTURE_2D,
-    Tex3D = GL_TEXTURE_3D,
-    MSAATex2D = GL_TEXTURE_2D_MULTISAMPLE,
-    CubeMap = GL_TEXTURE_CUBE_MAP
-  };
+  enum class TextureDimension { None = -1, Tex2D = GL_TEXTURE_2D, Tex3D = GL_TEXTURE_3D, MSAATex2D = GL_TEXTURE_2D_MULTISAMPLE, CubeMap = GL_TEXTURE_CUBE_MAP };
 
-  enum class TextureFormat {
-    UNKNOWN,
-    RGB24 = 3,
-    RGBA32 = 4,
-    Red8,
-    Green8,
-    Blue8,
-    sRGB24,
-    sRGBA32,
-    Depth,
-    Stencil,
-    Depth24Stencil8
-  };
+  enum class TextureFormat { UNKNOWN, RGB24 = 3, RGBA32 = 4, Red8, Green8, Blue8, sRGB24, sRGBA32, Depth, Stencil, Depth24Stencil8 };
 
-  enum class AssetType {
-    Undefined = -1,
-    TextureType,
-    AudioType,
-    FontType,
-    TextShaderType,
-    BinaryShaderType,
-    MeshType
-  };
+  enum class AssetType { Undefined = -1, TextureType, AudioType, FontType, TextShaderType, BinaryShaderType, MeshType };
 
   enum class OpenMode {
     Read = 0, // Read only
@@ -153,11 +110,7 @@ namespace Theodore {
     NegativeZ = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
   };
 
-  enum class LockMode {
-    LockRead = GL_READ_ONLY,
-    LockWrite = GL_WRITE_ONLY,
-    LockReadWrite = GL_READ_WRITE
-  };
+  enum class LockMode { LockRead = GL_READ_ONLY, LockWrite = GL_WRITE_ONLY, LockReadWrite = GL_READ_WRITE };
 
   enum class Capabilities {
     DepthTest = GL_DEPTH_TEST,
@@ -166,34 +119,18 @@ namespace Theodore {
     AlphaTest = GL_ALPHA_TEST,
     MSAA = GL_MULTISAMPLE,
     Culling = GL_CULL_FACE,
-    CubemapSeamless =
-        GL_TEXTURE_CUBE_MAP_SEAMLESS, // available only if the GL version is 3.2 or greater.
+    CubemapSeamless = GL_TEXTURE_CUBE_MAP_SEAMLESS, // available only if the GL version is 3.2 or greater.
     PointSize = GL_PROGRAM_POINT_SIZE,
     FrameBuffer_SRGB = GL_FRAMEBUFFER_SRGB
   };
 
   enum class WindowStyle { Resizable, NonResizeable };
 
-  enum class PatchParameters {
-    PatchVertices = GL_PATCH_VERTICES,
-    DefaultOuterLevel = GL_PATCH_DEFAULT_OUTER_LEVEL,
-    DefaultInnerLevel = GL_PATCH_DEFAULT_INNER_LEVEL
-  };
+  enum class PatchParameters { PatchVertices = GL_PATCH_VERTICES, DefaultOuterLevel = GL_PATCH_DEFAULT_OUTER_LEVEL, DefaultInnerLevel = GL_PATCH_DEFAULT_INNER_LEVEL };
 
   enum class Space { Self = 0, World };
 
-  enum class PrimitiveType {
-    Plane = 0,
-    Cube,
-    Sphere,
-    UVSphere,
-    Capsule,
-    Cylinder,
-    Torus,
-    Cone,
-    UtahTeapot,
-    Knots
-  };
+  enum class PrimitiveType { Plane = 0, Cube, Sphere, UVSphere, Capsule, Cylinder, Torus, Cone, UtahTeapot, Knots };
 
   enum class GizmoType { Translation, Scale, Rotation };
 
@@ -238,14 +175,7 @@ namespace Theodore {
 
   enum class ContextProfile { Core = 0x00000001, Compatibility = 0x00000002 };
 
-  enum class MeshFormat {
-    WaveFrontObj,
-    ColladaDae,
-    AutoDeskFBX,
-    Studio3DS,
-    StanfordPLY,
-    CAD3DSystemsStl
-  };
+  enum class MeshFormat { WaveFrontObj, ColladaDae, AutoDeskFBX, Studio3DS, StanfordPLY, CAD3DSystemsStl };
 
   enum class ByteOrder { BigEndian, LittleEndian };
 
@@ -253,25 +183,15 @@ namespace Theodore {
 
   enum class States { NONE = 0, ONLY_A, ONLY_B, BOTH };
 
-  inline BufferBits operator|(const BufferBits a, const BufferBits b) {
-    return static_cast<BufferBits>(static_cast<int>(a) | static_cast<int>(b));
-  }
+  inline BufferBits operator|(const BufferBits a, const BufferBits b) { return static_cast<BufferBits>(static_cast<int>(a) | static_cast<int>(b)); }
 
-  inline bool operator&(const BufferBits a, const BufferBits b) {
-    return static_cast<BufferBits>(static_cast<int>(a) & static_cast<int>(b)) == b;
-  }
+  inline bool operator&(const BufferBits a, const BufferBits b) { return static_cast<BufferBits>(static_cast<int>(a) & static_cast<int>(b)) == b; }
 
-  inline VertexSemantic operator|(const VertexSemantic a, const VertexSemantic b) {
-    return static_cast<VertexSemantic>(static_cast<int>(a) | static_cast<int>(b));
-  }
+  inline VertexSemantic operator|(const VertexSemantic a, const VertexSemantic b) { return static_cast<VertexSemantic>(static_cast<int>(a) | static_cast<int>(b)); }
 
-  inline bool operator&(const VertexSemantic a, const VertexSemantic b) {
-    return static_cast<VertexSemantic>(static_cast<int>(a) & static_cast<int>(b)) == b;
-  }
+  inline bool operator&(const VertexSemantic a, const VertexSemantic b) { return static_cast<VertexSemantic>(static_cast<int>(a) & static_cast<int>(b)) == b; }
 
-  inline bool operator&(const LightType a, const LightType b) {
-    return static_cast<LightType>(static_cast<int>(a) & static_cast<int>(b)) == b;
-  }
-}
+  inline bool operator&(const LightType a, const LightType b) { return static_cast<LightType>(static_cast<int>(a) & static_cast<int>(b)) == b; }
+} // namespace Theodore
 
 #endif /* Enumeration_h */

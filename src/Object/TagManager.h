@@ -5,7 +5,7 @@
 
 namespace Theodore {
   class TagManager {
-  public:
+    public:
     TagManager();
     ~TagManager();
 
@@ -14,12 +14,12 @@ namespace Theodore {
     static void AddLayer(uint32_t layer);
     static void RemoveLayer(uint32_t layer);
 
-  private:
+    private:
     std::vector<uint32_t> mTags;
     std::vector<uint32_t> mLayers;
 
     static TagManager* instance;
   };
-}
+} // namespace Theodore
 
 #endif

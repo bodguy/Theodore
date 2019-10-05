@@ -16,7 +16,7 @@ namespace Theodore {
   class Mesh;
   class Pipeline;
   class MeshRenderer : public Renderer {
-  public:
+    public:
     MeshRenderer();
     virtual ~MeshRenderer();
 
@@ -24,7 +24,7 @@ namespace Theodore {
     void SetMesh(Mesh* mesh);
     Mesh* GetMesh() const;
 
-  private:
+    private:
     virtual void Update(float deltaTime) override;
     virtual void Render() override;
     virtual bool CompareEquality(const Object& rhs) const override;
@@ -32,10 +32,10 @@ namespace Theodore {
 
     void InternalRender();
 
-  protected:
+    protected:
     Material* mMaterial;
     Mesh* mMesh;
   };
-}
+} // namespace Theodore
 
 #endif /* MeshRenderer_h */

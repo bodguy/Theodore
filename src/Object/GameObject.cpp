@@ -1,29 +1,26 @@
 #include "GameObject.h"
 #include "../Asset/AssetManager.h"
-#include "./Component/sub/Material.h"
-#include "./Component/sub/Mesh.h"
-#include "./Component/MeshRenderer.h"
-#include "Scene.h"
 #include "../Asset/Shader.h"
-#include "./Component/sub/ShapeGenerator.h"
 #include "../Asset/Texture.h"
 #include "../Asset/Texture2D.h"
-#include "./Component/Transform.h"
 #include "../Helper/Utility.h"
 #include "../Helper/crc32.h"
+#include "./Component/MeshRenderer.h"
+#include "./Component/Transform.h"
+#include "./Component/sub/Material.h"
+#include "./Component/sub/Mesh.h"
+#include "./Component/sub/ShapeGenerator.h"
+#include "Scene.h"
 
 namespace Theodore {
-  GameObject::GameObject(const std::string& name, Scene* scene)
-      : Object(name), mParent(nullptr), mScene(nullptr), mActiveSelf(true), mTagString("untagged"),
-        mTag(0), mTransform(nullptr) {
+  GameObject::GameObject(const std::string& name, Scene* scene) : Object(name), mParent(nullptr), mScene(nullptr), mActiveSelf(true), mTagString("untagged"), mTag(0), mTransform(nullptr) {
     mChildren.clear();
     mTransform = AddComponent<Transform>();
     scene->Attach(this);
   }
 
   GameObject::GameObject(const std::string& name, GameObject* parent, Scene* scene)
-      : Object(name), mParent(parent), mScene(nullptr), mActiveSelf(true), mTagString("untagged"),
-        mTag(0), mTransform(nullptr) {
+      : Object(name), mParent(parent), mScene(nullptr), mActiveSelf(true), mTagString("untagged"), mTag(0), mTransform(nullptr) {
     mParent->mChildren.push_back(this);
     mTransform = AddComponent<Transform>();
     scene->Attach(this);
@@ -70,9 +67,9 @@ namespace Theodore {
     return false;
   }
 
-//  GameObject GameObject::FindWithTag(const std::string& tag) {
-//    return new GameObject();
-//  }
+  //  GameObject GameObject::FindWithTag(const std::string& tag) {
+  //    return new GameObject();
+  //  }
 
   bool GameObject::SendMessageUpwards(Message& msg) {
     unsigned int base = msg.GetType();
@@ -175,9 +172,7 @@ namespace Theodore {
     const GameObject* t = dynamic_cast<const GameObject*>(&rhs);
 
     // compareing each mParent is not allowed.
-    if (!t || mActiveSelf != t->mActiveSelf || mTag != t->mTag ||
-        !Utility::CompareUnorderedmap(mComponents, t->mComponents) ||
-        !Utility::CompareVector(mChildren, t->mChildren))
+    if (!t || mActiveSelf != t->mActiveSelf || mTag != t->mTag || !Utility::CompareUnorderedmap(mComponents, t->mComponents) || !Utility::CompareVector(mChildren, t->mChildren))
       return false;
 
     return true;
@@ -200,4 +195,4 @@ namespace Theodore {
   std::vector<Camera*>& GameObject::GetAllCameras() const { return mScene->mCameras; }
 
   std::vector<Collider*> GameObject::GetAllColliders() const { return mScene->mCollider; }
-}
+} // namespace Theodore

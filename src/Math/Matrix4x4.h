@@ -17,13 +17,11 @@ namespace Theodore {
   class Vector4d;
   class Quaternion;
   class Matrix4x4 {
-  public:
+    public:
     //! default contructor
     Matrix4x4();
     //! constructor with all elements
-    Matrix4x4(float m11, float m12, float m13, float m14, float m21, float m22, float m23,
-              float m24, float m31, float m32, float m33, float m34, float m41, float m42,
-              float m43, float m44);
+    Matrix4x4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44);
     //! copy constructor
     Matrix4x4(const Matrix4x4& other);
     //! assignment operator
@@ -78,8 +76,7 @@ namespace Theodore {
 
     //! Transform functions
     static Matrix4x4 Perspective(float fieldOfView, float aspectRatio, float znear, float zfar);
-    static Matrix4x4 Orthogonal(float left, float right, float bottom, float top, float znear,
-                                float zfar);
+    static Matrix4x4 Orthogonal(float left, float right, float bottom, float top, float znear, float zfar);
     static Matrix4x4 LookAt(const Vector3d& eye, const Vector3d& lookat, const Vector3d& up);
     static Matrix4x4 Translate(const Vector3d& translation);
     static Matrix4x4 Scale(const Vector3d& scale);
@@ -107,10 +104,10 @@ namespace Theodore {
       Vector4d rows[4];
     };
 
-  private:
+    private:
     //! non-throwing swap function
     void Swap(Matrix4x4& first, Matrix4x4& second);
   };
-}
+} // namespace Theodore
 
 #endif /* Matrix4x4_h */

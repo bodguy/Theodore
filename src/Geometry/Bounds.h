@@ -9,13 +9,13 @@
 #ifndef Bounds_h
 #define Bounds_h
 
-#include "Ray.h"
 #include "../Math/Vector3d.h"
+#include "Ray.h"
 
 namespace Theodore {
   class Plane;
   class Bounds {
-  public:
+    public:
     Bounds(const Vector3d& center, const Vector3d& size);
     ~Bounds(void);
 
@@ -38,7 +38,7 @@ namespace Theodore {
     void Expand(float amount);
     void SetMinMax(const Vector3d& min, const Vector3d& max);
 
-  private:
+    private:
     // The minimal point of the box. This is always equal to center-extents.
     Vector3d mMin;
     // The maximal point of the box.This is always equal to center + extents.
@@ -50,6 +50,6 @@ namespace Theodore {
     // The total size of the box. This is always twice as large as the extents.
     Vector3d mSize;
   };
-}
+} // namespace Theodore
 
 #endif /* Bounds_h */

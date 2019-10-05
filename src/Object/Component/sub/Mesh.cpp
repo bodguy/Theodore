@@ -2,9 +2,7 @@
 #include "../../../Helper/Utility.h"
 
 namespace Theodore {
-  Mesh::Mesh()
-      : mFormat(IndexFormat::UInt32), mSemantic(VertexSemantic::SemanticNone),
-        mUsage(BufferUsage::StaticDraw), mBounds(Vector3d::zero, Vector3d::one) {
+  Mesh::Mesh() : mFormat(IndexFormat::UInt32), mSemantic(VertexSemantic::SemanticNone), mUsage(BufferUsage::StaticDraw), mBounds(Vector3d::zero, Vector3d::one) {
     mType = AssetType::MeshType;
     mVertices.clear();
     mUvs.clear();
@@ -60,9 +58,7 @@ namespace Theodore {
     unsigned int stride = 3;
     for (unsigned int i = 0; i < mFaces.size() / stride; i++) {
       mNormals.push_back(
-          Vector3d::CrossProduct(
-              Vector3d(mVertices.at(mFaces[i * stride + 1]) - mVertices.at(mFaces[i * stride])),
-              Vector3d(mVertices.at(mFaces[i * stride + 2]) - mVertices.at(mFaces[i * stride])))
+          Vector3d::CrossProduct(Vector3d(mVertices.at(mFaces[i * stride + 1]) - mVertices.at(mFaces[i * stride])), Vector3d(mVertices.at(mFaces[i * stride + 2]) - mVertices.at(mFaces[i * stride])))
               .Normalize());
     }
   }
@@ -97,4 +93,4 @@ namespace Theodore {
   }
 
   void Mesh::MarkDynamic() { mUsage = BufferUsage::DynamicDraw; }
-}
+} // namespace Theodore

@@ -14,7 +14,7 @@
 namespace Theodore {
   class Vector3d;
   class Quaternion {
-  public:
+    public:
     //! default contructor
     Quaternion();
     //! constructor with all elements
@@ -93,10 +93,10 @@ namespace Theodore {
 
     static const Quaternion zero, identity;
 
-  private:
+    private:
     //! non-throwing swap function
     void Swap(Quaternion& first, Quaternion& second);
   };
-}
+} // namespace Theodore
 
 #endif /* Quaternion_h */
