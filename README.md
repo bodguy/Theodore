@@ -9,12 +9,12 @@ All of these source codes are heavily inspired by Unity system. My ECS(Entity Co
 This is my first project that I personally called it "Everything with my own project". As you can see, the name literally means No external libraries, No Dlls for my studying purposes. I'm not very good at C++ language and even I'm also not good at OpenGL like stuffs.
 but I hopefully get it better with this project.
 
-I use only a few low level libraries which is ...
-OpenGL for hardware supporting graphics pipelining.
-glew for opengl version management without any considering various graphic card manufacturer.
-OpenAL for embedded multithreading sound output.
-stb_image for various texture format loading(PNG, JPEG, TGA, BMP etc...)
-stb_freetype for truetype font loading (I prefer this than FreeType lib)
+I use only a few low level libraries which is:  
+- OpenGL for hardware supporting GPU pipelining.  
+- GLEW for OpenGL version management without any considering various graphic card manufacturer.  
+- OpenAL for embedded multithreading sound output.  
+- stb_image, stb_image_write for various texture format loading(PNG, JPEG, TGA, BMP etc...)
+- stb_truetype for truetype(.ttf) font loading (better than FreeType library)  
 
 ### Supporting features
 
@@ -52,7 +52,9 @@ stb_freetype for truetype font loading (I prefer this than FreeType lib)
 + *[TODO]* Lensflare, Bloom Filter, Defferd rendering, HDR, gamma correction
 + *[TODO]* imgui integration
 
-### Usage
+### Getting started
+
+very simple example, making a engine start.
 
 ```c++
 #include "Application.h"
@@ -70,4 +72,48 @@ int main(int argc, char** argv) {
 
 	return 0;
 }
+```
+
+simple cube.
+
+```c++
+GameObject *cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this); // make primitive from built-in imp
+cube->GetTransform()->SetPosition(Vector3d(0.f, 0.f, -4.f));
+```
+
+simple point light
+
+```c++
+GameObject* pointLight = new GameObject("pointLight", this);
+Light* pl = pointLight->AddComponent<Light>(LightType::PointLight); // add Light component
+pl->ambient = Color::white;
+pl->diffuse = Color::white;
+pl->specular = Color::white;
+pl->GetTransform()->SetLocalPosition(Vector3d(5.f, 0.f, 0.f));
+```
+
+simple sprite rendering
+
+```c++
+GameObject* sprite = new GameObject("sprite", this);
+SpriteRenderer* rend = sprite->AddComponent<SpriteRenderer>(); // add SpriteRenderer component
+// RequestTexture args: file_path, file_format, color_key
+rend->SetSprite(Sprite::Create(AssetManager::RequestTexture(
+  Application::GetResourcePath() + "sprite.png", TextureFormat::RGBA32, Color::white)));
+sprite->GetTransform()->SetLocalScale(Vector3d(0.01f, 0.01f, 0.01f));
+```
+
+simple model loading and draw to MeshRenderer
+
+```c++
+GameObject* buda = new GameObject("buda", this);
+// RequestMesh args: file_path, mesh_format
+Mesh* mesh = AssetManager::RequestMesh(Application::GetResourcePath() + "model/budda.obj", MeshFormat::WaveFrontObj);
+// make a material from built-in blinn-phong shader
+Material* material = new Material(Shader::Find("Phong"));
+MeshRenderer* meshRend = buda->AddComponent<MeshRenderer>(); // add MeshRenderer component
+// set material & mesh
+meshRend->SetMaterial(material);
+meshRend->SetMesh(mesh);
+buda->GetComponent<Transform>()->SetLocalScale(Vector3d(10.f, 10.f, 10.f));
 ```
