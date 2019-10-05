@@ -11,6 +11,7 @@
 #include "../Helper/Utility.h"
 #include "../Math/Color.h"
 #include "WaveFrontObjMesh.h"
+#include "../Platform/Time.h"
 
 namespace Theodore {
   AssetManager* AssetManager::instance = nullptr;
@@ -22,7 +23,7 @@ namespace Theodore {
   AssetManager::~AssetManager() { SafeContDealloc(mAssets); }
 
   Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format, const Color& colorKey) {
-    Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
+    Texture2D* asset = static_cast<Texture2D*>(GetAssetByBasename(filename));
 
     if (!asset) {
       asset = new Texture2D();
@@ -48,7 +49,7 @@ namespace Theodore {
   }
 
   Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format) {
-    Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
+    Texture2D* asset = static_cast<Texture2D*>(GetAssetByBasename(filename));
 
     if (!asset) {
       asset = new Texture2D();
@@ -74,7 +75,7 @@ namespace Theodore {
   }
 
   Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format, std::vector<unsigned char>& data, const Color& colorKey) {
-    Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
+    Texture2D* asset = static_cast<Texture2D*>(GetAssetByBasename(filename));
 
     if (!asset) {
       asset = new Texture2D();
@@ -100,7 +101,7 @@ namespace Theodore {
   }
 
   Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format, std::vector<unsigned char>& data) {
-    Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
+    Texture2D* asset = static_cast<Texture2D*>(GetAssetByBasename(filename));
 
     if (!asset) {
       asset = new Texture2D();
@@ -126,7 +127,7 @@ namespace Theodore {
   }
 
   Texture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, TextureFormat format, unsigned char* data) {
-    Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilename(filename));
+    Texture2D* asset = static_cast<Texture2D*>(GetAssetByBasename(filename));
 
     if (!asset) {
       asset = new Texture2D();
@@ -153,7 +154,7 @@ namespace Theodore {
   }
 
   TextureCube* AssetManager::RequestTexture(const CubemapRenderer* cubemap, const std::string& filename, TextureFormat format, CubemapFace face) {
-    TextureCube* asset = static_cast<TextureCube*>(GetAssetByFilename(filename));
+    TextureCube* asset = static_cast<TextureCube*>(GetAssetByBasename(filename));
 
     if (!asset) {
       asset = new TextureCube();
@@ -179,7 +180,7 @@ namespace Theodore {
   }
 
   MSAATexture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, TextureFormat format, unsigned int sample) {
-    MSAATexture2D* asset = static_cast<MSAATexture2D*>(GetAssetByFilename(filename));
+    MSAATexture2D* asset = static_cast<MSAATexture2D*>(GetAssetByBasename(filename));
 
     if (!asset) {
       asset = new MSAATexture2D();
@@ -227,7 +228,7 @@ namespace Theodore {
   //	}
 
   Shader* AssetManager::RequestShader(const std::string& filename, ShaderType type) {
-    Shader* asset = static_cast<Shader*>(GetAssetByFilename(filename));
+    Shader* asset = static_cast<Shader*>(GetAssetByBasename(filename));
 
     if (!asset) {
       asset = new Shader(type);
@@ -235,30 +236,38 @@ namespace Theodore {
       File file;
       file.Open(filename, OpenMode::Read);
       if (file.IsOpen()) {
-        asset->SetAssetName(filename);
-        Debug::Log("'" + filename + "' Compiling shader...");
-        asset->Compile(file.ReadAllText());
+        asset->SetAssetName(file.GetBaseName());
+
+        // start measure time
+        TimePoint start = Time::GetTime();
+        asset->Compile(file.ReadFile());
         instance->StoreAsset(asset);
         file.Close();
+        TimePoint end = Time::GetTime();
+        // end measure time
+
+        Debug::Log("'%s' shader compile success, elapsed %fsec", file.GetBaseName().c_str(), Time::GetInterval(start, end) / 1000.f);
       } else {
-        Debug::Log("Error: [%s] file is not found!", filename.c_str());
+        Debug::Error("'%s' file not found!", file.GetBaseName().c_str());
         SafeDealloc(asset);
         return static_cast<Shader*>(nullptr);
       }
     }
 
     if (asset) {
+      unsigned int beforeInc = asset->mRefCount;
       asset->AddReference();
       if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+        Debug::Trace("'%s' exist, increase refcount %d -> %d", asset->mBaseName.c_str(), beforeInc, asset->mRefCount);
       }
     }
 
     return asset;
   }
 
+  // TODO implement MeshFormat
   Mesh* AssetManager::RequestMesh(const std::string& filename, MeshFormat format) {
-    WaveFrontObjMesh* asset = static_cast<WaveFrontObjMesh*>(GetAssetByFilename(filename));
+    WaveFrontObjMesh* asset = static_cast<WaveFrontObjMesh*>(GetAssetByBasename(filename));
 
     if (!asset) {
       asset = new WaveFrontObjMesh();
@@ -283,11 +292,12 @@ namespace Theodore {
     return static_cast<Mesh*>(asset);
   }
 
-  Asset* AssetManager::GetAssetByFilename(const std::string& filename) {
-    for (auto i : instance->mAssets) {
-      // if I find it. return
-      std::string realName = i->mFilePath + i->mName;
-      if (realName == filename) return i;
+  Asset* AssetManager::GetAssetByBasename(const std::string& filename) {
+    std::string basename(Asset::BaseName(filename));
+    for (auto asset : instance->mAssets) {
+      if (asset->mBaseName == basename) {
+        return asset;
+      }
     }
 
     // none of the asset is exist.

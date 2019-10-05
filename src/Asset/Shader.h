@@ -59,7 +59,7 @@ namespace Theodore {
     int Link();
     void Use();
     void UnUse();
-    unsigned int GetProgramID() const;
+    unsigned int GetPipelineID() const;
 
     Attribute GetAttribute(const std::string& name);
     Uniform GetUniform(const std::string& name);

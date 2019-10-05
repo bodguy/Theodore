@@ -3,11 +3,11 @@
 #pragma warning(disable : 4996)
 
 namespace Theodore {
-  File::File() : fp(NULL), mFileName(nullptr), mMode(OpenMode::Read) {}
+  File::File() : fp(NULL), mBaseName(""), mFileName(""), mFullFileName(""), mMode(OpenMode::Read) {}
 
   File::File(const std::string& name, OpenMode accessType) { Open(name, accessType); }
 
-  File::File(FILE* file) : fp(file) {}
+  File::File(FILE* file) : fp(file), mBaseName(""), mFileName(""), mFullFileName(""), mMode(OpenMode::Read) {}
 
   File::~File() { Clear(); }
 
@@ -18,38 +18,35 @@ namespace Theodore {
   }
 
   bool File::Open(const std::string& name, OpenMode access_type) {
-    mFileName = name.c_str();
+    mFullFileName = std::string(name);
+    mBaseName = BaseName(mFullFileName);
+    mFileName = RemoveExtension(mBaseName);
     mMode = access_type;
 
     switch (access_type) {
       case OpenMode::Read:
-        fp = fopen(mFileName, "r");
-        // assert(fp && "file is not exist!");
+        fp = fopen(mFullFileName.c_str(), "r");
         break;
       case OpenMode::Write:
-        fp = fopen(mFileName, "w");
-        // assert(fp && "file is not exist!");
+        fp = fopen(mFullFileName.c_str(), "w");
         break;
       case OpenMode::ReadWrite:
-        fp = fopen(mFileName, "w+");
-        // assert(fp && "file is not exist!");
+        fp = fopen(mFullFileName.c_str(), "w+");
         break;
       case OpenMode::Append:
-        fp = fopen(mFileName, "a");
-        // assert(fp && "file is not exist!");
+        fp = fopen(mFullFileName.c_str(), "a");
         break;
       case OpenMode::ReadBinary:
-        fp = fopen(mFileName, "rb");
-        // assert(fp && "file is not exist!");
+        fp = fopen(mFullFileName.c_str(), "rb");
         break;
       case OpenMode::WriteBinary:
-        fp = fopen(mFileName, "wb");
-        // assert(fp && "file is not exist!");
+        fp = fopen(mFullFileName.c_str(), "wb");
         break;
       case OpenMode::ReadWriteBinary:
-        fp = fopen(mFileName, "wb+");
-        // assert(fp && "file is not exist!");
+        fp = fopen(mFullFileName.c_str(), "wb+");
         break;
+      default:
+        return false;
     }
 
     return IsOpen();
@@ -64,7 +61,10 @@ namespace Theodore {
 
   void File::Clear(void) {
     Close();
-    mFileName = NULL;
+    mBaseName = "";
+    mFileName = "";
+    mFullFileName = "";
+    mMode = OpenMode::Read;
   }
 
   void File::Write(const char* format, ...) {
@@ -81,7 +81,7 @@ namespace Theodore {
     va_end(args);
   }
 
-  std::string File::ReadAllText() {
+  std::string File::ReadFile() {
     std::string str;
 
     if (IsOpen()) {
@@ -177,6 +177,36 @@ namespace Theodore {
   void File::SeekByOffset(int offset) { fseek(fp, offset, SEEK_CUR); }
 
   bool File::Validate(void) const { return fp && !feof(fp) ? true : false; }
+
+  std::string File::GetFullName() const {
+    return mFullFileName;
+  }
+
+  std::string File::GetBaseName() const {
+    return mBaseName;
+  }
+
+  std::string File::GetFileName() const {
+    return mFileName;
+  }
+
+  std::string File::BaseName(const std::string& path) {
+    const size_t last_slash_idx = path.find_last_of("\\/");
+    if (std::string::npos != last_slash_idx) {
+      return path.substr(last_slash_idx + 1);
+    }
+
+    return std::string("");
+  }
+
+  std::string File::RemoveExtension(const std::string& filename) {
+    const size_t period_idx = filename.find_last_of('.');
+    if (std::string::npos != period_idx) {
+      return filename.substr(0, period_idx);
+    }
+
+    return std::string("");
+  }
 
 #if (_MSC_VER == 1700) && defined(ENVIRONMENT32)  // _asm only works in x86
   // In visual studio 2012, vfscanf are not supported so, we implement it from bottom.

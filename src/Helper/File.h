@@ -26,7 +26,7 @@ namespace Theodore {
     void Clear(void);  // Close file pointer (if open) and clear file name
     void Write(const char* format, ...);
     void Read(const char* format, ...);
-    std::string ReadAllText();
+    std::string ReadFile();
 
     template <typename T, size_t size>
     size_t WriteBinary(const T (&buffer)[size]);
@@ -47,12 +47,21 @@ namespace Theodore {
 
     bool Validate(void) const;
 
+    std::string GetFullName() const;
+    std::string GetBaseName() const;
+    std::string GetFileName() const;
+
   private:
+    std::string BaseName(const std::string& path);
+    std::string RemoveExtension(const std::string& filename);
+
 #if (_MSC_VER == 1700)
     int vfscanf(FILE* file, const char* format, va_list argPtr);
 #endif
     FILE* fp;  // Pointer to file
-    const char* mFileName;
+    std::string mBaseName;
+    std::string mFileName;
+    std::string mFullFileName;
     OpenMode mMode;
   };
 

@@ -77,12 +77,12 @@ namespace Theodore {
 
     TimePoint end = Time::GetTime();
     Debug::Trace("Model loading: %s", filepath.c_str());
-    Debug::Log("\tElapsed time: %fsec", Time::GetInterval(start, end) / 1000.f);
-    Debug::Log("\tMaterial count: %d", 0);
-    Debug::Log("\tVertex count: %d", GetVertexCount());
-    Debug::Log("\tUv count: %d", GetUvCount());
-    Debug::Log("\tNormal count: %d", GetNormalCount());
-    Debug::Log("\tTriangle count: %d", GetFaceCount() / 3);
+    Debug::Log("Elapsed time: %fsec", Time::GetInterval(start, end) / 1000.f);
+    Debug::Log("Material count: %d", 0);
+    Debug::Log("Vertex count: %d", GetVertexCount());
+    Debug::Log("Uv count: %d", GetUvCount());
+    Debug::Log("Normal count: %d", GetNormalCount());
+    Debug::Log("Triangle count: %d", GetFaceCount() / 3);
 
     fclose(file);
     return true;

@@ -1,7 +1,7 @@
 #include "Asset.h"
 
 namespace Theodore {
-  Asset::Asset() : mRefCount(0), mType(AssetType::Undefined), mIsManaged(false) {}
+  Asset::Asset() : mType(AssetType::Undefined), mRefCount(0), mBaseName(""), mFullName(""), mIsManaged(false) {}
 
   Asset::~Asset() {}
 
@@ -9,10 +9,18 @@ namespace Theodore {
 
   void Asset::RemoveReference() { mRefCount--; }
 
-  void Asset::SetAssetName(const std::string& filename) {
-    size_t lastPos = filename.find_last_of('/') + 1;
-    mName = filename.substr(lastPos, filename.length());
-    mFilePath = filename.substr(0, lastPos);
+  std::string Asset::BaseName(const std::string& path) {
+    const size_t last_slash_idx = path.find_last_of("\\/");
+    if (std::string::npos != last_slash_idx) {
+      return path.substr(last_slash_idx + 1);
+    }
+
+    return std::string("");
+  }
+
+  void Asset::SetAssetName(const std::string& assetName) {
+    mBaseName = BaseName(assetName);
+    mFullName = assetName;
   }
 
   bool Asset::IsManaged() { return mIsManaged; }

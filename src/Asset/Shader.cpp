@@ -36,7 +36,7 @@ namespace Theodore {
     if (length > 0) {
       GLchar* message = (GLchar*)malloc(sizeof(char) * length + 1);
       glGetShaderInfoLog(mShaderID, length, NULL, message);
-      Debug::Log("%s", message);
+      Debug::Error("%s", message);
       free(message);
     }
 
@@ -61,7 +61,7 @@ namespace Theodore {
           Debug::Log("%s : fatal error: cannot open include file", include_file.c_str());
           return std::string();
         }
-        include_string = file.ReadAllText();
+        include_string = file.ReadFile();
         output << PreprocessIncludes(include_string, level + 1) << std::endl;
       } else {
         output << source << std::endl;
@@ -130,7 +130,7 @@ namespace Theodore {
   void Pipeline::DetachShader(const Shader& shader) { glDetachShader(mPipelineID, shader.mShaderID); }
 
   int Pipeline::Link() {
-    Debug::Log("Linking program...");
+    Debug::Log("[PipelineID: %d] '%s' Link program", mPipelineID, mName.c_str());
     glLinkProgram(mPipelineID);
 
     GLint result = GL_FALSE;
@@ -141,13 +141,14 @@ namespace Theodore {
     if (length > 0) {
       GLchar* message = (GLchar*)malloc(sizeof(char) * length + 1);
       glGetProgramInfoLog(mPipelineID, length, NULL, message);
-      Debug::Log("%s", message);
+      Debug::Error("%s", message);
       free(message);
+      return GL_FALSE;
     }
 
     if (result) {
       if (!ShaderManager::Append(this)) {
-        Debug::Log(mName + " is already managed in ShaderManager");
+        Debug::Warn("%s already managed", mName.c_str());
         glDeleteProgram(mPipelineID);
         return GL_FALSE;
       }
@@ -160,7 +161,7 @@ namespace Theodore {
 
   void Pipeline::UnUse() { glUseProgram(NULL); }
 
-  unsigned int Pipeline::GetProgramID() const { return mPipelineID; }
+  unsigned int Pipeline::GetPipelineID() const { return mPipelineID; }
 
   Attribute Pipeline::GetAttribute(const std::string& name) { return glGetAttribLocation(mPipelineID, name.c_str()); }
 

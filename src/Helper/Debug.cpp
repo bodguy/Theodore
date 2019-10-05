@@ -12,6 +12,24 @@ namespace Theodore {
   bool Debug::__logSwitch = false;
   const size_t Debug::maxLength = 256;
 
+  void Debug::Error(const char* format, ...) {
+    char fmt[Debug::maxLength];
+    va_list args;
+    va_start(args, format);
+    snprintf(fmt, Debug::maxLength, "%s [ERROR] %s\n", Time::GetDateTime().c_str(), format);
+    vprintf(fmt, args);
+    va_end(args);
+  }
+
+  void Debug::Warn(const char* format, ...) {
+    char fmt[Debug::maxLength];
+    va_list args;
+    va_start(args, format);
+    snprintf(fmt, Debug::maxLength, "%s [WARN] %s\n", Time::GetDateTime().c_str(), format);
+    vprintf(fmt, args);
+    va_end(args);
+  }
+
   void Debug::Trace(const char* format, ...) {
     char fmt[Debug::maxLength];
     va_list args;
@@ -32,7 +50,10 @@ namespace Theodore {
 
   void Debug::Log(const std::string& str) { Debug::Log("%s", str.c_str()); }
 
-  void Debug::Log(bool b) { Debug::Log("%d", b); }
+  void Debug::Log(bool b) {
+    const char* t_of_f = b ? "True" : "False";
+    Debug::Log("%s", t_of_f);
+  }
 
   void Log(char c) { Debug::Log("%c", c); }
 
@@ -88,7 +109,7 @@ namespace Theodore {
   void Debug::Log(const Texture* texture) {
     // clang-format off
     Debug::Log("Texture loaded %s[w=%d, h=%d], ref=%d, id=%d format=%d",
-            texture->mName.c_str(), texture->mWidth, texture->mHeight, texture->mRefCount, texture->mTextureID, texture->mTextureFormat);
+               texture->mBaseName.c_str(), texture->mWidth, texture->mHeight, texture->mRefCount, texture->mTextureID, texture->mTextureFormat);
     // clang-format on
   }
 

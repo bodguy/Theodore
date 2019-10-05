@@ -44,6 +44,8 @@ namespace Theodore {
   class Texture;
   class Debug {
   public:
+    static void Error(const char* format, ...);
+    static void Warn(const char* format, ...);
     static void Trace(const char* format, ...);
     static void Log(const char* format, ...);
     static void Log(const std::string& str);

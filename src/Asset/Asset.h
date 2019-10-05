@@ -26,12 +26,13 @@ namespace Theodore {
   private:
     void AddReference();
     void RemoveReference();
+    static std::string BaseName(const std::string& path);
 
   protected:
     AssetType mType;
     unsigned int mRefCount;
-    std::string mName;
-    std::string mFilePath;
+    std::string mBaseName;
+    std::string mFullName;
     bool mIsManaged;
   };
 }  // namespace Theodore

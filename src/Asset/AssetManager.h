@@ -38,7 +38,7 @@ namespace Theodore {
     // static Font* RequestFont(const std::string& filename);
     static Shader* RequestShader(const std::string& filename, ShaderType type);
     static Mesh* RequestMesh(const std::string& filename, MeshFormat format = MeshFormat::WaveFrontObj);
-    static Asset* GetAssetByFilename(const std::string& filename);
+    static Asset* GetAssetByBasename(const std::string& filename);
     static void RemoveAsset(Asset* asset);
 
   private:
