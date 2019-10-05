@@ -24,6 +24,7 @@ namespace Theodore {
     virtual ~Renderer();
 
     void SetPrimitive(const Primitive primitive);
+    bool GetVisibleGizmos() const;
     void SetVisibleGizmos(bool visible);
     Bounds* GetBounds();
 

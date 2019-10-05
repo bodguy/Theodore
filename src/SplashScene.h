@@ -26,65 +26,51 @@ namespace Theodore {
     virtual ~SplashScene() {}
 
     virtual void OnAwake() {
-      cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
-      trans = cube->GetTransform();
-      trans->SetPosition(Vector3d(0.f, 0.f, -4.f));
-      cube->AddComponent<BoxCollider>();
-
-      GameObject* skybox = new GameObject("skybox", this);
-      CubemapRenderer* cubemap = skybox->AddComponent<CubemapRenderer>();
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posx.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::PositiveX);  // Right
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negx.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::NegativeX);  // Left
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posy.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::PositiveY);  // Top
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negy.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::NegativeY);  // Bottom
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posz.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::PositiveZ);  // Back
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negz.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::NegativeZ);  // Front
-
-      GameObject* pointLight = new GameObject("pointLight", this);
+      GameObject* pointLight = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
+      pointLight->SetTag("light");
       Light* pl = pointLight->AddComponent<Light>(LightType::PointLight);
       pl->ambient = Color::white;
       pl->diffuse = Color::white;
       pl->specular = Color::white;
-      pl->GetTransform()->SetLocalPosition(Vector3d(5.f, 0.f, 0.f));
+      pl->GetTransform()->SetPosition(Vector3d(5.f, 0.f, 0.f));
+      pl->GetTransform()->SetLocalScale(Vector3d(0.2f, 0.2f, 0.2f));
 
-      sprite = new GameObject("sprite", this);
-      SpriteRenderer* rend = sprite->AddComponent<SpriteRenderer>();
-      rend->SetSprite(Sprite::Create(AssetManager::RequestTexture(Application::GetResourcePath() + "sprite.png", TextureFormat::RGBA32, Color::white)));
-      trans2 = sprite->GetTransform();
-      trans2->SetLocalScale(Vector3d(0.01f, 0.01f, 0.01f));
+      GameObject* pointLight2 = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
+      pointLight2->SetTag("light");
+      Light* pl2 = pointLight2->AddComponent<Light>(LightType::PointLight);
+      pl2->ambient = Color::red;
+      pl2->diffuse = Color::red;
+      pl2->specular = Color::red;
+      pl2->GetTransform()->SetPosition(Vector3d(0.f, 5.f, 0.f));
+      pl2->GetTransform()->SetLocalScale(Vector3d(0.2f, 0.2f, 0.2f));
 
-      SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 5.f));
+      GameObject* pointLight3 = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
+      pointLight3->SetTag("light");
+      Light* pl3 = pointLight3->AddComponent<Light>(LightType::PointLight);
+      pl3->ambient = Color::green;
+      pl3->diffuse = Color::green;
+      pl3->specular = Color::green;
+      pl3->GetTransform()->SetPosition(Vector3d(0.f, 0.f, 5.f));
+      pl3->GetTransform()->SetLocalScale(Vector3d(0.2f, 0.2f, 0.2f));
+
+      GameObject* cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
+      cube->GetTransform()->SetPosition(Vector3d(0.f, 0.f, -5.f));
+
+      SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 10.f));
     }
 
     virtual void OnStart() {
       Platform::ChangeTitle(SceneManager::GetActiveScene()->ToString());
       Input::AddAxis("Forward", new InputHandler(KEY_Q, KEY_E, 0.01f));
+
+      auto v = FindGameObjectsWithTag("light");
+      Debug::Log(v.size());
+
+      auto g = Find("Sphere");
+      Debug::Log(g->GetTransform()->GetPosition());
     }
 
-    virtual void OnUpdate() {
-      trans->Rotate(Vector3d::one, Time::DeltaTime() * 100.f);
-      trans2->Rotate(Vector3d::forward, Time::DeltaTime() * 40.f);
-
-      if (Input::GetKeyHeld(KEY_LEFT)) {
-        trans2->Translate(Vector3d::left * 5.f * Time::DeltaTime());
-      } else if (Input::GetKeyHeld(KEY_RIGHT)) {
-        trans2->Translate(Vector3d::right * 5.f * Time::DeltaTime());
-      } else if (Input::GetKeyHeld(KEY_UP)) {
-        trans2->Translate(Vector3d::up * 5.f * Time::DeltaTime());
-      } else if (Input::GetKeyHeld(KEY_DOWN)) {
-        trans2->Translate(Vector3d::down * 5.f * Time::DeltaTime());
-      } else if (Input::GetKeyHeld(KEY_L)) {
-        trans2->Scale(Vector3d::one * 0.1f);
-      }
-
-      CameraUpdate();
-    }
+    virtual void OnUpdate() { CameraUpdate(); }
 
     void CameraUpdate() {
       if (Input::GetKeyDown(KEY_ESCAPE)) {
@@ -145,8 +131,6 @@ namespace Theodore {
       }
     }
 
-    GameObject *cube, *sprite;
-    Transform *trans, *trans2;
     float speed;
     float rotationY;
     float rotationX;

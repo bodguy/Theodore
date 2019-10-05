@@ -32,7 +32,7 @@ namespace Theodore {
     void Attach(GameObject* object);
     GameObject* Find(const std::string& name) const;
     GameObject* FindWithTag(const std::string& tag) const;
-    std::shared_ptr<std::vector<GameObject*>> FindGameObjectsWithTag(const std::string& tag) const;
+    std::vector<GameObject*> FindGameObjectsWithTag(const std::string& tag) const;
 
     // Only at once being called when scene object is created
     virtual void OnAwake() {}

@@ -47,7 +47,14 @@ namespace Theodore {
     static void Trace(const char* format, ...);
     static void Log(const char* format, ...);
     static void Log(const std::string& str);
+    static void Log(bool b);
+    static void Log(char c);
+    static void Log(short s);
+    static void Log(unsigned short s);
     static void Log(int i);
+    static void Log(unsigned int ui);
+    static void Log(long l);
+    static void Log(unsigned long ul);
     static void Log(float f);
     static void Log(double d);
     static void Log(const Matrix4x4& matrix, unsigned int precision = 6);

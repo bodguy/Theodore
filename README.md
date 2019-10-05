@@ -135,11 +135,11 @@ public:
         // make a material from built-in blinn-phong shader
         Material* material = new Material(Shader::Find("Phong"));
         // add MeshRenderer component
-        MeshRenderer* renderer = buda->AddComponent<MeshRenderer>();
+        MeshRenderer* renderer = budda->AddComponent<MeshRenderer>();
         // set material & mesh
         renderer->SetMaterial(material);
         renderer->SetMesh(mesh);
-        budda->GetComponent<Transform>()->SetScale(Vector3d(10.f, 10.f, 10.f));   
+        budda->GetComponent<Transform>()->SetLocalScale(Vector3d(10.f, 10.f, 10.f));   
     }
 }
 ```

@@ -19,6 +19,8 @@ namespace Theodore {
 
   void Renderer::SetPrimitive(const Primitive primitive) { mPrimitive = primitive; }
 
+  bool Renderer::GetVisibleGizmos() const { return mIsVisibleGizmos; }
+
   void Renderer::SetVisibleGizmos(bool visible) { mIsVisibleGizmos = visible; }
 
   Bounds* Renderer::GetBounds() { return &mBounds; }

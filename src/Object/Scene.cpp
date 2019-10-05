@@ -63,14 +63,14 @@ namespace Theodore {
     return nullptr;
   }
 
-  std::shared_ptr<std::vector<GameObject*>> Scene::FindGameObjectsWithTag(const std::string& tag) const {
+  std::vector<GameObject*> Scene::FindGameObjectsWithTag(const std::string& tag) const {
     std::vector<GameObject*> vectors;
     uint32_t value = CRC32_STR(tag.c_str());
     for (auto& i : mGameObjects) {
       if (i->mTag == value) vectors.push_back(i);
     }
 
-    return std::make_shared<std::vector<GameObject*>>(std::move(vectors));
+    return std::move(vectors);
   }
 
   void Scene::Update(float deltaTime) {

@@ -96,7 +96,7 @@ namespace Theodore {
   }
 
   GameObject* GameObject::CreatePrimitive(PrimitiveType type, Scene* scene) {
-    static std::string primitiveName[] = {"Plane", "Cube", "Sphere", "Capsule", "Cylinder"};
+    static std::string primitiveName[] = {"Plane", "Cube", "Sphere", "UVSphere", "Capsule", "Cylinder", "Torus", "Cone", "UtahTeapot", "Knots"};
     GameObject* primitive = new GameObject(primitiveName[static_cast<int>(type)], scene);
     Mesh* mesh = new Mesh();
     Material* material = new Material(Shader::Find("Phong"));
@@ -112,13 +112,13 @@ namespace Theodore {
       case PrimitiveType::Sphere:
         mesh = ShapeGenerator::GenerateIcoSphere();
         break;
-      case PrimitiveType::UVSphere:
+      case PrimitiveType::UVSphere:  // Not Yet
         mesh = ShapeGenerator::GenerateUVSphere();
         break;
-      case PrimitiveType::Capsule:
+      case PrimitiveType::Capsule:  // Not Yet
         mesh = ShapeGenerator::GenerateCapsule();
         break;
-      case PrimitiveType::Cylinder:
+      case PrimitiveType::Cylinder:  // Not Yet, cap is not work
         mesh = ShapeGenerator::GenerateCylinder();
         rend->SetPrimitive(Primitive::TriangleStrip);
         break;
@@ -130,10 +130,10 @@ namespace Theodore {
         mesh = ShapeGenerator::GenerateCone();
         rend->SetPrimitive(Primitive::TriangleFan);
         break;
-      case PrimitiveType::UtahTeapot:
+      case PrimitiveType::UtahTeapot:  // Not Yet
         mesh = ShapeGenerator::GenerateUtahTeapot();
         break;
-      case PrimitiveType::Knots:
+      case PrimitiveType::Knots:  // Not Yet
         mesh = ShapeGenerator::GenerateKnots();
         break;
     }
