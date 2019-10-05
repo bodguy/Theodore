@@ -2,7 +2,6 @@
 #include "../Asset/AssetManager.h"
 #include "../Asset/Shader.h"
 #include "../Graphics/Graphics.h"
-#include "../Helper/Debug.h"
 #include "../Helper/Utility.h"
 #include "../Math/Random.h"
 #include "../Platform/Input.h"

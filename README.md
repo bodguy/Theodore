@@ -18,7 +18,7 @@ I use only a few low level libraries which is:
 
 ### Supporting features
 
-+ Crossplatform support (Windows, Linux, Macos) without glfw
++ Crossplatform support (Windows, Linux, Macos) without GLFW
 + Resource management system
 + Compile and Linking Shader source code
 + Easy Transform objects with translation, rotate, scaling
@@ -51,6 +51,7 @@ I use only a few low level libraries which is:
 + *[TODO]* curve rendering (bezier, b-spline, nurbs)
 + *[TODO]* Lensflare, Bloom Filter, Defferd rendering, HDR, gamma correction
 + *[TODO]* imgui integration
++ *[TODO]* broadphase, narrowphase collision detection
 
 ### Getting started
 
@@ -74,48 +75,97 @@ int main(int argc, char** argv) {
 }
 ```
 
-simple cube.
+simple cube
 
 ```c++
-GameObject *cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this); // make primitive from built-in imp
-cube->GetTransform()->SetPosition(Vector3d(0.f, 0.f, -4.f));
+class MySimpleCubeScene : public Scene {
+public:
+    virtual void OnAwake() {
+        // make primitive using built-in function
+        GameObject *cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
+        cube->GetTransform()->SetPosition(Vector3d(0.f, 0.f, -4.f));
+    }
+};
 ```
 
 simple point light
 
 ```c++
-GameObject* pointLight = new GameObject("pointLight", this);
-Light* pl = pointLight->AddComponent<Light>(LightType::PointLight); // add Light component
-pl->ambient = Color::white;
-pl->diffuse = Color::white;
-pl->specular = Color::white;
-pl->GetTransform()->SetLocalPosition(Vector3d(5.f, 0.f, 0.f));
+class MySimplePointLightScene : public Scene {
+public:
+    virtual void OnAwake() {
+        GameObject* pointLight = new GameObject("pointLight", this);
+        // add Light component
+        Light* pl = pointLight->AddComponent<Light>(LightType::PointLight); 
+        pl->ambient = Color::white;
+        pl->diffuse = Color::white;
+        pl->specular = Color::white;
+        pl->GetTransform()->SetPosition(Vector3d(5.f, 0.f, 0.f));
+    }
+}
 ```
 
 simple sprite rendering
 
 ```c++
-GameObject* sprite = new GameObject("sprite", this);
-SpriteRenderer* rend = sprite->AddComponent<SpriteRenderer>(); // add SpriteRenderer component
-// RequestTexture args: file_path, file_format, color_key
-rend->SetSprite(Sprite::Create(AssetManager::RequestTexture(
-  Application::GetResourcePath() + "sprite.png", TextureFormat::RGBA32, Color::white)));
-sprite->GetTransform()->SetLocalScale(Vector3d(0.01f, 0.01f, 0.01f));
+class MySimpleSpriteRendering : public Scene {
+public:
+    virtual void OnAwake() {
+        GameObject* sprite = new GameObject("sprite", this);
+        // add SpriteRenderer component
+        SpriteRenderer* rend = sprite->AddComponent<SpriteRenderer>();
+        // RequestTexture args: file_path, file_format, color_key
+        rend->SetSprite(Sprite::Create(AssetManager::RequestTexture(
+            Application::GetResourcePath() + "sprite.png", TextureFormat::RGBA32, Color::white)));
+        sprite->GetTransform()->SetLocalScale(Vector3d(0.01f, 0.01f, 0.01f));
+    }
+}
 ```
 
 simple model loading and draw to MeshRenderer
 
 ```c++
-GameObject* buda = new GameObject("buda", this);
-// RequestMesh args: file_path, mesh_format
-Mesh* mesh = AssetManager::RequestMesh(Application::GetResourcePath() + "model/budda.obj", MeshFormat::WaveFrontObj);
-// make a material from built-in blinn-phong shader
-Material* material = new Material(Shader::Find("Phong"));
-MeshRenderer* meshRend = buda->AddComponent<MeshRenderer>(); // add MeshRenderer component
-// set material & mesh
-meshRend->SetMaterial(material);
-meshRend->SetMesh(mesh);
-buda->GetComponent<Transform>()->SetLocalScale(Vector3d(10.f, 10.f, 10.f));
+class MySimpleMeshRendering : public Scene {
+public:
+    virtual void OnAwake() {
+        GameObject* budda = new GameObject("budda", this);
+        // RequestMesh args: file_path, mesh_format
+        Mesh* mesh = AssetManager::RequestMesh(
+            Application::GetResourcePath() + "model/budda.obj", MeshFormat::WaveFrontObj);
+        // make a material from built-in blinn-phong shader
+        Material* material = new Material(Shader::Find("Phong"));
+        // add MeshRenderer component
+        MeshRenderer* renderer = buda->AddComponent<MeshRenderer>();
+        // set material & mesh
+        renderer->SetMaterial(material);
+        renderer->SetMesh(mesh);
+        budda->GetComponent<Transform>()->SetScale(Vector3d(10.f, 10.f, 10.f));   
+    }
+}
+```
+
+simple cubemap renderer, I know this code little bit weired, soon be changed.
+
+```c++
+class MySimpleCubeMapRendering : public Scene {
+public:
+    virtual void OnAwake() {
+        GameObject* skybox = new GameObject("skybox", this);
+              CubemapRenderer* cubemap = skybox->AddComponent<CubemapRenderer>();
+              AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posx.jpg", TextureFormat::RGBA32,
+                                           CubemapFace::PositiveX);  // Right
+              AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negx.jpg", TextureFormat::RGBA32,
+                                           CubemapFace::NegativeX);  // Left
+              AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posy.jpg", TextureFormat::RGBA32,
+                                           CubemapFace::PositiveY);  // Top
+              AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negy.jpg", TextureFormat::RGBA32,
+                                           CubemapFace::NegativeY);  // Bottom
+              AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posz.jpg", TextureFormat::RGBA32,
+                                           CubemapFace::PositiveZ);  // Back
+              AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negz.jpg", TextureFormat::RGBA32,
+                                           CubemapFace::NegativeZ);  // Front
+    }
+}
 ```
 
 ### clang-format

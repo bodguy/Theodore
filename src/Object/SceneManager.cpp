@@ -1,9 +1,6 @@
 #include "SceneManager.h"
 #include "../Helper/crc32.h"
 #include "../SplashScene.h"
-#include "./Component/Camera.h"
-#include "./Component/Light.h"
-#include "GameObject.h"
 
 namespace Theodore {
   SceneManager* SceneManager::instance = nullptr;
