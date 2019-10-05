@@ -1,9 +1,9 @@
 #include "Quaternion.h"
+#include <algorithm>  // until c++11 for std::swap
+#include <cmath>
+#include <utility>  // since c++11 for std::swap
 #include "Math.h"
 #include "Vector3d.h"
-#include <algorithm> // until c++11 for std::swap
-#include <cmath>
-#include <utility> // since c++11 for std::swap
 
 namespace Theodore {
   const Quaternion Quaternion::zero(0.f, 0.f, 0.f, 0.f);
@@ -180,8 +180,7 @@ namespace Theodore {
 
   Quaternion& Quaternion::Normalize() {
     float n = Length();
-    if (n == 1.f || n == 0.f)
-      return *this;
+    if (n == 1.f || n == 0.f) return *this;
 
     n = 1.0f / n;
     return *this *= n;
@@ -408,4 +407,4 @@ namespace Theodore {
     swap(first.z, second.z);
     swap(first.w, second.w);
   }
-} // namespace Theodore
+}  // namespace Theodore

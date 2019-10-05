@@ -26,8 +26,7 @@ namespace Theodore {
   bool WindowsPlatform::CreatePlatformWindows(const std::string& title, int width, int height, bool fullscreen, int majorVersion, int minorVersion, int multisample, WindowStyle style,
                                               ContextProfile profile) {
     mhInstance = GetModuleHandle(NULL);
-    if (!mhInstance)
-      return false;
+    if (!mhInstance) return false;
 
     DWORD mStyle;
     DWORD mExStyle;
@@ -35,15 +34,13 @@ namespace Theodore {
 
     if (platform->mIsFullScreen) {
       DEVMODE dmScreenSettings;
-      if (!EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dmScreenSettings))
-        return false;
+      if (!EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dmScreenSettings)) return false;
 
       platform->GetDesktopSize(platform->mWidth, platform->mHeight);
       platform->mIsShowCursor = false;
 
       // NOTE: CDS_FULLSCREEN Gets Rid Of Start Bar.
-      if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
-        return false;
+      if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL) return false;
 
       mExStyle = WS_EX_APPWINDOW;
       mStyle = WS_POPUP | WS_EX_TOPMOST;
@@ -66,18 +63,16 @@ namespace Theodore {
                      0L,
                      0L,
                      mhInstance,
-                     LoadIcon(mhInstance, NULL),   // icon
-                     LoadCursor(mhInstance, NULL), // cursor
+                     LoadIcon(mhInstance, NULL),    // icon
+                     LoadCursor(mhInstance, NULL),  // cursor
                      NULL,
                      NULL,
                      platform->mTitle.c_str(),
                      NULL};
-    if (!RegisterClassEx(&wc))
-      return false;
+    if (!RegisterClassEx(&wc)) return false;
 
     RECT rt = {0, 0, platform->mWidth, platform->mHeight};
-    if (!AdjustWindowRectEx(&rt, mStyle, false, mExStyle))
-      return false;
+    if (!AdjustWindowRectEx(&rt, mStyle, false, mExStyle)) return false;
 
     DWORD w = rt.right - rt.left;
     DWORD h = rt.bottom - rt.top;
@@ -91,8 +86,7 @@ namespace Theodore {
                    wglChoosePixelFormatARB				wglCreateContextAttribsARB
     */
     mHandle = CreateWindowEx(mExStyle, platform->mTitle.c_str(), platform->mTitle.c_str(), mStyle, static_cast<int>(p.x), static_cast<int>(p.y), w, h, NULL, NULL, mhInstance, NULL);
-    if (!mHandle)
-      return false;
+    if (!mHandle) return false;
 
     PIXELFORMATDESCRIPTOR pfd;
     memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
@@ -107,20 +101,15 @@ namespace Theodore {
     pfd.iLayerType = PFD_MAIN_PLANE;
 
     mHdc = GetDC(mHandle);
-    if (!mHdc)
-      return false;
+    if (!mHdc) return false;
     int nPixelFormat = ChoosePixelFormat(mHdc, &pfd);
-    if (!nPixelFormat)
-      return false;
-    if (!SetPixelFormat(mHdc, nPixelFormat, &pfd))
-      return false;
+    if (!nPixelFormat) return false;
+    if (!SetPixelFormat(mHdc, nPixelFormat, &pfd)) return false;
     glewExperimental = GL_TRUE;
 
     mContext = wglCreateContext(mHdc);
-    if (!mContext)
-      return false;
-    if (!wglMakeCurrent(mHdc, mContext))
-      return false;
+    if (!mContext) return false;
+    if (!wglMakeCurrent(mHdc, mContext)) return false;
 
     // We need to query about modern opengl functions.
     if (majorVersion != 0 || minorVersion != 0) {
@@ -140,12 +129,10 @@ namespace Theodore {
 
       // To create, real window
       HWND handle = CreateWindowEx(mExStyle, platform->mTitle.c_str(), platform->mTitle.c_str(), mStyle, static_cast<int>(p.x), static_cast<int>(p.y), w, h, NULL, NULL, mhInstance, NULL);
-      if (!handle)
-        return false;
+      if (!handle) return false;
 
       HDC hdc = GetDC(handle);
-      if (!hdc)
-        return false;
+      if (!hdc) return false;
 
       if (WindowsPlatform::QueryWGLExtensionSupported("WGL_ARB_multisample")) {
         platform->mIsMultisampleSupported = true;
@@ -213,8 +200,7 @@ namespace Theodore {
         Debug::Log("Does not support multisampling");
       }
 
-      if (!nPixelFormat2 || numFormats == 0)
-        return false;
+      if (!nPixelFormat2 || numFormats == 0) return false;
 
       PIXELFORMATDESCRIPTOR pfd2;
       DescribePixelFormat(hdc, pixelFormatID, sizeof(pfd2), &pfd2);
@@ -226,8 +212,7 @@ namespace Theodore {
                               0};
 
       HGLRC context = wglCreateContextAttribsARB(hdc, 0, contextAttribs);
-      if (!context)
-        return false;
+      if (!context) return false;
 
       // destory old context
       wglMakeCurrent(NULL, NULL);
@@ -235,15 +220,13 @@ namespace Theodore {
       ReleaseDC(mHandle, mHdc);
       DestroyWindow(mHandle);
 
-      if (!wglMakeCurrent(hdc, context))
-        return false;
+      if (!wglMakeCurrent(hdc, context)) return false;
       mHandle = handle;
       mHdc = hdc;
       mContext = context;
     }
     // now we can init glew lib
-    if (glewInit() != GLEW_OK)
-      return false;
+    if (glewInit() != GLEW_OK) return false;
 
     Platform::LogSystemInfo();
 
@@ -275,7 +258,7 @@ namespace Theodore {
 
   void WindowsPlatform::KillPlatformWindows() {
     if (platform->mIsFullScreen) {
-      ChangeDisplaySettings(NULL, 0); // back to the desktop
+      ChangeDisplaySettings(NULL, 0);  // back to the desktop
       ShowCursor(true);
     }
     wglMakeCurrent(NULL, NULL);
@@ -287,41 +270,41 @@ namespace Theodore {
 
   LRESULT CALLBACK WindowsPlatform::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     switch (msg) {
-    case WM_SYSCOMMAND: // Intercept System Commands
-    {
-      switch (wParam) // Check System Calls
+      case WM_SYSCOMMAND:  // Intercept System Commands
       {
-      case SC_SCREENSAVE:   // Screensaver Trying To Start?
-      case SC_MONITORPOWER: // Monitor Trying To Enter Powersave?
-        return 0;           // Prevent From Happening
+        switch (wParam)  // Check System Calls
+        {
+          case SC_SCREENSAVE:    // Screensaver Trying To Start?
+          case SC_MONITORPOWER:  // Monitor Trying To Enter Powersave?
+            return 0;            // Prevent From Happening
+        }
+        break;
       }
-      break;
-    }
-    // case WM_MOUSEHWHEEL:
-    case WM_MOUSEWHEEL:
-      // zDelta : Indicates that the mouse wheel was pressed, expressed in multiples or divisions of
-      // WHEEL_DELTA, which is 120.
-      instance->platform->mMousePosition.z = (float)(GET_WHEEL_DELTA_WPARAM(wParam) / WHEEL_DELTA);
-      break;
-    case WM_SIZE:
-      instance->platform->WindowSizeChanged(LOWORD(lParam), HIWORD(lParam));
-      break;
-    case WM_SETFOCUS:
-      instance->platform->mIsFocused = true;
-      break;
-    case WM_KILLFOCUS:
-      instance->platform->mIsFocused = false;
-      break;
-    // WM_CLOSE -> WM_DESTROY -> WM_QUIT
-    // case WM_CLOSE:
-    //	DestroyWindow(hWnd);
-    //	break;
-    // case WM_DESTROY:
-    //	PostQuitMessage(0);
-    //	break;
-    case WM_CLOSE:
-      PostQuitMessage(0);
-      break;
+      // case WM_MOUSEHWHEEL:
+      case WM_MOUSEWHEEL:
+        // zDelta : Indicates that the mouse wheel was pressed, expressed in multiples or divisions of
+        // WHEEL_DELTA, which is 120.
+        instance->platform->mMousePosition.z = (float)(GET_WHEEL_DELTA_WPARAM(wParam) / WHEEL_DELTA);
+        break;
+      case WM_SIZE:
+        instance->platform->WindowSizeChanged(LOWORD(lParam), HIWORD(lParam));
+        break;
+      case WM_SETFOCUS:
+        instance->platform->mIsFocused = true;
+        break;
+      case WM_KILLFOCUS:
+        instance->platform->mIsFocused = false;
+        break;
+      // WM_CLOSE -> WM_DESTROY -> WM_QUIT
+      // case WM_CLOSE:
+      //	DestroyWindow(hWnd);
+      //	break;
+      // case WM_DESTROY:
+      //	PostQuitMessage(0);
+      //	break;
+      case WM_CLOSE:
+        PostQuitMessage(0);
+        break;
     }
 
     return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -357,8 +340,7 @@ namespace Theodore {
       mLocalKeymap[i] = KEY_UNDEFINED;
     }
 
-    for (int i = 0; i < MOUSE_BUTTON_MAX; i++)
-      mMouseButtons[i] = false;
+    for (int i = 0; i < MOUSE_BUTTON_MAX; i++) mMouseButtons[i] = false;
 
     {
       mLocalKeymap[KEY_A] = 'A';
@@ -473,7 +455,7 @@ namespace Theodore {
       mLocalKeymap[KEY_KP_MULTIPLY] = VK_MULTIPLY;
       mLocalKeymap[KEY_KP_SUBTRACT] = VK_SUBTRACT;
       mLocalKeymap[KEY_KP_ADD] = VK_ADD;
-      mLocalKeymap[KEY_KP_ENTER] = KEY_UNDEFINED; // VK_RETURN with lParam & 0x1000000;
+      mLocalKeymap[KEY_KP_ENTER] = KEY_UNDEFINED;  // VK_RETURN with lParam & 0x1000000;
       mLocalKeymap[KEY_KP_EQUAL] = KEY_UNDEFINED;
     }
   }
@@ -495,7 +477,7 @@ namespace Theodore {
     MSG msg = {
         0,
     };
-    mMousePosition.z = 0.f; // reset mouse wheel before do api call.
+    mMousePosition.z = 0.f;  // reset mouse wheel before do api call.
 
     while (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)) {
       if (msg.message == WM_QUIT) {
@@ -557,7 +539,7 @@ namespace Theodore {
 
   int Platform::GetScreenDPI() {
     HDC screen = GetDC(NULL);
-    int iDPI = -1; // assume failure
+    int iDPI = -1;  // assume failure
     if (screen) {
       iDPI = GetDeviceCaps(screen, LOGPIXELSX);
       ReleaseDC(NULL, screen);
@@ -571,8 +553,7 @@ namespace Theodore {
 
     if (WindowsPlatform::QueryWGLExtensionSupported("WGL_EXT_swap_control")) {
       wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
-      if (wglSwapIntervalEXT)
-        wglSwapIntervalEXT(sync);
+      if (wglSwapIntervalEXT) wglSwapIntervalEXT(sync);
     }
   }
 
@@ -601,6 +582,6 @@ namespace Theodore {
   }
 
   void Platform::ChangeTitle(const std::string& titleName) { SetWindowText(WindowsPlatform::instance->mHandle, titleName.c_str()); }
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif

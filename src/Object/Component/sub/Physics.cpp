@@ -12,4 +12,4 @@ namespace Theodore {
   bool Physics::Raycast(const Ray& ray, float maxDistance) { return false; }
 
   bool Physics::Raycast(const Ray& ray, RaycastHit* hitInfo, float maxDistance) { return false; }
-} // namespace Theodore
+}  // namespace Theodore

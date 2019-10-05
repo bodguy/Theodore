@@ -13,13 +13,13 @@
 
 namespace Theodore {
   class CubemapRenderer : public MeshRenderer {
-    public:
+  public:
     CubemapRenderer();
     virtual ~CubemapRenderer();
 
     unsigned int GetTextureID() const;
 
-    private:
+  private:
     virtual void Update(float deltaTime) override;
     virtual void Render() override;
     virtual bool CompareEquality(const Object& rhs) const override;
@@ -27,6 +27,6 @@ namespace Theodore {
 
     unsigned int mTextureID;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* CubemapRenderer_h */

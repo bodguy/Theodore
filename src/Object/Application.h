@@ -9,9 +9,9 @@
 #ifndef Application_h
 #define Application_h
 
+#include <string>
 #include "../Graphics/Enumeration.h"
 #include "../Platform/Platform.h"
-#include <string>
 
 namespace Theodore {
   class Platform;
@@ -21,7 +21,7 @@ namespace Theodore {
   class AssetManager;
   class ShaderManager;
   class Application {
-    public:
+  public:
     Application();
     ~Application();
 
@@ -30,7 +30,7 @@ namespace Theodore {
     static std::string GetResourcePath();
     static std::string GetShaderPath();
 
-    private:
+  private:
     static Application* instance;
 
     void Render();
@@ -45,6 +45,6 @@ namespace Theodore {
     static std::string ResourcePath;
     static std::string ShaderPath;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Application_h */

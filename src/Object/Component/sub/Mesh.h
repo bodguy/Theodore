@@ -9,6 +9,7 @@
 #ifndef Mesh_h
 #define Mesh_h
 
+#include <vector>
 #include "../../../Asset/Asset.h"
 #include "../../../Geometry/Bounds.h"
 #include "../../../Graphics/Enumeration.h"
@@ -17,7 +18,6 @@
 #include "../../../Math/Vector3d.h"
 #include "../../../Math/Vector4d.h"
 #include "BoneWeight.h"
-#include <vector>
 
 namespace Theodore {
   class MeshRenderer;
@@ -26,7 +26,7 @@ namespace Theodore {
     friend class MeshRenderer;
     friend class SkinndedMeshRenderer;
 
-    public:
+  public:
     Mesh();
     virtual ~Mesh();
 
@@ -61,7 +61,7 @@ namespace Theodore {
     void RecalculateBounds();
     void MarkDynamic();
 
-    protected:
+  protected:
     IndexFormat mFormat;
     VertexSemantic mSemantic;
     BufferUsage mUsage;
@@ -117,6 +117,6 @@ namespace Theodore {
       mFaces.push_back(faces[i]);
     }
   }
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Mesh_h */

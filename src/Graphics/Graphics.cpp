@@ -93,24 +93,24 @@ namespace Theodore {
     GLenum err = glGetError();
     if (err != GL_NO_ERROR) {
       switch (err) {
-      case GL_INVALID_ENUM: // 0x0500
-        Debug::Log("GL_INVALID_ENUM");
-        break;
-      case GL_INVALID_VALUE: // 0x0501
-        Debug::Log("GL_INVALID_VALUE");
-        break;
-      case GL_INVALID_OPERATION: // 0x0502
-        Debug::Log("GL_INVALID_OPERATION");
-        break;
-      case GL_STACK_OVERFLOW: // 0x0503
-        Debug::Log("GL_STACK_OVERFLOW");
-        break;
-      case GL_STACK_UNDERFLOW: // 0x0504
-        Debug::Log("GL_STACK_UNDERFLOW");
-        break;
-      case GL_OUT_OF_MEMORY: // 0x0505
-        Debug::Log("GL_OUT_OF_MEMORY");
-        break;
+        case GL_INVALID_ENUM:  // 0x0500
+          Debug::Log("GL_INVALID_ENUM");
+          break;
+        case GL_INVALID_VALUE:  // 0x0501
+          Debug::Log("GL_INVALID_VALUE");
+          break;
+        case GL_INVALID_OPERATION:  // 0x0502
+          Debug::Log("GL_INVALID_OPERATION");
+          break;
+        case GL_STACK_OVERFLOW:  // 0x0503
+          Debug::Log("GL_STACK_OVERFLOW");
+          break;
+        case GL_STACK_UNDERFLOW:  // 0x0504
+          Debug::Log("GL_STACK_UNDERFLOW");
+          break;
+        case GL_OUT_OF_MEMORY:  // 0x0505
+          Debug::Log("GL_OUT_OF_MEMORY");
+          break;
       }
     }
   }
@@ -144,15 +144,15 @@ namespace Theodore {
     //}
 
     switch (type) {
-    case ImageType::IMAGE_PNG:
-      stbi_write_png(filename.data(), w, h, 3, data, w * 3);
-      break;
-    case ImageType::IMAGE_BMP:
-      stbi_write_bmp(filename.data(), w, h, 3, data);
-      break;
-    case ImageType::IMAGE_TGA:
-      stbi_write_tga(filename.data(), w, h, 3, data);
-      break;
+      case ImageType::IMAGE_PNG:
+        stbi_write_png(filename.data(), w, h, 3, data, w * 3);
+        break;
+      case ImageType::IMAGE_BMP:
+        stbi_write_bmp(filename.data(), w, h, 3, data);
+        break;
+      case ImageType::IMAGE_TGA:
+        stbi_write_tga(filename.data(), w, h, 3, data);
+        break;
     }
 
     delete[] tmpline;
@@ -273,12 +273,12 @@ namespace Theodore {
     Vector3d farRightTop(xFar, yFar, -10.0f * maxRange);
 
     Vector3d vertices[24] = {
-        nearLeftTop,     nearLeftBottom,  nearRightBottom, nearRightTop,  // front face
-        farLeftTop,      farLeftBottom,   farRightBottom,  farRightTop,   // far face
-        nearLeftBottom,  nearRightBottom, farRightBottom,  farLeftBottom, // bottom face
-        nearLeftTop,     nearRightTop,    farRightTop,     farLeftTop,    // top face
-        nearLeftBottom,  farLeftBottom,   farLeftTop,      nearLeftTop,   // left face
-        nearRightBottom, farRightBottom,  farRightTop,     nearRightTop   // right face
+        nearLeftTop,     nearLeftBottom,  nearRightBottom, nearRightTop,   // front face
+        farLeftTop,      farLeftBottom,   farRightBottom,  farRightTop,    // far face
+        nearLeftBottom,  nearRightBottom, farRightBottom,  farLeftBottom,  // bottom face
+        nearLeftTop,     nearRightTop,    farRightTop,     farLeftTop,     // top face
+        nearLeftBottom,  farLeftBottom,   farLeftTop,      nearLeftTop,    // left face
+        nearRightBottom, farRightBottom,  farRightTop,     nearRightTop    // right face
     };
 
     gizmoProgram->Use();
@@ -403,12 +403,12 @@ namespace Theodore {
 
   void Graphics::SetMatrixMode(MatrixMode mode) {
     switch (mode) {
-    case MatrixMode::MODELVIEW:
-      glMatrixMode(GL_MODELVIEW);
-      break;
-    case MatrixMode::PROJECTION:
-      glMatrixMode(GL_PROJECTION);
-      break;
+      case MatrixMode::MODELVIEW:
+        glMatrixMode(GL_MODELVIEW);
+        break;
+      case MatrixMode::PROJECTION:
+        glMatrixMode(GL_PROJECTION);
+        break;
     }
   }
 
@@ -435,15 +435,15 @@ namespace Theodore {
   void Graphics::SetBlendMode(BlendMode type) {
     glEnable(GL_BLEND);
     switch (type) {
-    case BlendMode::BLEND_ALPHA:
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-      break;
-    case BlendMode::BLEND_ADDITIVE:
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-      break;
-    case BlendMode::BLEND_MULTIPLY:
-      glBlendFunc(GL_ZERO, GL_SRC_COLOR);
-      break;
+      case BlendMode::BLEND_ALPHA:
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        break;
+      case BlendMode::BLEND_ADDITIVE:
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+        break;
+      case BlendMode::BLEND_MULTIPLY:
+        glBlendFunc(GL_ZERO, GL_SRC_COLOR);
+        break;
     }
   }
-} // namespace Theodore
+}  // namespace Theodore

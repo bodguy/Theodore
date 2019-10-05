@@ -1,4 +1,7 @@
 #include "Shader.h"
+#include <cstdlib>
+#include <regex>
+#include <sstream>
 #include "../Helper/Debug.h"
 #include "../Helper/File.h"
 #include "../Helper/Utility.h"
@@ -7,9 +10,6 @@
 #include "../Math/Vector2d.h"
 #include "../Math/Vector3d.h"
 #include "../Math/Vector4d.h"
-#include <cstdlib>
-#include <regex>
-#include <sstream>
 
 namespace Theodore {
   ////////////////////////////////////////////////////////////////////////////////////
@@ -248,4 +248,4 @@ namespace Theodore {
     result = shaderManager->mPipelines.insert(std::pair<std::string, Pipeline*>(program->mName, program));
     return result.second;
   }
-} // namespace Theodore
+}  // namespace Theodore

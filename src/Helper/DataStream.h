@@ -9,15 +9,15 @@
 #ifndef DataStream_h
 #define DataStream_h
 
-#include "../Graphics/Enumeration.h"
-#include "File.h"
 #include <cstdint>
 #include <string>
+#include "../Graphics/Enumeration.h"
+#include "File.h"
 
 namespace Theodore {
   class File;
   class DataStream {
-    public:
+  public:
     DataStream(void* b, size_t n);
     ~DataStream();
 
@@ -62,19 +62,19 @@ namespace Theodore {
     void SetFloatingPointPrecision(FloatingPointPrecision precision);
     static bool TestBigEndian();
 
-    private:
+  private:
     uint16_t swap_uint16(uint16_t val);
     uint32_t swap_uint32(uint32_t val);
     uint64_t swap_uint64(uint64_t val);
 
-    private:
-    uint8_t* mStart; // start of data
-    uint8_t* mData;  // current data pointers
-    size_t mSize;    // size of data
+  private:
+    uint8_t* mStart;  // start of data
+    uint8_t* mData;   // current data pointers
+    size_t mSize;     // size of data
     size_t mOccupied;
     ByteOrder mByteOrder;
     FloatingPointPrecision mPrecision;
   };
-}; // namespace Theodore
+};  // namespace Theodore
 
 #endif /* DataStream_h */

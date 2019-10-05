@@ -17,7 +17,7 @@ namespace Theodore {
   class Vector4d;
   class Quaternion;
   class Matrix4x4 {
-    public:
+  public:
     //! default contructor
     Matrix4x4();
     //! constructor with all elements
@@ -104,10 +104,10 @@ namespace Theodore {
       Vector4d rows[4];
     };
 
-    private:
+  private:
     //! non-throwing swap function
     void Swap(Matrix4x4& first, Matrix4x4& second);
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Matrix4x4_h */

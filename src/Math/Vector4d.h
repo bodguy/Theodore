@@ -13,7 +13,7 @@ namespace Theodore {
   class Vector2d;
   class Vector3d;
   class Vector4d {
-    public:
+  public:
     //! default contructor
     Vector4d();
     //! constructor with three elements
@@ -86,9 +86,9 @@ namespace Theodore {
     float x, y, z, w;
     static const Vector4d up, down, left, right, forward, backward, one, zero;
 
-    private:
+  private:
     void Swap(Vector4d& first, Vector4d& second);
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Vector4d_h */

@@ -1,8 +1,8 @@
 #include "WaveFrontObjMesh.h"
+#include <stdio.h>
 #include "../Helper/Debug.h"
 #include "../Helper/Utility.h"
 #include "../Platform/Time.h"
-#include <stdio.h>
 
 namespace Theodore {
   WaveFrontObjMesh::WaveFrontObjMesh() : Mesh() {}
@@ -123,4 +123,4 @@ namespace Theodore {
     mFaces.push_back(vertexIndex[1] - 1);
     mFaces.push_back(vertexIndex[2] - 1);
   }
-} // namespace Theodore
+}  // namespace Theodore

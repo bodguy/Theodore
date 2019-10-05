@@ -6,4 +6,4 @@ namespace Theodore {
   Collider::~Collider() {}
 
   ColliderType Collider::GetType() const { return mType; }
-} // namespace Theodore
+}  // namespace Theodore

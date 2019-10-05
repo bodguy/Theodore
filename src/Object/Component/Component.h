@@ -18,7 +18,7 @@ namespace Theodore {
   class Component : public Object {
     friend class GameObject;
 
-    public:
+  public:
     Component(const std::string& name);
     virtual ~Component();
 
@@ -26,14 +26,14 @@ namespace Theodore {
     bool IsEnabled() const;
     void SetEnabled(bool enable);
 
-    private:
+  private:
     virtual MessageResult HandleMessage(Message& msg);
 
-    protected:
+  protected:
     GameObject* mGameObject;
     Transform* mTransform;
     bool mIsEnable;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Component_h */

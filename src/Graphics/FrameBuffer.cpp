@@ -34,23 +34,23 @@ namespace Theodore {
     GLenum e = glCheckFramebufferStatus(GL_FRAMEBUFFER);
     if (e != GL_FRAMEBUFFER_COMPLETE) {
       switch (e) {
-      case GL_FRAMEBUFFER_UNDEFINED:
-        Debug::Log("Error: Framebuffer Undefined");
-        break;
-      case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-        Debug::Log("Error: Framebuffer Incomplete Attachment");
-        break;
-      case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-        Debug::Log("Error: Framebuffer Missing Attachment");
-        break;
-      case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
-        Debug::Log("Error: Framebuffer Incomplete Draw Buffer");
-        break;
-      case GL_FRAMEBUFFER_UNSUPPORTED:
-        Debug::Log("Error: Framebuffer Unsupported");
-        break;
-      default:
-        Debug::Log("Error: Framebuffer Problem");
+        case GL_FRAMEBUFFER_UNDEFINED:
+          Debug::Log("Error: Framebuffer Undefined");
+          break;
+        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+          Debug::Log("Error: Framebuffer Incomplete Attachment");
+          break;
+        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+          Debug::Log("Error: Framebuffer Missing Attachment");
+          break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+          Debug::Log("Error: Framebuffer Incomplete Draw Buffer");
+          break;
+        case GL_FRAMEBUFFER_UNSUPPORTED:
+          Debug::Log("Error: Framebuffer Unsupported");
+          break;
+        default:
+          Debug::Log("Error: Framebuffer Problem");
       }
       return false;
     }
@@ -106,4 +106,4 @@ namespace Theodore {
     mWidth = w;
     mHeight = h;
   }
-} // namespace Theodore
+}  // namespace Theodore

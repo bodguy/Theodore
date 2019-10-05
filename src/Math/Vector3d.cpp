@@ -1,9 +1,9 @@
 #include "Vector3d.h"
+#include <algorithm>  // until c++11 for std::swap
+#include <cmath>
+#include <utility>  // since c++11 for std::swap
 #include "Math.h"
 #include "Vector2d.h"
-#include <algorithm> // until c++11 for std::swap
-#include <cmath>
-#include <utility> // since c++11 for std::swap
 
 namespace Theodore {
   Vector3d::Vector3d() : x(0.f), y(0.f), z(0.f) {}
@@ -52,14 +52,14 @@ namespace Theodore {
 
   float Vector3d::operator[](unsigned int i) const {
     switch (i) {
-    case 0:
-      return x;
-    case 1:
-      return y;
-    case 2:
-      return z;
-    default:
-      return x;
+      case 0:
+        return x;
+      case 1:
+        return y;
+      case 2:
+        return z;
+      default:
+        return x;
     }
   }
 
@@ -183,8 +183,7 @@ namespace Theodore {
 
   Vector3d& Vector3d::Normalize() {
     float len = std::sqrt(x * x + y * y + z * z);
-    if (Math::IsZero(len) || Math::IsEqual(len, 1.f))
-      return *this;
+    if (Math::IsZero(len) || Math::IsEqual(len, 1.f)) return *this;
 
     float inv = 1 / len;
 
@@ -247,8 +246,7 @@ namespace Theodore {
 
   Vector3d Vector3d::Normalize(const Vector3d& vector) {
     float len = std::sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
-    if (Math::IsZero(len) || Math::IsEqual(len, 1.f))
-      return vector;
+    if (Math::IsZero(len) || Math::IsEqual(len, 1.f)) return vector;
 
     float inv = 1 / len;
     return Vector3d(vector.x * inv, vector.y * inv, vector.z * inv);
@@ -274,4 +272,4 @@ namespace Theodore {
   const Vector3d Vector3d::backward = Vector3d(0.f, 0.f, 1.f);
   const Vector3d Vector3d::one = Vector3d(1.f, 1.f, 1.f);
   const Vector3d Vector3d::zero = Vector3d(0.f, 0.f, 0.f);
-} // namespace Theodore
+}  // namespace Theodore

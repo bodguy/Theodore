@@ -17,11 +17,11 @@ namespace Theodore {
   class Transform;
   class ShadowInfo;
   class Light : public Component {
-    public:
+  public:
     Light(LightType type);
     virtual ~Light();
 
-    public:
+  public:
     LightType type;
     Color ambient;
     Color diffuse;
@@ -38,15 +38,15 @@ namespace Theodore {
 
     static const unsigned int MaxLightCount;
 
-    private:
+  private:
     virtual void Update(float deltaTime) override;
     virtual void Render() override;
     virtual bool CompareEquality(const Object& rhs) const override;
     virtual bool Destroy() override;
 
-    private:
+  private:
     ShadowInfo* mShadowInfo;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Light_h */

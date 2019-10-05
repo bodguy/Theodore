@@ -198,4 +198,4 @@ namespace Theodore {
     Matrix4x4 model = GetLocalToWorldMatrix();
     return Quaternion::FromEuler(Matrix4x4::DecomposeRotation(model)) * (vector * Matrix4x4::DecomposeScale(model));
   }
-} // namespace Theodore
+}  // namespace Theodore

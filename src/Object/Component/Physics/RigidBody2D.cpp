@@ -41,4 +41,4 @@ namespace Theodore {
   bool RigidBody2D::CompareEquality(const Object& rhs) const { return false; }
 
   bool RigidBody2D::Destroy() { return false; }
-} // namespace Theodore
+}  // namespace Theodore

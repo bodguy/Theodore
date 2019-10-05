@@ -71,7 +71,7 @@ namespace Theodore {
     // update bounds min, max every frame
     mBounds.SetMinMax(Vector3d(newCenter - newExtents), Vector3d(newCenter + newExtents));
     // update pivot every frame (TODO)
-    mSprite->mPivot = decompsedTranslation + (mSprite->mInitialPivot * decomposedScale); // / 2.f;
+    mSprite->mPivot = decompsedTranslation + (mSprite->mInitialPivot * decomposedScale);  // / 2.f;
   }
 
   void SpriteRenderer::Render() {
@@ -110,4 +110,4 @@ namespace Theodore {
   }
 
   bool SpriteRenderer::Destroy() { return mGameObject->RemoveComponent<SpriteRenderer>(); }
-} // namespace Theodore
+}  // namespace Theodore

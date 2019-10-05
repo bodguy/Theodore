@@ -1,6 +1,6 @@
 #include "Rect.h"
-#include <algorithm> // until c++11 for std::swap
-#include <utility>   // since c++11 for std::swap
+#include <algorithm>  // until c++11 for std::swap
+#include <utility>    // since c++11 for std::swap
 
 namespace Theodore {
   Rect::Rect() : left(0.f), right(0.f), top(0.f), bottom(0.f) {}
@@ -26,8 +26,7 @@ namespace Theodore {
   }
 
   bool Rect::operator==(const Rect& other) const {
-    if (left == other.left && right == other.right && top == other.top && bottom == other.bottom)
-      return true;
+    if (left == other.left && right == other.right && top == other.top && bottom == other.bottom) return true;
 
     return false;
   }
@@ -93,4 +92,4 @@ namespace Theodore {
 
   const Rect Rect::zero = Rect(0.f, 0.f, 0.f, 0.f);
   const Rect Rect::one = Rect(1.f, 1.f, 1.f, 1.f);
-} // namespace Theodore
+}  // namespace Theodore

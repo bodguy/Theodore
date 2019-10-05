@@ -47,15 +47,15 @@ namespace Theodore {
   enum class BufferType { BufferVertex = GL_ARRAY_BUFFER, BufferIndex = GL_ELEMENT_ARRAY_BUFFER, BufferUniform = GL_UNIFORM_BUFFER, BufferStorage = GL_SHADER_STORAGE_BUFFER };
 
   enum class FilterMode {
-    Nearest = GL_NEAREST,               // texture pixels become blocky up close. it is equal to GL_NEAREST.
-    Bilinear = GL_LINEAR,               // texture samples are averaged. it is eqaul to GL_LINEAR.
-    Trilinear = GL_LINEAR_MIPMAP_LINEAR // texture samples are averaged and also blended between
-                                        // mipmap levels. it is equal to GL_LINEAR_MIPMAP_LINEAR.
+    Nearest = GL_NEAREST,                // texture pixels become blocky up close. it is equal to GL_NEAREST.
+    Bilinear = GL_LINEAR,                // texture samples are averaged. it is eqaul to GL_LINEAR.
+    Trilinear = GL_LINEAR_MIPMAP_LINEAR  // texture samples are averaged and also blended between
+                                         // mipmap levels. it is equal to GL_LINEAR_MIPMAP_LINEAR.
   };
 
   enum class WrapMode {
-    Repeat = GL_REPEAT, // Tiles the texture, creating a repeating pattern.
-    Clamp = GL_CLAMP,   // Clamps the texture to the last pixel at the border.
+    Repeat = GL_REPEAT,  // Tiles the texture, creating a repeating pattern.
+    Clamp = GL_CLAMP,    // Clamps the texture to the last pixel at the border.
     ClampEdge = GL_CLAMP_TO_EDGE,
     ClampBorder = GL_CLAMP_TO_BORDER,
     MirroredRepeat = GL_MIRRORED_REPEAT
@@ -68,10 +68,10 @@ namespace Theodore {
   enum class AssetType { Undefined = -1, TextureType, AudioType, FontType, TextShaderType, BinaryShaderType, MeshType };
 
   enum class OpenMode {
-    Read = 0, // Read only
-    Write,    // Clear file contents
+    Read = 0,  // Read only
+    Write,     // Clear file contents
     ReadWrite,
-    Append, // Write to end of file
+    Append,  // Write to end of file
     ReadBinary,
     WriteBinary,
     ReadWriteBinary
@@ -90,13 +90,13 @@ namespace Theodore {
 
   enum class VertexSemantic {
     SemanticNone = 0,
-    SemanticPosition = 1 << 0, // binary 0001
-    SemanticColor = 1 << 1,    // binary 0010
-    SemanticTexCoord = 1 << 2, // binary 0100
-    SemanticNormal = 1 << 3,   // binary 1000
-    SemanticBiNormal = 1 << 4, // binary 0001 0000
-    SemanticTangent = 1 << 5,  // binary 0001 0000
-    SemanticFaces = 1 << 6     // binary 0010 0000
+    SemanticPosition = 1 << 0,  // binary 0001
+    SemanticColor = 1 << 1,     // binary 0010
+    SemanticTexCoord = 1 << 2,  // binary 0100
+    SemanticNormal = 1 << 3,    // binary 1000
+    SemanticBiNormal = 1 << 4,  // binary 0001 0000
+    SemanticTangent = 1 << 5,   // binary 0001 0000
+    SemanticFaces = 1 << 6      // binary 0010 0000
   };
 
   enum class TextureUnit { DiffuseMap, NormalMap, SpecularMap, ShadowMap, EnvironmentMap };
@@ -119,7 +119,7 @@ namespace Theodore {
     AlphaTest = GL_ALPHA_TEST,
     MSAA = GL_MULTISAMPLE,
     Culling = GL_CULL_FACE,
-    CubemapSeamless = GL_TEXTURE_CUBE_MAP_SEAMLESS, // available only if the GL version is 3.2 or greater.
+    CubemapSeamless = GL_TEXTURE_CUBE_MAP_SEAMLESS,  // available only if the GL version is 3.2 or greater.
     PointSize = GL_PROGRAM_POINT_SIZE,
     FrameBuffer_SRGB = GL_FRAMEBUFFER_SRGB
   };
@@ -192,6 +192,6 @@ namespace Theodore {
   inline bool operator&(const VertexSemantic a, const VertexSemantic b) { return static_cast<VertexSemantic>(static_cast<int>(a) & static_cast<int>(b)) == b; }
 
   inline bool operator&(const LightType a, const LightType b) { return static_cast<LightType>(static_cast<int>(a) & static_cast<int>(b)) == b; }
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Enumeration_h */

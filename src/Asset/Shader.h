@@ -12,9 +12,9 @@
 #include "../Graphics/Enumeration.h"
 #include "../Platform/os_types.h"
 #include GLEW_INCLUDE_DIR
-#include "Asset.h"
 #include <map>
 #include <string>
+#include "Asset.h"
 
 namespace Theodore {
   typedef int Attribute;
@@ -24,7 +24,7 @@ namespace Theodore {
   class Shader : public Asset {
     friend class Pipeline;
 
-    public:
+  public:
     Shader(const ShaderType type);
     virtual ~Shader();
 
@@ -33,7 +33,7 @@ namespace Theodore {
     static std::string PreprocessIncludes(const std::string& source, int level = 0);
     static Pipeline* Find(const std::string& name);
 
-    private:
+  private:
     unsigned int mShaderID;
     int mIsCompiled;
   };
@@ -46,7 +46,7 @@ namespace Theodore {
   class Pipeline {
     friend class ShaderManager;
 
-    public:
+  public:
     Pipeline(const std::string& name);
     Pipeline(const std::string& name, const Shader& vertex);
     Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment);
@@ -99,7 +99,7 @@ namespace Theodore {
 
     void DispatchCompute(unsigned int x, unsigned int y, unsigned int z);
 
-    private:
+  private:
     unsigned int mPipelineID;
     std::string mName;
   };
@@ -107,16 +107,16 @@ namespace Theodore {
   class ShaderManager {
     friend class Shader;
 
-    public:
+  public:
     ShaderManager();
     ~ShaderManager();
 
     static bool Append(Pipeline* program);
 
-    private:
+  private:
     static ShaderManager* shaderManager;
     std::map<std::string, Pipeline*> mPipelines;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Shader_h */

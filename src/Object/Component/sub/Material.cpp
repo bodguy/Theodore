@@ -4,8 +4,17 @@ namespace Theodore {
   Material::Material(Pipeline* program)
       : ambient(), diffuse(), specular(), shininess(64.f), shader(program), texture0(nullptr), texture1(nullptr), texture2(nullptr), texture3(nullptr), texture4(nullptr), renderTexture(nullptr) {}
 
-  Material::Material(Color ambient, Color diffse, Color specular, float shininess)
-      : ambient(ambient), diffuse(diffse), specular(specular), shininess(shininess), shader(nullptr), texture0(nullptr), texture1(nullptr), texture2(nullptr), texture3(nullptr), texture4(nullptr),
+  Material::Material(Color ambient, Color diffuse, Color specular, float shininess)
+      : ambient(ambient),
+        diffuse(diffuse),
+        specular(specular),
+        shininess(shininess),
+        shader(nullptr),
+        texture0(nullptr),
+        texture1(nullptr),
+        texture2(nullptr),
+        texture3(nullptr),
+        texture4(nullptr),
         renderTexture(nullptr) {}
 
   Material::~Material() {}
@@ -44,4 +53,4 @@ namespace Theodore {
   const Material Material::copper = Material(Color(0.19125f, 0.0735f, 0.0225f, 1.f), Color(0.7038f, 0.27048f, 0.0828f, 1.f), Color(0.256777f, 0.137622f, 0.086014f, 1.f), 0.1f);
   const Material Material::gold = Material(Color(0.24725f, 0.1995f, 0.0745f, 1.f), Color(0.75164f, 0.60648f, 0.22648f, 1.f), Color(0.628281f, 0.555802f, 0.366065f, 1.f), 0.4f);
   const Material Material::silver = Material(Color(0.19225f, 0.19225f, 0.19225f, 1.f), Color(0.50754f, 0.50754f, 0.50754f, 1.f), Color(0.508273f, 0.508273f, 0.508273f, 1.f), 0.4f);
-} // namespace Theodore
+}  // namespace Theodore

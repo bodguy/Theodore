@@ -14,13 +14,13 @@
 
 namespace Theodore {
   class UniqueId {
-    public:
+  public:
     UniqueId() : mInstanceId(++type_id) {}
 
-    private:
+  private:
     static std::atomic<uint32_t> type_id;
 
-    protected:
+  protected:
     uint32_t mInstanceId;
   };
 
@@ -30,7 +30,7 @@ namespace Theodore {
   class Object : public UniqueId {
     friend class GameObject;
 
-    public:
+  public:
     explicit Object(const std::string& name);
     virtual ~Object();
 
@@ -54,19 +54,19 @@ namespace Theodore {
     static GameObject* Instantiate(GameObject* original, const Vector3d& position);
     static GameObject* Instantiate(GameObject* original, const Vector3d& position, const Quaternion& rotation);
 
-    private:
+  private:
     virtual void FixedUpdate(float deltaTime){};
     virtual void Update(float deltaTime) = 0;
     virtual void Render() = 0;
     virtual bool CompareEquality(const Object& rhs) const = 0;
     virtual bool Destroy() = 0;
 
-    protected:
-    Object(const Object& rhs); // copy constructor
+  protected:
+    Object(const Object& rhs);  // copy constructor
 
     uint32_t mHashValue;
     std::string mName;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Object_h */

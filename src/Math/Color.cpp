@@ -1,7 +1,7 @@
 #include "Color.h"
+#include <algorithm>  // for std::max, std::min
+#include <cmath>      // for std::floor
 #include "Math.h"
-#include <algorithm> // for std::max, std::min
-#include <cmath>     // for std::floor
 
 namespace Theodore {
   Color::Color() : r(1.f), g(1.f), b(1.f), a(1.f) {}
@@ -14,14 +14,14 @@ namespace Theodore {
 
   float& Color::operator[](unsigned int i) {
     switch (i) {
-    case 0:
-      return r;
-    case 1:
-      return g;
-    case 2:
-      return b;
-    default:
-      return a;
+      case 0:
+        return r;
+      case 1:
+        return g;
+      case 2:
+        return b;
+      default:
+        return a;
     }
   }
 
@@ -42,18 +42,18 @@ namespace Theodore {
   }
 
   Color Color::HexToColor(unsigned int hexValue) {
-    return Color(((hexValue >> 16) & 0xFF) * (1.f / 255.f),  // Extract the R byte
-                 ((hexValue >> 8) & 0xFF) * (1.f / 255.f),   // Extract the G byte
-                 ((hexValue)&0xFF) * (1.f / 255.f),          // Extract the B byte
-                 ((hexValue >> 24) & 0xFF) * (1.f / 255.f)); // Extract the A byte
+    return Color(((hexValue >> 16) & 0xFF) * (1.f / 255.f),   // Extract the R byte
+                 ((hexValue >> 8) & 0xFF) * (1.f / 255.f),    // Extract the G byte
+                 ((hexValue)&0xFF) * (1.f / 255.f),           // Extract the B byte
+                 ((hexValue >> 24) & 0xFF) * (1.f / 255.f));  // Extract the A byte
   }
 
   Color Color::HexToColor(const std::string& hexString) {
     int hexValue = std::stoi(hexString.substr(1, hexString.size() - 1), 0, 16);
-    return Color(((hexValue >> 16) & 0xFF) * (1.f / 255.f), // Extract the R byte
-                 ((hexValue >> 8) & 0xFF) * (1.f / 255.f),  // Extract the G byte
-                 ((hexValue)&0xFF) * (1.f / 255.f),         // Extract the B byte
-                 1.f);                                      // alpha is fixed to 1
+    return Color(((hexValue >> 16) & 0xFF) * (1.f / 255.f),  // Extract the R byte
+                 ((hexValue >> 8) & 0xFF) * (1.f / 255.f),   // Extract the G byte
+                 ((hexValue)&0xFF) * (1.f / 255.f),          // Extract the B byte
+                 1.f);                                       // alpha is fixed to 1
   }
 
   Color Color::CMKYToColor(float c, float m, float y, float k) {
@@ -81,4 +81,4 @@ namespace Theodore {
   Color Color::GizmoRed = Color(0.65f, 0.2f, 0.11f, 1.0f);
   Color Color::GizmoGreen = Color(0.47f, 0.8f, 0.29f, 1.0f);
   Color Color::GizmoBlue = Color(0.2f, 0.39f, 0.84f, 1.0f);
-} // namespace Theodore
+}  // namespace Theodore

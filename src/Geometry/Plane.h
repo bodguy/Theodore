@@ -14,17 +14,17 @@
 
 namespace Theodore {
   class Plane {
-    public:
+  public:
     Plane(Vector3d inNormal, const Vector3d& inPoint);
     Plane(const Vector3d& a, const Vector3d& b, const Vector3d& c);
     ~Plane();
 
     bool Raycast(const Ray& r, float* enter);
 
-    private:
+  private:
     Vector3d n;
     float d;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
-#endif // Plane_h
+#endif  // Plane_h

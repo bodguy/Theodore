@@ -19,7 +19,7 @@ namespace Theodore {
   typedef std::chrono::time_point<Clock> TimePoint;
 
   class Time {
-    public:
+  public:
     Time();
 
     static void Reset();
@@ -38,13 +38,13 @@ namespace Theodore {
     static TimePoint GetTime();
     static float GetInterval(TimePoint start, TimePoint end);
 
-    private:
+  private:
     static Time* instance;
 
     TimePoint mStart;
     TimePoint mCurrentTime;
-    float mAccumulator; // for internal use
-    int mFrameCounter;  // for internal use
+    float mAccumulator;  // for internal use
+    int mFrameCounter;   // for internal use
     int mFrameRate;
     float mTimeScale;
 
@@ -55,6 +55,6 @@ namespace Theodore {
     float mFixedDeltaTime;
     float mUnscaledFixedDeltaTime;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Time_h */

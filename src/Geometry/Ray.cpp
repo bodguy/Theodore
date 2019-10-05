@@ -17,4 +17,4 @@ namespace Theodore {
   bool Ray::operator==(const Ray& other) { return ((origin == other.origin) && (direction == other.direction) && invDirection == other.invDirection); }
 
   bool Ray::operator!=(const Ray& other) { return !(*this == other); }
-} // namespace Theodore
+}  // namespace Theodore

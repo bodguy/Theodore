@@ -83,4 +83,4 @@ namespace Theodore {
   double StringUtil::ParseDouble(const std::string& str) { return std::stod(str); }
 
   int StringUtil::ParseInteger(const std::string& str) { return std::stoi(str); }
-} // namespace Theodore
+}  // namespace Theodore

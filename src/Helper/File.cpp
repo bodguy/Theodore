@@ -12,8 +12,7 @@ namespace Theodore {
   File::~File() { Clear(); }
 
   bool File::IsOpen() {
-    if (!fp)
-      return false;
+    if (!fp) return false;
 
     return true;
   }
@@ -23,34 +22,34 @@ namespace Theodore {
     mMode = access_type;
 
     switch (access_type) {
-    case OpenMode::Read:
-      fp = fopen(mFileName, "r");
-      // assert(fp && "file is not exist!");
-      break;
-    case OpenMode::Write:
-      fp = fopen(mFileName, "w");
-      // assert(fp && "file is not exist!");
-      break;
-    case OpenMode::ReadWrite:
-      fp = fopen(mFileName, "w+");
-      // assert(fp && "file is not exist!");
-      break;
-    case OpenMode::Append:
-      fp = fopen(mFileName, "a");
-      // assert(fp && "file is not exist!");
-      break;
-    case OpenMode::ReadBinary:
-      fp = fopen(mFileName, "rb");
-      // assert(fp && "file is not exist!");
-      break;
-    case OpenMode::WriteBinary:
-      fp = fopen(mFileName, "wb");
-      // assert(fp && "file is not exist!");
-      break;
-    case OpenMode::ReadWriteBinary:
-      fp = fopen(mFileName, "wb+");
-      // assert(fp && "file is not exist!");
-      break;
+      case OpenMode::Read:
+        fp = fopen(mFileName, "r");
+        // assert(fp && "file is not exist!");
+        break;
+      case OpenMode::Write:
+        fp = fopen(mFileName, "w");
+        // assert(fp && "file is not exist!");
+        break;
+      case OpenMode::ReadWrite:
+        fp = fopen(mFileName, "w+");
+        // assert(fp && "file is not exist!");
+        break;
+      case OpenMode::Append:
+        fp = fopen(mFileName, "a");
+        // assert(fp && "file is not exist!");
+        break;
+      case OpenMode::ReadBinary:
+        fp = fopen(mFileName, "rb");
+        // assert(fp && "file is not exist!");
+        break;
+      case OpenMode::WriteBinary:
+        fp = fopen(mFileName, "wb");
+        // assert(fp && "file is not exist!");
+        break;
+      case OpenMode::ReadWriteBinary:
+        fp = fopen(mFileName, "wb+");
+        // assert(fp && "file is not exist!");
+        break;
     }
 
     return IsOpen();
@@ -153,11 +152,9 @@ namespace Theodore {
 
     for (;;) {
       c = static_cast<char>(fgetc(fp));
-      if (feof(fp))
-        break;
+      if (feof(fp)) break;
       for (const char* temp_delim = delims; temp_delim; ++temp_delim)
-        if (c == *temp_delim)
-          break;
+        if (c == *temp_delim) break;
       temp += c;
     }
 
@@ -181,7 +178,7 @@ namespace Theodore {
 
   bool File::Validate(void) const { return fp && !feof(fp) ? true : false; }
 
-#if (_MSC_VER == 1700) && defined(ENVIRONMENT32) // _asm only works in x86
+#if (_MSC_VER == 1700) && defined(ENVIRONMENT32)  // _asm only works in x86
   // In visual studio 2012, vfscanf are not supported so, we implement it from bottom.
   int File::vfscanf(FILE* file, const char* format, va_list argPtr) {
     // http://www.codeguru.com/Cpp/Cpp/string/comments.php/c5631/?thread=61724
@@ -192,15 +189,12 @@ namespace Theodore {
 
     while (1) {
       char c = *(p++);
-      if (c == 0)
-        break;
+      if (c == 0) break;
 
-      if (c == '%' && (p[0] != '*' && p[0] != '%'))
-        ++count;
+      if (c == '%' && (p[0] != '*' && p[0] != '%')) ++count;
     }
 
-    if (count <= 0)
-      return 0;
+    if (count <= 0) return 0;
 
     int result;
 
@@ -250,4 +244,4 @@ namespace Theodore {
     return 0;
   }
 #endif
-} // namespace Theodore
+}  // namespace Theodore

@@ -9,13 +9,13 @@
 #ifndef Input_h
 #define Input_h
 
+#include <map>
 #include "../Math/Vector3d.h"
 #include "KeyCode.h"
-#include <map>
 
 namespace Theodore {
   class InputHandler {
-    public:
+  public:
     InputHandler(KeyCode positive, KeyCode negative, float delta);
     ~InputHandler();
 
@@ -27,7 +27,7 @@ namespace Theodore {
     void ResetAccumulator();
     float GetDelta() const;
 
-    private:
+  private:
     KeyCode mPositive;
     KeyCode mNegative;
     float mAccumulator;
@@ -35,7 +35,7 @@ namespace Theodore {
   };
 
   class Input {
-    public:
+  public:
     Input();
     ~Input();
 
@@ -62,7 +62,7 @@ namespace Theodore {
     // Any key or mouse button get held
     static bool AnyKeyHeld();
 
-    private:
+  private:
     static Input* instance;
 
     bool mPreviousKeys[KEY_MAX];
@@ -76,6 +76,6 @@ namespace Theodore {
     Vector3d mlastMousePos;
     Vector3d mMouseDelta;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Input_h */

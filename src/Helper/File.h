@@ -9,12 +9,12 @@
 #ifndef File_h
 #define File_h
 
-#include "../Graphics/Enumeration.h"
 #include <string>
+#include "../Graphics/Enumeration.h"
 
 namespace Theodore {
   class File {
-    public:
+  public:
     File();
     File(const std::string& name, OpenMode accessType);
     File(FILE* file);
@@ -22,8 +22,8 @@ namespace Theodore {
 
     bool IsOpen();
     bool Open(const std::string& name, OpenMode accessType);
-    void Close(void); // Close file pointer
-    void Clear(void); // Close file pointer (if open) and clear file name
+    void Close(void);  // Close file pointer
+    void Clear(void);  // Close file pointer (if open) and clear file name
     void Write(const char* format, ...);
     void Read(const char* format, ...);
     std::string ReadAllText();
@@ -35,9 +35,9 @@ namespace Theodore {
     size_t ReadBinary(T (&buffer)[size]);
     size_t ReadBinary(void* buffer, size_t elementsize, size_t elementcount);
 
-    std::string GetLine(void);               // Retrieve one line delimited by '\n'
-    std::string GetLine(char delim);         // Retrieve one line delimited by delim
-    std::string GetLine(const char* delims); // Retrieve one line delimited by chars within delims
+    std::string GetLine(void);                // Retrieve one line delimited by '\n'
+    std::string GetLine(char delim);          // Retrieve one line delimited by delim
+    std::string GetLine(const char* delims);  // Retrieve one line delimited by chars within delims
     size_t GetSize();
 
     void Rewind();
@@ -47,11 +47,11 @@ namespace Theodore {
 
     bool Validate(void) const;
 
-    private:
+  private:
 #if (_MSC_VER == 1700)
     int vfscanf(FILE* file, const char* format, va_list argPtr);
 #endif
-    FILE* fp; // Pointer to file
+    FILE* fp;  // Pointer to file
     const char* mFileName;
     OpenMode mMode;
   };
@@ -73,6 +73,6 @@ namespace Theodore {
 
     return 0;
   }
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* File_h */

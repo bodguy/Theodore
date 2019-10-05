@@ -22,4 +22,4 @@ namespace Theodore {
   void Renderer::SetVisibleGizmos(bool visible) { mIsVisibleGizmos = visible; }
 
   Bounds* Renderer::GetBounds() { return &mBounds; }
-} // namespace Theodore
+}  // namespace Theodore

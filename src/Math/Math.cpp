@@ -1,6 +1,6 @@
 #include "Math.h"
-#include <cmath>
 #include <float.h>
+#include <cmath>
 #include <limits>
 
 namespace Theodore {
@@ -154,4 +154,4 @@ namespace Theodore {
   float Math::AbsDot(const Vector2d& v1, const Vector2d& v2) { return std::fabsf(v1.x * v2.x) + std::fabsf(v1.y * v2.y); }
 
   Vector2d Math::Pow(const Vector2d& a, float exp) { return Vector2d(std::powf(a.x, exp), std::powf(a.x, exp)); }
-} // namespace Theodore
+}  // namespace Theodore

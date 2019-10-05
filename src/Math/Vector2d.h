@@ -12,7 +12,7 @@
 namespace Theodore {
   class Vector3d;
   class Vector2d {
-    public:
+  public:
     Vector2d();
     //! constructor with two elements
     Vector2d(const float tx, const float ty);
@@ -86,19 +86,19 @@ namespace Theodore {
     static Vector2d Absolute(const Vector2d& other);
 
     //! linear interpolation
-    static Vector2d Lerp(const Vector2d& a, const Vector2d& b, float t); // Linear Interpolation
+    static Vector2d Lerp(const Vector2d& a, const Vector2d& b, float t);  // Linear Interpolation
     static Vector2d Slerp(const Vector2d& a, const Vector2d& b,
-                          float t); // Sphere Linear Interpolation
+                          float t);  // Sphere Linear Interpolation
     static Vector2d Nlerp(const Vector2d& a, const Vector2d& b,
-                          float t); // Normalized Linear Interpolation
+                          float t);  // Normalized Linear Interpolation
     static Vector2d Normalize(const Vector2d& vector);
 
     float x, y;
     static const Vector2d up, down, left, right, one, zero;
 
-    private:
+  private:
     void Swap(Vector2d& fisrt, Vector2d& second);
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Vector2d_h */

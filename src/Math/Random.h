@@ -11,11 +11,11 @@
 
 namespace Theodore {
   class Random {
-    public:
+  public:
     static void InitState(int seed);
-    static float Range(float min, float max); // (min, max]
-    static int Range(int min, int max);       // (min, max]
+    static float Range(float min, float max);  // (min, max]
+    static int Range(int min, int max);        // (min, max]
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Random_h */

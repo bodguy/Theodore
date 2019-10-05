@@ -9,6 +9,12 @@
 #ifndef GameObject_h
 #define GameObject_h
 
+#include <set>
+#include <string>
+#include <typeindex>
+#include <typeinfo>
+#include <unordered_map>
+#include <vector>
 #include "../Graphics/Enumeration.h"
 #include "./Component/Camera.h"
 #include "./Component/Collider/BoxCollider.h"
@@ -18,12 +24,6 @@
 #include "./Component/Light.h"
 #include "Object.h"
 #include "Scene.h"
-#include <set>
-#include <string>
-#include <typeindex>
-#include <typeinfo>
-#include <unordered_map>
-#include <vector>
 
 namespace Theodore {
   class Transform;
@@ -35,10 +35,10 @@ namespace Theodore {
     friend class MeshRenderer;
     friend class Object;
 
-    public:
+  public:
     explicit GameObject(const std::string& name, Scene* scene);
     GameObject(const std::string& name, GameObject* parent, Scene* scene);
-    GameObject(const GameObject& other); // copy constructor
+    GameObject(const GameObject& other);  // copy constructor
     virtual ~GameObject();
 
     template <typename T, typename... Ts>
@@ -68,7 +68,7 @@ namespace Theodore {
     static GameObject* CreatePrimitive(PrimitiveType type, Scene* scene);
     Transform* GetTransform() const;
 
-    private:
+  private:
     virtual void Update(float deltaTime) override;
     virtual void Render() override;
     virtual bool CompareEquality(const Object& rhs) const override;
@@ -98,14 +98,12 @@ namespace Theodore {
   template <typename T, typename... Ts>
   T* GameObject::AddComponent(Ts... args) {
     // check if there is already exist.
-    if (mComponents.find(std::type_index(typeid(T))) != mComponents.end())
-      return static_cast<T*>(nullptr);
+    if (mComponents.find(std::type_index(typeid(T))) != mComponents.end()) return static_cast<T*>(nullptr);
 
     // allocate with malloc() because of mGameObject member.
     T* component = static_cast<T*>(malloc(sizeof(T)));
     // check if component casting to T type were failed.
-    if (!component)
-      return static_cast<T*>(nullptr);
+    if (!component) return static_cast<T*>(nullptr);
     // set the member variables...
     component->mGameObject = this;
     // placement new and call constructor.
@@ -143,8 +141,7 @@ namespace Theodore {
     // find STL algorithm with hash value
     auto iter = mComponents.find(std::type_index(typeid(T)));
     // not exists in component map.
-    if (iter == mComponents.end())
-      return static_cast<T*>(nullptr);
+    if (iter == mComponents.end()) return static_cast<T*>(nullptr);
 
     // find and return it.
     return static_cast<T*>(iter->second);
@@ -156,8 +153,7 @@ namespace Theodore {
     // return first matching one.
     for (auto& i : mChildren) {
       T* value = i->GetComponent<T>();
-      if (value)
-        return value;
+      if (value) return value;
     }
 
     return static_cast<T*>(nullptr);
@@ -171,9 +167,9 @@ namespace Theodore {
     // loop while end of parent.
     while (iter != nullptr) {
       T* value = (*iter).GetComponent<T>();
-      if (value) // if finds
+      if (value)  // if finds
         return value;
-      iter = iter->mParent; // linking node with next.
+      iter = iter->mParent;  // linking node with next.
     }
 
     return static_cast<T*>(nullptr);
@@ -183,8 +179,7 @@ namespace Theodore {
   bool GameObject::RemoveComponent() {
     auto iter = mComponents.find(std::type_index(typeid(T)));
     // not exists in cache.
-    if (iter == mComponents.end())
-      return false;
+    if (iter == mComponents.end()) return false;
 
     if (iter->second) {
       iter->second->~Component();
@@ -198,13 +193,11 @@ namespace Theodore {
   template <typename T>
   bool GameObject::SendMessage(Message& msg) {
     auto ret = GetComponent<T>();
-    if (!ret)
-      return false;
+    if (!ret) return false;
 
     unsigned int base = msg.GetType();
     for (auto i : mSubscriber[base]) {
-      if (i == ret)
-        i->HandleMessage(msg);
+      if (i == ret) i->HandleMessage(msg);
     }
 
     return true;
@@ -213,8 +206,7 @@ namespace Theodore {
   template <typename T>
   bool GameObject::SubscribeToMessageType(MessageType msgType) {
     auto ret = GetComponent<T>();
-    if (!ret)
-      return false;
+    if (!ret) return false;
 
     mSubscriber[msgType].insert(ret);
 
@@ -224,14 +216,12 @@ namespace Theodore {
   template <typename T>
   bool GameObject::SubscribeAllMessageType() {
     auto ret = GetComponent<T>();
-    if (!ret)
-      return false;
+    if (!ret) return false;
 
-    for (int i = 0; i < TheNumberOfMessage; i++)
-      mSubscriber[i].insert(ret);
+    for (int i = 0; i < TheNumberOfMessage; i++) mSubscriber[i].insert(ret);
 
     return true;
   }
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* GameObject_h */

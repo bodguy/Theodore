@@ -21,4 +21,4 @@ namespace Theodore {
   }
 
   bool BoneWeight::operator!=(const BoneWeight& other) const { return !(*this == other); }
-} // namespace Theodore
+}  // namespace Theodore

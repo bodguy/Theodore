@@ -147,5 +147,5 @@ namespace Theodore {
     KEY_UNKNOWN21,
     KEY_MAX
   };
-} // namespace Theodore
+}  // namespace Theodore
 #endif /* KeyCode_h */

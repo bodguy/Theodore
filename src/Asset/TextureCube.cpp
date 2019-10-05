@@ -1,6 +1,6 @@
 #include "TextureCube.h"
-#include "../Object/Component/CubemapRenderer.h"
 #include <stb/stb_image.h>
+#include "../Object/Component/CubemapRenderer.h"
 
 namespace Theodore {
   TextureCube::TextureCube() {
@@ -25,16 +25,16 @@ namespace Theodore {
 
       glBindTexture(static_cast<GLenum>(mDimension), cubemap->GetTextureID());
       switch (format) {
-      case TextureFormat::RGB24:
-        glTexImage2D(static_cast<GLenum>(face), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        break;
-      case TextureFormat::RGBA32:
-        glEnable(GL_ALPHA_TEST);
-        glAlphaFunc(GL_GREATER, 0);
-        glTexImage2D(static_cast<GLenum>(face), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        break;
-      default:
-        return false;
+        case TextureFormat::RGB24:
+          glTexImage2D(static_cast<GLenum>(face), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+          break;
+        case TextureFormat::RGBA32:
+          glEnable(GL_ALPHA_TEST);
+          glAlphaFunc(GL_GREATER, 0);
+          glTexImage2D(static_cast<GLenum>(face), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+          break;
+        default:
+          return false;
       }
 
       // set parameters
@@ -51,4 +51,4 @@ namespace Theodore {
   }
 
   CubemapFace TextureCube::GetFace() const { return mFace; }
-} // namespace Theodore
+}  // namespace Theodore

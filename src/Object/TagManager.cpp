@@ -17,4 +17,4 @@ namespace Theodore {
   void TagManager::AddLayer(uint32_t layer) {}
 
   void TagManager::RemoveLayer(uint32_t layer) {}
-} // namespace Theodore
+}  // namespace Theodore

@@ -7,20 +7,20 @@
 namespace Theodore {
   class Transform;
   class RigidBody2D : public Component {
-    public:
+  public:
     RigidBody2D();
     virtual ~RigidBody2D();
 
     void AddForce(const Vector2d& force);
     void AddTorque(float torque);
 
-    private:
+  private:
     virtual void Update(float deltaTime) override;
     virtual void Render() override;
     virtual bool CompareEquality(const Object& rhs) const override;
     virtual bool Destroy() override;
 
-    private:
+  private:
     Transform* mTransform;
     Vector2d mPosition;
     Vector2d mVelocity;
@@ -33,6 +33,6 @@ namespace Theodore {
     float mAngularVelocity;
     float mTorque;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* RigidBody2D_h */

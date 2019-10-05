@@ -10,30 +10,29 @@
 #define Utility_h
 
 namespace Theodore {
-#define SafeDealloc(p)                                                                                                                                                                                 \
-  {                                                                                                                                                                                                    \
-    if (p) {                                                                                                                                                                                           \
-      delete (p);                                                                                                                                                                                      \
-      (p) = NULL;                                                                                                                                                                                      \
-    }                                                                                                                                                                                                  \
+#define SafeDealloc(p) \
+  {                    \
+    if (p) {           \
+      delete (p);      \
+      (p) = NULL;      \
+    }                  \
   }
-#define SafeArrayDealloc(p)                                                                                                                                                                            \
-  {                                                                                                                                                                                                    \
-    if (p) {                                                                                                                                                                                           \
-      delete[](p);                                                                                                                                                                                     \
-      (p) = NULL;                                                                                                                                                                                      \
-    }                                                                                                                                                                                                  \
+#define SafeArrayDealloc(p) \
+  {                         \
+    if (p) {                \
+      delete[](p);          \
+      (p) = NULL;           \
+    }                       \
   }
-#define SafeContDealloc(p)                                                                                                                                                                             \
-  {                                                                                                                                                                                                    \
-    for (auto i : p)                                                                                                                                                                                   \
-      SafeDealloc(i);                                                                                                                                                                                  \
-    p.clear();                                                                                                                                                                                         \
+#define SafeContDealloc(p)           \
+  {                                  \
+    for (auto i : p) SafeDealloc(i); \
+    p.clear();                       \
   }
 #define UnUsed(p) ((void)p)
 
   class Utility {
-    public:
+  public:
     struct KeyAndValueCompare {
       template <typename T>
       bool operator()(T const& lhs, T const& rhs) const {
@@ -62,11 +61,11 @@ namespace Theodore {
 
     static bool SortLayer(unsigned int a, unsigned int b) { return a < b; }
 
-    static int States(int X, int Y) { return (X << 1) | Y; } // switch (STATES(a,b))
+    static int States(int X, int Y) { return (X << 1) | Y; }  // switch (STATES(a,b))
 
-    private:
+  private:
     Utility() {}
     ~Utility() {}
   };
-} // namespace Theodore
+}  // namespace Theodore
 #endif /* Utility_h */

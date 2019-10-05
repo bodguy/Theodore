@@ -9,9 +9,9 @@
 #ifndef Scene_h
 #define Scene_h
 
-#include "Object.h"
 #include <memory>
 #include <vector>
+#include "Object.h"
 
 namespace Theodore {
   class SceneManager;
@@ -23,7 +23,7 @@ namespace Theodore {
     friend class SceneManager;
     friend class GameObject;
 
-    public:
+  public:
     explicit Scene(const std::string& name);
     virtual ~Scene();
 
@@ -55,14 +55,14 @@ namespace Theodore {
     // when scene object is destroyed
     virtual void OnDestroy() {}
 
-    private:
+  private:
     virtual void Update(float deltaTime) final;
     virtual void Render() final;
     virtual bool CompareEquality(const Object& rhs) const final;
     virtual bool Destroy() final;
     bool Remove(GameObject* object);
 
-    protected:
+  protected:
     std::vector<GameObject*> mGameObjects;
     std::vector<Light*> mLights;
     std::vector<Camera*> mCameras;
@@ -71,6 +71,6 @@ namespace Theodore {
     SceneManager* mManager;
     bool mActive;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Scene_h */

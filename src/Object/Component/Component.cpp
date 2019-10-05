@@ -14,4 +14,4 @@ namespace Theodore {
   void Component::SetEnabled(bool enable) { mIsEnable = enable; }
 
   MessageResult Component::HandleMessage(Message& msg) { return MessageResult::Ignored; }
-} // namespace Theodore
+}  // namespace Theodore

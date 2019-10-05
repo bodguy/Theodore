@@ -9,17 +9,17 @@
 #ifndef Renderer_h
 #define Renderer_h
 
+#include <vector>
 #include "../../Geometry/Bounds.h"
 #include "../../Graphics/Enumeration.h"
 #include "Component.h"
-#include <vector>
 
 namespace Theodore {
   class Buffer;
   class VertexArray;
   class Pipeline;
   class Renderer : public Component {
-    public:
+  public:
     Renderer(const std::string& name);
     virtual ~Renderer();
 
@@ -27,7 +27,7 @@ namespace Theodore {
     void SetVisibleGizmos(bool visible);
     Bounds* GetBounds();
 
-    protected:
+  protected:
     std::vector<Buffer*> mVbos;
     std::vector<Buffer*> mEbos;
     VertexArray* mVao;
@@ -38,6 +38,6 @@ namespace Theodore {
     Bounds mBounds;
     bool mIsVisibleGizmos;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Renderer_h */

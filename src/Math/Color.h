@@ -13,7 +13,7 @@
 
 namespace Theodore {
   class Color {
-    public:
+  public:
     Color();
     Color(float r, float g, float b, float a);
 
@@ -45,6 +45,6 @@ namespace Theodore {
     static Color GizmoGreen;
     static Color GizmoBlue;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Color_h */

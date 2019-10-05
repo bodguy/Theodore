@@ -1,7 +1,7 @@
 #include "Bounds.h"
+#include <cmath>
 #include "../Helper/Debug.h"
 #include "../Math/Vector4d.h"
-#include <cmath>
 
 namespace Theodore {
   Bounds::Bounds(const Vector3d& center, const Vector3d& size) : mCenter(center), mSize(size) {
@@ -41,12 +41,9 @@ namespace Theodore {
   }
 
   bool Bounds::Intersect(const Bounds& bounds) {
-    if (mMax.x < bounds.mMin.x || mMin.x > bounds.mMax.x)
-      return false;
-    if (mMax.y < bounds.mMin.y || mMin.y > bounds.mMax.y)
-      return false;
-    if (mMax.z < bounds.mMin.z || mMin.z > bounds.mMax.z)
-      return false;
+    if (mMax.x < bounds.mMin.x || mMin.x > bounds.mMax.x) return false;
+    if (mMax.y < bounds.mMin.y || mMin.y > bounds.mMax.y) return false;
+    if (mMax.z < bounds.mMin.z || mMin.z > bounds.mMax.z) return false;
 
     return true;
   }
@@ -113,4 +110,4 @@ namespace Theodore {
     mExtents = mCenter - mMin;
     mSize = mExtents * 2.f;
   }
-} // namespace Theodore
+}  // namespace Theodore

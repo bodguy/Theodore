@@ -9,8 +9,8 @@
 #ifndef StringUtil_h
 #define StringUtil_h
 
-#include "../Platform/os_types.h"
 #include <vector>
+#include "../Platform/os_types.h"
 
 #ifdef Theodore_MacOS
 #define DateTime tm
@@ -20,11 +20,11 @@
 
 namespace Theodore {
   class StringUtil {
-    private:
+  private:
     StringUtil();
     ~StringUtil();
 
-    public:
+  public:
     static bool Contains(const std::string& txt, const std::string& contain);
     static bool Match(const std::string& txt, const std::string& regex);
     static bool Comment(const std::string& c);
@@ -40,7 +40,7 @@ namespace Theodore {
     // template<typename ...Args>
     // static std::string Join(const std::string& delimiter, Args... args);
 
-    private:
+  private:
     static std::string monthTable[];
   };
 
@@ -48,6 +48,6 @@ namespace Theodore {
   // std::string StringUtil::Join(const std::string& delimiter, const Args& ... args) {
   //	return "";
   //}
-} // namespace Theodore
+}  // namespace Theodore
 
-#endif // StringUtil_h
+#endif  // StringUtil_h

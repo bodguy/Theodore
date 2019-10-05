@@ -1,13 +1,13 @@
 #include "Matrix4x4.h"
+#include <algorithm>  // until c++11 for std::swap
+#include <cmath>      // for std::sin, std::cos
+#include <stdexcept>  // for std::logic_error, std::out_of_range
+#include <utility>    // since c++11 for std::swap
 #include "Math.h"
 #include "Quaternion.h"
 #include "Vector2d.h"
 #include "Vector3d.h"
 #include "Vector4d.h"
-#include <algorithm> // until c++11 for std::swap
-#include <cmath>     // for std::sin, std::cos
-#include <stdexcept> // for std::logic_error, std::out_of_range
-#include <utility>   // since c++11 for std::swap
 
 namespace Theodore {
   Matrix4x4::Matrix4x4() { MakeIdentity(); }
@@ -45,8 +45,7 @@ namespace Theodore {
 
   bool Matrix4x4::operator==(const Matrix4x4& other) const {
     for (int i = 0; i < 16; i++) {
-      if (m16[i] != other.m16[i])
-        return false;
+      if (m16[i] != other.m16[i]) return false;
     }
 
     return true;
@@ -177,8 +176,7 @@ namespace Theodore {
                         m16[1] * m16[6] * m16[11] * m16[12] - m16[1] * m16[7] * m16[8] * m16[14] - m16[2] * m16[4] * m16[11] * m16[13] - m16[2] * m16[5] * m16[8] * m16[15] -
                         m16[2] * m16[7] * m16[9] * m16[12] - m16[3] * m16[4] * m16[9] * m16[14] - m16[3] * m16[5] * m16[10] * m16[12] - m16[3] * m16[6] * m16[8] * m16[13];
 
-    if (determinant == 0)
-      throw std::logic_error("determinant is zero! Inverse does not exist.");
+    if (determinant == 0) throw std::logic_error("determinant is zero! Inverse does not exist.");
 
     Matrix4x4 mat = Matrix4x4(m16[5] * m16[10] * m16[15] + m16[6] * m16[11] * m16[13] + m16[7] * m16[9] * m16[14] - m16[5] * m16[11] * m16[14] - m16[6] * m16[9] * m16[15] - m16[7] * m16[10] * m16[13],
                               m16[1] * m16[11] * m16[14] + m16[2] * m16[9] * m16[15] + m16[3] * m16[10] * m16[13] - m16[1] * m16[10] * m16[15] - m16[2] * m16[11] * m16[13] - m16[3] * m16[9] * m16[14],
@@ -212,8 +210,7 @@ namespace Theodore {
         other.m16[2] * other.m16[4] * other.m16[11] * other.m16[13] - other.m16[2] * other.m16[5] * other.m16[8] * other.m16[15] - other.m16[2] * other.m16[7] * other.m16[9] * other.m16[12] -
         other.m16[3] * other.m16[4] * other.m16[9] * other.m16[14] - other.m16[3] * other.m16[5] * other.m16[10] * other.m16[12] - other.m16[3] * other.m16[6] * other.m16[8] * other.m16[13];
 
-    if (determinant == 0)
-      throw std::logic_error("determinant is zero! Inverse does not exist.");
+    if (determinant == 0) throw std::logic_error("determinant is zero! Inverse does not exist.");
 
     Matrix4x4 mat = Matrix4x4(other.m16[5] * other.m16[10] * other.m16[15] + other.m16[6] * other.m16[11] * other.m16[13] + other.m16[7] * other.m16[9] * other.m16[14] -
                                   other.m16[5] * other.m16[11] * other.m16[14] - other.m16[6] * other.m16[9] * other.m16[15] - other.m16[7] * other.m16[10] * other.m16[13],
@@ -398,9 +395,9 @@ namespace Theodore {
 
     // In radian unit
     return Vector3d(std::atan2f(normalized._23, normalized._33),
-                    -std::asinf(normalized._13), // std::atan2f(-normalized._13,
-                                                 // std::sqrtf(normalized._23 * normalized._23 +
-                                                 // normalized._33 * normalized._33)),
+                    -std::asinf(normalized._13),  // std::atan2f(-normalized._13,
+                                                  // std::sqrtf(normalized._23 * normalized._23 +
+                                                  // normalized._33 * normalized._33)),
                     std::atan2f(normalized._12, normalized._11));
   }
 
@@ -428,4 +425,4 @@ namespace Theodore {
       swap(first.m16[i], second.m16[i]);
     }
   }
-} // namespace Theodore
+}  // namespace Theodore

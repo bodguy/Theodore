@@ -64,12 +64,12 @@ namespace Theodore {
       Buffer* index = new Buffer(BufferType::BufferIndex);
       size_t indexSize = 0;
       switch (mMesh->GetIndexFormat()) {
-      case IndexFormat::UInt16:
-        indexSize = sizeof(unsigned short);
-        break;
-      case IndexFormat::UInt32:
-        indexSize = sizeof(unsigned int);
-        break;
+        case IndexFormat::UInt16:
+          indexSize = sizeof(unsigned short);
+          break;
+        case IndexFormat::UInt32:
+          indexSize = sizeof(unsigned int);
+          break;
       }
 
       index->Data(&mMesh->mFaces.front(), mMesh->GetFaceCount() * indexSize, mMesh->GetBufferUsage());
@@ -187,35 +187,35 @@ namespace Theodore {
       std::vector<Light*> lights = mGameObject->GetAllLights();
       for (unsigned int i = 0; i < lights.size(); i++) {
         switch (lights[i]->type) {
-        case LightType::SpotLight:
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].position", lights[i]->GetTransform()->GetPosition());
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].direction", lights[i]->GetTransform()->GetForward());
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].cutOff", lights[i]->cutOff);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].outerCutOff", lights[i]->outerCutOff);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].constant", lights[i]->constant);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].linear", lights[i]->linear);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].quadratic", lights[i]->quadratic);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].ambient", lights[i]->ambient);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].diffuse", lights[i]->diffuse);
-          mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].specular", lights[i]->specular);
-          if (Light::MaxLightCount > spotLightCount) {
-            spotLightCount++;
-          }
-          break;
-        case LightType::PointLight:
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].position", lights[i]->GetTransform()->GetPosition());
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].constant", lights[i]->constant);
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].linear", lights[i]->linear);
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].quadratic", lights[i]->quadratic);
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].ambient", lights[i]->ambient);
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].diffuse", lights[i]->diffuse);
-          mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].specular", lights[i]->specular);
-          if (Light::MaxLightCount > spotLightCount) {
-            pointLightCount++;
-          }
-          break;
-        default:
-          break;
+          case LightType::SpotLight:
+            mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].position", lights[i]->GetTransform()->GetPosition());
+            mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].direction", lights[i]->GetTransform()->GetForward());
+            mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].cutOff", lights[i]->cutOff);
+            mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].outerCutOff", lights[i]->outerCutOff);
+            mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].constant", lights[i]->constant);
+            mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].linear", lights[i]->linear);
+            mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].quadratic", lights[i]->quadratic);
+            mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].ambient", lights[i]->ambient);
+            mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].diffuse", lights[i]->diffuse);
+            mProgram->SetUniform("spotLights[" + std::to_string(spotLightCount) + "].specular", lights[i]->specular);
+            if (Light::MaxLightCount > spotLightCount) {
+              spotLightCount++;
+            }
+            break;
+          case LightType::PointLight:
+            mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].position", lights[i]->GetTransform()->GetPosition());
+            mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].constant", lights[i]->constant);
+            mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].linear", lights[i]->linear);
+            mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].quadratic", lights[i]->quadratic);
+            mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].ambient", lights[i]->ambient);
+            mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].diffuse", lights[i]->diffuse);
+            mProgram->SetUniform("pointLights[" + std::to_string(pointLightCount) + "].specular", lights[i]->specular);
+            if (Light::MaxLightCount > spotLightCount) {
+              pointLightCount++;
+            }
+            break;
+          default:
+            break;
         }
       }
 
@@ -263,4 +263,4 @@ namespace Theodore {
       mNormalVisualizeProgram->UnUse();
     }
   }
-} // namespace Theodore
+}  // namespace Theodore

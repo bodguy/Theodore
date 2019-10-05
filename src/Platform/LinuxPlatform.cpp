@@ -29,8 +29,7 @@ namespace Theodore {
     platform->mIsFullScreen = fullscreen;
 
     mDisplay = XOpenDisplay(NULL);
-    if (!mDisplay)
-      return false;
+    if (!mDisplay) return false;
 
     // get default window, screen
     Window rootWindow = DefaultRootWindow(mDisplay);
@@ -39,13 +38,11 @@ namespace Theodore {
     // set the visual info
     GLint att[] = {GLX_RGBA, GLX_DEPTH_SIZE, DefaultDepth(mDisplay, mScreen), GLX_DOUBLEBUFFER, None};
     XVisualInfo* vi = glXChooseVisual(mDisplay, mScreen, att);
-    if (!vi)
-      return false;
+    if (!vi) return false;
 
     // set the color map
     Colormap cmap = XCreateColormap(mDisplay, rootWindow, vi->visual, AllocNone);
-    if (!cmap)
-      return false;
+    if (!cmap) return false;
     XSetWindowAttributes attribs;
     attribs.colormap = cmap;
     attribs.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask;
@@ -54,8 +51,7 @@ namespace Theodore {
     const Point p = platform->CenterOnWindow();
     mWindow = XCreateWindow(mDisplay, rootWindow, static_cast<int>(p.x), static_cast<int>(p.y), width, height, 1, DefaultDepth(mDisplay, mScreen), InputOutput, vi->visual, CWColormap | CWEventMask,
                             &attribs);
-    if (!mWindow)
-      return false;
+    if (!mWindow) return false;
     XMapWindow(mDisplay, mWindow);
     XStoreName(mDisplay, mWindow, title.c_str());
 
@@ -65,11 +61,9 @@ namespace Theodore {
 
     // make GL context
     mContext = glXCreateContext(mDisplay, vi, NULL, GL_TRUE);
-    if (!mContext)
-      return false;
+    if (!mContext) return false;
     glXMakeCurrent(mDisplay, mWindow, mContext);
-    if (glewInit() != GLEW_OK)
-      return false;
+    if (glewInit() != GLEW_OK) return false;
 
     Platform::LogSystemInfo();
 
@@ -97,8 +91,7 @@ namespace Theodore {
       mLocalKeymap[i] = KEY_UNDEFINED;
     }
 
-    for (int i = 0; i < MOUSE_BUTTON_MAX; i++)
-      mMouseButtons[i] = false;
+    for (int i = 0; i < MOUSE_BUTTON_MAX; i++) mMouseButtons[i] = false;
 
     mLocalKeymap[KEY_A] = XK_a;
     mLocalKeymap[KEY_B] = XK_b;
@@ -235,56 +228,55 @@ namespace Theodore {
       XNextEvent(LinuxPlatform::instance->mDisplay, &event);
 
       switch (event.type) {
-      case Expose: {
-        XExposeEvent& expose = event.xexpose;
-        glViewport(0, 0, expose.width, expose.height);
-        SwapBuffer();
-        break;
-      }
-      case KeyPress:
-        printf("KeyPress: %d\n", event.xkey.keycode);
-        break;
-      case KeyRelease: {
-        break;
-      }
-      case ButtonPress:
-      case ButtonRelease: {
-        int button = MOUSE_UNDEFINED;
-
-        switch (event.xbutton.button) {
-        case Button1: // left click
-          button = MOUSE_LEFT;
-          break;
-        case Button2: // middle click
-          button = MOUSE_MIDDLE;
-          break;
-        case Button3: // right click
-          button = MOUSE_RIGHT;
-          break;
-        case Button4: // scroll up
-          mMousePosition.z += 1.f;
-          isScroll = true;
-          break;
-        case Button5: // scroll down
-          mMousePosition.z -= 1.f;
-          isScroll = true;
+        case Expose: {
+          XExposeEvent& expose = event.xexpose;
+          glViewport(0, 0, expose.width, expose.height);
+          SwapBuffer();
           break;
         }
-
-        if (!isScroll)
-          mMouseButtons[button] = (event.type == ButtonPress);
-
-        break;
-      }
-      case MotionNotify: // mouse position
-        mMousePosition.x = static_cast<float>(event.xmotion.x);
-        mMousePosition.y = static_cast<float>(event.xmotion.y);
-        break;
-      case ClientMessage:
-        if (static_cast<unsigned long>(event.xclient.data.l[0]) == LinuxPlatform::instance->mDestroyMessage) {
-          mIsRunning = false;
+        case KeyPress:
+          printf("KeyPress: %d\n", event.xkey.keycode);
+          break;
+        case KeyRelease: {
+          break;
         }
-        break;
+        case ButtonPress:
+        case ButtonRelease: {
+          int button = MOUSE_UNDEFINED;
+
+          switch (event.xbutton.button) {
+            case Button1:  // left click
+              button = MOUSE_LEFT;
+              break;
+            case Button2:  // middle click
+              button = MOUSE_MIDDLE;
+              break;
+            case Button3:  // right click
+              button = MOUSE_RIGHT;
+              break;
+            case Button4:  // scroll up
+              mMousePosition.z += 1.f;
+              isScroll = true;
+              break;
+            case Button5:  // scroll down
+              mMousePosition.z -= 1.f;
+              isScroll = true;
+              break;
+          }
+
+          if (!isScroll) mMouseButtons[button] = (event.type == ButtonPress);
+
+          break;
+        }
+        case MotionNotify:  // mouse position
+          mMousePosition.x = static_cast<float>(event.xmotion.x);
+          mMousePosition.y = static_cast<float>(event.xmotion.y);
+          break;
+        case ClientMessage:
+          if (static_cast<unsigned long>(event.xclient.data.l[0]) == LinuxPlatform::instance->mDestroyMessage) {
+            mIsRunning = false;
+          }
+          break;
       }
     }
   }
@@ -322,6 +314,6 @@ namespace Theodore {
   int Platform::GetVSync() {}
 
   bool Platform::IsFocus() const {}
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Theodore_Linux */

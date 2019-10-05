@@ -104,4 +104,4 @@ namespace Theodore {
   void Application::Render() { mSceneManager->Render(); }
 
   void Application::Update(float deltaTime) { mSceneManager->Update(deltaTime); }
-} // namespace Theodore
+}  // namespace Theodore

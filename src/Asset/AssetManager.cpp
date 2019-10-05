@@ -287,8 +287,7 @@ namespace Theodore {
     for (auto i : instance->mAssets) {
       // if I find it. return
       std::string realName = i->mFilePath + i->mName;
-      if (realName == filename)
-        return i;
+      if (realName == filename) return i;
     }
 
     // none of the asset is exist.
@@ -311,4 +310,4 @@ namespace Theodore {
     mAssets.push_back(asset);
     asset->mIsManaged = true;
   }
-} // namespace Theodore
+}  // namespace Theodore

@@ -9,14 +9,14 @@
 #ifndef FrameBuffer_h
 #define FrameBuffer_h
 
-#include "Enumeration.h"
 #include <map>
+#include "Enumeration.h"
 
 namespace Theodore {
   class Texture2D;
   class RenderBuffer;
   class FrameBuffer {
-    public:
+  public:
     FrameBuffer(unsigned int width, unsigned int height);
     ~FrameBuffer();
 
@@ -35,7 +35,7 @@ namespace Theodore {
 
     void SetDimension(unsigned int w, unsigned int h);
 
-    private:
+  private:
     unsigned int mFrameBufferID;
     unsigned int mWidth;
     unsigned int mHeight;
@@ -43,6 +43,6 @@ namespace Theodore {
     RenderBuffer* mRender;
     bool mIsCreated;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* FrameBuffer_h */

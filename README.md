@@ -117,3 +117,11 @@ meshRend->SetMaterial(material);
 meshRend->SetMesh(mesh);
 buda->GetComponent<Transform>()->SetLocalScale(Vector3d(10.f, 10.f, 10.f));
 ```
+
+### clang-format
+
+Can easily format all the .cpp, .h files recursively using clang-format-all bash script
+
+```bash
+clang-format-all src/
+```

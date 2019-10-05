@@ -71,11 +71,11 @@ namespace Theodore {
     Vector4d clipCoords;
     clipCoords.x = (2.f * (position.x - viewport[0])) / viewport[2] - 1.f;
     clipCoords.y = (2.f * (viewport[3] - position.y - (1 - viewport[1]))) / viewport[3] - 1.f;
-    clipCoords.z = -1.f; // forward
+    clipCoords.z = -1.f;  // forward
     clipCoords.w = 1.f;
 
     Vector4d eyeCoords = Matrix4x4::Inverse(GetProjectionMatrix()) * clipCoords;
-    eyeCoords.z = -1.f; // forward
+    eyeCoords.z = -1.f;  // forward
     eyeCoords.w = 0.f;
 
     // not the GetCameraToWorldMatrix()
@@ -117,4 +117,4 @@ namespace Theodore {
   bool Camera::CompareEquality(const Object& rhs) const { return false; }
 
   bool Camera::Destroy() { return false; }
-} // namespace Theodore
+}  // namespace Theodore

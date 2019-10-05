@@ -9,10 +9,10 @@
 #ifndef AssetManager_h
 #define AssetManager_h
 
-#include "../Graphics/Enumeration.h"
-#include "Texture.h"
 #include <list>
 #include <vector>
+#include "../Graphics/Enumeration.h"
+#include "Texture.h"
 
 namespace Theodore {
   class Texture2D;
@@ -22,9 +22,9 @@ namespace Theodore {
   class TextureCube;
   class Shader;
   class Mesh;
-  class CubemapRenderer; // class Font;
+  class CubemapRenderer;  // class Font;
   class AssetManager {
-    public:
+  public:
     AssetManager();
     ~AssetManager();
 
@@ -41,12 +41,12 @@ namespace Theodore {
     static Asset* GetAssetByFilename(const std::string& filename);
     static void RemoveAsset(Asset* asset);
 
-    private:
+  private:
     void StoreAsset(Asset* asset);
 
     static AssetManager* instance;
     std::list<Asset*> mAssets;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* AssetManager_h */

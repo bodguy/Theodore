@@ -9,28 +9,28 @@
 #ifndef Collider_h
 #define Collider_h
 
+#include <string>
 #include "../../../Geometry/Ray.h"
 #include "../../../Graphics/Enumeration.h"
 #include "../../../Math/Color.h"
 #include "../Component.h"
 #include "../sub/Physics.h"
-#include <string>
 
 namespace Theodore {
   class Collider : public Component {
-    public:
+  public:
     Collider(const std::string& name);
     virtual ~Collider();
 
     ColliderType GetType() const;
     virtual bool Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) = 0;
 
-    private:
+  private:
     virtual void CalculateBoundingVolumes() = 0;
 
-    protected:
+  protected:
     ColliderType mType;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Collider_h */

@@ -91,13 +91,12 @@ namespace Theodore {
     p = (uint8_t*)buf;
     crc = crc ^ ~0U;
 
-    while (size--)
-      crc = crc32_tab[(crc ^ *p++) & 0xFF] ^ (crc >> 8);
+    while (size--) crc = crc32_tab[(crc ^ *p++) & 0xFF] ^ (crc >> 8);
 
     return crc ^ ~0U;
   }
 
 #define CRC32_STR(x) (crc32_compile<sizeof(x) - 2>(x) ^ 0xFFFFFFFF)
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif

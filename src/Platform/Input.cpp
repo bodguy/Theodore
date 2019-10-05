@@ -56,8 +56,8 @@ namespace Theodore {
       }
 
       mMouseDelta = Platform::GetInstance()->mMousePosition - mlastMousePos;
-      mMouseDelta.z = 0.f;                // mouse wheel(z position) must be always 0 for Magnitude calculation
-      if (mMouseDelta.Length() > 50.0f) { // threshold value is 50.0f
+      mMouseDelta.z = 0.f;                 // mouse wheel(z position) must be always 0 for Magnitude calculation
+      if (mMouseDelta.Length() > 50.0f) {  // threshold value is 50.0f
         // renew old mouse position then wait for next frame when entering this function again
         mlastMousePos = Platform::GetInstance()->mMousePosition;
         return;
@@ -92,8 +92,7 @@ namespace Theodore {
   bool Input::GetMouseButtonHeld(MouseButton button) { return instance->mCurrentMouseButtons[button]; }
 
   bool Input::AddAxis(const std::string& axisName, InputHandler* handler) {
-    if (instance->mHandlerMapping.find(axisName) != instance->mHandlerMapping.end())
-      return false;
+    if (instance->mHandlerMapping.find(axisName) != instance->mHandlerMapping.end()) return false;
 
     instance->mHandlerMapping.insert(std::make_pair(axisName, handler));
     return true;
@@ -105,9 +104,9 @@ namespace Theodore {
     if (iter != instance->mHandlerMapping.end()) {
       InputHandler* input = iter->second;
       if (Input::GetKeyHeld(input->GetPositive())) {
-        input->Accumulate(input->GetDelta()); // positive
+        input->Accumulate(input->GetDelta());  // positive
       } else if (Input::GetKeyHeld(input->GetNegative())) {
-        input->Accumulate(-1.f * input->GetDelta()); // negative
+        input->Accumulate(-1.f * input->GetDelta());  // negative
       } else {
         input->ResetAccumulator();
       }
@@ -124,9 +123,9 @@ namespace Theodore {
     if (iter != instance->mHandlerMapping.end()) {
       InputHandler* input = iter->second;
       if (Input::GetKeyHeld(input->GetPositive())) {
-        return 1.f; // positive
+        return 1.f;  // positive
       } else if (Input::GetKeyHeld(input->GetNegative())) {
-        return -1.f; // negative
+        return -1.f;  // negative
       }
     }
 
@@ -138,14 +137,12 @@ namespace Theodore {
 
     for (int i = 0; i < MOUSE_BUTTON_MAX; i++) {
       isDown = Input::GetMouseButtonDown(static_cast<MouseButton>(i));
-      if (isDown)
-        return isDown;
+      if (isDown) return isDown;
     }
 
     for (int i = 0; i < KEY_MAX; i++) {
       isDown = Input::GetKeyDown(static_cast<KeyCode>(i));
-      if (isDown)
-        return isDown;
+      if (isDown) return isDown;
     }
 
     return isDown;
@@ -156,14 +153,12 @@ namespace Theodore {
 
     for (int i = 0; i < MOUSE_BUTTON_MAX; i++) {
       isDown = Input::GetMouseButtonUp(static_cast<MouseButton>(i));
-      if (isDown)
-        return isDown;
+      if (isDown) return isDown;
     }
 
     for (int i = 0; i < KEY_MAX; i++) {
       isDown = Input::GetKeyUp(static_cast<KeyCode>(i));
-      if (isDown)
-        return isDown;
+      if (isDown) return isDown;
     }
 
     return isDown;
@@ -174,16 +169,14 @@ namespace Theodore {
 
     for (int i = 0; i < MOUSE_BUTTON_MAX; i++) {
       isDown = Input::GetMouseButtonHeld(static_cast<MouseButton>(i));
-      if (isDown)
-        return isDown;
+      if (isDown) return isDown;
     }
 
     for (int i = 0; i < KEY_MAX; i++) {
       isDown = Input::GetKeyHeld(static_cast<KeyCode>(i));
-      if (isDown)
-        return isDown;
+      if (isDown) return isDown;
     }
 
     return isDown;
   }
-} // namespace Theodore
+}  // namespace Theodore

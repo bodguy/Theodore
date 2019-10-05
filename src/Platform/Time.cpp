@@ -27,8 +27,8 @@ namespace Theodore {
 
     mStart = mCurrentTime;
     mFrameCounter++;
-    mAccumulator += mUnscaledDeltaTime; // accumulate
-    if (mAccumulator > 1.0f) {          // elapsed after 1 sec
+    mAccumulator += mUnscaledDeltaTime;  // accumulate
+    if (mAccumulator > 1.0f) {           // elapsed after 1 sec
       mFrameRate = mFrameCounter;
       mFrameCounter = 0;
       mAccumulator = 0.0f;
@@ -59,4 +59,4 @@ namespace Theodore {
   TimePoint Time::GetTime() { return Clock::now(); }
 
   float Time::GetInterval(TimePoint start, TimePoint end) { return std::chrono::duration_cast<milli>(end - start).count(); }
-} // namespace Theodore
+}  // namespace Theodore

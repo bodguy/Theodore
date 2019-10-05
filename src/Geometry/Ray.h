@@ -14,7 +14,7 @@
 
 namespace Theodore {
   class Ray {
-    public:
+  public:
     Ray();
     Ray(const Vector3d& origin, const Vector3d& direction);
     Ray(const Ray& other);
@@ -27,6 +27,6 @@ namespace Theodore {
     Vector3d direction;
     Vector3d invDirection;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Ray_h */

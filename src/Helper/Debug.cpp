@@ -1,4 +1,6 @@
 #include "Debug.h"
+#include <stdarg.h>  // for va_list
+#include <stdio.h>   // for vprintf
 #include "../Asset/Texture2D.h"
 #include "../Geometry/Ray.h"
 #include "../Graphics/Enumeration.h"
@@ -9,8 +11,6 @@
 #include "../Math/Vector3d.h"
 #include "../Math/Vector4d.h"
 #include "../Platform/Time.h"
-#include <stdarg.h> // for va_list
-#include <stdio.h>  // for vprintf
 
 namespace Theodore {
   int Debug::__tabCount = 0;
@@ -78,4 +78,4 @@ namespace Theodore {
   void Debug::LogOnOff(bool b) { Debug::__logSwitch = b; }
 
   bool Debug::GetLogSwitch() { return Debug::__logSwitch; }
-} // namespace Theodore
+}  // namespace Theodore

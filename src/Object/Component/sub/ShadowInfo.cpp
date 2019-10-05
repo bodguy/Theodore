@@ -24,4 +24,4 @@ namespace Theodore {
   ShadowInfo::~ShadowInfo() {
     // SafeDealloc(frame);
   }
-} // namespace Theodore
+}  // namespace Theodore

@@ -4,20 +4,20 @@
 
 namespace Theodore {
   const float bones[] = {
-      0.0f,  0.4f, 0.0f,  // 0
-      -0.4f, 0.0f, -0.4f, // 1
-      0.4f,  0.0f, -0.4f, // 2
-      0.0f,  -3.f, 0.0f,  // Base
-      -0.4f, 0.0f, -0.4f, // 1
-      -0.4f, 0.0f, 0.4f,  // 4
-      0.0f,  0.4f, 0.0f,  // 0
-      0.4f,  0.0f, -0.4f, // 2
-      0.4f,  0.0f, 0.4f,  // 3
-      0.0f,  0.4f, 0.0f,  // 0
-      -0.4f, 0.0f, 0.4f,  // 4
-      0.0f,  -3.f, 0.0f,  // Base
-      0.4f,  0.0f, 0.4f,  // 3
-      -0.4f, 0.0f, 0.4f   // 4
+      0.0f,  0.4f, 0.0f,   // 0
+      -0.4f, 0.0f, -0.4f,  // 1
+      0.4f,  0.0f, -0.4f,  // 2
+      0.0f,  -3.f, 0.0f,   // Base
+      -0.4f, 0.0f, -0.4f,  // 1
+      -0.4f, 0.0f, 0.4f,   // 4
+      0.0f,  0.4f, 0.0f,   // 0
+      0.4f,  0.0f, -0.4f,  // 2
+      0.4f,  0.0f, 0.4f,   // 3
+      0.0f,  0.4f, 0.0f,   // 0
+      -0.4f, 0.0f, 0.4f,   // 4
+      0.0f,  -3.f, 0.0f,   // Base
+      0.4f,  0.0f, 0.4f,   // 3
+      -0.4f, 0.0f, 0.4f    // 4
   };
 
   static int patchdata[][16] = {
@@ -641,4 +641,4 @@ namespace Theodore {
     Mesh* mesh = new Mesh();
     return mesh;
   }
-} // namespace Theodore
+}  // namespace Theodore

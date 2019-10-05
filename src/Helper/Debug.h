@@ -13,19 +13,19 @@
 #include <string>
 
 namespace Theodore {
-#define LOG(x)                                                                                                                                                                                         \
-  if (Debug::__logSwitch) {                                                                                                                                                                            \
-    std::cout << __tabString << x << std::endl;                                                                                                                                                        \
+#define LOG(x)                                  \
+  if (Debug::__logSwitch) {                     \
+    std::cout << __tabString << x << std::endl; \
   }
-#define TAB()                                                                                                                                                                                          \
-  if (Debug::__logSwitch) {                                                                                                                                                                            \
-    __tabCount++;                                                                                                                                                                                      \
-    __tabString = std::string(__tabCount, '\t');                                                                                                                                                       \
+#define TAB()                                    \
+  if (Debug::__logSwitch) {                      \
+    __tabCount++;                                \
+    __tabString = std::string(__tabCount, '\t'); \
   }
-#define UNTAB()                                                                                                                                                                                        \
-  if (Debug::__logSwitch) {                                                                                                                                                                            \
-    __tabCount--;                                                                                                                                                                                      \
-    __tabString = std::string(__tabCount, '\t');                                                                                                                                                       \
+#define UNTAB()                                  \
+  if (Debug::__logSwitch) {                      \
+    __tabCount--;                                \
+    __tabString = std::string(__tabCount, '\t'); \
   }
 
 #ifdef _DEBUG
@@ -43,7 +43,7 @@ namespace Theodore {
   class Ray;
   class Texture;
   class Debug {
-    public:
+  public:
     static void Trace(const char* format, ...);
     static void Log(const char* format, ...);
     static void Log(const std::string& str);
@@ -71,12 +71,12 @@ namespace Theodore {
     static void LogOnOff(bool b);
     static bool GetLogSwitch();
 
-    private:
+  private:
     static int __tabCount;
     static std::string __tabString;
     static bool __logSwitch;
     static const size_t maxLength;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Debug_h */

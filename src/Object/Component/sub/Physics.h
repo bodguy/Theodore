@@ -15,13 +15,13 @@
 
 namespace Theodore {
   class RaycastHit {
-    public:
+  public:
     RaycastHit() {}
     ~RaycastHit() {}
   };
 
   class Physics {
-    public:
+  public:
     Physics();
     ~Physics();
 
@@ -30,8 +30,8 @@ namespace Theodore {
     static bool Raycast(const Ray& ray, float maxDistance = Math::infinity);
     static bool Raycast(const Ray& ray, RaycastHit* hitInfo, float maxDistance = Math::infinity);
 
-    private:
+  private:
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif

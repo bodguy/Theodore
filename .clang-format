@@ -1,12 +1,14 @@
+BasedOnStyle: Google
 Language: Cpp
 BreakBeforeBraces: Attach
 PointerAlignment: Left
 TabWidth: 2
 IndentWidth: 2
-AccessModifierOffset: 0
+AccessModifierOffset: -2
 ColumnLimit: 200
 NamespaceIndentation: All
 AlignTrailingComments: true
+AlignEscapedNewlines: true
 AllowAllParametersOfDeclarationOnNextLine: true
 AlwaysBreakTemplateDeclarations: true
 UseTab: Never

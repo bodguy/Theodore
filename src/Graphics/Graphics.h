@@ -21,7 +21,7 @@ namespace Theodore {
   class Pipeline;
   class Buffer;
   class Graphics {
-    public:
+  public:
     static void SetGraphicsSettings();
     static void Dispose();
     static void ClearColor(const Color& color, BufferBits bits);
@@ -76,7 +76,7 @@ namespace Theodore {
     static void Set2DGraphics(int w, int h);
     static void SetBlendMode(BlendMode type);
 
-    private:
+  private:
     Graphics();
     ~Graphics();
 
@@ -85,6 +85,6 @@ namespace Theodore {
     static Buffer* gizmoBuffer;
     static VertexArray* gizmoVao;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Graphics_h */

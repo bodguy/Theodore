@@ -9,8 +9,8 @@
 #ifndef SceneManager_h
 #define SceneManager_h
 
-#include "Scene.h"
 #include <vector>
+#include "Scene.h"
 
 namespace Theodore {
   class Camera;
@@ -19,7 +19,7 @@ namespace Theodore {
   class SceneManager {
     friend class Scene;
 
-    public:
+  public:
     SceneManager();
     ~SceneManager();
 
@@ -60,7 +60,7 @@ namespace Theodore {
     // Render current active scene in main game loop.
     void Render() const;
 
-    private:
+  private:
     bool Remove(const std::string& sceneName);
 
     std::vector<Scene*> mScenes;
@@ -74,8 +74,7 @@ namespace Theodore {
   template <typename T, typename... Ts>
   Scene* SceneManager::CreateScene(const std::string& sceneName, Ts... args) {
     // find already exist scene in mScenes.
-    if (GetSceneByName(sceneName))
-      return nullptr;
+    if (GetSceneByName(sceneName)) return nullptr;
 
     // if there is not scene named sceneName here, and then build scene.
     // Notice that scene has to initialized with malloc because of the SceneManager member that
@@ -88,15 +87,15 @@ namespace Theodore {
     // assign the scene count that it will be stored.
     scene->mBuildIndex = scene->mManager->mSceneCount;
     // then, call c++ constructor with placement new operator.
-    new (scene) T(args...);                  // parameterize variadic constructor members.
-    scene->OnAwake();                        // call awake function before stored it
-    GetInstance()->mScenes.push_back(scene); // store new build scene in array.
-    GetInstance()->mSceneCount++;            // increment scene counter.
-    SetCurrentCamera();                      // restore to current scene main camera as the scena manager main camera.
-    SetCurrentLight();                       // retore to current scene global light source.
+    new (scene) T(args...);                   // parameterize variadic constructor members.
+    scene->OnAwake();                         // call awake function before stored it
+    GetInstance()->mScenes.push_back(scene);  // store new build scene in array.
+    GetInstance()->mSceneCount++;             // increment scene counter.
+    SetCurrentCamera();                       // restore to current scene main camera as the scena manager main camera.
+    SetCurrentLight();                        // retore to current scene global light source.
 
     // succesfully initialized the scene then return it.
     return scene;
   }
-} // namespace Theodore
+}  // namespace Theodore
 #endif /* SceneManager_h */

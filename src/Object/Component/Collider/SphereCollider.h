@@ -14,7 +14,7 @@
 
 namespace Theodore {
   class SphereCollider : public Collider {
-    public:
+  public:
     SphereCollider();
     virtual ~SphereCollider();
 
@@ -25,7 +25,7 @@ namespace Theodore {
     float GetRadius() const;
     void SetRadius(float radius);
 
-    private:
+  private:
     virtual void CalculateBoundingVolumes() override;
 
     virtual void Update(float deltaTime) override;
@@ -33,13 +33,13 @@ namespace Theodore {
     virtual bool CompareEquality(const Object& rhs) const override;
     virtual bool Destroy() override;
 
-    private:
+  private:
     // local space center
     Vector3d mCenter;
     // local space radius
     float mRadius;
     Vector3d mMaxLengthVector;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* SphereCollider_h */

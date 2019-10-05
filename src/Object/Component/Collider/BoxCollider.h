@@ -14,7 +14,7 @@
 
 namespace Theodore {
   class BoxCollider : public Collider {
-    public:
+  public:
     BoxCollider();
     virtual ~BoxCollider();
 
@@ -25,7 +25,7 @@ namespace Theodore {
 
     virtual bool Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) override;
 
-    private:
+  private:
     virtual void CalculateBoundingVolumes() override;
 
     virtual void Update(float deltaTime) override;
@@ -33,12 +33,12 @@ namespace Theodore {
     virtual bool CompareEquality(const Object& rhs) const override;
     virtual bool Destroy() override;
 
-    private:
+  private:
     // local space center
     Vector3d mCenter;
     // local space size
     Vector3d mSize;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* BoxCollider_h */

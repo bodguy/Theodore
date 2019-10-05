@@ -17,7 +17,7 @@
 
 namespace Theodore {
   class Transform : public Component {
-    public:
+  public:
     Transform();
     virtual ~Transform();
 
@@ -81,7 +81,7 @@ namespace Theodore {
     // This operation is affected by rotate and scale of the transform.
     Vector3d TransformVector(const Vector3d& vector) const;
 
-    private:
+  private:
     Matrix4x4 GetWorldMatrix() const;
     Matrix4x4 GetLocalMatrix() const;
     Matrix4x4 GetParentLocalMatrix() const;
@@ -91,7 +91,7 @@ namespace Theodore {
     virtual bool CompareEquality(const Object& rhs) const override;
     virtual bool Destroy() override;
 
-    private:
+  private:
     Vector3d mPosition;
     Quaternion mRotation;
     Vector3d mLossyScale;
@@ -109,6 +109,6 @@ namespace Theodore {
     mutable Matrix4x4 mLocalToWorldMatrix;
     mutable Matrix4x4 mWorldToLocalMatrix;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Transform_h */

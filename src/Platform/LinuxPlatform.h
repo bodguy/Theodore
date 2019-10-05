@@ -19,7 +19,7 @@ namespace Theodore {
   class LinuxPlatform {
     friend class Platform;
 
-    private:
+  private:
     LinuxPlatform();
     ~LinuxPlatform();
 
@@ -35,7 +35,7 @@ namespace Theodore {
     GLXContext mContext;
     Atom mDestroyMessage;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* LinuxPlatform_h */
 

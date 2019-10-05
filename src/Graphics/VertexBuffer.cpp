@@ -36,8 +36,7 @@ namespace Theodore {
   unsigned long InputStream::Size() { return mData.size(); }
 
   void InputStream::Bytes(unsigned char* bytes, unsigned int count) {
-    for (unsigned int i = 0; i < count; i++)
-      mData.push_back(bytes[i]);
+    for (unsigned int i = 0; i < count; i++) mData.push_back(bytes[i]);
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -143,4 +142,4 @@ namespace Theodore {
     glVertexAttribDivisor(attribute, divisor);
     glBindVertexArray(NULL);
   }
-} // namespace Theodore
+}  // namespace Theodore

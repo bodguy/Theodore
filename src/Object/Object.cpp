@@ -31,22 +31,19 @@ namespace Theodore {
   }
 
   bool Object::Destroy(GameObject* obj) {
-    if (!obj)
-      return false;
+    if (!obj) return false;
 
     return obj->Destroy();
   }
 
   GameObject* Object::Instantiate(GameObject* original) {
-    if (!original)
-      return nullptr;
+    if (!original) return nullptr;
 
     return new GameObject(*original);
   }
 
   GameObject* Object::Instantiate(GameObject* original, const Vector3d& position) {
-    if (!original)
-      return nullptr;
+    if (!original) return nullptr;
 
     GameObject* clone = new GameObject(*original);
     clone->GetTransform()->SetPosition(position);
@@ -55,8 +52,7 @@ namespace Theodore {
   }
 
   GameObject* Object::Instantiate(GameObject* original, const Vector3d& position, const Quaternion& rotation) {
-    if (!original)
-      return nullptr;
+    if (!original) return nullptr;
 
     GameObject* clone = new GameObject(*original);
     clone->GetTransform()->SetPosition(position);
@@ -64,4 +60,4 @@ namespace Theodore {
 
     return clone;
   }
-} // namespace Theodore
+}  // namespace Theodore

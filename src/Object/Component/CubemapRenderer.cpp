@@ -42,4 +42,4 @@ namespace Theodore {
   bool CubemapRenderer::CompareEquality(const Object& rhs) const { return false; }
 
   bool CubemapRenderer::Destroy() { return false; }
-} // namespace Theodore
+}  // namespace Theodore

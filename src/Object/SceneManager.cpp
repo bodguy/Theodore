@@ -30,8 +30,7 @@ namespace Theodore {
   Scene* SceneManager::GetActiveScene() { return GetInstance()->mCurrentScene; }
 
   bool SceneManager::SetActiveScene(Scene* scene) {
-    if (!scene)
-      return false;
+    if (!scene) return false;
 
     GetInstance()->mCurrentScene = scene;
     SetCurrentCamera();
@@ -46,8 +45,7 @@ namespace Theodore {
   Scene* SceneManager::GetSceneByName(const std::string& sceneName) {
     uint32_t find = CRC32_STR(sceneName.c_str());
     for (auto& i : GetInstance()->mScenes) {
-      if (i->GetHashCode() == find)
-        return i;
+      if (i->GetHashCode() == find) return i;
     }
 
     return nullptr;
@@ -62,35 +60,29 @@ namespace Theodore {
   Camera* SceneManager::GetMainCamera() { return GetInstance()->mMainCamera; }
 
   void SceneManager::SetMainCamera(Camera* cam) {
-    if (cam)
-      GetInstance()->mMainCamera = cam;
+    if (cam) GetInstance()->mMainCamera = cam;
   }
 
   void SceneManager::SetCurrentCamera() {
-    if (GetActiveScene())
-      GetInstance()->mMainCamera = GetActiveScene()->Find("MainCamera")->GetComponent<Camera>();
+    if (GetActiveScene()) GetInstance()->mMainCamera = GetActiveScene()->Find("MainCamera")->GetComponent<Camera>();
   }
 
   Light* SceneManager::GetGlobalLight() { return GetInstance()->mGlobalLight; }
 
   void SceneManager::SetGlobalLight(Light* light) {
-    if (light)
-      GetInstance()->mGlobalLight = light;
+    if (light) GetInstance()->mGlobalLight = light;
   }
 
   void SceneManager::SetCurrentLight() {
-    if (GetActiveScene())
-      GetInstance()->mGlobalLight = GetActiveScene()->Find("GlobalLight")->GetComponent<Light>();
+    if (GetActiveScene()) GetInstance()->mGlobalLight = GetActiveScene()->Find("GlobalLight")->GetComponent<Light>();
   }
 
   void SceneManager::Update(float deltaTime) const {
-    if (mCurrentScene && mCurrentScene->mActive)
-      mCurrentScene->Update(deltaTime);
+    if (mCurrentScene && mCurrentScene->mActive) mCurrentScene->Update(deltaTime);
   }
 
   void SceneManager::Render() const {
-    if (mCurrentScene && mCurrentScene->mActive)
-      mCurrentScene->Render();
+    if (mCurrentScene && mCurrentScene->mActive) mCurrentScene->Render();
   }
 
   bool SceneManager::Remove(const std::string& sceneName) {
@@ -108,4 +100,4 @@ namespace Theodore {
 
     return false;
   }
-} // namespace Theodore
+}  // namespace Theodore

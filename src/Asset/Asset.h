@@ -9,31 +9,31 @@
 #ifndef Asset_h
 #define Asset_h
 
-#include "../Graphics/Enumeration.h"
 #include <string>
+#include "../Graphics/Enumeration.h"
 
 namespace Theodore {
   class Asset {
     friend class AssetManager;
 
-    public:
+  public:
     Asset();
     virtual ~Asset();
 
     void SetAssetName(const std::string& filename);
     bool IsManaged();
 
-    private:
+  private:
     void AddReference();
     void RemoveReference();
 
-    protected:
+  protected:
     AssetType mType;
     unsigned int mRefCount;
     std::string mName;
     std::string mFilePath;
     bool mIsManaged;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Asset_h */

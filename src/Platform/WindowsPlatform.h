@@ -13,14 +13,14 @@
 #ifndef WindowsPlatform_h
 #define WindowsPlatform_h
 
-#include "../Graphics/Enumeration.h"
 #include <string>
+#include "../Graphics/Enumeration.h"
 
 namespace Theodore {
   class WindowsPlatform {
     friend class Platform;
 
-    private:
+  private:
     WindowsPlatform();
     ~WindowsPlatform();
 
@@ -38,7 +38,7 @@ namespace Theodore {
     HDC mHdc;
     HGLRC mContext;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* WindowsPlatform_h */
 

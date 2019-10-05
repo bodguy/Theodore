@@ -28,14 +28,14 @@ namespace Theodore {
     */
 
     /*
-    #include "DataStream.h"
-    #include <algorithm>
     #include <assert.h>
+    #include <algorithm>
     #include <future>
     #include <iostream>
     #include <string>
     #include <thread>
     #include <vector>
+    #include "DataStream.h"
 
 
     // https://github.com/mkeeter/fstl/blob/master/src/loader.cpp
@@ -178,8 +178,7 @@ namespace Theodore {
     d |= *mData++;
     d <<= 8;
     d |= *mData++;
-    if (mByteOrder == ByteOrder::LittleEndian)
-      d = swap_uint64(d);
+    if (mByteOrder == ByteOrder::LittleEndian) d = swap_uint64(d);
     i = d;
 
     return *this;
@@ -242,8 +241,7 @@ namespace Theodore {
     d |= *mData++;
     d <<= 8;
     d |= *mData++;
-    if (mByteOrder == ByteOrder::LittleEndian)
-      d = swap_uint64(d);
+    if (mByteOrder == ByteOrder::LittleEndian) d = swap_uint64(d);
     i = d;
 
     return *this;
@@ -537,4 +535,4 @@ namespace Theodore {
     val = ((val << 16) & 0xFFFF0000FFFF0000ULL) | ((val >> 16) & 0x0000FFFF0000FFFFULL);
     return (val << 32) | (val >> 32);
   }
-}; // namespace Theodore
+};  // namespace Theodore

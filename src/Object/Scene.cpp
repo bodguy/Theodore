@@ -39,8 +39,7 @@ namespace Theodore {
   }
 
   void Scene::Attach(GameObject* object) {
-    if (object == nullptr)
-      return;
+    if (object == nullptr) return;
     object->mScene = this;
 
     mGameObjects.push_back(object);
@@ -49,8 +48,7 @@ namespace Theodore {
   GameObject* Scene::Find(const std::string& name) const {
     uint32_t find = CRC32_STR(name.c_str());
     for (auto& i : mGameObjects) {
-      if (i->GetHashCode() == find)
-        return i;
+      if (i->GetHashCode() == find) return i;
     }
 
     return nullptr;
@@ -59,8 +57,7 @@ namespace Theodore {
   GameObject* Scene::FindWithTag(const std::string& tag) const {
     uint32_t value = CRC32_STR(tag.c_str());
     for (auto& i : mGameObjects) {
-      if (i->mTag == value)
-        return i;
+      if (i->mTag == value) return i;
     }
 
     return nullptr;
@@ -70,8 +67,7 @@ namespace Theodore {
     std::vector<GameObject*> vectors;
     uint32_t value = CRC32_STR(tag.c_str());
     for (auto& i : mGameObjects) {
-      if (i->mTag == value)
-        vectors.push_back(i);
+      if (i->mTag == value) vectors.push_back(i);
     }
 
     return std::make_shared<std::vector<GameObject*>>(std::move(vectors));
@@ -80,8 +76,7 @@ namespace Theodore {
   void Scene::Update(float deltaTime) {
     // std::sort(sprites.begin(), sprites.end(), SpriteRenderer::SortLayer);
     for (auto& i : mGameObjects)
-      if (i->mActiveSelf)
-        i->Update(deltaTime);
+      if (i->mActiveSelf) i->Update(deltaTime);
     OnUpdate();
     OnLateUpdate();
   }
@@ -90,8 +85,7 @@ namespace Theodore {
     OnPreRender();
 
     for (auto& i : mGameObjects)
-      if (i->mActiveSelf)
-        i->Render();
+      if (i->mActiveSelf) i->Render();
 
     OnAfterRender();
   }
@@ -126,12 +120,11 @@ namespace Theodore {
 
   bool Scene::Remove(GameObject* object) {
     auto iter = std::find(mGameObjects.begin(), mGameObjects.end(), object);
-    if (iter == mGameObjects.end())
-      return false;
+    if (iter == mGameObjects.end()) return false;
 
     SafeDealloc(*iter);
     mGameObjects.erase(iter);
 
     return true;
   }
-} // namespace Theodore
+}  // namespace Theodore

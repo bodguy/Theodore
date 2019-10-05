@@ -9,17 +9,17 @@
 #ifndef ShapeGenerator_h
 #define ShapeGenerator_h
 
+#include <map>
+#include <vector>
 #include "../../../Math/Matrix4x4.h"
 #include "../../../Math/Vector2d.h"
 #include "../../../Math/Vector3d.h"
 #include "../../../Math/Vector4d.h"
-#include <map>
-#include <vector>
 
 namespace Theodore {
   class Mesh;
   class ShapeGenerator {
-    public:
+  public:
     static Mesh* GeneratePlane(unsigned int dimensions = 50);
     static Mesh* GenerateCube();
     static Mesh* GenerateIcoSphere(unsigned int subdivisions = 3);
@@ -31,7 +31,7 @@ namespace Theodore {
     static Mesh* GenerateUtahTeapot(unsigned int tesselation = 10);
     static Mesh* GenerateKnots();
 
-    private:
+  private:
     ShapeGenerator() {}
     ~ShapeGenerator() {}
 
@@ -50,6 +50,6 @@ namespace Theodore {
     static Vector3d EvaluateNormal(int gridU, int gridV, float *B, float *dB, Vector3d
     patch[][4]);*/
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* ShapeGenerator_h */

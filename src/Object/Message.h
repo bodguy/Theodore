@@ -13,7 +13,7 @@
 
 namespace Theodore {
   class Message {
-    public:
+  public:
     Message();
     explicit Message(MessageType type);
     Message(MessageType type, void* data);
@@ -25,9 +25,9 @@ namespace Theodore {
     MessageType GetType() const;
     void* GetData() const;
 
-    private:
+  private:
     MessageType mType;
     void* mData;
   };
-} // namespace Theodore
+}  // namespace Theodore
 #endif /* Message_h */

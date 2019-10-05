@@ -13,7 +13,7 @@
 
 namespace Theodore {
   class SplashScene : public Scene {
-    public:
+  public:
     SplashScene() : Scene("SplashScene") {
       speed = 20.f;
       rotationY = 0.f;
@@ -34,17 +34,17 @@ namespace Theodore {
       GameObject* skybox = new GameObject("skybox", this);
       CubemapRenderer* cubemap = skybox->AddComponent<CubemapRenderer>();
       AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posx.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::PositiveX); // Right
+                                   CubemapFace::PositiveX);  // Right
       AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negx.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::NegativeX); // Left
+                                   CubemapFace::NegativeX);  // Left
       AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posy.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::PositiveY); // Top
+                                   CubemapFace::PositiveY);  // Top
       AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negy.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::NegativeY); // Bottom
+                                   CubemapFace::NegativeY);  // Bottom
       AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posz.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::PositiveZ); // Back
+                                   CubemapFace::PositiveZ);  // Back
       AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negz.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::NegativeZ); // Front
+                                   CubemapFace::NegativeZ);  // Front
 
       GameObject* pointLight = new GameObject("pointLight", this);
       Light* pl = pointLight->AddComponent<Light>(LightType::PointLight);
@@ -154,6 +154,6 @@ namespace Theodore {
     float moveSensitivity;
     float fieldOfView;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* SplashScene_h */

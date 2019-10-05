@@ -11,16 +11,16 @@
 
 #include "../Platform/os_types.h"
 #include GLEW_INCLUDE_DIR
+#include <vector>
 #include "../Graphics/Enumeration.h"
 #include "../Math/Color.h"
 #include "Asset.h"
-#include <vector>
 
 namespace Theodore {
   class Texture : public Asset {
     friend class Debug;
 
-    public:
+  public:
     Texture();
     virtual ~Texture() = 0;
 
@@ -45,7 +45,7 @@ namespace Theodore {
 
     TextureDimension GetDimension() const;
 
-    protected:
+  protected:
     unsigned char* mNativeTexturePtr;
     unsigned int mTextureID;
     int mWidth, mHeight;
@@ -60,6 +60,6 @@ namespace Theodore {
     Color mColorKey;
     bool mUseColorKey;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Texture_h */

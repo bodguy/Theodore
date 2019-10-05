@@ -14,7 +14,7 @@
 
 namespace Theodore {
   class Vector3d {
-    public:
+  public:
     //! default contructor
     Vector3d();
     //! constructor with three elements
@@ -139,11 +139,11 @@ namespace Theodore {
     static Vector3d Absolute(const Vector3d& other);
 
     //! linear interpolation
-    static Vector3d Lerp(const Vector3d& a, const Vector3d& b, float t); // Linear Interpolation
+    static Vector3d Lerp(const Vector3d& a, const Vector3d& b, float t);  // Linear Interpolation
     static Vector3d Slerp(const Vector3d& a, const Vector3d& b,
-                          float t); // Sphere Linear Interpolation
+                          float t);  // Sphere Linear Interpolation
     static Vector3d Nlerp(const Vector3d& a, const Vector3d& b,
-                          float t); // Normalized Linear Interpolation
+                          float t);  // Normalized Linear Interpolation
     static Vector3d Project(const Vector3d& vector, const Vector3d& onNormal);
     static Vector3d ProjectOnPlane(const Vector3d& vector, const Vector3d& planeNormal);
     static Vector3d Normalize(const Vector3d& vector);
@@ -152,9 +152,9 @@ namespace Theodore {
     float x, y, z;
     static const Vector3d up, down, left, right, forward, backward, one, zero;
 
-    private:
+  private:
     void Swap(Vector3d& first, Vector3d& second);
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Vector3d_h */

@@ -9,17 +9,17 @@
 #ifndef Material_h
 #define Material_h
 
-#include "../../../Math/Color.h"
 #include <vector>
+#include "../../../Math/Color.h"
 
 namespace Theodore {
   class Pipeline;
   class Texture;
   class FrameBuffer;
   class Material {
-    public:
+  public:
     Material(Pipeline* program);
-    Material(Color ambient, Color diffse, Color specular, float shininess);
+    Material(Color ambient, Color diffuse, Color specular, float shininess);
     ~Material();
 
     Pipeline* GetShader() const;
@@ -49,7 +49,7 @@ namespace Theodore {
     static const Material black_plastic;
     static const Material black_rubber;
 
-    private:
+  private:
     Pipeline* shader;
     Texture* texture0;
     Texture* texture1;
@@ -63,6 +63,6 @@ namespace Theodore {
     Color specular;
     float shininess;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Material_h */

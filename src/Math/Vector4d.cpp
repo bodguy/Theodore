@@ -1,10 +1,10 @@
 #include "Vector4d.h"
+#include <algorithm>  // until c++11 for std::swap
+#include <cmath>
+#include <utility>  // since c++11 for std::swap
 #include "Math.h"
 #include "Vector2d.h"
 #include "Vector3d.h"
-#include <algorithm> // until c++11 for std::swap
-#include <cmath>
-#include <utility> // since c++11 for std::swap
 
 namespace Theodore {
   Vector4d::Vector4d() : x(0.f), y(0.f), z(0.f), w(1.f) {}
@@ -53,16 +53,16 @@ namespace Theodore {
 
   float Vector4d::operator[](unsigned int i) const {
     switch (i) {
-    case 0:
-      return x;
-    case 1:
-      return y;
-    case 2:
-      return z;
-    case 3:
-      return w;
-    default:
-      return x;
+      case 0:
+        return x;
+      case 1:
+        return y;
+      case 2:
+        return z;
+      case 3:
+        return w;
+      default:
+        return x;
     }
   }
 
@@ -197,8 +197,7 @@ namespace Theodore {
 
   Vector4d& Vector4d::Normalize() {
     float len = std::sqrt(x * x + y * y + z * z + w * w);
-    if (Math::IsZero(len) || Math::IsEqual(len, 1.f))
-      return *this;
+    if (Math::IsZero(len) || Math::IsEqual(len, 1.f)) return *this;
 
     float inv = 1 / len;
 
@@ -231,4 +230,4 @@ namespace Theodore {
   const Vector4d Vector4d::backward = Vector4d(0.f, 0.f, 1.f, 1.f);
   const Vector4d Vector4d::one = Vector4d(1.f, 1.f, 1.f, 1.f);
   const Vector4d Vector4d::zero = Vector4d(0.f, 0.f, 0.f, 0.f);
-} // namespace Theodore
+}  // namespace Theodore

@@ -9,23 +9,23 @@
 #ifndef TextureCube_h
 #define TextureCube_h
 
+#include <string>
 #include "../Graphics/Enumeration.h"
 #include "Texture.h"
-#include <string>
 
 namespace Theodore {
   class CubemapRenderer;
   class TextureCube : public Texture {
-    public:
+  public:
     TextureCube();
     ~TextureCube();
 
     bool LoadCubemapTexture(const CubemapRenderer* cubemap, const std::string& filename, TextureFormat format, CubemapFace face);
     CubemapFace GetFace() const;
 
-    private:
+  private:
     CubemapFace mFace;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* TextureCube_h */

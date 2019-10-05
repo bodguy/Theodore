@@ -23,7 +23,7 @@ namespace Theodore {
   class Sprite {
     friend class SpriteRenderer;
 
-    public:
+  public:
     Sprite();
     ~Sprite();
 
@@ -32,11 +32,11 @@ namespace Theodore {
     bool operator==(const Sprite& rhs);
     bool operator!=(const Sprite& rhs);
 
-    private:
+  private:
     IndexFormat mFormat;
     Texture2D* mTexture;
-    Rect mRect;        // for a sprite with a single texture
-    Rect mTextureRect; // for a sprite from an atlas
+    Rect mRect;         // for a sprite with a single texture
+    Rect mTextureRect;  // for a sprite from an atlas
     Vector2d mTextureRectOffset;
     Vector2d mPivot;
     Vector2d mInitialPivot;
@@ -45,8 +45,8 @@ namespace Theodore {
     Color mColorKey;
     bool mUseColorKey;
     unsigned short mIndices[6];
-    Bounds mBounds; // local space bounds
+    Bounds mBounds;  // local space bounds
   };
-} // namespace Theodore
+}  // namespace Theodore
 
 #endif /* Sprite_h */

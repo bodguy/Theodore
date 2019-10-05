@@ -84,4 +84,4 @@ namespace Theodore {
   bool BoxCollider::CompareEquality(const Object& rhs) const { return false; }
 
   bool BoxCollider::Destroy() { return false; }
-} // namespace Theodore
+}  // namespace Theodore

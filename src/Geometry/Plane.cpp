@@ -21,11 +21,11 @@ namespace Theodore {
     float numer = Vector3d::DotProduct(r.origin, n) + d;
     float denom = Vector3d::DotProduct(r.direction, n);
 
-    if (denom < Math::flt_epsilon) { // normal is orthogonal to vector, cant intersect
+    if (denom < Math::flt_epsilon) {  // normal is orthogonal to vector, cant intersect
       *enter = -1.f;
       return false;
     }
     *enter = -(numer / denom);
     return true;
   }
-} // namespace Theodore
+}  // namespace Theodore

@@ -16,4 +16,4 @@ namespace Theodore {
   }
 
   bool Asset::IsManaged() { return mIsManaged; }
-} // namespace Theodore
+}  // namespace Theodore
