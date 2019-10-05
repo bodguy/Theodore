@@ -1,6 +1,6 @@
 Welcome to Theodore
 =============
-![](license.svg)
+![https://opensource.org/licenses/Apache-2.0](license.svg)
 [![Join the chat at https://gitter.im/Theodore-community/community](https://badges.gitter.im/Theodore-community/community.svg)](https://gitter.im/Theodore-community/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ### Introduction
 Theodore is the open source game framework for 3D, 2D. It's goal is to make game very easy.
