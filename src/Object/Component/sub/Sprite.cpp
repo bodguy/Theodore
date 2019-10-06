@@ -1,7 +1,6 @@
 #include "Sprite.h"
 #include "../../../Asset/AssetManager.h"
 #include "../../../Asset/Texture2D.h"
-#include "../../../Helper/Utility.h"
 
 namespace Theodore {
   Sprite::Sprite()

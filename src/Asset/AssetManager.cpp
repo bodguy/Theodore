@@ -10,8 +10,8 @@
 #include "../Helper/File.h"
 #include "../Helper/Utility.h"
 #include "../Math/Color.h"
-#include "WaveFrontObjMesh.h"
 #include "../Platform/Time.h"
+#include "WaveFrontObjMesh.h"
 
 namespace Theodore {
   AssetManager* AssetManager::instance = nullptr;

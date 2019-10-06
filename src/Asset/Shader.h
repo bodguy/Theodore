@@ -14,19 +14,18 @@
 #include GLEW_INCLUDE_DIR
 #include <map>
 #include <string>
-#include "Asset.h"
 #include "../Helper/File.h"
+#include "Asset.h"
 
 namespace Theodore {
   typedef int Attribute;
   typedef int Uniform;
 
   struct ShaderPreprocess {
-    ShaderPreprocess(int offset, int end, char* filename, int next_line_after)
-      :offset(offset), end(end), filename(filename), next_line_after(next_line_after) {}
+    ShaderPreprocess(int offset, int end, char* filename, int next_line_after) : offset(offset), end(end), filename(filename), next_line_after(next_line_after) {}
     int offset;
     int end;
-    char *filename;
+    char* filename;
     int next_line_after;
   };
 

@@ -178,17 +178,11 @@ namespace Theodore {
 
   bool File::Validate(void) const { return fp && !feof(fp) ? true : false; }
 
-  std::string File::GetFullName() const {
-    return mFullFileName;
-  }
+  std::string File::GetFullName() const { return mFullFileName; }
 
-  std::string File::GetBaseName() const {
-    return mBaseName;
-  }
+  std::string File::GetBaseName() const { return mBaseName; }
 
-  std::string File::GetFileName() const {
-    return mFileName;
-  }
+  std::string File::GetFileName() const { return mFileName; }
 
   std::string File::BaseName(const std::string& path) {
     const size_t last_slash_idx = path.find_last_of("\\/");

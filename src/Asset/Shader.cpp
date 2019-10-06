@@ -2,13 +2,13 @@
 #include <cstdlib>
 #include <vector>
 #include "../Helper/Debug.h"
+#include "../Helper/StringUtil.h"
 #include "../Helper/Utility.h"
 #include "../Math/Color.h"
 #include "../Math/Matrix4x4.h"
 #include "../Math/Vector2d.h"
 #include "../Math/Vector3d.h"
 #include "../Math/Vector4d.h"
-#include "../Helper/StringUtil.h"
 #include "../Object/Application.h"
 
 namespace Theodore {
@@ -52,7 +52,7 @@ namespace Theodore {
     char* text = nullptr;
     size_t textlen = 0, last = 0;
 
-    for (int i=0; i < num; i++) {
+    for (int i = 0; i < num; i++) {
       text = ReAlloc(text, &textlen, str + last, plist[i]->offset - last);
       if (plist[i]->filename != nullptr) {
         std::string filename = path + "/" + plist[i]->filename;
@@ -89,35 +89,29 @@ namespace Theodore {
     char *s = text, *start;
     while (*s) {
       start = s;
-      while (*s == ' ' || *s == '\t')
-        ++s;
+      while (*s == ' ' || *s == '\t') ++s;
       if (*s == '#') {
         ++s;
-        while (*s == ' ' || *s == '\t')
-          ++s;
-        if (0==strncmp(s, "include", 7) && StringUtil::IsSpace(s[7])) {
+        while (*s == ' ' || *s == '\t') ++s;
+        if (0 == strncmp(s, "include", 7) && StringUtil::IsSpace(s[7])) {
           s += 7;
-          while (*s == ' ' || *s == '\t')
-            ++s;
+          while (*s == ' ' || *s == '\t') ++s;
           if (*s == '"') {
-            char *t = ++s;
-            while (*t != '"' && *t != '\n' && *t != '\r' && *t != 0)
-              ++t;
+            char* t = ++s;
+            while (*t != '"' && *t != '\n' && *t != '\r' && *t != 0) ++t;
             if (*t == '"') {
-              char *filename = (char*)malloc(t-s+1);
-              memcpy(filename, s, t-s);
-              filename[t-s] = 0;
-              s=t;
-              while (*s != '\r' && *s != '\n' && *s != 0)
-                ++s;
+              char* filename = (char*)malloc(t - s + 1);
+              memcpy(filename, s, t - s);
+              filename[t - s] = 0;
+              s = t;
+              while (*s != '\r' && *s != '\n' && *s != 0) ++s;
               plist.emplace_back(new ShaderPreprocess(start - text, s - text, filename, line_count + 1));
               ++inc_count;
             }
           }
         }
       }
-      while (*s != '\r' && *s != '\n' && *s != 0)
-        ++s;
+      while (*s != '\r' && *s != '\n' && *s != 0) ++s;
       if (*s == '\r' || *s == '\n') {
         s = s + (s[0] + s[1] == '\r' + '\n' ? 2 : 1);
       }
@@ -141,12 +135,12 @@ namespace Theodore {
   void Shader::Free(const std::vector<ShaderPreprocess*>& list) {
     for (auto i : list) {
       free(i->filename);
-      delete(i);
+      delete (i);
     }
   }
 
   char* Shader::ReAlloc(char* str, size_t* curlen, char* addstr, size_t addlen) {
-    str = (char *)realloc(str, *curlen + addlen);
+    str = (char*)realloc(str, *curlen + addlen);
     memcpy(str + *curlen, addstr, addlen);
     *curlen += addlen;
     return str;
