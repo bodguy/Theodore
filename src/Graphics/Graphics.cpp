@@ -5,6 +5,7 @@
 #include "../Math/Color.h"
 #include "../Math/Math.h"
 #include "../Object/Component/Camera.h"
+#include "../Object/Component/Transform.h"
 #include "../Object/SceneManager.h"
 #include "../Platform/Platform.h"
 #include "FrameBuffer.h"
@@ -289,6 +290,11 @@ namespace Theodore {
     gizmoBuffer->SubData(vertices, 0, 24 * sizeof(Vector3d));
     Graphics::DrawArrays(*gizmoVao, Primitive::Lines, 0, 24);
     gizmoProgram->UnUse();
+  }
+
+  void Graphics::DrawFrustum(const Camera* camera, const Color color) {
+    DrawFrustum(camera->GetTransform()->GetPosition(), camera->GetFieldOfView(), SceneManager::GetMainCamera()->GetNearClipPlane(), SceneManager::GetMainCamera()->GetFarClipPlane() / 100.f,
+                SceneManager::GetMainCamera()->GetAspectRatio(), color);
   }
 
   // OpenGL 2.1 version rendering functions implements

@@ -73,6 +73,8 @@ namespace Theodore {
     virtual void OnUpdate() { CameraUpdate(); }
 
     void CameraUpdate() {
+      Graphics::DrawFrustum(SceneManager::GetMainCamera(), Color::red);
+      Graphics::DrawSphere(Vector3d::zero, 3.f, Color::green);
       if (Input::GetKeyDown(KEY_ESCAPE)) {
         Platform::GetInstance()->Quit();
       }

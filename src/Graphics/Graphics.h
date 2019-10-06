@@ -20,6 +20,7 @@ namespace Theodore {
   class FrameBuffer;
   class Pipeline;
   class Buffer;
+  class Camera;
   class Graphics {
   public:
     static void SetGraphicsSettings();
@@ -51,6 +52,7 @@ namespace Theodore {
     static void DrawCube(const Vector3d& center, const Vector3d& size, const Color color, const Matrix4x4 model = Matrix4x4::Identity());
     static void DrawSphere(const Vector3d& center, float radius, const Color color);
     static void DrawFrustum(const Vector3d& center, float fov, float maxRange, float minRange, float aspect, const Color color);
+    static void DrawFrustum(const Camera* camera, const Color color);
 
     // OpenGL 2.1 version rendering functions
     static void Vertex(const Vector3d& vector);
