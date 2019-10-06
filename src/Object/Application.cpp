@@ -37,38 +37,36 @@ namespace Theodore {
     mShaderManager = new ShaderManager();
 
     // default program setting and caching
-    Shader* phong_vs = AssetManager::RequestShader(Application::GetShaderPath() + "light/phong.vs", ShaderType::VertexShader);
-    Shader* phong_fs = AssetManager::RequestShader(Application::GetShaderPath() + "light/phong.fs", ShaderType::FragmentShader);
+    Shader* phong_vs = AssetManager::RequestShader(Application::GetShaderPath() + "light/phong_vs.glsl", ShaderType::VertexShader);
+    Shader* phong_fs = AssetManager::RequestShader(Application::GetShaderPath() + "light/phong_fs.glsl", ShaderType::FragmentShader);
     ShaderManager::Append(new Pipeline("Phong", *phong_vs, *phong_fs));
 
-    // Shader* flat_vs = AssetManager::RequestShader(Application::GetShaderPath() + "light/flat.vs",
-    // ShaderType::VertexShader);
-    // Shader* flat_fs = AssetManager::RequestShader(Application::GetShaderPath() + "light/flat.fs",
-    // ShaderType::FragmentShader);
+    // Shader* flat_vs = AssetManager::RequestShader(Application::GetShaderPath() + "light/flat_vs.glsl", ShaderType::VertexShader);
+    // Shader* flat_fs = AssetManager::RequestShader(Application::GetShaderPath() + "light/flat_fs.glsl", ShaderType::FragmentShader);
     // ShaderManager::Append(new Pipeline("Flat", *flat_vs, *flat_fs));
 
-    Shader* twoDimension_vs = AssetManager::RequestShader(Application::GetShaderPath() + "sprite/sprite.vs", ShaderType::VertexShader);
-    Shader* twoDimension_fs = AssetManager::RequestShader(Application::GetShaderPath() + "sprite/sprite.fs", ShaderType::FragmentShader);
+    Shader* twoDimension_vs = AssetManager::RequestShader(Application::GetShaderPath() + "sprite/sprite_vs.glsl", ShaderType::VertexShader);
+    Shader* twoDimension_fs = AssetManager::RequestShader(Application::GetShaderPath() + "sprite/sprite_fs.glsl", ShaderType::FragmentShader);
     ShaderManager::Append(new Pipeline("2D", *twoDimension_vs, *twoDimension_fs));
 
-    Shader* gizmo_vs = AssetManager::RequestShader(Application::GetShaderPath() + "gizmo/gizmo.vs", ShaderType::VertexShader);
-    Shader* gizmo_fs = AssetManager::RequestShader(Application::GetShaderPath() + "gizmo/gizmo.fs", ShaderType::FragmentShader);
+    Shader* gizmo_vs = AssetManager::RequestShader(Application::GetShaderPath() + "gizmo/gizmo_vs.glsl", ShaderType::VertexShader);
+    Shader* gizmo_fs = AssetManager::RequestShader(Application::GetShaderPath() + "gizmo/gizmo_fs.glsl", ShaderType::FragmentShader);
     ShaderManager::Append(new Pipeline("Gizmo", *gizmo_vs, *gizmo_fs));
 
-    Shader* sphere_gs = AssetManager::RequestShader(Application::GetShaderPath() + "gizmo/sphere.gs", ShaderType::GeometryShader);
+    Shader* sphere_gs = AssetManager::RequestShader(Application::GetShaderPath() + "gizmo/sphere_gs.glsl", ShaderType::GeometryShader);
     ShaderManager::Append(new Pipeline("Sphere", *gizmo_vs, *gizmo_fs, *sphere_gs));
 
-    Shader* normal_vs = AssetManager::RequestShader(Application::GetShaderPath() + "debug/normal.vs", ShaderType::VertexShader);
-    Shader* normal_gs = AssetManager::RequestShader(Application::GetShaderPath() + "debug/normal.gs", ShaderType::GeometryShader);
-    Shader* normal_fs = AssetManager::RequestShader(Application::GetShaderPath() + "debug/normal.fs", ShaderType::FragmentShader);
+    Shader* normal_vs = AssetManager::RequestShader(Application::GetShaderPath() + "debug/normal_vs.glsl", ShaderType::VertexShader);
+    Shader* normal_gs = AssetManager::RequestShader(Application::GetShaderPath() + "debug/normal_gs.glsl", ShaderType::GeometryShader);
+    Shader* normal_fs = AssetManager::RequestShader(Application::GetShaderPath() + "debug/normal_fs.glsl", ShaderType::FragmentShader);
     ShaderManager::Append(new Pipeline("DebugNormal", *normal_vs, *normal_fs, *normal_gs));
 
-    Shader* shadow_vs = AssetManager::RequestShader(Application::GetShaderPath() + "light/shadow.vs", ShaderType::VertexShader);
-    Shader* shadow_fs = AssetManager::RequestShader(Application::GetShaderPath() + "light/shadow.fs", ShaderType::FragmentShader);
+    Shader* shadow_vs = AssetManager::RequestShader(Application::GetShaderPath() + "light/shadow_vs.glsl", ShaderType::VertexShader);
+    Shader* shadow_fs = AssetManager::RequestShader(Application::GetShaderPath() + "light/shadow_fs.glsl", ShaderType::FragmentShader);
     ShaderManager::Append(new Pipeline("Shadow", *shadow_vs, *shadow_fs));
 
-    Shader* cubemap_vs = AssetManager::RequestShader(Application::GetShaderPath() + "cubemap/cubemap.vs", ShaderType::VertexShader);
-    Shader* cubemap_fs = AssetManager::RequestShader(Application::GetShaderPath() + "cubemap/cubemap.fs", ShaderType::FragmentShader);
+    Shader* cubemap_vs = AssetManager::RequestShader(Application::GetShaderPath() + "cubemap/cubemap_vs.glsl", ShaderType::VertexShader);
+    Shader* cubemap_fs = AssetManager::RequestShader(Application::GetShaderPath() + "cubemap/cubemap_fs.glsl", ShaderType::FragmentShader);
     ShaderManager::Append(new Pipeline("Cubemap", *cubemap_vs, *cubemap_fs));
 
     mSceneManager = new SceneManager();

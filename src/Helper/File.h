@@ -24,16 +24,16 @@ namespace Theodore {
     bool Open(const std::string& name, OpenMode accessType);
     void Close(void);  // Close file pointer
     void Clear(void);  // Close file pointer (if open) and clear file name
-    void Write(const char* format, ...);
-    void Read(const char* format, ...);
+    void Writef(const char* format, ...);
+    void Readf(const char* format, ...);
     std::string ReadFile();
 
     template <typename T, size_t size>
-    size_t WriteBinary(const T (&buffer)[size]);
-    size_t WriteBinary(void* buffer, size_t elementsize, size_t elementcount);
+    size_t WriteBuf(const T (&buffer)[size]);
+    size_t WriteBuf(void* buffer, size_t elementsize, size_t elementcount);
     template <typename T, size_t size>
-    size_t ReadBinary(T (&buffer)[size]);
-    size_t ReadBinary(void* buffer, size_t elementsize, size_t elementcount);
+    size_t ReadBuf(T (&buffer)[size]);
+    size_t ReadBuf(void* buffer, size_t elementsize, size_t elementcount);
 
     std::string GetLine(void);                // Retrieve one line delimited by '\n'
     std::string GetLine(char delim);          // Retrieve one line delimited by delim
@@ -66,7 +66,7 @@ namespace Theodore {
   };
 
   template <typename T, size_t size>
-  size_t File::WriteBinary(const T (&buffer)[size]) {
+  size_t File::WriteBuf(const T (&buffer)[size]) {
     if (IsOpen()) {
       return fwrite(&buffer, sizeof(T), size, fp);
     }
@@ -75,7 +75,7 @@ namespace Theodore {
   }
 
   template <typename T, size_t size>
-  size_t File::ReadBinary(T (&buffer)[size]) {
+  size_t File::ReadBuf(T (&buffer)[size]) {
     if (IsOpen()) {
       return fread(&buffer, sizeof(T), size, fp);
     }

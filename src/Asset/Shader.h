@@ -15,12 +15,15 @@
 #include <map>
 #include <string>
 #include "Asset.h"
+#include "../Helper/File.h"
 
 namespace Theodore {
   typedef int Attribute;
   typedef int Uniform;
 
-  struct IncludeInfo {
+  struct ShaderPreprocess {
+    ShaderPreprocess(int offset, int end, char* filename, int next_line_after)
+      :offset(offset), end(end), filename(filename), next_line_after(next_line_after) {}
     int offset;
     int end;
     char *filename;
@@ -38,14 +41,13 @@ namespace Theodore {
     int Compile(const std::string& source);
     static Pipeline* Find(const std::string& name);
 
-    static char* PreprocessIncludes(char* str, char* path, char error[256]);
-    static void FreeIncludes(IncludeInfo* array, int len);
-    static char* LoadFile(char* filename, size_t* plen);
-    static char* IncludeFile(char* filename, char* path, char error[256]);
-    static int FindInclude(char* text, IncludeInfo** plist);
-    static IncludeInfo* AppendInclude(IncludeInfo* array, int len, int offset, int end, char* filename, int next_line);
-    static char* Append(char* str, size_t* curlen, char* addstr, size_t addlen);
-    static int IsSpace(int ch);
+  private:
+    static char* PreprocessFromString(char* str, const std::string& path);
+    static char* PreprocessFromFile(const std::string& filename, const std::string& path);
+    static int RetrieveDirective(char* text, std::vector<ShaderPreprocess*>& plist);
+    static char* Read(const std::string& filename);
+    static void Free(const std::vector<ShaderPreprocess*>& list);
+    static char* ReAlloc(char* str, size_t* curlen, char* addstr, size_t addlen);
 
   private:
     unsigned int mShaderID;

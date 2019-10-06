@@ -1,5 +1,6 @@
 #include "Shader.h"
 #include <cstdlib>
+#include <vector>
 #include "../Helper/Debug.h"
 #include "../Helper/Utility.h"
 #include "../Math/Color.h"
@@ -7,6 +8,8 @@
 #include "../Math/Vector2d.h"
 #include "../Math/Vector3d.h"
 #include "../Math/Vector4d.h"
+#include "../Helper/StringUtil.h"
+#include "../Object/Application.h"
 
 namespace Theodore {
   ////////////////////////////////////////////////////////////////////////////////////
@@ -21,7 +24,7 @@ namespace Theodore {
   Shader::~Shader() { glDeleteShader(mShaderID); }
 
   int Shader::Compile(const std::string& source) {
-    const char* c_str = source.c_str();
+    const char* c_str = PreprocessFromString(const_cast<char*>(source.c_str()), Application::GetShaderPath());
     glShaderSource(mShaderID, 1, &c_str, NULL);
     glCompileShader(mShaderID);
 
@@ -42,81 +45,49 @@ namespace Theodore {
 
   Pipeline* Shader::Find(const std::string& name) { return ShaderManager::shaderManager->mPipelines.find(name)->second; }
 
-  char* Shader::PreprocessIncludes(char* str, char* path, char error[256]) {
-    char temp[4096];
-    IncludeInfo* inc_list;
-    int i, num = Shader::FindInclude(str, &inc_list);
+  char* Shader::PreprocessFromString(char* str, const std::string& path) {
+    std::vector<ShaderPreprocess*> plist;
+    int num = RetrieveDirective(str, plist);
     size_t source_len = strlen(str);
-    char *text=0;
-    size_t textlen=0, last=0;
-    for (i=0; i < num; ++i) {
-      text = Shader::Append(text, &textlen, str+last, inc_list[i].offset - last);
-      if (inc_list[i].filename != 0) {
-        char *inc;
-        strcpy(temp, path);
-        strcat(temp, "/");
-        strcat(temp, inc_list[i].filename);
-        inc = Shader::IncludeFile(temp, path, error);
-        if (inc == NULL) {
-          FreeIncludes(inc_list, num);
-          return NULL;
+    char* text = nullptr;
+    size_t textlen = 0, last = 0;
+
+    for (int i=0; i < num; i++) {
+      text = ReAlloc(text, &textlen, str + last, plist[i]->offset - last);
+      if (plist[i]->filename != nullptr) {
+        std::string filename = path + "/" + plist[i]->filename;
+        char* inc = PreprocessFromFile(filename, path);
+        if (inc == nullptr) {
+          Free(plist);
+          return nullptr;
         }
-        text = Append(text, &textlen, inc, strlen(inc));
+        text = ReAlloc(text, &textlen, inc, strlen(inc));
         free(inc);
       }
-      last = inc_list[i].end;
+      last = plist[i]->end;
     }
-    text = Append(text, &textlen, str+last, source_len - last + 1); // append '\0'
-    FreeIncludes(inc_list, num);
+    text = ReAlloc(text, &textlen, str + last, source_len - last + 1);
+    Free(plist);
     return text;
   }
 
-  void Shader::FreeIncludes(IncludeInfo* array, int len) {
-    int i;
-    for (i=0; i < len; ++i)
-      free(array[i].filename);
-    free(array);
-  }
-
-  char* Shader::LoadFile(char* filename, size_t* plen) {
-    char *text;
-    size_t len;
-    FILE *f = fopen(filename, "rb");
-    if (f == 0) return 0;
-    fseek(f, 0, SEEK_END);
-    len = (size_t) ftell(f);
-    if (plen) *plen = len;
-    text = (char *) malloc(len+1);
-    if (text == 0) return 0;
-    fseek(f, 0, SEEK_SET);
-    fread(text, 1, len, f);
-    fclose(f);
-    text[len] = 0;
-    return text;
-  }
-
-  char* Shader::IncludeFile(char* filename, char* path, char error[256]) {
-    size_t len;
-    char *result;
-    char *text = LoadFile(filename, &len);
-    if (text == NULL) {
-      strcpy(error, "Error: couldn't load '");
-      strcat(error, filename);
-      strcat(error, "'");
-      return 0;
+  char* Shader::PreprocessFromFile(const std::string& filename, const std::string& path) {
+    char* result;
+    char* text = Read(filename);
+    if (text == nullptr) {
+      Debug::Error("could not find '%s'", filename.c_str());
+      return nullptr;
     }
-    result = PreprocessIncludes(text, path, error);
+    result = PreprocessFromString(text, path);
     free(text);
     return result;
   }
 
-  int Shader::FindInclude(char* text, IncludeInfo** plist) {
+  int Shader::RetrieveDirective(char* text, std::vector<ShaderPreprocess*>& plist) {
     int line_count = 1;
     int inc_count = 0;
     char *s = text, *start;
-    IncludeInfo *list = NULL;
     while (*s) {
-      // parse is always at start of line when we reach here
       start = s;
       while (*s == ' ' || *s == '\t')
         ++s;
@@ -124,7 +95,7 @@ namespace Theodore {
         ++s;
         while (*s == ' ' || *s == '\t')
           ++s;
-        if (0==strncmp(s, "include", 7) && IsSpace(s[7])) {
+        if (0==strncmp(s, "include", 7) && StringUtil::IsSpace(s[7])) {
           s += 7;
           while (*s == ' ' || *s == '\t')
             ++s;
@@ -139,8 +110,8 @@ namespace Theodore {
               s=t;
               while (*s != '\r' && *s != '\n' && *s != 0)
                 ++s;
-              // s points to the newline, so s-start is everything except the newline
-              list = AppendInclude(list, inc_count++, start-text, s-text, filename, line_count+1);
+              plist.emplace_back(new ShaderPreprocess(start - text, s - text, filename, line_count + 1));
+              ++inc_count;
             }
           }
         }
@@ -152,28 +123,33 @@ namespace Theodore {
       }
       ++line_count;
     }
-    *plist = list;
     return inc_count;
   }
 
-  IncludeInfo* Shader::AppendInclude(IncludeInfo* array, int len, int offset, int end, char* filename, int next_line) {
-    IncludeInfo* z = (IncludeInfo*)realloc(array, sizeof(*z) * (len+1));
-    z[len].offset   = offset;
-    z[len].end      = end;
-    z[len].filename = filename;
-    z[len].next_line_after = next_line;
-    return z;
+  char* Shader::Read(const std::string& filename) {
+    File file(filename, OpenMode::ReadBinary);
+    if (!file.IsOpen()) return nullptr;
+    size_t len = file.GetSize();
+    char* text = (char*)malloc(len + 1);
+    if (text == nullptr) return nullptr;
+    file.ReadBuf(text, 1, len);
+    file.Close();
+    text[len] = 0;
+    return text;
   }
 
-  char* Shader::Append(char* str, size_t* curlen, char* addstr, size_t addlen) {
+  void Shader::Free(const std::vector<ShaderPreprocess*>& list) {
+    for (auto i : list) {
+      free(i->filename);
+      delete(i);
+    }
+  }
+
+  char* Shader::ReAlloc(char* str, size_t* curlen, char* addstr, size_t addlen) {
     str = (char *)realloc(str, *curlen + addlen);
     memcpy(str + *curlen, addstr, addlen);
     *curlen += addlen;
     return str;
-  }
-
-  int Shader::IsSpace(int ch) {
-    return (ch == ' ' || ch == '\t' || ch == '\r' || ch == 'n');
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

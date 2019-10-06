@@ -67,14 +67,14 @@ namespace Theodore {
     mMode = OpenMode::Read;
   }
 
-  void File::Write(const char* format, ...) {
+  void File::Writef(const char* format, ...) {
     va_list args;
     va_start(args, format);
     vfprintf(fp, format, args);
     va_end(args);
   }
 
-  void File::Read(const char* format, ...) {
+  void File::Readf(const char* format, ...) {
     va_list args;
     va_start(args, format);
     vfscanf(fp, format, args);
@@ -95,7 +95,7 @@ namespace Theodore {
     return str;
   }
 
-  size_t File::WriteBinary(void* buffer, size_t elementsize, size_t elementcount) {
+  size_t File::WriteBuf(void* buffer, size_t elementsize, size_t elementcount) {
     if (IsOpen()) {
       return fwrite(buffer, elementsize, elementcount, fp);
     }
@@ -103,7 +103,7 @@ namespace Theodore {
     return 0;
   }
 
-  size_t File::ReadBinary(void* buffer, size_t elementsize, size_t elementcount) {
+  size_t File::ReadBuf(void* buffer, size_t elementsize, size_t elementcount) {
     if (IsOpen()) {
       return fread(buffer, elementsize, elementcount, fp);
     }
@@ -164,7 +164,7 @@ namespace Theodore {
   size_t File::GetSize() {
     SeekFromEndOfFile(0);
     size_t size = ftell(fp);
-    SeekFromBeginOfFile(0);
+    Rewind();
     return size;
   }
 

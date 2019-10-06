@@ -27,7 +27,8 @@ namespace Theodore {
   public:
     static bool Contains(const std::string& txt, const std::string& contain);
     static bool Match(const std::string& txt, const std::string& regex);
-    static bool Comment(const std::string& c);
+    static bool IsComment(const std::string& c);
+    static bool IsSpace(char ch);
     static size_t Split(const std::string& txt, std::vector<std::string>& strs, char ch);
     static bool EqualsIgnoreCase(const std::string& strA, const std::string& strB);
     static std::string ReplaceAll(const std::string& str, const std::string& from, const std::string& to);

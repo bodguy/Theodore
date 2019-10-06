@@ -18,7 +18,11 @@ namespace Theodore {
     return false;
   }
 
-  bool StringUtil::Comment(const std::string& c) { return (c.empty()) || (c.at(0) == '#'); }
+  bool StringUtil::IsComment(const std::string& c) { return (c.empty()) || (c.at(0) == '#'); }
+
+  bool StringUtil::IsSpace(char ch) {
+    return (ch == ' ' || ch == '\t' || ch == '\r' || ch == 'n');
+  }
 
   size_t StringUtil::Split(const std::string& txt, std::vector<std::string>& strs, char ch) {
     size_t pos = txt.find(ch);
