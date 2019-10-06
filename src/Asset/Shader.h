@@ -20,22 +20,35 @@ namespace Theodore {
   typedef int Attribute;
   typedef int Uniform;
 
+  struct IncludeInfo {
+    int offset;
+    int end;
+    char *filename;
+    int next_line_after;
+  };
+
   class Pipeline;
   class Shader : public Asset {
     friend class Pipeline;
 
   public:
-    Shader(const ShaderType type);
+    explicit Shader(ShaderType type);
     virtual ~Shader();
 
     int Compile(const std::string& source);
-    int IsCompiled() const;
-    static std::string PreprocessIncludes(const std::string& source, int level = 0);
     static Pipeline* Find(const std::string& name);
+
+    static char* PreprocessIncludes(char* str, char* path, char error[256]);
+    static void FreeIncludes(IncludeInfo* array, int len);
+    static char* LoadFile(char* filename, size_t* plen);
+    static char* IncludeFile(char* filename, char* path, char error[256]);
+    static int FindInclude(char* text, IncludeInfo** plist);
+    static IncludeInfo* AppendInclude(IncludeInfo* array, int len, int offset, int end, char* filename, int next_line);
+    static char* Append(char* str, size_t* curlen, char* addstr, size_t addlen);
+    static int IsSpace(int ch);
 
   private:
     unsigned int mShaderID;
-    int mIsCompiled;
   };
 
   class Vector4d;

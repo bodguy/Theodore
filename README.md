@@ -20,7 +20,7 @@ I use only a few low level libraries which is:
 
 + Crossplatform support (Windows, Linux, Macos) without GLFW
 + Resource management system
-+ Compile and Linking Shader source code
++ Compile and Linking Shader source code with #include preprocessor
 + Easy Transform objects with translation, rotate, scaling
 + Custom math library (Matrix, Vector, Quaternion)
 + Platform independent Input, Timer, Graphics

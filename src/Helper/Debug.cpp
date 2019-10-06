@@ -7,9 +7,6 @@
 #include "../Platform/Time.h"
 
 namespace Theodore {
-  int Debug::__tabCount = 0;
-  std::string Debug::__tabString = "";
-  bool Debug::__logSwitch = false;
   const size_t Debug::maxLength = 256;
 
   void Debug::Error(const char* format, ...) {
@@ -55,11 +52,11 @@ namespace Theodore {
     Debug::Log("%s", t_of_f);
   }
 
-  void Log(char c) { Debug::Log("%c", c); }
+  void Debug::Log(char c) { Debug::Log("%c", c); }
 
-  void Log(short s) { Debug::Log("%d", s); }
+  void Debug::Log(short s) { Debug::Log("%d", s); }
 
-  void Log(unsigned short s) { Debug::Log("%hd", s); }
+  void Debug::Log(unsigned short s) { Debug::Log("%hd", s); }
 
   void Debug::Log(int i) { Debug::Log("%d", i); }
 
@@ -112,8 +109,4 @@ namespace Theodore {
                texture->mBaseName.c_str(), texture->mWidth, texture->mHeight, texture->mRefCount, texture->mTextureID, texture->mTextureFormat);
     // clang-format on
   }
-
-  void Debug::LogOnOff(bool b) { Debug::__logSwitch = b; }
-
-  bool Debug::GetLogSwitch() { return Debug::__logSwitch; }
 }  // namespace Theodore

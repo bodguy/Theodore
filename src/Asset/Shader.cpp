@@ -1,9 +1,6 @@
 #include "Shader.h"
 #include <cstdlib>
-#include <regex>
-#include <sstream>
 #include "../Helper/Debug.h"
-#include "../Helper/File.h"
 #include "../Helper/Utility.h"
 #include "../Math/Color.h"
 #include "../Math/Matrix4x4.h"
@@ -15,7 +12,7 @@ namespace Theodore {
   ////////////////////////////////////////////////////////////////////////////////////
   // Shader
 
-  Shader::Shader(const ShaderType type) : mIsCompiled(0) {
+  Shader::Shader(ShaderType type) {
     // BinaryShaderType is not implemented yet. Future consideration
     mType = AssetType::TextShaderType;
     mShaderID = glCreateShader(static_cast<GLenum>(type));
@@ -40,45 +37,144 @@ namespace Theodore {
       free(message);
     }
 
-    return mIsCompiled = result;
-  }
-
-  int Shader::IsCompiled() const { return mIsCompiled; }
-
-  std::string Shader::PreprocessIncludes(const std::string& source, int level) {
-    // https://www.opengl.org/discussion_boards/showthread.php/169209-include-in-glsl
-    std::stringstream output;
-    static const std::regex re("^[ ]*#[ ]*include[ ]+[\"<](.*)[\">].*");
-    std::smatch matches;
-
-    try {
-      if (std::regex_search(source, matches, re)) {
-        std::string include_file = matches.str(1);
-        std::string include_string;
-
-        File file(include_file, OpenMode::Read);
-        if (!file.IsOpen()) {
-          Debug::Log("%s : fatal error: cannot open include file", include_file.c_str());
-          return std::string();
-        }
-        include_string = file.ReadFile();
-        output << PreprocessIncludes(include_string, level + 1) << std::endl;
-      } else {
-        output << source << std::endl;
-      }
-    } catch (std::regex_error& e) {
-      // Syntax error in the regular expression
-      Debug::Log("%d", e.what());
-    }
-
-    if (level == 0) {
-      output << std::regex_replace(source, re, " ") << std::endl;
-    }
-
-    return output.str();
+    return result;
   }
 
   Pipeline* Shader::Find(const std::string& name) { return ShaderManager::shaderManager->mPipelines.find(name)->second; }
+
+  char* Shader::PreprocessIncludes(char* str, char* path, char error[256]) {
+    char temp[4096];
+    IncludeInfo* inc_list;
+    int i, num = Shader::FindInclude(str, &inc_list);
+    size_t source_len = strlen(str);
+    char *text=0;
+    size_t textlen=0, last=0;
+    for (i=0; i < num; ++i) {
+      text = Shader::Append(text, &textlen, str+last, inc_list[i].offset - last);
+      if (inc_list[i].filename != 0) {
+        char *inc;
+        strcpy(temp, path);
+        strcat(temp, "/");
+        strcat(temp, inc_list[i].filename);
+        inc = Shader::IncludeFile(temp, path, error);
+        if (inc == NULL) {
+          FreeIncludes(inc_list, num);
+          return NULL;
+        }
+        text = Append(text, &textlen, inc, strlen(inc));
+        free(inc);
+      }
+      last = inc_list[i].end;
+    }
+    text = Append(text, &textlen, str+last, source_len - last + 1); // append '\0'
+    FreeIncludes(inc_list, num);
+    return text;
+  }
+
+  void Shader::FreeIncludes(IncludeInfo* array, int len) {
+    int i;
+    for (i=0; i < len; ++i)
+      free(array[i].filename);
+    free(array);
+  }
+
+  char* Shader::LoadFile(char* filename, size_t* plen) {
+    char *text;
+    size_t len;
+    FILE *f = fopen(filename, "rb");
+    if (f == 0) return 0;
+    fseek(f, 0, SEEK_END);
+    len = (size_t) ftell(f);
+    if (plen) *plen = len;
+    text = (char *) malloc(len+1);
+    if (text == 0) return 0;
+    fseek(f, 0, SEEK_SET);
+    fread(text, 1, len, f);
+    fclose(f);
+    text[len] = 0;
+    return text;
+  }
+
+  char* Shader::IncludeFile(char* filename, char* path, char error[256]) {
+    size_t len;
+    char *result;
+    char *text = LoadFile(filename, &len);
+    if (text == NULL) {
+      strcpy(error, "Error: couldn't load '");
+      strcat(error, filename);
+      strcat(error, "'");
+      return 0;
+    }
+    result = PreprocessIncludes(text, path, error);
+    free(text);
+    return result;
+  }
+
+  int Shader::FindInclude(char* text, IncludeInfo** plist) {
+    int line_count = 1;
+    int inc_count = 0;
+    char *s = text, *start;
+    IncludeInfo *list = NULL;
+    while (*s) {
+      // parse is always at start of line when we reach here
+      start = s;
+      while (*s == ' ' || *s == '\t')
+        ++s;
+      if (*s == '#') {
+        ++s;
+        while (*s == ' ' || *s == '\t')
+          ++s;
+        if (0==strncmp(s, "include", 7) && IsSpace(s[7])) {
+          s += 7;
+          while (*s == ' ' || *s == '\t')
+            ++s;
+          if (*s == '"') {
+            char *t = ++s;
+            while (*t != '"' && *t != '\n' && *t != '\r' && *t != 0)
+              ++t;
+            if (*t == '"') {
+              char *filename = (char*)malloc(t-s+1);
+              memcpy(filename, s, t-s);
+              filename[t-s] = 0;
+              s=t;
+              while (*s != '\r' && *s != '\n' && *s != 0)
+                ++s;
+              // s points to the newline, so s-start is everything except the newline
+              list = AppendInclude(list, inc_count++, start-text, s-text, filename, line_count+1);
+            }
+          }
+        }
+      }
+      while (*s != '\r' && *s != '\n' && *s != 0)
+        ++s;
+      if (*s == '\r' || *s == '\n') {
+        s = s + (s[0] + s[1] == '\r' + '\n' ? 2 : 1);
+      }
+      ++line_count;
+    }
+    *plist = list;
+    return inc_count;
+  }
+
+  IncludeInfo* Shader::AppendInclude(IncludeInfo* array, int len, int offset, int end, char* filename, int next_line) {
+    IncludeInfo* z = (IncludeInfo*)realloc(array, sizeof(*z) * (len+1));
+    z[len].offset   = offset;
+    z[len].end      = end;
+    z[len].filename = filename;
+    z[len].next_line_after = next_line;
+    return z;
+  }
+
+  char* Shader::Append(char* str, size_t* curlen, char* addstr, size_t addlen) {
+    str = (char *)realloc(str, *curlen + addlen);
+    memcpy(str + *curlen, addstr, addlen);
+    *curlen += addlen;
+    return str;
+  }
+
+  int Shader::IsSpace(int ch) {
+    return (ch == ' ' || ch == '\t' || ch == '\r' || ch == 'n');
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   // Program
@@ -148,7 +244,7 @@ namespace Theodore {
 
     if (result) {
       if (!ShaderManager::Append(this)) {
-        Debug::Warn("%s already managed", mName.c_str());
+        Debug::Warn("'%s' already managed", mName.c_str());
         glDeleteProgram(mPipelineID);
         return GL_FALSE;
       }
