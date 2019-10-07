@@ -114,16 +114,12 @@ namespace Theodore {
       // camera rotation
       if (Input::GetMouseButtonHeld(MOUSE_RIGHT)) {
         // zoom in, out
-        Vector3d pos = Input::GetMousePosition();
-        if (pos.z < 0.f) {
-          fieldOfView += 3;
-        } else if (pos.z > 0.f) {
-          fieldOfView -= 3;
-        }
+        Vector3d pos = Input::GetMouseDeltaPosition();
+        fieldOfView += pos.z;
         cam->SetFieldOfView(fieldOfView);
 
-        rotationY = Input::GetMouseDeltaPosition().x * sensitivity * Time::DeltaTime();
-        rotationX = Input::GetMouseDeltaPosition().y * sensitivity * Time::DeltaTime();
+        rotationY = pos.x * sensitivity * Time::DeltaTime();
+        rotationX = pos.y * sensitivity * Time::DeltaTime();
 
         trans->Rotate(Vector3d::up, -rotationY);
         trans->Rotate(trans->GetRight(), rotationX);

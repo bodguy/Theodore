@@ -429,8 +429,18 @@ namespace Theodore {
 }
 
 - (void)scrollWheel:(NSEvent *)event {
-	// horizontall [event deltaX], verticall [event deltaY]
-  Theodore::Platform::GetInstance()->mMousePosition.z = [event deltaY];
+	// currently ignoring deltaX (TODO)
+	double deltaX = [event scrollingDeltaX];
+	double deltaY = [event scrollingDeltaY];
+
+	if ([event hasPreciseScrollingDeltas]) {
+	  deltaX *= 0.1;
+    deltaY *= 0.1;
+	}
+
+	if (fabs(deltaX) > 0.0 || fabs(deltaY) > 0.0) {
+    Theodore::Platform::GetInstance()->mMousePosition.z = deltaY;
+	}
 }
 
 - (void)mouseMoved:(NSEvent *)event {
