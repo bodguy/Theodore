@@ -4,9 +4,9 @@
 #ifndef Application_h
 #define Application_h
 
+#include <string>
 #include "Graphics/Enumeration.h"
 #include "Platform/Platform.h"
-#include <string>
 
 namespace Theodore {
   class Platform;

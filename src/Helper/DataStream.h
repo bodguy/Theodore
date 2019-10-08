@@ -4,10 +4,10 @@
 #ifndef DataStream_h
 #define DataStream_h
 
-#include "Graphics/Enumeration.h"
-#include "File.h"
 #include <cstdint>
 #include <string>
+#include "File.h"
+#include "Graphics/Enumeration.h"
 
 namespace Theodore {
   class File;

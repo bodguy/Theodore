@@ -2,9 +2,9 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Sprite.h"
+#include <cstring>
 #include "Asset/AssetManager.h"
 #include "Asset/Texture2D.h"
-#include <cstring>
 
 namespace Theodore {
   Sprite::Sprite()

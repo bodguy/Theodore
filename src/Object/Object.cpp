@@ -2,11 +2,11 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Object.h"
+#include "Component/Transform.h"
+#include "GameObject.h"
 #include "Helper/crc32.h"
 #include "Math/Quaternion.h"
 #include "Math/Vector3d.h"
-#include "Component/Transform.h"
-#include "GameObject.h"
 
 namespace Theodore {
   std::atomic<uint32_t> UniqueId::type_id;

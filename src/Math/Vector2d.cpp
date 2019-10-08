@@ -2,10 +2,10 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Vector2d.h"
-#include "Math.h"
 #include <algorithm>  // until c++11 for std::swap
 #include <cmath>
 #include <utility>  // since c++11 for std::swap
+#include "Math.h"
 
 namespace Theodore {
   Vector2d::Vector2d() : x(0.f), y(0.f) {}

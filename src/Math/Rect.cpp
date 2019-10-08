@@ -2,7 +2,7 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Rect.h"
-#include <utility>    // since c++11 for std::swap
+#include <utility>  // since c++11 for std::swap
 
 namespace Theodore {
   Rect::Rect() : left(0.f), right(0.f), top(0.f), bottom(0.f) {}

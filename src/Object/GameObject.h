@@ -4,21 +4,21 @@
 #ifndef GameObject_h
 #define GameObject_h
 
-#include "Graphics/Enumeration.h"
-#include "Component/Camera.h"
-#include "Component/Collider/BoxCollider.h"
-#include "Component/Collider/Collider.h"
-#include "Component/Collider/SphereCollider.h"
-#include "Component/Component.h"
-#include "Component/Light.h"
-#include "Object.h"
-#include "Scene.h"
 #include <set>
 #include <string>
 #include <typeindex>
 #include <typeinfo>
 #include <unordered_map>
 #include <vector>
+#include "Component/Camera.h"
+#include "Component/Collider/BoxCollider.h"
+#include "Component/Collider/Collider.h"
+#include "Component/Collider/SphereCollider.h"
+#include "Component/Component.h"
+#include "Component/Light.h"
+#include "Graphics/Enumeration.h"
+#include "Object.h"
+#include "Scene.h"
 
 namespace Theodore {
   class Transform;

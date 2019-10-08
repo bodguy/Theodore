@@ -4,6 +4,7 @@
 #include "Gizmo.h"
 #include "Asset/AssetManager.h"
 #include "Asset/Shader.h"
+#include "Camera.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/VertexBuffer.h"
 #include "Helper/File.h"
@@ -11,7 +12,6 @@
 #include "Math/Math.h"
 #include "Object/GameObject.h"
 #include "Object/SceneManager.h"
-#include "Camera.h"
 #include "Transform.h"
 
 namespace Theodore {

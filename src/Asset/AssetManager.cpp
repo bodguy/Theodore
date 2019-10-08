@@ -3,13 +3,13 @@
 
 #include "AssetManager.h"
 #include "Asset.h"
-#include "MSAATexture2D.h"
-#include "Texture2D.h"
-#include "TextureCube.h"
 #include "Asset/Shader.h"
 #include "Helper/Debug.h"
 #include "Helper/Utility.h"
+#include "MSAATexture2D.h"
 #include "Platform/Time.h"
+#include "Texture2D.h"
+#include "TextureCube.h"
 #include "WaveFrontObjMesh.h"
 
 namespace Theodore {

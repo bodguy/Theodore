@@ -4,9 +4,9 @@
 #ifndef TextureCube_h
 #define TextureCube_h
 
+#include <string>
 #include "Graphics/Enumeration.h"
 #include "Texture.h"
-#include <string>
 
 namespace Theodore {
   class CubemapRenderer;

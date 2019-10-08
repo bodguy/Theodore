@@ -4,10 +4,10 @@
 #ifndef Camera_h
 #define Camera_h
 
+#include "Component.h"
 #include "Geometry/Ray.h"
 #include "Math/Matrix4x4.h"
 #include "Math/Vector3d.h"
-#include "Component.h"
 
 namespace Theodore {
   class Transform;
@@ -38,7 +38,6 @@ namespace Theodore {
     void SetFieldOfView(float view);
     void SetNearClipPlane(float near);
     void SetFarClipPlane(float far);
-    Transform* GetTransform() const;
     FrameBuffer* GetRenderTexture() const;
     void SetRenderTexture(FrameBuffer* texture);
 
@@ -55,7 +54,6 @@ namespace Theodore {
     mutable float mPixelWidth;
     mutable float mPixelHeight;
     mutable float mAspect;
-    Transform* mTransform;
     FrameBuffer* mRenderTexture;
 
     mutable Matrix4x4 mProjectionMatrix;

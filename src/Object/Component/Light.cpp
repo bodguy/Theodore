@@ -5,8 +5,8 @@
 #include "Helper/Debug.h"
 #include "Helper/Utility.h"
 #include "Math/Math.h"
-#include "Object/GameObject.h"
 #include "Object/Component/sub/ShadowInfo.h"
+#include "Object/GameObject.h"
 
 namespace Theodore {
   const unsigned int Light::MaxLightCount = 50;

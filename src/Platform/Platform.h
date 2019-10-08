@@ -7,9 +7,9 @@
 #include <string>
 #include "Graphics/Enumeration.h"
 #include "Helper/Debug.h"
+#include "KeyCode.h"
 #include "Math/Math.h"
 #include "Math/Vector3d.h"
-#include "KeyCode.h"
 
 namespace Theodore {
   typedef Vector3d PointCoord;

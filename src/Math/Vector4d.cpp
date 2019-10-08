@@ -2,12 +2,12 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Vector4d.h"
-#include "Math.h"
-#include "Vector2d.h"
-#include "Vector3d.h"
 #include <algorithm>  // until c++11 for std::swap
 #include <cmath>
 #include <utility>  // since c++11 for std::swap
+#include "Math.h"
+#include "Vector2d.h"
+#include "Vector3d.h"
 
 namespace Theodore {
   Vector4d::Vector4d() : x(0.f), y(0.f), z(0.f), w(1.f) {}

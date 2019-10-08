@@ -6,13 +6,13 @@
 #include "Asset/Shader.h"
 #include "Asset/Texture.h"
 #include "Asset/Texture2D.h"
-#include "Helper/Utility.h"
-#include "Helper/crc32.h"
 #include "Component/MeshRenderer.h"
 #include "Component/Transform.h"
 #include "Component/sub/Material.h"
 #include "Component/sub/Mesh.h"
 #include "Component/sub/ShapeGenerator.h"
+#include "Helper/Utility.h"
+#include "Helper/crc32.h"
 #include "Scene.h"
 
 namespace Theodore {
@@ -169,9 +169,9 @@ namespace Theodore {
     const GameObject* t = dynamic_cast<const GameObject*>(&rhs);
 
     // compareing each mParent is not allowed.
-    if (!t || mActiveSelf != t->mActiveSelf || mTag != t->mTag || !Utility::CompareUnorderedmap(mComponents, t->mComponents) || !Utility::CompareVector(mChildren, t->mChildren)) return false;
-
-    return true;
+    return !(!t || mActiveSelf != t->mActiveSelf || mTag != t->mTag ||
+             !Utility::CompareUnorderedmap(mComponents, t->mComponents) ||
+             !Utility::CompareVector(mChildren, t->mChildren));
   }
 
   bool GameObject::Destroy() {

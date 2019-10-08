@@ -2,9 +2,9 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Color.h"
-#include "Math.h"
 #include <algorithm>  // for std::max, std::min
 #include <cmath>      // for std::floor
+#include "Math.h"
 
 namespace Theodore {
   Color::Color() : r(1.f), g(1.f), b(1.f), a(1.f) {}

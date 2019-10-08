@@ -4,15 +4,15 @@
 #ifndef Mesh_h
 #define Mesh_h
 
+#include <vector>
 #include "Asset/Asset.h"
+#include "BoneWeight.h"
 #include "Geometry/Bounds.h"
 #include "Graphics/Enumeration.h"
 #include "Math/Matrix4x4.h"
 #include "Math/Vector2d.h"
 #include "Math/Vector3d.h"
 #include "Math/Vector4d.h"
-#include "BoneWeight.h"
-#include <vector>
 
 namespace Theodore {
   class MeshRenderer;

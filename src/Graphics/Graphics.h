@@ -5,8 +5,8 @@
 #define Graphics_h
 
 #include "Asset/Texture.h"
-#include "Math/Matrix4x4.h"
 #include "Enumeration.h"
+#include "Math/Matrix4x4.h"
 
 namespace Theodore {
   class Vector3d;

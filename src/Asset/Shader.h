@@ -4,10 +4,10 @@
 #ifndef Shader_h
 #define Shader_h
 
-#include "Graphics/Enumeration.h"
-#include "Platform/os_types.h"
-#include "Helper/File.h"
 #include "Asset.h"
+#include "Graphics/Enumeration.h"
+#include "Helper/File.h"
+#include "Platform/os_types.h"
 #include GLEW_INCLUDE_DIR
 #include <map>
 #include <string>

@@ -4,8 +4,8 @@
 #ifndef Gizmo_h
 #define Gizmo_h
 
-#include "Graphics/Enumeration.h"
 #include "Component.h"
+#include "Graphics/Enumeration.h"
 
 namespace Theodore {
   class VertexArray;

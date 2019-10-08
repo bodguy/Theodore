@@ -7,6 +7,7 @@ endif ()
 
 project(Theodore LANGUAGES CXX VERSION 0.1.0)
 
+# for old cmake version compatible
 macro(use_cxx11)
     if (CMAKE_VERSION VERSION_LESS "3.1")
         if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -57,7 +58,10 @@ message(STATUS ">>>[Library linking]: GLEW linking")
 include_directories(${GLEW_INCLUDE_DIRS})
 link_directories(${GLEW_LIBRARIES})
 
-file(GLOB_RECURSE SOURCE_FILES ${SOURCE_PREFIX}*.cpp ${SOURCE_PREFIX}*.h ${SOURCE_PREFIX}*.mm)
+# release build path
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/release")
+
+file(GLOB_RECURSE SOURCE_FILES ${SOURCE_PREFIX}*.cpp ${SOURCE_PREFIX}*.mm)
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${EXTRA_LIBS})
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${THEODORE_INCLUDE_DIR})

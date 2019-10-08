@@ -9,10 +9,10 @@
 #include "Helper/Debug.h"
 #include "Helper/Utility.h"
 #include "Math/Math.h"
-#include "Object/GameObject.h"
-#include "Object/SceneManager.h"
 #include "Object/Component/sub/Material.h"
 #include "Object/Component/sub/Mesh.h"
+#include "Object/GameObject.h"
+#include "Object/SceneManager.h"
 #include "Transform.h"
 
 namespace Theodore {

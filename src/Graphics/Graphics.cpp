@@ -3,6 +3,7 @@
 
 #include "Graphics.h"
 #include "Asset/Shader.h"
+#include "FrameBuffer.h"
 #include "Helper/Debug.h"
 #include "Helper/Utility.h"
 #include "Math/Color.h"
@@ -11,7 +12,6 @@
 #include "Object/Component/Transform.h"
 #include "Object/SceneManager.h"
 #include "Platform/Platform.h"
-#include "FrameBuffer.h"
 #include "VertexBuffer.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION

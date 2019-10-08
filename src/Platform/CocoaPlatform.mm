@@ -11,8 +11,6 @@
 #include "Platform.h"
 #include "CocoaPlatform.h"
 #include "Helper/Utility.h"
-#include "KeyCode.h"
-#include "Helper/Debug.h"
 
 namespace Theodore {
 

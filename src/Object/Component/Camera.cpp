@@ -7,11 +7,11 @@
 #include "Graphics/Graphics.h"
 #include "Helper/Utility.h"
 #include "Math/Math.h"
-#include "Platform/Platform.h"
-#include "Object/GameObject.h"
+#include "MeshRenderer.h"
 #include "Object/Component/sub/Material.h"
 #include "Object/Component/sub/Mesh.h"
-#include "MeshRenderer.h"
+#include "Object/GameObject.h"
+#include "Platform/Platform.h"
 #include "Transform.h"
 
 namespace Theodore {
@@ -104,8 +104,6 @@ namespace Theodore {
   void Camera::SetNearClipPlane(float near) { mNearClipPlane = near; }
 
   void Camera::SetFarClipPlane(float far) { mFarClipPlane = far; }
-
-  Transform* Camera::GetTransform() const { return mTransform; }
 
   FrameBuffer* Camera::GetRenderTexture() const { return mRenderTexture; }
 

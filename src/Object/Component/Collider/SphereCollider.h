@@ -4,8 +4,8 @@
 #ifndef SphereCollider_h
 #define SphereCollider_h
 
-#include "Math/Vector3d.h"
 #include "Collider.h"
+#include "Math/Vector3d.h"
 
 namespace Theodore {
   class SphereCollider : public Collider {

@@ -4,11 +4,11 @@
 #ifndef Transform_h
 #define Transform_h
 
+#include "Component.h"
 #include "Graphics/Enumeration.h"
 #include "Math/Matrix4x4.h"
 #include "Math/Quaternion.h"
 #include "Math/Vector3d.h"
-#include "Component.h"
 
 namespace Theodore {
   class Transform : public Component {

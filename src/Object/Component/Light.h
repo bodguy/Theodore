@@ -4,9 +4,9 @@
 #ifndef Light_h
 #define Light_h
 
+#include "Component.h"
 #include "Graphics/Enumeration.h"
 #include "Math/Color.h"
-#include "Component.h"
 
 namespace Theodore {
   class Transform;

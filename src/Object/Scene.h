@@ -4,8 +4,8 @@
 #ifndef Scene_h
 #define Scene_h
 
-#include "Object.h"
 #include <vector>
+#include "Object.h"
 
 namespace Theodore {
   class SceneManager;

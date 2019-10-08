@@ -4,8 +4,8 @@
 #ifndef BoxCollider_h
 #define BoxCollider_h
 
-#include "Math/Vector3d.h"
 #include "Collider.h"
+#include "Math/Vector3d.h"
 
 namespace Theodore {
   class BoxCollider : public Collider {

@@ -4,10 +4,10 @@
 #ifndef AssetManager_h
 #define AssetManager_h
 
-#include "Graphics/Enumeration.h"
-#include "Texture.h"
 #include <list>
 #include <vector>
+#include "Graphics/Enumeration.h"
+#include "Texture.h"
 
 namespace Theodore {
   class Texture2D;

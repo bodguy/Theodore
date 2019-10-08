@@ -5,12 +5,12 @@
 #include "Asset/AssetManager.h"
 #include "Asset/Shader.h"
 #include "Asset/Texture2D.h"
+#include "Camera.h"
 #include "Graphics/Graphics.h"
 #include "Helper/Utility.h"
+#include "Object/Component/sub/Sprite.h"
 #include "Object/GameObject.h"
 #include "Object/SceneManager.h"
-#include "Object/Component/sub/Sprite.h"
-#include "Camera.h"
 #include "Transform.h"
 
 namespace Theodore {

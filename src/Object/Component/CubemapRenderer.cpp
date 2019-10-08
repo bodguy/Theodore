@@ -3,12 +3,12 @@
 
 #include "CubemapRenderer.h"
 #include "Asset/Shader.h"
+#include "Camera.h"
 #include "Graphics/Graphics.h"
 #include "Math/Math.h"
-#include "Object/SceneManager.h"
 #include "Object/Component/sub/Mesh.h"
 #include "Object/Component/sub/ShapeGenerator.h"
-#include "Camera.h"
+#include "Object/SceneManager.h"
 
 namespace Theodore {
   CubemapRenderer::CubemapRenderer() : MeshRenderer() {

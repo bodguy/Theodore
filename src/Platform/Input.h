@@ -5,8 +5,8 @@
 #define Input_h
 
 #include <map>
-#include "Math/Vector3d.h"
 #include "KeyCode.h"
+#include "Math/Vector3d.h"
 
 namespace Theodore {
   class InputHandler {

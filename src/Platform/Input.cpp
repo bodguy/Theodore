@@ -2,10 +2,10 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Input.h"
+#include <cstring>
 #include "Helper/Utility.h"
 #include "Math/Math.h"
 #include "Platform.h"
-#include <cstring>
 
 namespace Theodore {
   InputHandler::InputHandler(KeyCode positive, KeyCode negative, float delta) : mPositive(positive), mNegative(negative), mAccumulator(0.f), mDeltaSpeed(delta) {}
