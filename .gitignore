@@ -9,7 +9,7 @@
 !/LICENSE.md
 !/license.svg
 !/readme.md
-!/libs/
+!/third_party/
 !/src/
-!/Resources/
-!/Shaders/
+!/res/
+!/shaders/

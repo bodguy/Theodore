@@ -36,7 +36,7 @@ I use only a few low level libraries which is:
 + Easy various format texture loading
 + Render To Texture with framebuffer, renderbuffer
 
-### TODO
+### Todo
 
 + *[TODO]* Pyhsics (Verlet Integeration)
 + *[TODO]* Shadow mapping, normal mapping
@@ -175,7 +175,11 @@ Can easily format all the .cpp, .h files recursively using clang-format-all bash
 clang-format-all src/
 ```
 
-### platform IDE support
+### clang-tidy
+
+TODO
+
+### platform dependant IDE support
 
 Theodore uses cmake as a build backend. Platform specific IDEs are generated from cmake generator.
 for example, when you build project on windows vc++:
@@ -206,9 +210,17 @@ make .
 Jetbrain Clion IDE is good choice to build project. because they use cmake as a default build backend.  
 NOTE THAT: minimal cmake version is 3.6.
 
-### unit test
+### unit tests
 
 TODO
+
+### valgrind memory leak check
+
+memory leak check tested through valgrind-3.13.0.
+
+```bash
+valgrind --tool=memcheck --gen-suppressions=all --leak-check=full --leak-resolution=med --track-origins=yes --vgdb=no Theodore
+```
 
 ### common problems
 
