@@ -11,7 +11,7 @@ namespace Theodore {
   class BoxCollider : public Collider {
   public:
     BoxCollider();
-    virtual ~BoxCollider();
+    virtual ~BoxCollider() override;
 
     Vector3d GetCenter() const;
     void SetCenter(const Vector3d& center);

@@ -10,7 +10,7 @@ namespace Theodore {
   class SkinnedMeshRenderer : public Renderer {
   public:
     SkinnedMeshRenderer();
-    virtual ~SkinnedMeshRenderer();
+    virtual ~SkinnedMeshRenderer() override;
 
   private:
     virtual void Update(float deltaTime) override;

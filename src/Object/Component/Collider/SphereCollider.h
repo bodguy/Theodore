@@ -11,7 +11,7 @@ namespace Theodore {
   class SphereCollider : public Collider {
   public:
     SphereCollider();
-    virtual ~SphereCollider();
+    virtual ~SphereCollider() override;
 
     virtual bool Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) override;
 

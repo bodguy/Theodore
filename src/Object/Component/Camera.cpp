@@ -113,7 +113,7 @@ namespace Theodore {
 
   void Camera::Update(float deltaTime) {}
 
-  void Camera::Render() { return; }
+  void Camera::Render() {}
 
   bool Camera::CompareEquality(const Object& rhs) const { return false; }
 

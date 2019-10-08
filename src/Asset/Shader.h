@@ -31,7 +31,7 @@ namespace Theodore {
 
   public:
     explicit Shader(ShaderType type);
-    virtual ~Shader();
+    virtual ~Shader() override;
 
     int Compile(const std::string& source);
     static Pipeline* Find(const std::string& name);

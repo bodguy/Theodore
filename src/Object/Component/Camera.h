@@ -15,8 +15,8 @@ namespace Theodore {
   class Camera : public Component {
   public:
     Camera();
-    Camera(const Vector3d& position);
-    virtual ~Camera();
+    explicit Camera(const Vector3d& position);
+    virtual ~Camera() override;
 
     void ResetAspect() const;
     void ResetFieldOfView() const;

@@ -23,7 +23,7 @@ set(CMAKE_WARN_DEPRECATED 0)
 set(GLEW_INCLUDE_DIRS "third_party/include/")
 set(SOURCE_PREFIX "src/")
 
-set(THEODORE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src")
+set(THEODORE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/${SOURCE_PREFIX}")
 
 # MacOS lib settings
 if(APPLE)
@@ -61,7 +61,18 @@ link_directories(${GLEW_LIBRARIES})
 # release build path
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/release")
 
-file(GLOB_RECURSE SOURCE_FILES ${SOURCE_PREFIX}*.cpp ${SOURCE_PREFIX}*.mm)
+file(GLOB_RECURSE SOURCE_FILES ${SOURCE_PREFIX}*.cpp ${SOURCE_PREFIX}*.hpp ${SOURCE_PREFIX}*.mm)
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${EXTRA_LIBS})
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${THEODORE_INCLUDE_DIR})
+
+# unit test
+find_package(Catch2 REQUIRED)
+set(PROJECT_UNIT_TEST_NAME "${CMAKE_PROJECT_NAME}_unit_test")
+set(TEST_PREFIX "test/")
+file(GLOB_RECURSE TEST_SOURCE_FILES ${TEST_PREFIX}*.cpp)
+add_executable(${PROJECT_UNIT_TEST_NAME} ${TEST_SOURCE_FILES})
+target_link_libraries(${PROJECT_UNIT_TEST_NAME} Catch2::Catch2)
+include(CTest)
+include(Catch)
+catch_discover_tests(${PROJECT_UNIT_TEST_NAME})

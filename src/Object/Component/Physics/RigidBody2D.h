@@ -12,7 +12,7 @@ namespace Theodore {
   class RigidBody2D : public Component {
   public:
     RigidBody2D();
-    virtual ~RigidBody2D();
+    virtual ~RigidBody2D() override;
 
     void AddForce(const Vector2d& force);
     void AddTorque(float torque);

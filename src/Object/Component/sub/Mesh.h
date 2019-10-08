@@ -23,7 +23,7 @@ namespace Theodore {
 
   public:
     Mesh();
-    virtual ~Mesh();
+    virtual ~Mesh() override;
 
     template <typename T, size_t size>
     void SetVertices(const T (&verts)[size]);

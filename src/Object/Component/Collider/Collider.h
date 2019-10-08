@@ -14,8 +14,8 @@
 namespace Theodore {
   class Collider : public Component {
   public:
-    Collider(const std::string& name);
-    virtual ~Collider();
+    explicit Collider(const std::string& name);
+    virtual ~Collider() override;
 
     ColliderType GetType() const;
     virtual bool Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) = 0;

@@ -14,8 +14,8 @@ namespace Theodore {
     friend class GameObject;
 
   public:
-    Component(const std::string& name);
-    virtual ~Component();
+    explicit Component(const std::string& name);
+    virtual ~Component() override;
 
     Transform* GetTransform() const;
     bool IsEnabled() const;

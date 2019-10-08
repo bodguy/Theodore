@@ -11,7 +11,7 @@ namespace Theodore {
   class MSAATexture2D : public Texture {
   public:
     MSAATexture2D();
-    virtual ~MSAATexture2D();
+    virtual ~MSAATexture2D() override;
 
     bool LoadMultiSampleTexture(unsigned int width, unsigned int height, TextureFormat format, unsigned int sample);
   };

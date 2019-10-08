@@ -18,7 +18,7 @@ namespace Theodore {
       fieldOfView = 60.f;
     }
 
-    virtual ~SplashScene() {}
+    virtual ~SplashScene() override {}
 
     virtual void OnAwake() {
       GameObject* pointLight = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);

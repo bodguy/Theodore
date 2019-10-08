@@ -16,7 +16,7 @@ namespace Theodore {
   class Renderer : public Component {
   public:
     Renderer(const std::string& name);
-    virtual ~Renderer();
+    virtual ~Renderer() override;
 
     void SetPrimitive(const Primitive primitive);
     bool GetVisibleGizmos() const;

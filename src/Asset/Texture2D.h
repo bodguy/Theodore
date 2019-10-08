@@ -11,7 +11,7 @@ namespace Theodore {
   class Texture2D : public Texture {
   public:
     Texture2D();
-    virtual ~Texture2D();
+    virtual ~Texture2D() override;
 
     bool LoadImage(const std::string& filename, TextureFormat format, const Color& colorKey);
     bool LoadImage(const std::string& filename, TextureFormat format);

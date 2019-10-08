@@ -14,7 +14,7 @@ namespace Theodore {
   class Transform : public Component {
   public:
     Transform();
-    virtual ~Transform();
+    virtual ~Transform() override;
 
     void Translate(const Vector3d& translation, Space relativeTo = Space::Self);
     void Rotate(const Vector3d& axis, float angle, Space relativeTo = Space::Self);

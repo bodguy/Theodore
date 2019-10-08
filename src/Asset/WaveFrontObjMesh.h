@@ -11,7 +11,7 @@ namespace Theodore {
   class WaveFrontObjMesh : public Mesh {
   public:
     WaveFrontObjMesh();
-    virtual ~WaveFrontObjMesh();
+    virtual ~WaveFrontObjMesh() override;
 
     bool LoadObj(const std::string& filepath);
 

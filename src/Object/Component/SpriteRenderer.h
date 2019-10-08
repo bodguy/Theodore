@@ -12,7 +12,7 @@ namespace Theodore {
   class SpriteRenderer : public Renderer {
   public:
     SpriteRenderer();
-    virtual ~SpriteRenderer();
+    virtual ~SpriteRenderer() override;
 
     void SetSprite(Sprite* sprite);
     void SetColor(const Color& color);

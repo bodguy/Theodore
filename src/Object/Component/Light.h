@@ -14,7 +14,7 @@ namespace Theodore {
   class Light : public Component {
   public:
     Light(LightType type);
-    virtual ~Light();
+    virtual ~Light() override;
 
   public:
     LightType type;

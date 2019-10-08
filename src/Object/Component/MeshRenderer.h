@@ -13,7 +13,7 @@ namespace Theodore {
   class MeshRenderer : public Renderer {
   public:
     MeshRenderer();
-    virtual ~MeshRenderer();
+    virtual ~MeshRenderer() override;
 
     void SetMaterial(Material* mat);
     void SetMesh(Mesh* mesh);

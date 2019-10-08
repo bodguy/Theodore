@@ -10,7 +10,7 @@ namespace Theodore {
   class CubemapRenderer : public MeshRenderer {
   public:
     CubemapRenderer();
-    virtual ~CubemapRenderer();
+    virtual ~CubemapRenderer() override;
 
     unsigned int GetTextureID() const;
 

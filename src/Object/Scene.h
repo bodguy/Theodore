@@ -19,7 +19,7 @@ namespace Theodore {
 
   public:
     explicit Scene(const std::string& name);
-    virtual ~Scene();
+    virtual ~Scene() override;
 
     bool IsActive() const;
     void SetActive(bool value);

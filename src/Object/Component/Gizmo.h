@@ -14,7 +14,7 @@ namespace Theodore {
   class Gizmo : public Component {
   public:
     Gizmo(GizmoType type);
-    virtual ~Gizmo();
+    virtual ~Gizmo() override;
 
   private:
     virtual void Update(float deltaTime) override;

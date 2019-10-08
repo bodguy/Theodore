@@ -34,7 +34,7 @@ namespace Theodore {
     explicit GameObject(const std::string& name, Scene* scene);
     GameObject(const std::string& name, GameObject* parent, Scene* scene);
     GameObject(const GameObject& other);  // copy constructor
-    virtual ~GameObject();
+    virtual ~GameObject() override;
 
     template <typename T, typename... Ts>
     T* AddComponent(Ts... args);
