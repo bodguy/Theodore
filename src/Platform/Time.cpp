@@ -1,5 +1,8 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "Time.h"
-#include "../Helper/StringUtil.h"
+#include "Helper/StringUtil.h"
 
 namespace Theodore {
   Time* Time::instance = nullptr;

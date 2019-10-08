@@ -1,3 +1,6 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "TagManager.h"
 
 namespace Theodore {
@@ -10,11 +13,11 @@ namespace Theodore {
 
   TagManager::~TagManager() {}
 
-  void TagManager::AddTag(uint32_t tag) {}
+  void TagManager::AddTag(unsigned int tag) {}
 
-  void TagManager::RemoveTag(uint32_t tag) {}
+  void TagManager::RemoveTag(unsigned int tag) {}
 
-  void TagManager::AddLayer(uint32_t layer) {}
+  void TagManager::AddLayer(unsigned int layer) {}
 
-  void TagManager::RemoveLayer(uint32_t layer) {}
+  void TagManager::RemoveLayer(unsigned int layer) {}
 }  // namespace Theodore

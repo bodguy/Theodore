@@ -1,22 +1,17 @@
-/**
-  @brief OBB(oriented bounding box) component for collision detection
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef BoxCollider_h
 #define BoxCollider_h
 
-#include "../../../Math/Vector3d.h"
 #include "Collider.h"
+#include "Math/Vector3d.h"
 
 namespace Theodore {
   class BoxCollider : public Collider {
   public:
     BoxCollider();
-    virtual ~BoxCollider();
+    virtual ~BoxCollider() override;
 
     Vector3d GetCenter() const;
     void SetCenter(const Vector3d& center);

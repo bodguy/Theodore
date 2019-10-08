@@ -1,6 +1,9 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "RigidBody2D.h"
-#include "../../GameObject.h"
-#include "../Transform.h"
+#include "Object/Component/Transform.h"
+#include "Object/GameObject.h"
 
 namespace Theodore {
   RigidBody2D::RigidBody2D() : Component("RigidBody2D"), mPosition(), mVelocity(), mForce() {

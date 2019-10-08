@@ -1,6 +1,6 @@
 #include "Debug.h"
 #include <stdarg.h>  // for va_list
-#include <stdio.h>   // for vprintf
+#include <cstdio>    // for vprintf
 #include "../Asset/Texture2D.h"
 #include "../Geometry/Ray.h"
 #include "../Math/Quaternion.h"

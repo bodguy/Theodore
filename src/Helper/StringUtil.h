@@ -1,16 +1,13 @@
-/**
-  @brief various string utility class inspired by java string
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef StringUtil_h
 #define StringUtil_h
 
+#include <ctime>
+#include <string>
 #include <vector>
-#include "../Platform/os_types.h"
+#include "Platform/os_types.h"
 
 #ifdef Theodore_MacOS
 #define DateTime tm

@@ -1,19 +1,14 @@
-/**
-  @brief OpenGL vertexbuffer datastructure
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef VertexBuffer_h
 #define VertexBuffer_h
 
-#include <vector>
-#include "../Asset/Shader.h"
-#include "../Platform/os_types.h"
+#include "Asset/Shader.h"
 #include "Enumeration.h"
+#include "Platform/os_types.h"
 #include GLEW_INCLUDE_DIR
+#include <vector>
 
 namespace Theodore {
   class Vector2d;

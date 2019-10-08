@@ -1,13 +1,16 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "SpriteRenderer.h"
-#include "../../Asset/AssetManager.h"
-#include "../../Asset/Shader.h"
-#include "../../Asset/Texture2D.h"
-#include "../../Graphics/Graphics.h"
-#include "../../Helper/Utility.h"
-#include "../GameObject.h"
-#include "../SceneManager.h"
-#include "./sub/Sprite.h"
+#include "Asset/AssetManager.h"
+#include "Asset/Shader.h"
+#include "Asset/Texture2D.h"
 #include "Camera.h"
+#include "Graphics/Graphics.h"
+#include "Helper/Utility.h"
+#include "Object/Component/sub/Sprite.h"
+#include "Object/GameObject.h"
+#include "Object/SceneManager.h"
 #include "Transform.h"
 
 namespace Theodore {

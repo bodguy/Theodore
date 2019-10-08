@@ -1,17 +1,12 @@
-/**
-  @brief Graphics utility interface
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Graphics_h
 #define Graphics_h
 
-#include "../Asset/Texture.h"
-#include "../Math/Matrix4x4.h"
+#include "Asset/Texture.h"
 #include "Enumeration.h"
+#include "Math/Matrix4x4.h"
 
 namespace Theodore {
   class Vector3d;

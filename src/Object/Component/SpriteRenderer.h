@@ -1,15 +1,10 @@
-/**
-  @brief sprite renderer component
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef SpriteRenderer_h
 #define SpriteRenderer_h
 
-#include "../../Math/Color.h"
+#include "Math/Color.h"
 #include "Renderer.h"
 
 namespace Theodore {
@@ -17,7 +12,7 @@ namespace Theodore {
   class SpriteRenderer : public Renderer {
   public:
     SpriteRenderer();
-    virtual ~SpriteRenderer();
+    virtual ~SpriteRenderer() override;
 
     void SetSprite(Sprite* sprite);
     void SetColor(const Color& color);

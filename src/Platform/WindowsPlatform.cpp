@@ -1,3 +1,6 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "os_types.h"
 
 #ifdef Theodore_Windows
@@ -7,8 +10,8 @@
 #include <windows.h>
 #include GLEW_INCLUDE_DIR
 #include GLEW_INCLUDE_DIR2
-#include "../Helper/Debug.h"
-#include "../Math/Math.h"
+#include "Helper/Debug.h"
+#include "Math/Math.h"
 #include "Platform.h"
 #include "WindowsPlatform.h"
 

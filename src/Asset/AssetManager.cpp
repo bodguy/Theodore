@@ -1,16 +1,15 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "AssetManager.h"
 #include "Asset.h"
+#include "Asset/Shader.h"
+#include "Helper/Debug.h"
+#include "Helper/Utility.h"
 #include "MSAATexture2D.h"
+#include "Platform/Time.h"
 #include "Texture2D.h"
 #include "TextureCube.h"
-
-//#include "Font.h"
-#include "../Asset/Shader.h"
-#include "../Helper/Debug.h"
-#include "../Helper/File.h"
-#include "../Helper/Utility.h"
-#include "../Math/Color.h"
-#include "../Platform/Time.h"
 #include "WaveFrontObjMesh.h"
 
 namespace Theodore {

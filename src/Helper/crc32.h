@@ -1,10 +1,5 @@
-/**
-  @brief compile time crc32 hash function
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef crc32_h
 #define crc32_h
@@ -52,8 +47,6 @@
  */
 
 namespace Theodore {
-  typedef unsigned int uint32_t;
-  typedef unsigned char uint8_t;
 
   static constexpr uint32_t crc32_tab[] = {
       0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3, 0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988, 0x09b64c2b, 0x7eb17cbd, 0xe7b82d07, 0x90bf1d91,

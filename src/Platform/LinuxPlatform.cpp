@@ -1,3 +1,6 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "os_types.h"
 
 #ifdef Theodore_Linux
@@ -6,7 +9,7 @@
 #include <X11/Xlib.h>
 #include GLEW_INCLUDE_DIR
 #include GLEW_INCLUDE_DIR2
-#include "../Helper/Utility.h"
+#include "Helper/Utility.h"
 #include "LinuxPlatform.h"
 #include "Platform.h"
 

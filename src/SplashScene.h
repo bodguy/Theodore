@@ -1,10 +1,5 @@
-/**
-  @brief intro scene
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef SplashScene_h
 #define SplashScene_h
@@ -23,7 +18,7 @@ namespace Theodore {
       fieldOfView = 60.f;
     }
 
-    virtual ~SplashScene() {}
+    virtual ~SplashScene() override {}
 
     virtual void OnAwake() {
       GameObject* pointLight = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
@@ -55,6 +50,21 @@ namespace Theodore {
 
       GameObject* cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
       cube->GetTransform()->SetPosition(Vector3d(0.f, 0.f, -5.f));
+
+      GameObject* skybox = new GameObject("skybox", this);
+      CubemapRenderer* cubemap = skybox->AddComponent<CubemapRenderer>();
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posx.jpg", TextureFormat::RGBA32,
+                                   CubemapFace::PositiveX);  // Right
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negx.jpg", TextureFormat::RGBA32,
+                                   CubemapFace::NegativeX);  // Left
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posy.jpg", TextureFormat::RGBA32,
+                                   CubemapFace::PositiveY);  // Top
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negy.jpg", TextureFormat::RGBA32,
+                                   CubemapFace::NegativeY);  // Bottom
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posz.jpg", TextureFormat::RGBA32,
+                                   CubemapFace::PositiveZ);  // Back
+      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negz.jpg", TextureFormat::RGBA32,
+                                   CubemapFace::NegativeZ);  // Front
 
       SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 10.f));
     }

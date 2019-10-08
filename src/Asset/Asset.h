@@ -1,16 +1,11 @@
-/**
-  @brief represents every resource type
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Asset_h
 #define Asset_h
 
 #include <string>
-#include "../Graphics/Enumeration.h"
+#include "Graphics/Enumeration.h"
 
 namespace Theodore {
   class Asset {

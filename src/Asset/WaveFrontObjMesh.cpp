@@ -1,8 +1,11 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "WaveFrontObjMesh.h"
-#include <stdio.h>
-#include "../Helper/Debug.h"
-#include "../Helper/Utility.h"
-#include "../Platform/Time.h"
+#include <cstdio>
+#include <cstring>
+#include "Helper/Debug.h"
+#include "Platform/Time.h"
 
 namespace Theodore {
   WaveFrontObjMesh::WaveFrontObjMesh() : Mesh() {}

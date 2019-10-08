@@ -1,10 +1,5 @@
-/**
-  @brief rendering cubemap component
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef CubemapRenderer_h
 #define CubemapRenderer_h
@@ -15,7 +10,7 @@ namespace Theodore {
   class CubemapRenderer : public MeshRenderer {
   public:
     CubemapRenderer();
-    virtual ~CubemapRenderer();
+    virtual ~CubemapRenderer() override;
 
     unsigned int GetTextureID() const;
 

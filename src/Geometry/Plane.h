@@ -1,15 +1,10 @@
-/**
-  @brief mathmatical plane class
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Plane_h
 #define Plane_h
 
-#include "../Math/Vector3d.h"
+#include "Math/Vector3d.h"
 #include "Ray.h"
 
 namespace Theodore {

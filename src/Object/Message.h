@@ -1,15 +1,10 @@
-/**
-  @brief gameobject message datastructure
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Message_h
 #define Message_h
 
-#include "../Graphics/Enumeration.h"
+#include "Graphics/Enumeration.h"
 
 namespace Theodore {
   class Message {

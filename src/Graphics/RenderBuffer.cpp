@@ -1,5 +1,8 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "RenderBuffer.h"
-#include "../Platform/os_types.h"
+#include "Platform/os_types.h"
 #include GLEW_INCLUDE_DIR
 
 namespace Theodore {

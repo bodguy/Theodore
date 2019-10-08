@@ -1,10 +1,5 @@
-/**
-  @brief top-level interface in entire scene objects
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Object_h
 #define Object_h

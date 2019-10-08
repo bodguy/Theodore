@@ -1,14 +1,17 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "Gizmo.h"
-#include "../../Asset/AssetManager.h"
-#include "../../Asset/Shader.h"
-#include "../../Graphics/Graphics.h"
-#include "../../Graphics/VertexBuffer.h"
-#include "../../Helper/File.h"
-#include "../../Helper/Utility.h"
-#include "../../Math/Math.h"
-#include "../GameObject.h"
-#include "../SceneManager.h"
+#include "Asset/AssetManager.h"
+#include "Asset/Shader.h"
 #include "Camera.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/VertexBuffer.h"
+#include "Helper/File.h"
+#include "Helper/Utility.h"
+#include "Math/Math.h"
+#include "Object/GameObject.h"
+#include "Object/SceneManager.h"
 #include "Transform.h"
 
 namespace Theodore {

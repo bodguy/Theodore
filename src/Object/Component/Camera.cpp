@@ -1,14 +1,17 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "Camera.h"
-#include "../../Asset/Shader.h"
-#include "../../Graphics/FrameBuffer.h"
-#include "../../Graphics/Graphics.h"
-#include "../../Helper/Utility.h"
-#include "../../Math/Math.h"
-#include "../../Platform/Platform.h"
-#include "../GameObject.h"
-#include "./sub/Material.h"
-#include "./sub/Mesh.h"
+#include "Asset/Shader.h"
+#include "Graphics/FrameBuffer.h"
+#include "Graphics/Graphics.h"
+#include "Helper/Utility.h"
+#include "Math/Math.h"
 #include "MeshRenderer.h"
+#include "Object/Component/sub/Material.h"
+#include "Object/Component/sub/Mesh.h"
+#include "Object/GameObject.h"
+#include "Platform/Platform.h"
 #include "Transform.h"
 
 namespace Theodore {
@@ -102,8 +105,6 @@ namespace Theodore {
 
   void Camera::SetFarClipPlane(float far) { mFarClipPlane = far; }
 
-  Transform* Camera::GetTransform() const { return mTransform; }
-
   FrameBuffer* Camera::GetRenderTexture() const { return mRenderTexture; }
 
   void Camera::SetRenderTexture(FrameBuffer* texture) { mRenderTexture = texture; }
@@ -112,7 +113,7 @@ namespace Theodore {
 
   void Camera::Update(float deltaTime) {}
 
-  void Camera::Render() { return; }
+  void Camera::Render() {}
 
   bool Camera::CompareEquality(const Object& rhs) const { return false; }
 

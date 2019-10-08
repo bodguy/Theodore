@@ -1,15 +1,9 @@
-/**
-  @brief scene container for scenemanager
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Scene_h
 #define Scene_h
 
-#include <memory>
 #include <vector>
 #include "Object.h"
 
@@ -25,7 +19,7 @@ namespace Theodore {
 
   public:
     explicit Scene(const std::string& name);
-    virtual ~Scene();
+    virtual ~Scene() override;
 
     bool IsActive() const;
     void SetActive(bool value);

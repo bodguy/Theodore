@@ -1,17 +1,20 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "Application.h"
-#include "../Asset/AssetManager.h"
-#include "../Asset/Shader.h"
-#include "../Graphics/Graphics.h"
-#include "../Helper/Utility.h"
-#include "../Math/Random.h"
-#include "../Platform/Input.h"
-#include "../Platform/Time.h"
+#include "Asset/AssetManager.h"
+#include "Asset/Shader.h"
+#include "Graphics/Graphics.h"
+#include "Helper/Utility.h"
+#include "Math/Random.h"
+#include "Platform/Input.h"
+#include "Platform/Time.h"
 #include "SceneManager.h"
 
 namespace Theodore {
   Application* Application::instance = nullptr;
-  std::string Application::ResourcePath = "../Resources/";
-  std::string Application::ShaderPath = "../Shaders/";
+  std::string Application::ResourcePath = "../res/";
+  std::string Application::ShaderPath = "../shaders/";
   Application::Application() { instance = this; }
 
   Application::~Application() {

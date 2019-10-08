@@ -1,3 +1,6 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "os_types.h"
 
 #ifdef Theodore_MacOS
@@ -7,9 +10,7 @@
 #import <Cocoa/Cocoa.h>
 #include "Platform.h"
 #include "CocoaPlatform.h"
-#include "../Helper/Utility.h"
-#include "KeyCode.h"
-#include "../Helper/Debug.h"
+#include "Helper/Utility.h"
 
 namespace Theodore {
 

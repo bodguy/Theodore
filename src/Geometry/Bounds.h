@@ -1,15 +1,10 @@
-/**
-  @brief represents AABB(axis aligned bounding box)
-  @author bodguy
-  @date 17.07.17
-  @todo lots of functions are not implemented yet
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Bounds_h
 #define Bounds_h
 
-#include "../Math/Vector3d.h"
+#include "Math/Vector3d.h"
 #include "Ray.h"
 
 namespace Theodore {

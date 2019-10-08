@@ -1,5 +1,7 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "Mesh.h"
-#include "../../../Helper/Utility.h"
 
 namespace Theodore {
   Mesh::Mesh() : mFormat(IndexFormat::UInt32), mSemantic(VertexSemantic::SemanticNone), mUsage(BufferUsage::StaticDraw), mBounds(Vector3d::zero, Vector3d::one) {

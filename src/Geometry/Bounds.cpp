@@ -1,7 +1,8 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "Bounds.h"
 #include <cmath>
-#include "../Helper/Debug.h"
-#include "../Math/Vector4d.h"
 
 namespace Theodore {
   Bounds::Bounds(const Vector3d& center, const Vector3d& size) : mCenter(center), mSize(size) {

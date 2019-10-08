@@ -1,6 +1,9 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "Transform.h"
-#include "../../Math/Math.h"
-#include "../GameObject.h"
+#include "Math/Math.h"
+#include "Object/GameObject.h"
 
 namespace Theodore {
   Transform::Transform() : Component("Transform"), mRotation(), mLocalToWorldMatrix(), mWorldToLocalMatrix(), mLocalRotation() {

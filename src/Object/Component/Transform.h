@@ -1,25 +1,20 @@
-/**
-  @brief transform component for translation, scaling, rotation object in the world space
-  @author bodguy
-  @date 17.07.17
-  @todo RotateAround function implementation
-  @bug LookAt function needs to be tested
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Transform_h
 #define Transform_h
 
-#include "../../Graphics/Enumeration.h"
-#include "../../Math/Matrix4x4.h"
-#include "../../Math/Quaternion.h"
-#include "../../Math/Vector3d.h"
 #include "Component.h"
+#include "Graphics/Enumeration.h"
+#include "Math/Matrix4x4.h"
+#include "Math/Quaternion.h"
+#include "Math/Vector3d.h"
 
 namespace Theodore {
   class Transform : public Component {
   public:
     Transform();
-    virtual ~Transform();
+    virtual ~Transform() override;
 
     void Translate(const Vector3d& translation, Space relativeTo = Space::Self);
     void Rotate(const Vector3d& axis, float angle, Space relativeTo = Space::Self);
@@ -55,6 +50,7 @@ namespace Theodore {
     void SetLocalEulerAngles(const Vector3d& euler);
     void SetLocalRotation(const Quaternion& quat);
 
+    // TODO: test
     void LookAt(const Transform& target, const Vector3d& worldUp = Vector3d::up);
 
     GameObject* GetParent() const;

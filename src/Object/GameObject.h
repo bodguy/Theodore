@@ -1,10 +1,5 @@
-/**
-  @brief GameObject (ECS) container
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef GameObject_h
 #define GameObject_h
@@ -15,13 +10,13 @@
 #include <typeinfo>
 #include <unordered_map>
 #include <vector>
-#include "../Graphics/Enumeration.h"
-#include "./Component/Camera.h"
-#include "./Component/Collider/BoxCollider.h"
-#include "./Component/Collider/Collider.h"
-#include "./Component/Collider/SphereCollider.h"
-#include "./Component/Component.h"
-#include "./Component/Light.h"
+#include "Component/Camera.h"
+#include "Component/Collider/BoxCollider.h"
+#include "Component/Collider/Collider.h"
+#include "Component/Collider/SphereCollider.h"
+#include "Component/Component.h"
+#include "Component/Light.h"
+#include "Graphics/Enumeration.h"
 #include "Object.h"
 #include "Scene.h"
 
@@ -39,7 +34,7 @@ namespace Theodore {
     explicit GameObject(const std::string& name, Scene* scene);
     GameObject(const std::string& name, GameObject* parent, Scene* scene);
     GameObject(const GameObject& other);  // copy constructor
-    virtual ~GameObject();
+    virtual ~GameObject() override;
 
     template <typename T, typename... Ts>
     T* AddComponent(Ts... args);

@@ -1,3 +1,6 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #ifndef TagManager_h
 #define TagManager_h
 
@@ -9,14 +12,14 @@ namespace Theodore {
     TagManager();
     ~TagManager();
 
-    static void AddTag(uint32_t tag);
-    static void RemoveTag(uint32_t tag);
-    static void AddLayer(uint32_t layer);
-    static void RemoveLayer(uint32_t layer);
+    static void AddTag(unsigned int tag);
+    static void RemoveTag(unsigned int tag);
+    static void AddLayer(unsigned int layer);
+    static void RemoveLayer(unsigned int layer);
 
   private:
-    std::vector<uint32_t> mTags;
-    std::vector<uint32_t> mLayers;
+    std::vector<unsigned int> mTags;
+    std::vector<unsigned int> mLayers;
 
     static TagManager* instance;
   };

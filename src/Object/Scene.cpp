@@ -1,11 +1,15 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "Scene.h"
-#include "../Graphics/Graphics.h"
-#include "../Helper/Utility.h"
-#include "../Helper/crc32.h"
-#include "./Component/Camera.h"
-#include "./Component/Light.h"
-#include "./Component/Transform.h"
+#include <algorithm>
+#include "Component/Camera.h"
+#include "Component/Light.h"
+#include "Component/Transform.h"
 #include "GameObject.h"
+#include "Graphics/Graphics.h"
+#include "Helper/Utility.h"
+#include "Helper/crc32.h"
 #include "SceneManager.h"
 
 namespace Theodore {
