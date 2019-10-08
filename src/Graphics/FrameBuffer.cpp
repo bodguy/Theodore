@@ -1,6 +1,9 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "FrameBuffer.h"
-#include "../Asset/Texture2D.h"
-#include "../Helper/Debug.h"
+#include "Asset/Texture2D.h"
+#include "Helper/Debug.h"
 #include "RenderBuffer.h"
 
 namespace Theodore {

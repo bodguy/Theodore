@@ -1,10 +1,5 @@
-/**
-  @brief common math utility
-  @author bodguy
-  @date 17.07.17
-  @todo EaseIn(), PerlinNoise() function implementation
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Math_h
 #define Math_h

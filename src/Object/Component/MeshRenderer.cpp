@@ -1,17 +1,18 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "MeshRenderer.h"
-#include "../../Asset/Shader.h"
-#include "../../Asset/Texture2D.h"
-#include "../../Geometry/Bounds.h"
-#include "../../Graphics/FrameBuffer.h"
-#include "../../Graphics/Graphics.h"
-#include "../../Graphics/VertexBuffer.h"
-#include "../../Helper/Debug.h"
-#include "../../Helper/Utility.h"
-#include "../../Math/Math.h"
-#include "../GameObject.h"
-#include "../SceneManager.h"
-#include "./sub/Material.h"
-#include "./sub/Mesh.h"
+#include "Asset/Texture2D.h"
+#include "Graphics/FrameBuffer.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/VertexBuffer.h"
+#include "Helper/Debug.h"
+#include "Helper/Utility.h"
+#include "Math/Math.h"
+#include "Object/GameObject.h"
+#include "Object/SceneManager.h"
+#include "Object/Component/sub/Material.h"
+#include "Object/Component/sub/Mesh.h"
 #include "Transform.h"
 
 namespace Theodore {

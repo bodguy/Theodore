@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.6)
+
 # Fix behavior of CMAKE_CXX_STANDARD when targeting macOS.
 if (POLICY CMP0025)
     cmake_policy(SET CMP0025 NEW)
 endif ()
+
 project(Theodore LANGUAGES CXX VERSION 0.1.0)
 
 macro(use_cxx11)
@@ -19,6 +21,8 @@ use_cxx11()
 set(CMAKE_WARN_DEPRECATED 0)
 set(GLEW_INCLUDE_DIRS "libs/include/")
 set(SOURCE_PREFIX "src/")
+
+set(THEODORE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src")
 
 # MacOS lib settings
 if(APPLE)
@@ -56,3 +60,4 @@ link_directories(${GLEW_LIBRARIES})
 file(GLOB_RECURSE SOURCE_FILES ${SOURCE_PREFIX}*.cpp ${SOURCE_PREFIX}*.h ${SOURCE_PREFIX}*.mm)
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${EXTRA_LIBS})
+target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${THEODORE_INCLUDE_DIR})

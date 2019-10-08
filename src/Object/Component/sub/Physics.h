@@ -1,17 +1,12 @@
-/**
-  @brief physical calculation
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Physics_h
 #define Physics_h
 
-#include "../../../Geometry/Ray.h"
-#include "../../../Math/Math.h"
-#include "../../../Math/Vector3d.h"
+#include "Geometry/Ray.h"
+#include "Math/Math.h"
+#include "Math/Vector3d.h"
 
 namespace Theodore {
   class RaycastHit {

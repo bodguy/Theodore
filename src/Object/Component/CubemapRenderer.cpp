@@ -1,10 +1,13 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "CubemapRenderer.h"
-#include "../../Asset/Shader.h"
-#include "../../Graphics/Graphics.h"
-#include "../../Math/Math.h"
-#include "../SceneManager.h"
-#include "./sub/Mesh.h"
-#include "./sub/ShapeGenerator.h"
+#include "Asset/Shader.h"
+#include "Graphics/Graphics.h"
+#include "Math/Math.h"
+#include "Object/SceneManager.h"
+#include "Object/Component/sub/Mesh.h"
+#include "Object/Component/sub/ShapeGenerator.h"
 #include "Camera.h"
 
 namespace Theodore {

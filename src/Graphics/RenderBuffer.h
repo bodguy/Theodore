@@ -1,10 +1,5 @@
-/**
-  @brief OpenGL renderbuffer class
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef RenderBuffer_h
 #define RenderBuffer_h

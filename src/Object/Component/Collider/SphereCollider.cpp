@@ -1,9 +1,12 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "SphereCollider.h"
-#include "../../../Graphics/Graphics.h"
-#include "../../GameObject.h"
-#include "../MeshRenderer.h"
-#include "../Transform.h"
-#include "../sub/Mesh.h"
+#include "Graphics/Graphics.h"
+#include "Object/GameObject.h"
+#include "Object/Component/MeshRenderer.h"
+#include "Object/Component/Transform.h"
+#include "Object/Component/sub/Mesh.h"
 #include <cmath>
 
 namespace Theodore {

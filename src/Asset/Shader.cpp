@@ -1,13 +1,16 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "Shader.h"
-#include "../Helper/Debug.h"
-#include "../Helper/StringUtil.h"
-#include "../Helper/Utility.h"
-#include "../Math/Color.h"
-#include "../Math/Matrix4x4.h"
-#include "../Math/Vector2d.h"
-#include "../Math/Vector3d.h"
-#include "../Math/Vector4d.h"
-#include "../Object/Application.h"
+#include "Helper/Debug.h"
+#include "Helper/StringUtil.h"
+#include "Helper/Utility.h"
+#include "Math/Color.h"
+#include "Math/Matrix4x4.h"
+#include "Math/Vector2d.h"
+#include "Math/Vector3d.h"
+#include "Math/Vector4d.h"
+#include "Object/Application.h"
 #include <cstdlib>
 #include <vector>
 #include <cstring>

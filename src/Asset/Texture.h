@@ -1,17 +1,12 @@
-/**
-  @brief texture interface
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Texture_h
 #define Texture_h
 
-#include "../Platform/os_types.h"
-#include "../Graphics/Enumeration.h"
-#include "../Math/Color.h"
+#include "Platform/os_types.h"
+#include "Graphics/Enumeration.h"
+#include "Math/Color.h"
 #include "Asset.h"
 #include GLEW_INCLUDE_DIR
 #include <vector>

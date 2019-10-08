@@ -1,21 +1,16 @@
-/**
-  @brief mesh for meshRenderer
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Mesh_h
 #define Mesh_h
 
-#include "../../../Asset/Asset.h"
-#include "../../../Geometry/Bounds.h"
-#include "../../../Graphics/Enumeration.h"
-#include "../../../Math/Matrix4x4.h"
-#include "../../../Math/Vector2d.h"
-#include "../../../Math/Vector3d.h"
-#include "../../../Math/Vector4d.h"
+#include "Asset/Asset.h"
+#include "Geometry/Bounds.h"
+#include "Graphics/Enumeration.h"
+#include "Math/Matrix4x4.h"
+#include "Math/Vector2d.h"
+#include "Math/Vector3d.h"
+#include "Math/Vector4d.h"
 #include "BoneWeight.h"
 #include <vector>
 

@@ -1,10 +1,5 @@
-/**
-  @brief random number generator
-  @author bodguy
-  @date 17.07.17
-  @todo various random algorithm support
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Random_h
 #define Random_h

@@ -1,17 +1,12 @@
-/**
-  @brief OpenGL shader compile and managing
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Shader_h
 #define Shader_h
 
-#include "../Graphics/Enumeration.h"
-#include "../Platform/os_types.h"
-#include "../Helper/File.h"
+#include "Graphics/Enumeration.h"
+#include "Platform/os_types.h"
+#include "Helper/File.h"
 #include "Asset.h"
 #include GLEW_INCLUDE_DIR
 #include <map>

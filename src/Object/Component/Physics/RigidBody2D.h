@@ -1,8 +1,11 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #ifndef RigidBody2D_h
 #define RigidBody2D_h
 
-#include "../../../Math/Vector2d.h"
-#include "../Component.h"
+#include "Math/Vector2d.h"
+#include "Object/Component/Component.h"
 
 namespace Theodore {
   class Transform;

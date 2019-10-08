@@ -1,19 +1,14 @@
-/**
-  @brief collider component base class
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef Collider_h
 #define Collider_h
 
-#include "../../../Geometry/Ray.h"
-#include "../../../Graphics/Enumeration.h"
-#include "../../../Math/Color.h"
-#include "../Component.h"
-#include "../sub/Physics.h"
+#include "Geometry/Ray.h"
+#include "Graphics/Enumeration.h"
+#include "Math/Color.h"
+#include "Object/Component/Component.h"
+#include "Object/Component/sub/Physics.h"
 #include <string>
 
 namespace Theodore {

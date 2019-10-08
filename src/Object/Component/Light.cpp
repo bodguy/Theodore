@@ -1,9 +1,12 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "Light.h"
-#include "../../Helper/Debug.h"
-#include "../../Helper/Utility.h"
-#include "../../Math/Math.h"
-#include "../GameObject.h"
-#include "./sub/ShadowInfo.h"
+#include "Helper/Debug.h"
+#include "Helper/Utility.h"
+#include "Math/Math.h"
+#include "Object/GameObject.h"
+#include "Object/Component/sub/ShadowInfo.h"
 
 namespace Theodore {
   const unsigned int Light::MaxLightCount = 50;

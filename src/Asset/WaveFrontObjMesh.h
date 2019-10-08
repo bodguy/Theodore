@@ -1,16 +1,11 @@
-/**
-  @brief wavefront obj file parser
-  @author bodguy
-  @date 17.07.17
-  @todo
-  @bug
-*/
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #ifndef WaveFrontObjMesh_h
 #define WaveFrontObjMesh_h
 
-#include "../Graphics/Enumeration.h"
-#include "../Object/Component/sub/Mesh.h"
+#include "Graphics/Enumeration.h"
+#include "Object/Component/sub/Mesh.h"
 
 namespace Theodore {
   class WaveFrontObjMesh : public Mesh {

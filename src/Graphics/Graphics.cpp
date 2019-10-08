@@ -1,13 +1,16 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
 #include "Graphics.h"
-#include "../Asset/Shader.h"
-#include "../Helper/Debug.h"
-#include "../Helper/Utility.h"
-#include "../Math/Color.h"
-#include "../Math/Math.h"
-#include "../Object/Component/Camera.h"
-#include "../Object/Component/Transform.h"
-#include "../Object/SceneManager.h"
-#include "../Platform/Platform.h"
+#include "Asset/Shader.h"
+#include "Helper/Debug.h"
+#include "Helper/Utility.h"
+#include "Math/Color.h"
+#include "Math/Math.h"
+#include "Object/Component/Camera.h"
+#include "Object/Component/Transform.h"
+#include "Object/SceneManager.h"
+#include "Platform/Platform.h"
 #include "FrameBuffer.h"
 #include "VertexBuffer.h"
 
