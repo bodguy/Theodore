@@ -1,7 +1,6 @@
 Welcome to Theodore
 =============
 ![https://opensource.org/licenses/Apache-2.0](license.svg)
-[![Join the chat at https://gitter.im/Theodore-community/community](https://badges.gitter.im/Theodore-community/community.svg)](https://gitter.im/Theodore-community/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ### Introduction
 Theodore is the open source game framework for 3D, 2D. It's goal is to make game very easy.
 All of these source codes are heavily inspired by Unity system. My ECS(Entity Component System) is originally derived from game programming gems 6 but I fixed it to make codes and performances being more readable and maintainable to work well with Unity style ECS.
@@ -176,9 +175,44 @@ Can easily format all the .cpp, .h files recursively using clang-format-all bash
 clang-format-all src/
 ```
 
+### platform IDE support
+
+Theodore uses cmake as a build backend. Platform specific IDEs are generated from cmake generator.
+for example, when you build project on windows vc++:
+
+```bash
+mkdir build
+cd build
+cmake -G "Visual Studio 10" ..
+```
+
+or macos xcode:
+
+```bash
+mkdir build
+cd build
+cmake -G Xcode ..
+```
+
+any linux environment, you can use makefile directly that generated from cmake.
+
+```bash
+mkdir build
+cd build
+cmake ..
+make .
+```
+
+Jetbrain Clion IDE is good choice to build project. because they use cmake as a default build backend.  
+NOTE THAT: minimal cmake version is 3.6.
+
+### unit test
+
+TODO
+
 ### common problems
 
-when build this project with gcc environment, your machine should have right compiler bundles to build project.
+when build project with gcc environment, your machine should have right compiler bundles to build project.
 because of multi platform features, objc++ compiler is needed regardless of those feature use or not.
 you can easily install them from package manager on debian based linux machine.
 
