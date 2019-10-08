@@ -212,7 +212,18 @@ NOTE THAT: minimal cmake version is 3.6.
 
 ### unit tests
 
-TODO
+Catch2 test framework used. every test codes are in test directory.
+Theodore demands you to install Catch2.cmake script. those packages can easily be installed from [here](https://github.com/catchorg/Catch2/blob/master/docs/cmake-integration.md#installing-catch2-from-git-repository)
+for the sake of brevity, the bash commands on Catch2 web resource are repeated here.
+
+```bash
+git clone https://github.com/catchorg/Catch2.git
+cd Catch2
+cmake -Bbuild -H. -DBUILD_TESTING=OFF
+sudo cmake --build build/ --target install
+```
+
+Todo: test coverage minimum 80% than higher
 
 ### valgrind memory leak check
 

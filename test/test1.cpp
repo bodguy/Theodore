@@ -1,7 +1,7 @@
 #include <Catch2/catch.hpp>
 
 int Factorial( int number ) {
-  return number <= 1 ? number : Factorial( number - 1 ) * number;
+  return number <= 1 ? 1      : Factorial( number - 1 ) * number;
 }
 
 TEST_CASE( "2: Factorial of 0 is 1 (fail)", "[multi-file:2]" ) {

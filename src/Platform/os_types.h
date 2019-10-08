@@ -4,6 +4,8 @@
 #ifndef os_types_h
 #define os_types_h
 
+#define GLEW_NO_GLU
+
 // platform detection
 #if defined(_WIN32) || defined(_WIN64)
 #if _WIN64
