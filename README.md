@@ -175,3 +175,15 @@ Can easily format all the .cpp, .h files recursively using clang-format-all bash
 ```bash
 clang-format-all src/
 ```
+
+### common problems
+
+when build this project with gcc environment, your machine should have right compiler bundles to build project.
+because of multi platform features, objc++ compiler is needed regardless of those feature use or not.
+you can easily install them from package manager on debian based linux machine.
+
+```bash
+sudo apt-get install gobjc++
+```
+
+after successfully installed, cmake don't complain to you.

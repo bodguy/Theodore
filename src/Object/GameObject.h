@@ -9,12 +9,6 @@
 #ifndef GameObject_h
 #define GameObject_h
 
-#include <set>
-#include <string>
-#include <typeindex>
-#include <typeinfo>
-#include <unordered_map>
-#include <vector>
 #include "../Graphics/Enumeration.h"
 #include "./Component/Camera.h"
 #include "./Component/Collider/BoxCollider.h"
@@ -24,6 +18,12 @@
 #include "./Component/Light.h"
 #include "Object.h"
 #include "Scene.h"
+#include <set>
+#include <string>
+#include <typeindex>
+#include <typeinfo>
+#include <unordered_map>
+#include <vector>
 
 namespace Theodore {
   class Transform;

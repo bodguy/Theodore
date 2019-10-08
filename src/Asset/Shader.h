@@ -11,11 +11,12 @@
 
 #include "../Graphics/Enumeration.h"
 #include "../Platform/os_types.h"
+#include "../Helper/File.h"
+#include "Asset.h"
 #include GLEW_INCLUDE_DIR
 #include <map>
 #include <string>
-#include "../Helper/File.h"
-#include "Asset.h"
+#include <vector>
 
 namespace Theodore {
   typedef int Attribute;

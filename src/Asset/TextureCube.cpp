@@ -1,6 +1,6 @@
 #include "TextureCube.h"
-#include <stb/stb_image.h>
 #include "../Object/Component/CubemapRenderer.h"
+#include <stb/stb_image.h>
 
 namespace Theodore {
   TextureCube::TextureCube() {

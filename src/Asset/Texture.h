@@ -10,11 +10,11 @@
 #define Texture_h
 
 #include "../Platform/os_types.h"
-#include GLEW_INCLUDE_DIR
-#include <vector>
 #include "../Graphics/Enumeration.h"
 #include "../Math/Color.h"
 #include "Asset.h"
+#include GLEW_INCLUDE_DIR
+#include <vector>
 
 namespace Theodore {
   class Texture : public Asset {

@@ -9,8 +9,8 @@
 #ifndef FrameBuffer_h
 #define FrameBuffer_h
 
-#include <map>
 #include "Enumeration.h"
+#include <map>
 
 namespace Theodore {
   class Texture2D;

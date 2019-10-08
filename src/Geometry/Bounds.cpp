@@ -1,7 +1,5 @@
 #include "Bounds.h"
 #include <cmath>
-#include "../Helper/Debug.h"
-#include "../Math/Vector4d.h"
 
 namespace Theodore {
   Bounds::Bounds(const Vector3d& center, const Vector3d& size) : mCenter(center), mSize(size) {

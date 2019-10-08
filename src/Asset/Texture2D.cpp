@@ -1,7 +1,7 @@
 #include "Texture2D.h"
+#include "../Platform/os_types.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
-#include "../Platform/os_types.h"
 #include GLEW_INCLUDE_DIR
 
 namespace Theodore {

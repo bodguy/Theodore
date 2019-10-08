@@ -1,9 +1,8 @@
 #include "Quaternion.h"
-#include <algorithm>  // until c++11 for std::swap
-#include <cmath>
-#include <utility>  // since c++11 for std::swap
 #include "Math.h"
 #include "Vector3d.h"
+#include <cmath>
+#include <utility>  // since c++11 for std::swap
 
 namespace Theodore {
   const Quaternion Quaternion::zero(0.f, 0.f, 0.f, 0.f);

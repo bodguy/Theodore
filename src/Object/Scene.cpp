@@ -7,6 +7,7 @@
 #include "./Component/Transform.h"
 #include "GameObject.h"
 #include "SceneManager.h"
+#include <algorithm>
 
 namespace Theodore {
   Scene::Scene(const std::string& name) : Object(name), mActive(true) {

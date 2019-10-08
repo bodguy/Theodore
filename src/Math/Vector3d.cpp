@@ -1,9 +1,9 @@
 #include "Vector3d.h"
+#include "Math.h"
+#include "Vector2d.h"
 #include <algorithm>  // until c++11 for std::swap
 #include <cmath>
 #include <utility>  // since c++11 for std::swap
-#include "Math.h"
-#include "Vector2d.h"
 
 namespace Theodore {
   Vector3d::Vector3d() : x(0.f), y(0.f), z(0.f) {}

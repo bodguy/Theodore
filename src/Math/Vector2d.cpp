@@ -1,8 +1,8 @@
 #include "Vector2d.h"
+#include "Math.h"
 #include <algorithm>  // until c++11 for std::swap
 #include <cmath>
 #include <utility>  // since c++11 for std::swap
-#include "Math.h"
 
 namespace Theodore {
   Vector2d::Vector2d() : x(0.f), y(0.f) {}

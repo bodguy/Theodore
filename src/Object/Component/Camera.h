@@ -9,7 +9,6 @@
 #ifndef Camera_h
 #define Camera_h
 
-#include <vector>
 #include "../../Geometry/Ray.h"
 #include "../../Math/Matrix4x4.h"
 #include "../../Math/Vector3d.h"

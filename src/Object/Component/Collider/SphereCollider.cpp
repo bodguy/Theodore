@@ -4,6 +4,7 @@
 #include "../MeshRenderer.h"
 #include "../Transform.h"
 #include "../sub/Mesh.h"
+#include <cmath>
 
 namespace Theodore {
   SphereCollider::SphereCollider() : Collider("SphereCollider"), mCenter(), mRadius(1.f), mMaxLengthVector() {

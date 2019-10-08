@@ -9,8 +9,8 @@
 #ifndef Material_h
 #define Material_h
 
-#include <vector>
 #include "../../../Math/Color.h"
+#include <vector>
 
 namespace Theodore {
   class Pipeline;

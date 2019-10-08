@@ -9,10 +9,10 @@
 #ifndef Renderer_h
 #define Renderer_h
 
-#include <vector>
 #include "../../Geometry/Bounds.h"
 #include "../../Graphics/Enumeration.h"
 #include "Component.h"
+#include <vector>
 
 namespace Theodore {
   class Buffer;

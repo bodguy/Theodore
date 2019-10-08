@@ -1,7 +1,21 @@
 cmake_minimum_required(VERSION 3.6)
-project(Theodore LANGUAGES CXX)
+# Fix behavior of CMAKE_CXX_STANDARD when targeting macOS.
+if (POLICY CMP0025)
+    cmake_policy(SET CMP0025 NEW)
+endif ()
+project(Theodore LANGUAGES CXX VERSION 0.1.0)
 
-set(CMAKE_CXX_STANDARD 11)
+macro(use_cxx11)
+    if (CMAKE_VERSION VERSION_LESS "3.1")
+        if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+            set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+        endif ()
+    else ()
+        set (CMAKE_CXX_STANDARD 11)
+    endif ()
+endmacro(use_cxx11)
+
+use_cxx11()
 set(CMAKE_WARN_DEPRECATED 0)
 set(GLEW_INCLUDE_DIRS "libs/include/")
 set(SOURCE_PREFIX "src/")

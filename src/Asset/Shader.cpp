@@ -1,6 +1,4 @@
 #include "Shader.h"
-#include <cstdlib>
-#include <vector>
 #include "../Helper/Debug.h"
 #include "../Helper/StringUtil.h"
 #include "../Helper/Utility.h"
@@ -10,6 +8,9 @@
 #include "../Math/Vector3d.h"
 #include "../Math/Vector4d.h"
 #include "../Object/Application.h"
+#include <cstdlib>
+#include <vector>
+#include <cstring>
 
 namespace Theodore {
   ////////////////////////////////////////////////////////////////////////////////////

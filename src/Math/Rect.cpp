@@ -1,5 +1,4 @@
 #include "Rect.h"
-#include <algorithm>  // until c++11 for std::swap
 #include <utility>    // since c++11 for std::swap
 
 namespace Theodore {

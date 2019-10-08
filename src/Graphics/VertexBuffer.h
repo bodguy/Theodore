@@ -9,11 +9,11 @@
 #ifndef VertexBuffer_h
 #define VertexBuffer_h
 
-#include <vector>
 #include "../Asset/Shader.h"
 #include "../Platform/os_types.h"
 #include "Enumeration.h"
 #include GLEW_INCLUDE_DIR
+#include <vector>
 
 namespace Theodore {
   class Vector2d;

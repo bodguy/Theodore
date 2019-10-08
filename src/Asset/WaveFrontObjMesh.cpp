@@ -1,8 +1,8 @@
 #include "WaveFrontObjMesh.h"
-#include <stdio.h>
 #include "../Helper/Debug.h"
-#include "../Helper/Utility.h"
 #include "../Platform/Time.h"
+#include <cstdio>
+#include <cstring>
 
 namespace Theodore {
   WaveFrontObjMesh::WaveFrontObjMesh() : Mesh() {}

@@ -3,11 +3,9 @@
 #include "MSAATexture2D.h"
 #include "Texture2D.h"
 #include "TextureCube.h"
-
 //#include "Font.h"
 #include "../Asset/Shader.h"
 #include "../Helper/Debug.h"
-#include "../Helper/File.h"
 #include "../Helper/Utility.h"
 #include "../Math/Color.h"
 #include "../Platform/Time.h"

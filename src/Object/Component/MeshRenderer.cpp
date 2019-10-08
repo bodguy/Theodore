@@ -12,8 +12,6 @@
 #include "../SceneManager.h"
 #include "./sub/Material.h"
 #include "./sub/Mesh.h"
-#include "Camera.h"
-#include "Light.h"
 #include "Transform.h"
 
 namespace Theodore {

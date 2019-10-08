@@ -1,13 +1,13 @@
 #include "Matrix4x4.h"
-#include <algorithm>  // until c++11 for std::swap
-#include <cmath>      // for std::sin, std::cos
-#include <stdexcept>  // for std::logic_error, std::out_of_range
-#include <utility>    // since c++11 for std::swap
 #include "Math.h"
 #include "Quaternion.h"
 #include "Vector2d.h"
 #include "Vector3d.h"
 #include "Vector4d.h"
+#include <algorithm>  // until c++11 for std::swap
+#include <cmath>      // for std::sin, std::cos
+#include <stdexcept>  // for std::logic_error, std::out_of_range
+#include <utility>    // since c++11 for std::swap
 
 namespace Theodore {
   Matrix4x4::Matrix4x4() { MakeIdentity(); }

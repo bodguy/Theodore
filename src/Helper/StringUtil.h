@@ -9,8 +9,10 @@
 #ifndef StringUtil_h
 #define StringUtil_h
 
-#include <vector>
 #include "../Platform/os_types.h"
+#include <vector>
+#include <string>
+#include <ctime>
 
 #ifdef Theodore_MacOS
 #define DateTime tm
