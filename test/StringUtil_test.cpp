@@ -17,10 +17,10 @@ TEST_CASE("StringUtil unit test") {
     REQUIRE(StringUtil::Contains(text, dest) == true);
   }
 
-//  SECTION("string regex match") {
-//    std::string regex = "#include\\s{1,}\"(.[^\\s]*?)\"";
-//    REQUIRE(StringUtil::Match(text, regex) == true);
-//  }
+  SECTION("string regex match") {
+    std::string regex = "#include\\s{1,}\"(.[^\\s]*?)\"";
+    REQUIRE(StringUtil::Match(text, regex) == true);
+  }
 
   SECTION("string comment") {
     REQUIRE(StringUtil::IsComment("#asdasd") == true);

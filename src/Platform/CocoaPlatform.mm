@@ -377,7 +377,7 @@ namespace Theodore {
 }
 
 - (void)windowDidResize:(NSNotification *)notification {
-  NSSize size = [[_window contentView] frame].size;
+  NSSize size = [[cWindow contentView] frame].size;
   Theodore::Platform::GetInstance()->WindowSizeChanged(size.width, size.height);
 }
 // terminate window when the red X is pressed
