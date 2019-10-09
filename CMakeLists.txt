@@ -78,18 +78,39 @@ add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${EXTRA_LIBS})
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${THEODORE_INCLUDE_DIR})
 
-# unit test target
-find_package(Catch2 REQUIRED)
-set(PROJECT_UNIT_TEST_NAME "${CMAKE_PROJECT_NAME}_unit_test")
-set(TEST_PREFIX "test/")
-file(GLOB_RECURSE TEST_SOURCE_FILES ${TEST_PREFIX}*.cpp)
+# Create virtual folders to make it look nicer in VS
+if(MSVC_IDE)
+    # Macro to preserve source files hierarchy in the IDE
+    macro(GroupSources curdir)
+        file(GLOB children RELATIVE ${PROJECT_SOURCE_DIR}/${curdir} ${PROJECT_SOURCE_DIR}/${curdir}/*)
 
-# remove main.cpp from source list
-list(REMOVE_ITEM SOURCE_FILES "${THEODORE_INCLUDE_DIR}main.cpp")
-add_executable(${PROJECT_UNIT_TEST_NAME} ${TEST_SOURCE_FILES} ${SOURCE_FILES})
-target_link_libraries(${PROJECT_UNIT_TEST_NAME} Catch2::Catch2 ${EXTRA_LIBS})
-target_include_directories(${PROJECT_UNIT_TEST_NAME} PUBLIC ${THEODORE_INCLUDE_DIR})
+        foreach(child ${children})
+            if(IS_DIRECTORY ${PROJECT_SOURCE_DIR}/${curdir}/${child})
+                GroupSources(${curdir}/${child})
+            else()
+                string(REPLACE "/" "\\" groupname ${curdir})
+                string(REPLACE "src" "Sources" groupname ${groupname})
+                source_group(${groupname} FILES ${PROJECT_SOURCE_DIR}/${curdir}/${child})
+            endif()
+        endforeach()
+    endmacro()
 
-include(CTest)
-include(Catch)
-catch_discover_tests(${PROJECT_UNIT_TEST_NAME})
+    # Run macro
+    GroupSources(src)
+endif()
+
+## unit test target
+#find_package(Catch2 REQUIRED)
+#set(PROJECT_UNIT_TEST_NAME "${CMAKE_PROJECT_NAME}_unit_test")
+#set(TEST_PREFIX "test/")
+#file(GLOB_RECURSE TEST_SOURCE_FILES ${TEST_PREFIX}*.cpp)
+#
+## remove main.cpp from source list
+#list(REMOVE_ITEM SOURCE_FILES "${THEODORE_INCLUDE_DIR}main.cpp")
+#add_executable(${PROJECT_UNIT_TEST_NAME} ${TEST_SOURCE_FILES} ${SOURCE_FILES})
+#target_link_libraries(${PROJECT_UNIT_TEST_NAME} Catch2::Catch2 ${EXTRA_LIBS})
+#target_include_directories(${PROJECT_UNIT_TEST_NAME} PUBLIC ${THEODORE_INCLUDE_DIR})
+#
+#include(CTest)
+#include(Catch)
+#catch_discover_tests(${PROJECT_UNIT_TEST_NAME})
