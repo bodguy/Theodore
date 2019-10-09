@@ -181,13 +181,19 @@ TODO
 
 ### platform dependant IDE support
 
-Theodore uses cmake as a build backend. Platform specific IDEs are generated from cmake generator.
-for example, when you build project on windows vc++:
+Theodore uses [cmake](https://cmake.org/download/) as a build backend. Platform specific IDEs are generated from cmake generator.
+for example, when you want to build project on windows visual studio 2017:
 
 ```bash
 mkdir build
 cd build
 cmake -G "Visual Studio 15" ..
+
+# Note that: VS 15 is VS 2017, 
+#            VS 14 is VS 2015, 
+#            VS 12 is VS 2013,
+#            VS 11 is VS 2012,
+#            VS 10 is VS 2010
 ```
 
 or macos xcode:
@@ -211,7 +217,7 @@ Jetbrain Clion IDE is good choice to build project. because they use cmake as a 
 another free IDE solution is [vscode](https://code.visualstudio.com/). vscode support cmake based C++ project with extensions.
 I do not explain details here.  
 
-NOTE: minimal cmake version 3.6
+Note that: minimal cmake version 3.6
 
 ### unit tests
 
