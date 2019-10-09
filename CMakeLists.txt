@@ -32,7 +32,7 @@ if(APPLE)
     find_library(COCOA_LIBRARY Cocoa)
     find_library(OPENGL_LIBRARY OpenGL)
     set(EXTRA_LIBS ${COCOA_LIBRARY} ${OPENGL_LIBRARY})
-    set(GLEW_LIBRARIES "third_party/lib/Mac/")
+    set(GLEW_LIBRARIES_DIRS "third_party/lib/Mac/")
     link_libraries(libGLEW.a)
 endif(APPLE)
 
@@ -44,20 +44,20 @@ if(LINUX)
     find_library(X11_LIBRARY X11)
     find_library(OPENGL_LIBRARY GL)
     set(EXTRA_LIBS ${OPENGL_LIBRARY} ${X11_LIBRARY})
-    set(GLEW_LIBRARIES "third_party/lib/Linux/")
+    set(GLEW_LIBRARIES_DIRS "third_party/lib/Linux/")
     link_libraries(libGLEW.a)
 endif(LINUX)
 
 # Windows lib settings
 if(WIN32)
     message(STATUS ">>>[Platform detected]: Windows")
-    set(GLEW_LIBRARIES "third_party/lib/Win32/")
+    set(GLEW_LIBRARIES_DIRS "third_party/lib/Win32/")
     link_libraries(glew32.lib)
 endif(WIN32)
 
 message(STATUS ">>>[Library linking]: GLEW linking")
 include_directories(${GLEW_INCLUDE_DIRS})
-link_directories(${GLEW_LIBRARIES})
+link_directories(${GLEW_LIBRARIES_DIRS})
 
 # release build path
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/release")
@@ -67,13 +67,18 @@ add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${EXTRA_LIBS})
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${THEODORE_INCLUDE_DIR})
 
-# unit test
+# unit test target
 find_package(Catch2 REQUIRED)
 set(PROJECT_UNIT_TEST_NAME "${CMAKE_PROJECT_NAME}_unit_test")
 set(TEST_PREFIX "test/")
 file(GLOB_RECURSE TEST_SOURCE_FILES ${TEST_PREFIX}*.cpp)
-add_executable(${PROJECT_UNIT_TEST_NAME} ${TEST_SOURCE_FILES})
-target_link_libraries(${PROJECT_UNIT_TEST_NAME} Catch2::Catch2)
+
+# remove main.cpp from source list
+list(REMOVE_ITEM SOURCE_FILES "${THEODORE_INCLUDE_DIR}main.cpp")
+add_executable(${PROJECT_UNIT_TEST_NAME} ${TEST_SOURCE_FILES} ${SOURCE_FILES})
+target_link_libraries(${PROJECT_UNIT_TEST_NAME} Catch2::Catch2 ${EXTRA_LIBS})
+target_include_directories(${PROJECT_UNIT_TEST_NAME} PUBLIC ${THEODORE_INCLUDE_DIR})
+
 include(CTest)
 include(Catch)
 catch_discover_tests(${PROJECT_UNIT_TEST_NAME})

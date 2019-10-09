@@ -232,8 +232,7 @@ namespace Theodore {
     if (!asset) {
       asset = new Shader(type);
 
-      File file;
-      file.Open(filename, OpenMode::Read);
+      File file(filename, OpenMode::Read);
       if (file.IsOpen()) {
         asset->SetAssetName(file.GetBaseName());
 
