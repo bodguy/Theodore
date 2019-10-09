@@ -99,18 +99,18 @@ if(MSVC_IDE)
     GroupSources(src)
 endif()
 
-## unit test target
-#find_package(Catch2 REQUIRED)
-#set(PROJECT_UNIT_TEST_NAME "${CMAKE_PROJECT_NAME}_unit_test")
-#set(TEST_PREFIX "test/")
-#file(GLOB_RECURSE TEST_SOURCE_FILES ${TEST_PREFIX}*.cpp)
-#
-## remove main.cpp from source list
-#list(REMOVE_ITEM SOURCE_FILES "${THEODORE_INCLUDE_DIR}main.cpp")
-#add_executable(${PROJECT_UNIT_TEST_NAME} ${TEST_SOURCE_FILES} ${SOURCE_FILES})
-#target_link_libraries(${PROJECT_UNIT_TEST_NAME} Catch2::Catch2 ${EXTRA_LIBS})
-#target_include_directories(${PROJECT_UNIT_TEST_NAME} PUBLIC ${THEODORE_INCLUDE_DIR})
-#
-#include(CTest)
-#include(Catch)
-#catch_discover_tests(${PROJECT_UNIT_TEST_NAME})
+# unit test target
+find_package(Catch2 REQUIRED)
+set(PROJECT_UNIT_TEST_NAME "${CMAKE_PROJECT_NAME}_unit_test")
+set(TEST_PREFIX "test/")
+file(GLOB_RECURSE TEST_SOURCE_FILES ${TEST_PREFIX}*.cpp)
+
+# remove main.cpp from source list
+list(REMOVE_ITEM SOURCE_FILES "${THEODORE_INCLUDE_DIR}main.cpp")
+add_executable(${PROJECT_UNIT_TEST_NAME} ${TEST_SOURCE_FILES} ${SOURCE_FILES})
+target_link_libraries(${PROJECT_UNIT_TEST_NAME} Catch2::Catch2 ${EXTRA_LIBS})
+target_include_directories(${PROJECT_UNIT_TEST_NAME} PUBLIC ${THEODORE_INCLUDE_DIR})
+
+include(CTest)
+include(Catch)
+catch_discover_tests(${PROJECT_UNIT_TEST_NAME})
