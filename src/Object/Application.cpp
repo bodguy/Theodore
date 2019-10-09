@@ -10,11 +10,12 @@
 #include "Platform/Input.h"
 #include "Platform/Time.h"
 #include "SceneManager.h"
+#include "RootDir.h"
 
 namespace Theodore {
   Application* Application::instance = nullptr;
-  std::string Application::ResourcePath = "../res/";
-  std::string Application::ShaderPath = "../shaders/";
+  std::string Application::ResourcePath = RESOURCE_DIR;
+  std::string Application::ShaderPath = SHADER_DIR;
   Application::Application() { instance = this; }
 
   Application::~Application() {
@@ -38,6 +39,8 @@ namespace Theodore {
     mTime = new Time();
     mAssetManager = new AssetManager();
     mShaderManager = new ShaderManager();
+
+    Debug::Log(Application::GetResourcePath());
 
     // default program setting and caching
     Shader* phong_vs = AssetManager::RequestShader(Application::GetShaderPath() + "light/phong_vs.glsl", ShaderType::VertexShader);

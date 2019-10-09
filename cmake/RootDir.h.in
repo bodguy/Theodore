@@ -1,0 +1,13 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
+#ifndef RootDir_h
+#define RootDir_h
+
+#define ROOT_DIR @CMAKE_SOURCE_DIR@/
+#define TO_STR_NX(x) #x
+#define TO_STR(x) TO_STR_NX(x)
+#define RESOURCE_DIR (TO_STR(ROOT_DIR) TO_STR(res/))
+#define SHADER_DIR (TO_STR(ROOT_DIR) TO_STR(shaders/))
+
+#endif /* RootDir_h */

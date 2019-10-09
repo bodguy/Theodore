@@ -187,7 +187,7 @@ for example, when you build project on windows vc++:
 ```bash
 mkdir build
 cd build
-cmake -G "Visual Studio 10" ..
+cmake -G "Visual Studio 15" ..
 ```
 
 or macos xcode:
@@ -208,12 +208,16 @@ make .
 ```
 
 Jetbrain Clion IDE is good choice to build project. because they use cmake as a default build backend.  
-NOTE THAT: minimal cmake version is 3.6.
+another free IDE solution is [vscode](https://code.visualstudio.com/). vscode support cmake based C++ project with extensions.
+I do not explain details here.  
+
+NOTE: minimal cmake version 3.6
 
 ### unit tests
 
 Catch2 test framework used. every test codes are in test directory.
 Theodore demands you to install Catch2.cmake script. those packages can easily be installed from [here](https://github.com/catchorg/Catch2/blob/master/docs/cmake-integration.md#installing-catch2-from-git-repository)
+
 for the sake of brevity, the bash commands on Catch2 web resource are repeated here.
 
 ```bash

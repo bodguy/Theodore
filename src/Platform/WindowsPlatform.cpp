@@ -491,21 +491,16 @@ namespace Theodore {
       DispatchMessage(&msg);
     }
 
-    // RECT rect;
-    // GetClientRect(WindowsPlatform::instance->mHandle, &rect);
-    // if (mMousePosition.x >= rect.left && mMousePosition.x <= rect.right && mMousePosition.y >=
-    // rect.top && mMousePosition.y <= rect.bottom) {
     POINT mousePoint;
     GetCursorPos(&mousePoint);
     ScreenToClient(WindowsPlatform::instance->mHandle, &mousePoint);
 
     mMousePosition.x = (float)mousePoint.x;
-    mMousePosition.y = (float)mousePoint.y;
+    mMousePosition.y = (float)-mousePoint.y;
 
     mMouseButtons[MOUSE_LEFT] = static_cast<bool>(GetAsyncKeyState(VK_LBUTTON));
     mMouseButtons[MOUSE_RIGHT] = static_cast<bool>(GetAsyncKeyState(VK_RBUTTON));
     mMouseButtons[MOUSE_MIDDLE] = static_cast<bool>(GetAsyncKeyState(VK_MBUTTON));
-    //}
 
     for (int i = 0; i < KEY_MAX; i++) {
       mKeys[i] = static_cast<bool>(GetAsyncKeyState(mLocalKeymap[i]));
@@ -574,13 +569,6 @@ namespace Theodore {
   }
 
   bool Platform::IsFocus() const {
-    // I fix this code to handle in the windows message loop
-    // if (GetFocus() == WindowsPlatform::instance->mHandle) {
-    //	mIsFocused = true;
-    //} else {
-    //	mIsFocused = false;
-    //}
-
     return mIsFocused;
   }
 

@@ -1,21 +1,22 @@
 cmake_minimum_required(VERSION 3.6)
 
 # Fix behavior of CMAKE_CXX_STANDARD when targeting macOS.
-if (POLICY CMP0025)
+if(POLICY CMP0025)
     cmake_policy(SET CMP0025 NEW)
-endif ()
+endif()
 
 project(Theodore LANGUAGES CXX VERSION 0.1.0)
+message(STATUS "CMake version: ${CMAKE_VERSION}")
 
 # for old cmake version compatible
 macro(use_cxx11)
-    if (CMAKE_VERSION VERSION_LESS "3.1")
-        if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(CMAKE_VERSION VERSION_LESS "3.1")
+        if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
             set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
-        endif ()
-    else ()
+        endif()
+    else()
         set (CMAKE_CXX_STANDARD 11)
-    endif ()
+    endif()
 endmacro(use_cxx11)
 
 use_cxx11()
@@ -28,8 +29,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 # MacOS lib settings
 if(APPLE)
-    message(STATUS ">>>[Platform detected]: Macos")
-#    include_directories("/System/Library/Frameworks")
+    message(STATUS "Platform detected: Macos")
     find_library(COCOA_LIBRARY Cocoa REQUIRED)
     find_library(OPENGL_LIBRARY OpenGL REQUIRED)
     set(EXTRA_LIBS ${COCOA_LIBRARY} ${OPENGL_LIBRARY})
@@ -39,7 +39,7 @@ endif(APPLE)
 
 # Linux lib settings
 if(LINUX)
-    message(STATUS ">>>[Platform detected]: Linux")
+    message(STATUS "Platform detected: Linux")
 #    include_directories("/usr/X11R6/include/")
 #    link_directories("/usr/X11R6/lib")
     find_library(X11_LIBRARY X11 REQUIRED)
@@ -51,21 +51,27 @@ endif(LINUX)
 
 # Windows lib settings
 if(WIN32)
-    message(STATUS ">>>[Platform detected]: Windows")
+    message(STATUS "Platform detected: Windows")
     find_package(OpenGL REQUIRED)
     find_package(WindowsSDK REQUIRED)
     set(EXTRA_LIBS opengl32)
-    set(GLEW_LIBRARIES_DIRS "third_party/lib/Win32/")
+    # detect cpu architecture
+    math(EXPR BITS "8*${CMAKE_SIZEOF_VOID_P}")
+    message(STATUS "Detected cpu archetecture: ${BITS}bits")
+    set(GLEW_LIBRARIES_DIRS "third_party/lib/Win${BITS}/")
     link_libraries(glew32.lib)
 endif(WIN32)
 
-message(STATUS ">>>[Library linking]: GLEW linking")
+message(STATUS "Library linking: GLEW linking")
 include_directories(${GLEW_INCLUDE_DIRS})
 link_directories(${GLEW_LIBRARIES_DIRS})
 
 # release build path
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/release")
+
+# resource path
+configure_file("${CMAKE_SOURCE_DIR}/cmake/RootDir.h.in" "${THEODORE_INCLUDE_DIR}/RootDir.h")
 
 file(GLOB_RECURSE SOURCE_FILES ${SOURCE_PREFIX}*.cpp ${SOURCE_PREFIX}*.hpp ${SOURCE_PREFIX}*.mm)
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})

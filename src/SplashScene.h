@@ -99,7 +99,7 @@ namespace Theodore {
 
         Vector3d up = SceneManager::GetMainCamera()->GetTransform()->GetUp();
         up *= Input::GetMouseDeltaPosition().y * moveSensitivity * Time::DeltaTime();
-        SceneManager::GetMainCamera()->GetTransform()->Translate(-up);
+        SceneManager::GetMainCamera()->GetTransform()->Translate(up);
       }
 
       if (Input::GetKeyHeld(KEY_LSHIFT) || Input::GetKeyHeld(KEY_RSHIFT)) {
@@ -125,7 +125,7 @@ namespace Theodore {
       if (Input::GetMouseButtonHeld(MOUSE_RIGHT)) {
         // zoom in, out
         Vector3d pos = Input::GetMouseDeltaPosition();
-        fieldOfView += pos.z;
+        fieldOfView += Input::GetMousePosition().z;
         cam->SetFieldOfView(fieldOfView);
 
         rotationY = pos.x * sensitivity * Time::DeltaTime();

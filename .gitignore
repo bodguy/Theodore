@@ -1,5 +1,6 @@
 # exclude all files and folders
 /*
+/src/RootDir.h
 
 # add exception
 !/.gitignore
