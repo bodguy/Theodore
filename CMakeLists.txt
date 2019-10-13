@@ -22,7 +22,7 @@ endmacro(use_cxx11)
 use_cxx11()
 set(CMAKE_WARN_DEPRECATED 0)
 set(GLEW_INCLUDE_DIRS "third_party/include/")
-set(SOURCE_PREFIX "src/")
+set(SOURCE_PREFIX "src")
 
 set(THEODORE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/${SOURCE_PREFIX}")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
@@ -73,8 +73,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/release")
 # resource path
 configure_file("${CMAKE_SOURCE_DIR}/cmake/RootDir.h.in" "${THEODORE_INCLUDE_DIR}/RootDir.h")
 
-file(GLOB_RECURSE SOURCE_FILES ${SOURCE_PREFIX}*.h ${SOURCE_PREFIX}*.cpp ${SOURCE_PREFIX}*.hpp ${SOURCE_PREFIX}*.mm)
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
+file(GLOB_RECURSE SOURCE_FILES ${SOURCE_PREFIX}/*.h ${SOURCE_PREFIX}/*.cpp ${SOURCE_PREFIX}/*.hpp ${SOURCE_PREFIX}/*.mm)
+add_library(${CMAKE_PROJECT_NAME} STATIC ${SOURCE_FILES})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${EXTRA_LIBS})
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${THEODORE_INCLUDE_DIR})
 
@@ -97,19 +97,31 @@ if(MSVC_IDE)
 
     # Run macro
     GroupSources(src)
+    # disable warning
+    add_definitions(/wd4267) #remove size_t to int warning
+    add_definitions(/wd4244) #remove double to float conversion warning
+    add_definitions(/wd4305) #remove double to float truncation warning
 endif()
+
+# make sample
+function(add_sample TARGET ENTRYPOINT)
+    source_group("" FILES ${ENTRYPOINT})
+    add_executable(${TARGET} ${ENTRYPOINT})
+    target_link_libraries(${TARGET} ${CMAKE_PROJECT_NAME})
+endfunction()
+
+set(PROJECT_SAMPLE_DIR "${CMAKE_SOURCE_DIR}/sample")
+add_sample(01-hello_world "${PROJECT_SAMPLE_DIR}/01-hello_world/main.cpp")
+add_sample(02-triangle "${PROJECT_SAMPLE_DIR}/02-triangle/main.cpp")
 
 # unit test target
 find_package(Catch2 REQUIRED)
 set(PROJECT_UNIT_TEST_NAME "${CMAKE_PROJECT_NAME}_unit_test")
-set(TEST_PREFIX "test/")
-file(GLOB_RECURSE TEST_SOURCE_FILES ${TEST_PREFIX}*.cpp)
+set(PROJECT_TEST_DIR "${CMAKE_SOURCE_DIR}/test")
+file(GLOB_RECURSE TEST_SOURCE_FILES "${PROJECT_TEST_DIR}/*.cpp")
 
-# remove main.cpp from source list
-list(REMOVE_ITEM SOURCE_FILES "${THEODORE_INCLUDE_DIR}main.cpp")
-add_executable(${PROJECT_UNIT_TEST_NAME} ${TEST_SOURCE_FILES} ${SOURCE_FILES})
-target_link_libraries(${PROJECT_UNIT_TEST_NAME} Catch2::Catch2 ${EXTRA_LIBS})
-target_include_directories(${PROJECT_UNIT_TEST_NAME} PUBLIC ${THEODORE_INCLUDE_DIR})
+add_executable(${PROJECT_UNIT_TEST_NAME} ${TEST_SOURCE_FILES})
+target_link_libraries(${PROJECT_UNIT_TEST_NAME} Catch2::Catch2 ${CMAKE_PROJECT_NAME})
 
 include(CTest)
 include(Catch)
