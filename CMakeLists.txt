@@ -67,7 +67,7 @@ include_directories(${GLEW_INCLUDE_DIRS})
 link_directories(${GLEW_LIBRARIES_DIRS})
 
 # release build path
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/debug)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/release")
 
 # resource path
