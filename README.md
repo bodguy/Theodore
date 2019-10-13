@@ -167,6 +167,12 @@ public:
 }
 ```
 
+### sample
+
+'sample' directory contains every JIT demos.  
+- 01-hello_world: simple open window and bind OpenGL context
+- 02-triangle: simple triangle example
+
 ### clang-format
 
 Can easily format all the .cpp, .h files recursively using clang-format-all bash script
