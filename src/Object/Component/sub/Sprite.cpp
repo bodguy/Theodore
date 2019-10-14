@@ -25,7 +25,7 @@ namespace Theodore {
 
   Sprite::~Sprite() {}
 
-  Sprite* Sprite::Create(Texture2D* texture, const Rect rect) {
+  Sprite* Sprite::Create(Texture2D* texture, const Rect<float> rect) {
     if (!texture || !texture->GetNativeTexturePtr()) return static_cast<Sprite*>(nullptr);
 
     Sprite* sprite = new Sprite();
@@ -34,9 +34,9 @@ namespace Theodore {
     sprite->mTextureRect.top = 0.f;
     sprite->mTextureRect.right = static_cast<float>(sprite->mTexture->GetWidth());
     sprite->mTextureRect.bottom = static_cast<float>(sprite->mTexture->GetHeight());
-    if (rect == Rect::zero) {
-      const_cast<Rect&>(rect).right = sprite->mTextureRect.right;
-      const_cast<Rect&>(rect).bottom = sprite->mTextureRect.bottom;
+    if (rect == Rect<float>::zero) {
+      const_cast<Rect<float>&>(rect).right = sprite->mTextureRect.right;
+      const_cast<Rect<float>&>(rect).bottom = sprite->mTextureRect.bottom;
     }
     sprite->mTextureRectOffset.x = sprite->mTextureRect.right * 0.5f;   // (rect.right - rect.left) / sprite->mTextureRect.right;
     sprite->mTextureRectOffset.y = sprite->mTextureRect.bottom * 0.5f;  // (rect.bottom - rect.top) / sprite->mTextureRect.bottom;

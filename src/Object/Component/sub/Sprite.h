@@ -22,7 +22,7 @@ namespace Theodore {
     Sprite();
     ~Sprite();
 
-    static Sprite* Create(Texture2D* texture, const Rect rect = Rect::zero);
+    static Sprite* Create(Texture2D* texture, const Rect<float> rect = Rect<float>::zero);
     void RecalculateBounds();
     bool operator==(const Sprite& rhs);
     bool operator!=(const Sprite& rhs);
@@ -30,8 +30,8 @@ namespace Theodore {
   private:
     IndexFormat mFormat;
     Texture2D* mTexture;
-    Rect mRect;         // for a sprite with a single texture
-    Rect mTextureRect;  // for a sprite from an atlas
+    Rect<float> mRect;         // for a sprite with a single texture
+    Rect<float> mTextureRect;  // for a sprite from an atlas
     Vector2d mTextureRectOffset;
     Vector2d mPivot;
     Vector2d mInitialPivot;

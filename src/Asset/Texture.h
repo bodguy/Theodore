@@ -36,7 +36,7 @@ namespace Theodore {
     void SetFilter(const FilterMode mode);
     void SetWrapMode(const WrapMode mode);
     void SetMappingType(const std::string& type);
-    void SetTextureFormet(const TextureFormat format);
+    void SetTextureFormat(const TextureFormat format);
 
     TextureDimension GetDimension() const;
 

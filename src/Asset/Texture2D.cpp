@@ -28,7 +28,7 @@ namespace Theodore {
       mWidth = w;
       mHeight = h;
       SetAssetName(filename);
-      SetTextureFormet(format);
+      SetTextureFormat(format);
 
       //	 NOTE: this codes are very old-fashioned opengl stuff, so DO NOT USE otherwise,
       //        it will considerably corrode your application performances at loading time.
@@ -114,7 +114,7 @@ namespace Theodore {
       mWidth = w;
       mHeight = h;
       SetAssetName(filename);
-      SetTextureFormet(format);
+      SetTextureFormat(format);
 
       glGenTextures(1, &mTextureID);
       glBindTexture(static_cast<GLenum>(mDimension), mTextureID);
@@ -167,7 +167,7 @@ namespace Theodore {
       mWidth = w;
       mHeight = h;
       SetAssetName(filename);
-      SetTextureFormet(format);
+      SetTextureFormat(format);
 
       // Go through pixels
       // Size of an image = rows * cols * bpp
@@ -230,7 +230,7 @@ namespace Theodore {
       mWidth = (unsigned int)w;
       mHeight = (unsigned int)h;
       SetAssetName(filename);
-      SetTextureFormet(format);
+      SetTextureFormat(format);
 
       glGenTextures(1, &mTextureID);
       glBindTexture(static_cast<GLenum>(mDimension), mTextureID);
@@ -271,7 +271,7 @@ namespace Theodore {
     mWidth = width;
     mHeight = height;
     mNativeTexturePtr = data;
-    SetTextureFormet(format);
+    SetTextureFormat(format);
 
     switch (format) {
       case TextureFormat::RGBA32:

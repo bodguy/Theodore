@@ -3,7 +3,7 @@
 
 #include "AssetManager.h"
 #include "Asset.h"
-#include "Asset/Shader.h"
+#include "Shader.h"
 #include "Helper/Debug.h"
 #include "Helper/Utility.h"
 #include "MSAATexture2D.h"
@@ -11,6 +11,7 @@
 #include "Texture2D.h"
 #include "TextureCube.h"
 #include "WaveFrontObjMesh.h"
+#include "Font.h"
 
 namespace Theodore {
   AssetManager* AssetManager::instance = nullptr;
@@ -205,26 +206,30 @@ namespace Theodore {
     return asset;
   }
 
-  //	Font* AssetManager::RequestFont(const std::string& filename) {
-  //		Font* asset = static_cast<Font*>(GetAssetByFilename(filename));
-  //
-  //		if (!asset) {
-  //			asset = new Font();
-  //			if (asset->LoadFont(filename)) {
-  //				instance->StoreAsset(asset);
-  //			} else {
-  //				SafeDealloc(asset);
-  //				return static_cast<Font*>(nullptr);
-  //			}
-  //		}
-  //
-  //		if (asset) {
-  //			asset->AddReference();
-  //			//Debug::Log("Font %s is loaded\n", filename.c_str());
-  //		}
-  //
-  //		return asset;
-  //	}
+  Font* AssetManager::RequestFont(const std::string& filename, unsigned int faceIndex, float scale) {
+    Font* asset = static_cast<Font*>(GetAssetByBasename(filename));
+
+    if (!asset) {
+      asset = new Font();
+      if (asset->LoadFont(filename, faceIndex, scale)) {
+        instance->StoreAsset(asset);
+        asset->SetAssetName(filename);
+      } else {
+        SafeDealloc(asset);
+        return static_cast<Font*>(nullptr);
+      }
+    }
+
+    if (asset) {
+      unsigned int beforeInc = asset->mRefCount;
+      asset->AddReference();
+      if (asset->mRefCount != 1) {
+        Debug::Trace("'%s' exist, increase refcount %d -> %d", asset->mBaseName.c_str(), beforeInc, asset->mRefCount);
+      }
+    }
+
+    return asset;
+  }
 
   Shader* AssetManager::RequestShader(const std::string& filename, ShaderType type) {
     Shader* asset = static_cast<Shader*>(GetAssetByBasename(filename));

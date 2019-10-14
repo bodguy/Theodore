@@ -73,7 +73,7 @@ namespace Theodore {
                      platform->mTitle.c_str(),
                      NULL};
     if (!RegisterClassEx(&wc)) return false;
-
+    
     RECT rt = {0, 0, platform->mWidth, platform->mHeight};
     if (!AdjustWindowRectEx(&rt, mStyle, false, mExStyle)) return false;
 

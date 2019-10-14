@@ -82,7 +82,7 @@ namespace Theodore {
 
   void Texture::SetMappingType(const std::string& type) { mMappingType = type; }
 
-  void Texture::SetTextureFormet(const TextureFormat format) { mTextureFormat = format; }
+  void Texture::SetTextureFormat(const TextureFormat format) { mTextureFormat = format; }
 
   TextureDimension Texture::GetDimension() const { return mDimension; }
 }  // namespace Theodore
