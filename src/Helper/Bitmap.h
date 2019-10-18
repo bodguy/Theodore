@@ -12,6 +12,8 @@ namespace Theodore {
   public:
     Bitmap();
     Bitmap(int w, int h, T val);
+    explicit Bitmap(const Bitmap<T>& other);
+    Bitmap<T>& operator =(const Bitmap<T>& other);
 
     void Clear(int w, int h, T val);
 
@@ -21,8 +23,8 @@ namespace Theodore {
 
     int GetWidth() const;
     int GetHeight() const;
-    int* GetWidthRef();
-    int* GetHeightRef();
+    void SetWidth(int w);
+    void SetHeight(int h);
     T* GetNativePointer() const;
 
   private:
@@ -41,6 +43,17 @@ namespace Theodore {
   template <typename T>
   Bitmap<T>::Bitmap(int w, int h, T val) :mWidth(w), mHeight(h), mBuffer() {
     Clear(w, h, val);
+  }
+
+  template <typename T>
+  Bitmap<T>::Bitmap(const Bitmap<T>& other) {
+    ReplaceSubBit(other, 0, 0);
+  }
+
+  template <typename T>
+  Bitmap<T>& Bitmap<T>::operator =(const Bitmap<T>& other) {
+    ReplaceSubBit(other, 0, 0);
+    return *this;
   }
 
   template <typename T>
@@ -101,13 +114,13 @@ namespace Theodore {
   }
 
   template <typename T>
-  int* Bitmap<T>::GetWidthRef() {
-    return &mWidth;
+  void Bitmap<T>::SetWidth(int w) {
+    mWidth = w;
   }
 
   template <typename T>
-  int* Bitmap<T>::GetHeightRef() {
-    return &mHeight;
+  void Bitmap<T>::SetHeight(int h) {
+    mHeight = h;
   }
 
   template <typename T>

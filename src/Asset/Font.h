@@ -12,13 +12,12 @@
 #include "Helper/Bitmap.h"
 
 namespace Theodore {
-  struct Glyph {
+  struct GlyphInfo {
     int bearingX, bearingY;
     int advance;
+    int ascender, descender, line_gap;
     Bitmap<unsigned char> bitmap;
     std::map<uint32_t, float> kerning;
-    Vector2d uv;
-    unsigned int textureID;
   };
 
   class Font : public Asset {
@@ -26,15 +25,21 @@ namespace Theodore {
     Font();
     virtual ~Font() override;
 
-    bool LoadFont(const std::string& fileName, unsigned int faceIndex, float scale);
+    bool InitFont(const std::string& filename, unsigned int index, int pixel_height);
+    bool LoadGlyph(uint32_t codepoint);
+    bool LoadGlyph(const char* ch);
+    GlyphInfo* FindGlyph(uint32_t codepoint);
 
   private:
-    bool LoadGlyph(const char codepoint, float scale);
+    bool LoadGlyphBitmap(GlyphInfo* out, int glyphIndex);
 
   private:
     stbtt_fontinfo* mFace;
-    unsigned int mFaceIndex;
-    std::map<uint32_t, Glyph> mGlyphTable;
+    unsigned char* mFaceBuffer;
+    int mPixelHeight;
+    int mAscender, mDescender;
+    int mLineGap;
+    std::map<uint32_t, GlyphInfo*> mGlyphMap;
   };
 } // namespace Theodore
 

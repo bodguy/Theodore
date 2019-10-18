@@ -206,12 +206,12 @@ namespace Theodore {
     return asset;
   }
 
-  Font* AssetManager::RequestFont(const std::string& filename, unsigned int faceIndex, float scale) {
+  Font* AssetManager::RequestFont(const std::string& filename, unsigned int faceIndex, int height) {
     Font* asset = static_cast<Font*>(GetAssetByBasename(filename));
 
     if (!asset) {
       asset = new Font();
-      if (asset->LoadFont(filename, faceIndex, scale)) {
+      if (asset->InitFont(filename, faceIndex, height)) {
         instance->StoreAsset(asset);
         asset->SetAssetName(filename);
       } else {

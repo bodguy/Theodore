@@ -88,4 +88,28 @@ namespace Theodore {
   double StringUtil::ParseDouble(const std::string& str) { return std::stod(str); }
 
   int StringUtil::ParseInteger(const std::string& str) { return std::stoi(str); }
+
+  int StringUtil::UTF8Decode(const char* ch) {
+    static const unsigned int limits[] = {0xFF, 0x7F, 0x7FF, 0xFFFF};
+    const unsigned char *s = (const unsigned char *)ch;
+    unsigned int c = s[0];
+    unsigned int res = 0;  /* final result */
+    if (c < 0x80)  /* ascii? */
+      res = c;
+    else {
+      int count = 0;  /* to count number of continuation bytes */
+      while (c & 0x40) {  /* still have continuation bytes? */
+        int cc = s[++count];  /* read next byte */
+        if ((cc & 0xC0) != 0x80)  /* not a continuation byte? */
+          return -1;  /* invalid byte sequence */
+        res = (res << 6) | (cc & 0x3F);  /* add lower 6 bits from cont. byte */
+        c <<= 1;  /* to test next bit */
+      }
+      res |= ((c & 0x7F) << (count * 5));  /* add first byte */
+      if (count > 3 || res > 0x10FFFF || res <= limits[count])
+        return -1;  /* invalid byte sequence */
+      s += count;  /* skip continuation bytes read */
+    }
+    return res;
+  }
 }  // namespace Theodore

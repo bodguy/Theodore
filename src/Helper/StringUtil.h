@@ -35,6 +35,7 @@ namespace Theodore {
     static float ParseFloat(const std::string& str);
     static double ParseDouble(const std::string& str);
     static int ParseInteger(const std::string& str);
+    static int UTF8Decode(const char* ch);
     // template<typename ...Args>
     // static std::string Join(const std::string& delimiter, Args... args);
 
