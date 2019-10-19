@@ -25,7 +25,7 @@ namespace Theodore {
     int GetHeight() const;
     void SetWidth(int w);
     void SetHeight(int h);
-    T* GetNativePointer() const;
+    T* GetNativePointer();
 
   private:
     int GetIndex(const int x, const int y) const;
@@ -124,7 +124,7 @@ namespace Theodore {
   }
 
   template <typename T>
-  T* Bitmap<T>::GetNativePointer() const {
+  T* Bitmap<T>::GetNativePointer() {
     return mBuffer.data();
   }
 }

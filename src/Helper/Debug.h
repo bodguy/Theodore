@@ -16,6 +16,7 @@ namespace Theodore {
   class Quaternion;
   class Ray;
   class Texture;
+  class Font;
   class Debug {
   public:
     static void Error(const char* format, ...);
@@ -40,7 +41,8 @@ namespace Theodore {
     static void Log(const Color& color);
     static void Log(const Quaternion& quat);
     static void Log(const Ray& ray);
-    static void Log(const Texture* object);
+    static void Log(const Texture* texture);
+    static void Log(const Font* font);
 
   private:
     static const size_t maxLength;

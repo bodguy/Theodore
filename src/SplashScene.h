@@ -73,11 +73,7 @@ namespace Theodore {
       Platform::ChangeTitle(SceneManager::GetActiveScene()->ToString());
       Input::AddAxis("Forward", new InputHandler(KEY_Q, KEY_E, 0.01f));
 
-      auto v = FindGameObjectsWithTag("light");
-      Debug::Log(v.size());
-
-      auto g = Find("Sphere");
-      Debug::Log(g->GetTransform()->GetPosition());
+      AssetManager::RequestFont(Application::GetResourcePath() + "arial.ttf", 0, 48);
     }
 
     virtual void OnUpdate() { CameraUpdate(); }

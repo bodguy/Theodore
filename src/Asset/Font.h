@@ -16,11 +16,14 @@ namespace Theodore {
     int bearingX, bearingY;
     int advance;
     int ascender, descender, line_gap;
+    unsigned int texture_id;
     Bitmap<unsigned char> bitmap;
     std::map<uint32_t, float> kerning;
   };
 
   class Font : public Asset {
+    friend class Debug;
+
   public:
     Font();
     virtual ~Font() override;

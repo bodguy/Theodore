@@ -30,7 +30,7 @@ namespace Theodore {
       if (asset->LoadImage(filename, format, colorKey)) {
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -56,7 +56,7 @@ namespace Theodore {
       if (asset->LoadImage(filename, format)) {
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -82,7 +82,7 @@ namespace Theodore {
       if (asset->LoadRawTextureData(filename, format, data, colorKey)) {
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -108,7 +108,7 @@ namespace Theodore {
       if (asset->LoadRawTextureData(filename, format, data)) {
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -135,7 +135,7 @@ namespace Theodore {
         asset->SetAssetName(filename);
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -161,7 +161,7 @@ namespace Theodore {
       if (asset->LoadCubemapTexture(cubemap, filename, format, face)) {
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<TextureCube*>(nullptr);
       }
@@ -188,7 +188,7 @@ namespace Theodore {
         asset->SetAssetName(filename);
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<MSAATexture2D*>(nullptr);
       }
@@ -214,7 +214,16 @@ namespace Theodore {
       if (asset->InitFont(filename, faceIndex, height)) {
         instance->StoreAsset(asset);
         asset->SetAssetName(filename);
+        asset->LoadGlyph("A");
+        asset->LoadGlyph("B");
+        asset->LoadGlyph("C");
+        asset->LoadGlyph("D");
+        asset->LoadGlyph("E");
+        asset->LoadGlyph("F");
+        asset->LoadGlyph("G");
+
       } else {
+        Debug::Error("[%s] font file is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<Font*>(nullptr);
       }
@@ -225,6 +234,8 @@ namespace Theodore {
       asset->AddReference();
       if (asset->mRefCount != 1) {
         Debug::Trace("'%s' exist, increase refcount %d -> %d", asset->mBaseName.c_str(), beforeInc, asset->mRefCount);
+      } else {
+        Debug::Log(asset);
       }
     }
 
@@ -279,7 +290,7 @@ namespace Theodore {
         asset->SetAssetName(filename);
         instance->StoreAsset(asset);
       } else {
-        Debug::Log("Error: [%s] is not found!", filename.c_str());
+        Debug::Error("[%s] is not found!", filename.c_str());
         SafeDealloc(asset);
         return static_cast<Mesh*>(nullptr);
       }

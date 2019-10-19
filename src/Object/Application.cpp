@@ -40,8 +40,6 @@ namespace Theodore {
     mAssetManager = new AssetManager();
     mShaderManager = new ShaderManager();
 
-    Debug::Log(Application::GetResourcePath());
-
     // default program setting and caching
     Shader* phong_vs = AssetManager::RequestShader(Application::GetShaderPath() + "light/phong_vs.glsl", ShaderType::VertexShader);
     Shader* phong_fs = AssetManager::RequestShader(Application::GetShaderPath() + "light/phong_fs.glsl", ShaderType::FragmentShader);
@@ -74,6 +72,10 @@ namespace Theodore {
     Shader* cubemap_vs = AssetManager::RequestShader(Application::GetShaderPath() + "cubemap/cubemap_vs.glsl", ShaderType::VertexShader);
     Shader* cubemap_fs = AssetManager::RequestShader(Application::GetShaderPath() + "cubemap/cubemap_fs.glsl", ShaderType::FragmentShader);
     ShaderManager::Append(new Pipeline("Cubemap", *cubemap_vs, *cubemap_fs));
+
+    Shader* font_vs = AssetManager::RequestShader(Application::GetShaderPath() + "font/font_vs.glsl", ShaderType::VertexShader);
+    Shader* font_fs = AssetManager::RequestShader(Application::GetShaderPath() + "font/font_fs.glsl", ShaderType::FragmentShader);
+    ShaderManager::Append(new Pipeline("font", *font_vs, *font_fs));
 
     mSceneManager = new SceneManager();
     Graphics::SetGraphicsSettings();

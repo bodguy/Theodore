@@ -9,7 +9,7 @@
 #include <cmath>
 
 namespace Theodore {
-  Font::Font() : Asset(), mFaceBuffer(nullptr), mPixelHeight(0), mAscender(0), mDescender(0), mLineGap(0) {
+  Font::Font() : Asset(), mFaceBuffer(nullptr), mPixelHeight(0), mAscender(0), mDescender(0), mLineGap(0), mGlyphMap() {
     mType = AssetType::FontType;
     mFace = (stbtt_fontinfo*)malloc(sizeof(stbtt_fontinfo));
     mGlyphMap.clear();
@@ -58,7 +58,8 @@ namespace Theodore {
 
     GlyphInfo* glyph = new GlyphInfo();
     if (!LoadGlyphBitmap(glyph, index)) return false;
-    mGlyphMap.insert(std::make_pair(codepoint, glyph));
+    auto res = mGlyphMap.insert(std::make_pair(codepoint, glyph));
+    if (!res.second) return false;
 
     return true;
   }
@@ -103,14 +104,21 @@ namespace Theodore {
     out->bearingX = (int)std::ceil(out->bearingX * scale);
     out->advance = (int)std::ceil(out->advance * scale);
 
-//    glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
-//
-//    // ascii 0~128
-//    for (int c = 0; c < 128; c++) {
-//
-//    }
-//
-//    glPixelStorei(GL_UNPACK_ALIGNMENT, 4); // reset the unpacking alignment back to 4 bytes
+    // make opengl texture
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+    glBindTexture(static_cast<GLenum>(TextureDimension::Tex2D), textureID);
+    glTexImage2D(static_cast<GLenum>(TextureDimension::Tex2D), 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, out->bitmap.GetNativePointer());
+    // Set texture options
+    glTexParameteri(static_cast<GLenum>(TextureDimension::Tex2D), GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(static_cast<GLenum>(TextureDimension::Tex2D), GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(static_cast<GLenum>(TextureDimension::Tex2D), GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(static_cast<GLenum>(TextureDimension::Tex2D), GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(static_cast<GLenum>(TextureDimension::Tex2D), static_cast<GLenum>(NULL));
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4); // reset the unpacking alignment back to 4 bytes
+    out->texture_id = textureID;
+
     return true;
   }
 }

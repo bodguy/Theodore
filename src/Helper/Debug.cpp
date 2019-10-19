@@ -1,10 +1,11 @@
 #include "Debug.h"
-#include <stdarg.h>  // for va_list
+#include "Asset/Texture2D.h"
+#include "Asset/Font.h"
+#include "Geometry/Ray.h"
+#include "Math/Quaternion.h"
+#include "Platform/Time.h"
+#include <cstdarg>  // for va_list
 #include <cstdio>    // for vprintf
-#include "../Asset/Texture2D.h"
-#include "../Geometry/Ray.h"
-#include "../Math/Quaternion.h"
-#include "../Platform/Time.h"
 
 namespace Theodore {
   const size_t Debug::maxLength = 256;
@@ -108,5 +109,9 @@ namespace Theodore {
     Debug::Log("Texture loaded %s[w=%d, h=%d], ref=%d, id=%d format=%d",
                texture->mBaseName.c_str(), texture->mWidth, texture->mHeight, texture->mRefCount, texture->mTextureID, texture->mTextureFormat);
     // clang-format on
+  }
+
+  void Debug::Log(const Font* font) {
+    Debug::Log("Font loaded %s, loaded glyph num: %d, font size: %d", font->mBaseName.c_str(), font->mGlyphMap.size(), font->mPixelHeight);
   }
 }  // namespace Theodore
