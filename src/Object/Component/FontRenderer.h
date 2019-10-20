@@ -19,11 +19,9 @@ namespace Theodore {
     Font* GetFont() const;
     Color GetColor() const;
     std::string GetText() const;
-    float GetScale() const;
     void SetFont(Font* font);
     void SetColor(const Color& color);
     void SetText(const std::string& text);
-    void SetScale(float scale);
 
   private:
     virtual void Update(float deltaTime) override;
@@ -35,7 +33,7 @@ namespace Theodore {
     Font* mFont;
     Color mTextColor;
     std::string mText;
-    float mScale;
+    GLuint VAO, VBO;
   };
 }  // namespace Theodore
 

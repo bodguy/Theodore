@@ -28,8 +28,13 @@ namespace Theodore {
       FontRenderer* fr = GUIFont->AddComponent<FontRenderer>(fontAsset);
       fr->SetColor(Color::red);
       fr->SetText("AB");
-      fr->SetScale(10.f);
-      fr->GetTransform()->SetPosition(Vector3d(0.f, 5.f, 0.f));
+      fr->GetTransform()->SetPosition(Vector3d(0.f, 0.f, 0.f));
+
+//      GameObject* sprites = new GameObject("sprite", this);
+//      SpriteRenderer* sr = sprites->AddComponent<SpriteRenderer>();
+//      Sprite* sprite = Sprite::Create(AssetManager::RequestTexture(Application::GetResourcePath() + "dragon.png", TextureFormat::RGBA32));
+//      sr->SetSprite(sprite);
+//      sprites->GetTransform()->SetLocalScale(Vector3d(0.1f, 0.1f, 0.1f));
     }
 
     virtual void OnStart() {
