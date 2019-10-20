@@ -1,6 +1,6 @@
 #version 410 core
 
-in vec3 position;
+in vec2 position;
 in vec2 texcoord;
 
 out vec2 Texcoord;
@@ -20,5 +20,5 @@ void main(void) {
 		resultTexcoord = vec2(resultTexcoord.x, 1.0 - resultTexcoord.y);
 	}
 	Texcoord = resultTexcoord;
-	gl_Position =  projection * view * model * vec4(position, 1.0);
+	gl_Position =  projection * view * model * vec4(position, 0.0, 1.0);
 }

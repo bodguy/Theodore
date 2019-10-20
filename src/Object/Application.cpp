@@ -9,8 +9,8 @@
 #include "Math/Random.h"
 #include "Platform/Input.h"
 #include "Platform/Time.h"
-#include "SceneManager.h"
 #include "RootDir.h"
+#include "SceneManager.h"
 
 namespace Theodore {
   Application* Application::instance = nullptr;
@@ -75,7 +75,7 @@ namespace Theodore {
 
     Shader* font_vs = AssetManager::RequestShader(Application::GetShaderPath() + "font/font_vs.glsl", ShaderType::VertexShader);
     Shader* font_fs = AssetManager::RequestShader(Application::GetShaderPath() + "font/font_fs.glsl", ShaderType::FragmentShader);
-    ShaderManager::Append(new Pipeline("font", *font_vs, *font_fs));
+    ShaderManager::Append(new Pipeline("Font", *font_vs, *font_fs));
 
     mSceneManager = new SceneManager();
     Graphics::SetGraphicsSettings();

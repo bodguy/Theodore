@@ -12,6 +12,7 @@
 #include "Math/Vector3d.h"
 #include "Math/Vector4d.h"
 
+#include "Asset/Font.h"
 #include "Asset/MSAATexture2D.h"
 #include "Asset/Shader.h"
 #include "Asset/Texture.h"
@@ -44,6 +45,7 @@
 #include "Object/Component/Collider/SphereCollider.h"
 #include "Object/Component/Component.h"
 #include "Object/Component/CubemapRenderer.h"
+#include "Object/Component/FontRenderer.h"
 #include "Object/Component/Gizmo.h"
 #include "Object/Component/MeshRenderer.h"
 #include "Object/Component/Physics/RigidBody2D.h"

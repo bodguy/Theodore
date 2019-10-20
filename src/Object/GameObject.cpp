@@ -169,9 +169,7 @@ namespace Theodore {
     const GameObject* t = dynamic_cast<const GameObject*>(&rhs);
 
     // compareing each mParent is not allowed.
-    return !(!t || mActiveSelf != t->mActiveSelf || mTag != t->mTag ||
-             !Utility::CompareUnorderedmap(mComponents, t->mComponents) ||
-             !Utility::CompareVector(mChildren, t->mChildren));
+    return !(!t || mActiveSelf != t->mActiveSelf || mTag != t->mTag || !Utility::CompareUnorderedmap(mComponents, t->mComponents) || !Utility::CompareVector(mChildren, t->mChildren));
   }
 
   bool GameObject::Destroy() {

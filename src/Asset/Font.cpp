@@ -3,10 +3,10 @@
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "Font.h"
+#include <cmath>
+#include <cstdlib>
 #include "Helper/File.h"
 #include "Helper/StringUtil.h"
-#include <cstdlib>
-#include <cmath>
 
 namespace Theodore {
   Font::Font() : Asset(), mFaceBuffer(nullptr), mPixelHeight(0), mAscender(0), mDescender(0), mLineGap(0), mGlyphMap() {
@@ -43,8 +43,7 @@ namespace Theodore {
     file.ReadBuf(mFaceBuffer, size, 1);
     file.Close();
 
-    if (!stbtt_InitFont(mFace, mFaceBuffer, stbtt_GetFontOffsetForIndex(mFaceBuffer, index)))
-      return false;
+    if (!stbtt_InitFont(mFace, mFaceBuffer, stbtt_GetFontOffsetForIndex(mFaceBuffer, index))) return false;
     stbtt_GetFontVMetrics(mFace, &mAscender, &mDescender, &mLineGap);
     mPixelHeight = pixel_height;
 
@@ -64,15 +63,13 @@ namespace Theodore {
     return true;
   }
 
-  bool Font::LoadGlyph(const char* ch) {
-    return LoadGlyph(StringUtil::UTF8Decode(ch));
-  }
+  bool Font::LoadGlyph(const char* ch) { return LoadGlyph(StringUtil::UTF8Decode(ch)); }
 
   GlyphInfo* Font::FindGlyph(uint32_t codepoint) {
     if (mGlyphMap.find(codepoint) != mGlyphMap.end()) {
       return mGlyphMap[codepoint];
     }
-    
+
     return nullptr;
   }
 
@@ -105,7 +102,7 @@ namespace Theodore {
     out->advance = (int)std::ceil(out->advance * scale);
 
     // make opengl texture
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);  // disable byte-alignment restriction
     unsigned int textureID;
     glGenTextures(1, &textureID);
     glBindTexture(static_cast<GLenum>(TextureDimension::Tex2D), textureID);
@@ -116,9 +113,9 @@ namespace Theodore {
     glTexParameteri(static_cast<GLenum>(TextureDimension::Tex2D), GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(static_cast<GLenum>(TextureDimension::Tex2D), GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(static_cast<GLenum>(TextureDimension::Tex2D), static_cast<GLenum>(NULL));
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 4); // reset the unpacking alignment back to 4 bytes
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);  // reset the unpacking alignment back to 4 bytes
     out->texture_id = textureID;
 
     return true;
   }
-}
+}  // namespace Theodore

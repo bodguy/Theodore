@@ -2,6 +2,7 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Shader.h"
+#include <algorithm>
 #include <cstdlib>
 #include <cstring>
 #include <vector>
@@ -32,19 +33,19 @@ namespace Theodore {
     glShaderSource(mShaderID, 1, &c_str, NULL);
     glCompileShader(mShaderID);
 
-    GLint result = GL_FALSE;
-    int length;
-
-    glGetShaderiv(mShaderID, GL_COMPILE_STATUS, &result);
-    glGetShaderiv(mShaderID, GL_INFO_LOG_LENGTH, &length);
-    if (length > 0) {
-      GLchar* message = (GLchar*)malloc(sizeof(char) * length + 1);
-      glGetShaderInfoLog(mShaderID, length, NULL, message);
-      Debug::Error("%s", message);
-      free(message);
+    GLint compile_result = GL_FALSE;
+    int log_length;
+    glGetShaderiv(mShaderID, GL_COMPILE_STATUS, &compile_result);
+    glGetShaderiv(mShaderID, GL_INFO_LOG_LENGTH, &log_length);
+    if (log_length > 0) {
+      std::vector<char> log_msg_arr(log_length);
+      glGetShaderInfoLog(mShaderID, log_length, NULL, log_msg_arr.data());
+      std::string log_msg(std::begin(log_msg_arr), std::end(log_msg_arr));
+      log_msg.erase(std::remove(log_msg.begin(), log_msg.end(), '\n'), log_msg.end());
+      Debug::Error("%s", log_msg.substr(7).c_str());
     }
 
-    return result;
+    return compile_result;
   }
 
   Pipeline* Shader::Find(const std::string& name) { return ShaderManager::shaderManager->mPipelines.find(name)->second; }

@@ -21,66 +21,26 @@ namespace Theodore {
     virtual ~SplashScene() override {}
 
     virtual void OnAwake() {
-      GameObject* pointLight = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
-      pointLight->SetTag("light");
-      Light* pl = pointLight->AddComponent<Light>(LightType::PointLight);
-      pl->ambient = Color::white;
-      pl->diffuse = Color::white;
-      pl->specular = Color::white;
-      pl->GetTransform()->SetPosition(Vector3d(5.f, 0.f, 0.f));
-      pl->GetTransform()->SetLocalScale(Vector3d(0.2f, 0.2f, 0.2f));
-
-      GameObject* pointLight2 = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
-      pointLight2->SetTag("light");
-      Light* pl2 = pointLight2->AddComponent<Light>(LightType::PointLight);
-      pl2->ambient = Color::red;
-      pl2->diffuse = Color::red;
-      pl2->specular = Color::red;
-      pl2->GetTransform()->SetPosition(Vector3d(0.f, 5.f, 0.f));
-      pl2->GetTransform()->SetLocalScale(Vector3d(0.2f, 0.2f, 0.2f));
-
-      GameObject* pointLight3 = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
-      pointLight3->SetTag("light");
-      Light* pl3 = pointLight3->AddComponent<Light>(LightType::PointLight);
-      pl3->ambient = Color::green;
-      pl3->diffuse = Color::green;
-      pl3->specular = Color::green;
-      pl3->GetTransform()->SetPosition(Vector3d(0.f, 0.f, 5.f));
-      pl3->GetTransform()->SetLocalScale(Vector3d(0.2f, 0.2f, 0.2f));
-
-      GameObject* cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
-      cube->GetTransform()->SetPosition(Vector3d(0.f, 0.f, -5.f));
-
-      GameObject* skybox = new GameObject("skybox", this);
-      CubemapRenderer* cubemap = skybox->AddComponent<CubemapRenderer>();
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posx.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::PositiveX);  // Right
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negx.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::NegativeX);  // Left
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posy.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::PositiveY);  // Top
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negy.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::NegativeY);  // Bottom
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/posz.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::PositiveZ);  // Back
-      AssetManager::RequestTexture(cubemap, Application::GetResourcePath() + "swedish/negz.jpg", TextureFormat::RGBA32,
-                                   CubemapFace::NegativeZ);  // Front
-
       SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 10.f));
+
+      Font* fontAsset = AssetManager::RequestFont(Application::GetResourcePath() + "arial.ttf", 0, 48);
+      GameObject* GUIFont = new GameObject("GUI font", this);
+      FontRenderer* fr = GUIFont->AddComponent<FontRenderer>(fontAsset);
+      fr->SetColor(Color::red);
+      fr->SetText("AB");
+      fr->SetScale(10.f);
+      fr->GetTransform()->SetPosition(Vector3d(0.f, 5.f, 0.f));
     }
 
     virtual void OnStart() {
       Platform::ChangeTitle(SceneManager::GetActiveScene()->ToString());
       Input::AddAxis("Forward", new InputHandler(KEY_Q, KEY_E, 0.01f));
-
-      AssetManager::RequestFont(Application::GetResourcePath() + "arial.ttf", 0, 48);
     }
 
     virtual void OnUpdate() { CameraUpdate(); }
 
     void CameraUpdate() {
       Graphics::DrawFrustum(SceneManager::GetMainCamera(), Color::red);
-      Graphics::DrawSphere(Vector3d::zero, 3.f, Color::green);
       if (Input::GetKeyDown(KEY_ESCAPE)) {
         Platform::GetInstance()->Quit();
       }

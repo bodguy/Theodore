@@ -73,7 +73,7 @@ namespace Theodore {
                      platform->mTitle.c_str(),
                      NULL};
     if (!RegisterClassEx(&wc)) return false;
-    
+
     RECT rt = {0, 0, platform->mWidth, platform->mHeight};
     if (!AdjustWindowRectEx(&rt, mStyle, false, mExStyle)) return false;
 
@@ -568,9 +568,7 @@ namespace Theodore {
     return 0;
   }
 
-  bool Platform::IsFocus() const {
-    return mIsFocused;
-  }
+  bool Platform::IsFocus() const { return mIsFocused; }
 
   void Platform::ChangeTitle(const std::string& titleName) { SetWindowText(WindowsPlatform::instance->mHandle, titleName.c_str()); }
 }  // namespace Theodore

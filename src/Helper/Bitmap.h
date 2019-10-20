@@ -7,13 +7,13 @@
 #include <vector>
 
 namespace Theodore {
-  template<typename T>
+  template <typename T>
   class Bitmap {
   public:
     Bitmap();
     Bitmap(int w, int h, T val);
     explicit Bitmap(const Bitmap<T>& other);
-    Bitmap<T>& operator =(const Bitmap<T>& other);
+    Bitmap<T>& operator=(const Bitmap<T>& other);
 
     void Clear(int w, int h, T val);
 
@@ -36,12 +36,10 @@ namespace Theodore {
   };
 
   template <typename T>
-  Bitmap<T>::Bitmap() :mWidth(0), mHeight(0), mBuffer() {
-
-  }
+  Bitmap<T>::Bitmap() : mWidth(0), mHeight(0), mBuffer() {}
 
   template <typename T>
-  Bitmap<T>::Bitmap(int w, int h, T val) :mWidth(w), mHeight(h), mBuffer() {
+  Bitmap<T>::Bitmap(int w, int h, T val) : mWidth(w), mHeight(h), mBuffer() {
     Clear(w, h, val);
   }
 
@@ -51,7 +49,7 @@ namespace Theodore {
   }
 
   template <typename T>
-  Bitmap<T>& Bitmap<T>::operator =(const Bitmap<T>& other) {
+  Bitmap<T>& Bitmap<T>::operator=(const Bitmap<T>& other) {
     ReplaceSubBit(other, 0, 0);
     return *this;
   }
@@ -95,7 +93,7 @@ namespace Theodore {
       return false;
     }
 
-    for (int row = 0; row < other.mHeight; row ++) {
+    for (int row = 0; row < other.mHeight; row++) {
       for (int col = 0; col < other.mWidth; col++) {
         SetBit(col + x_left, row + y_bottom, other.GetBit(col, row));
       }
@@ -127,6 +125,6 @@ namespace Theodore {
   T* Bitmap<T>::GetNativePointer() {
     return mBuffer.data();
   }
-}
+}  // namespace Theodore
 
-#endif // Bitmap_h
+#endif  // Bitmap_h

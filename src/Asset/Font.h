@@ -4,12 +4,12 @@
 #ifndef Font_h
 #define Font_h
 
-#include <string>
-#include <map>
 #include <stb/stb_truetype.h>
+#include <map>
+#include <string>
 #include "Asset.h"
-#include "Math/Vector2d.h"
 #include "Helper/Bitmap.h"
+#include "Math/Vector2d.h"
 
 namespace Theodore {
   struct GlyphInfo {
@@ -44,6 +44,6 @@ namespace Theodore {
     int mLineGap;
     std::map<uint32_t, GlyphInfo*> mGlyphMap;
   };
-} // namespace Theodore
+}  // namespace Theodore
 
-#endif // Font_h
+#endif  // Font_h

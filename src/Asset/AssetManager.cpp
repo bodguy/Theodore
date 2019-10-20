@@ -3,15 +3,15 @@
 
 #include "AssetManager.h"
 #include "Asset.h"
-#include "Shader.h"
+#include "Font.h"
 #include "Helper/Debug.h"
 #include "Helper/Utility.h"
 #include "MSAATexture2D.h"
 #include "Platform/Time.h"
+#include "Shader.h"
 #include "Texture2D.h"
 #include "TextureCube.h"
 #include "WaveFrontObjMesh.h"
-#include "Font.h"
 
 namespace Theodore {
   AssetManager* AssetManager::instance = nullptr;
@@ -254,13 +254,20 @@ namespace Theodore {
 
         // start measure time
         TimePoint start = Time::GetTime();
-        asset->Compile(file.ReadFile());
+        int result = asset->Compile(file.ReadFile());
+        // compile error
+        if (!result) {
+          Debug::Error("'%s' compilation error", file.GetBaseName().c_str());
+          SafeDealloc(asset);
+          file.Close();
+          return static_cast<Shader*>(nullptr);
+        }
         instance->StoreAsset(asset);
         file.Close();
         TimePoint end = Time::GetTime();
         // end measure time
 
-        Debug::Log("'%s' shader compile success, elapsed %fsec", file.GetBaseName().c_str(), Time::GetInterval(start, end) / 1000.f);
+        Debug::Log("'%s' compilation success, elapsed %fsec", file.GetBaseName().c_str(), Time::GetInterval(start, end) / 1000.f);
       } else {
         Debug::Error("'%s' file not found!", file.GetBaseName().c_str());
         SafeDealloc(asset);

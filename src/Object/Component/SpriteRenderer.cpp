@@ -100,6 +100,8 @@ namespace Theodore {
       Graphics::DrawElements(*mVao, mPrimitive, 0, 6, mSprite->mFormat);
       Graphics::BindTexture(0, NULL);
       mProgram->UnUse();
+      Graphics::Disable(Capabilities::AlphaTest);
+      Graphics::Disable(Capabilities::Blending);
     }
   }
 

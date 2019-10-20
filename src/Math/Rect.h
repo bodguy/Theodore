@@ -89,7 +89,9 @@ namespace Theodore {
   }
 
   template <typename T>
-  bool Rect<T>::operator!=(const Rect<T>& other) const { return !(*this == other); }
+  bool Rect<T>::operator!=(const Rect<T>& other) const {
+    return !(*this == other);
+  }
 
   template <typename T>
   Rect<T> Rect<T>::operator+(const Rect<T>& other) const {
@@ -108,7 +110,9 @@ namespace Theodore {
   }
 
   template <typename T>
-  Rect<T> Rect<T>::operator-(const Rect<T>& other) const { return Rect<T>(*this) -= other; }
+  Rect<T> Rect<T>::operator-(const Rect<T>& other) const {
+    return Rect<T>(*this) -= other;
+  }
 
   template <typename T>
   Rect<T>& Rect<T>::operator-=(const Rect<T>& other) {
@@ -121,7 +125,9 @@ namespace Theodore {
   }
 
   template <typename T>
-  Rect<T> Rect<T>::operator*(const Rect<T>& other) const { return Rect<T>(*this) *= other; }
+  Rect<T> Rect<T>::operator*(const Rect<T>& other) const {
+    return Rect<T>(*this) *= other;
+  }
 
   template <typename T>
   Rect<T>& Rect<T>::operator*=(const Rect<T>& other) {
@@ -134,7 +140,9 @@ namespace Theodore {
   }
 
   template <typename T>
-  Rect<T> Rect<T>::operator/(const Rect<T>& other) const { return Rect<T>(*this) /= other; }
+  Rect<T> Rect<T>::operator/(const Rect<T>& other) const {
+    return Rect<T>(*this) /= other;
+  }
 
   template <typename T>
   Rect<T>& Rect<T>::operator/=(const Rect<T>& other) {
@@ -147,7 +155,9 @@ namespace Theodore {
   }
 
   template <typename T>
-  Rect<T>& Rect<T>::SetRect(const T _left, const T _top, const T _right, const T _bottom) { return *this = Rect<T>(_left, _top, _right, _bottom); }
+  Rect<T>& Rect<T>::SetRect(const T _left, const T _top, const T _right, const T _bottom) {
+    return *this = Rect<T>(_left, _top, _right, _bottom);
+  }
 
   template <typename T>
   void Rect<T>::Swap(Rect<T>& first, Rect<T>& second) noexcept {
