@@ -2,15 +2,14 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "SceneManager.h"
+#include "GameObject.h"
 #include "Helper/crc32.h"
-#include "SplashScene.h"
 
 namespace Theodore {
   SceneManager* SceneManager::instance = nullptr;
   SceneManager::SceneManager() : mCurrentScene(nullptr), mSceneCount(0), mMainCamera(nullptr) {
     instance = this;
     mScenes.clear();
-    GetInstance()->SetActiveScene(CreateScene<SplashScene>("SplashScene"));
   }
 
   SceneManager::~SceneManager() {

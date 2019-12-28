@@ -5,23 +5,28 @@
 
 using namespace Theodore;
 
-class MySampleScene : public Scene {
+class HelloWorldScene : public Scene {
 public:
-  MySampleScene() : Scene("MySampleScene") {}
-  virtual ~MySampleScene() override {}
+	HelloWorldScene() : Scene("HelloWorldScene") {}
+  virtual ~HelloWorldScene() override {}
 
-  virtual void OnAwake() {
+  virtual void OnStart() {
     Platform::ChangeTitle(SceneManager::GetActiveScene()->ToString());
+  }
+
+  virtual void OnUpdate() {
+  	Debug::Log("Hello World!");
   }
 };
 
 int main(int argc, char** argv) {
   Application app;
   PlatformContext context;
-  context.width=1280;
-  context.height=720;
+  context.width = 1280;
+  context.height = 720;
 
   if (app.Initialize(context)) {
+  	SceneManager::SetActiveScene(SceneManager::CreateScene<HelloWorldScene>("HelloWorldScene"));
     app.Run();
   }
 
