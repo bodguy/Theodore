@@ -2,6 +2,7 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "FontRenderer.h"
+
 #include "Asset/Font.h"
 #include "Asset/Shader.h"
 #include "Graphics/Graphics.h"
@@ -32,10 +33,10 @@ namespace Theodore {
 
   void FontRenderer::SetFont(Font* font) {
     mFont = font;
-//    Buffer* buffer = new Buffer(BufferType::BufferVertex);
-//    buffer->Data(nullptr, sizeof(Vector4d) * 6, BufferUsage::DynamicDraw);
-//    mVbos.push_back(buffer);
-//    mVao->BindAttribute(mProgram->GetAttribute("vertex"), *mVbos.front(), 4, sizeof(Vector4d), 0);
+    //    Buffer* buffer = new Buffer(BufferType::BufferVertex);
+    //    buffer->Data(nullptr, sizeof(Vector4d) * 6, BufferUsage::DynamicDraw);
+    //    mVbos.push_back(buffer);
+    //    mVao->BindAttribute(mProgram->GetAttribute("vertex"), *mVbos.front(), 4, sizeof(Vector4d), 0);
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -58,8 +59,8 @@ namespace Theodore {
     mProgram->Use();
     mProgram->SetUniform("textColor", mTextColor);
     mProgram->SetUniform("projection", Matrix4x4::Orthogonal(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 1000.f));
-//    Graphics::Enable(Capabilities::Blending);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //    Graphics::Enable(Capabilities::Blending);
+    //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glActiveTexture(GL_TEXTURE0);
@@ -71,8 +72,8 @@ namespace Theodore {
     for (auto& ch : mText) {
       GlyphInfo* glyph = mFont->FindGlyph(ch);
       if (glyph) {
-//        glActiveTexture(GL_TEXTURE0);
-//        glBindTexture(static_cast<GLenum>(TextureDimension::Tex2D), glyph->texture_id);
+        //        glActiveTexture(GL_TEXTURE0);
+        //        glBindTexture(static_cast<GLenum>(TextureDimension::Tex2D), glyph->texture_id);
         float xpos = position.x + glyph->bearingX * scale.z;
         float ypos = position.y - (glyph->bitmap.GetHeight() - glyph->bearingY) * scale.z;
         float w = glyph->bitmap.GetWidth() * scale.z;
@@ -82,20 +83,18 @@ namespace Theodore {
         //  |          |
         //	3----------2
         GLfloat vertices[6][4] = {
-                { xpos,     ypos + h,   0.0, 0.0 },
-                { xpos,     ypos,       0.0, 1.0 },
-                { xpos + w, ypos,       1.0, 1.0 },
+            {xpos, ypos + h, 0.0, 0.0},    {xpos, ypos, 0.0, 1.0},
+            {xpos + w, ypos, 1.0, 1.0},
 
-                { xpos,     ypos + h,   0.0, 0.0 },
-                { xpos + w, ypos,       1.0, 1.0 },
-                { xpos + w, ypos + h,   1.0, 0.0 }
-//                Vector4d(x_pos, y_pos, 0.f, 1.f),
-//            Vector4d(x_pos + width, y_pos, 1.f, 1.f),
-//            Vector4d(x_pos + width, y_pos + height, 1.f, 0.f),
-//            Vector4d(x_pos, y_pos + height, 0.f, 0.f)
+            {xpos, ypos + h, 0.0, 0.0},    {xpos + w, ypos, 1.0, 1.0},
+            {xpos + w, ypos + h, 1.0, 0.0}
+            //                Vector4d(x_pos, y_pos, 0.f, 1.f),
+            //            Vector4d(x_pos + width, y_pos, 1.f, 1.f),
+            //            Vector4d(x_pos + width, y_pos + height, 1.f, 0.f),
+            //            Vector4d(x_pos, y_pos + height, 0.f, 0.f)
         };
-//        mVbos.front()->SubData(verts, 0, sizeof(Vector4d) * 6);
-//        Graphics::DrawArrays(*mVao, mPrimitive, 0, 6);
+        //        mVbos.front()->SubData(verts, 0, sizeof(Vector4d) * 6);
+        //        Graphics::DrawArrays(*mVao, mPrimitive, 0, 6);
 
         // Render glyph texture over quad
         glBindTexture(GL_TEXTURE_2D, glyph->texture_id);
@@ -112,7 +111,7 @@ namespace Theodore {
     }
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
-//    Graphics::BindTexture(0, nullptr);
+    //    Graphics::BindTexture(0, nullptr);
     mProgram->UnUse();
   }
 

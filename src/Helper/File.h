@@ -5,6 +5,7 @@
 #define File_h
 
 #include <string>
+
 #include "Graphics/Enumeration.h"
 
 namespace Theodore {

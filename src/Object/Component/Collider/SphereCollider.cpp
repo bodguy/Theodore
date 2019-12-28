@@ -2,7 +2,9 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "SphereCollider.h"
+
 #include <cmath>
+
 #include "Graphics/Graphics.h"
 #include "Object/Component/MeshRenderer.h"
 #include "Object/Component/Transform.h"

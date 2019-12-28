@@ -2,7 +2,9 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Input.h"
+
 #include <cstring>
+
 #include "Helper/Utility.h"
 #include "Math/Math.h"
 #include "Platform.h"

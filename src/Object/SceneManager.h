@@ -5,6 +5,7 @@
 #define SceneManager_h
 
 #include <vector>
+
 #include "Scene.h"
 
 namespace Theodore {

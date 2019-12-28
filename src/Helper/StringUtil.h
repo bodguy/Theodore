@@ -7,6 +7,7 @@
 #include <ctime>
 #include <string>
 #include <vector>
+
 #include "Platform/os_types.h"
 
 #ifdef Theodore_MacOS

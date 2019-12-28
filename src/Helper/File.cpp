@@ -2,6 +2,7 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "File.h"
+
 #include <stdarg.h>
 #pragma warning(disable : 4996)
 

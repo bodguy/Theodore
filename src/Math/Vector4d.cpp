@@ -2,9 +2,11 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Vector4d.h"
+
 #include <algorithm>  // until c++11 for std::swap
 #include <cmath>
 #include <utility>  // since c++11 for std::swap
+
 #include "Math.h"
 #include "Vector2d.h"
 #include "Vector3d.h"

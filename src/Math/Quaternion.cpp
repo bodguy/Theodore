@@ -2,8 +2,10 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Quaternion.h"
+
 #include <cmath>
 #include <utility>  // since c++11 for std::swap
+
 #include "Math.h"
 #include "Vector3d.h"
 

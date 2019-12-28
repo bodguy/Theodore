@@ -5,6 +5,7 @@
 #define Scene_h
 
 #include <vector>
+
 #include "Object.h"
 
 namespace Theodore {

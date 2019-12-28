@@ -2,8 +2,10 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Color.h"
+
 #include <algorithm>  // for std::max, std::min
 #include <cmath>      // for std::floor
+
 #include "Math.h"
 
 namespace Theodore {

@@ -2,6 +2,7 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "AssetManager.h"
+
 #include "Asset.h"
 #include "Font.h"
 #include "Helper/Debug.h"

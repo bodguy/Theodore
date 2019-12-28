@@ -6,6 +6,7 @@
 
 #include <list>
 #include <vector>
+
 #include "Graphics/Enumeration.h"
 #include "Texture.h"
 

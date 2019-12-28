@@ -5,6 +5,7 @@
 #define Asset_h
 
 #include <string>
+
 #include "Graphics/Enumeration.h"
 
 namespace Theodore {

@@ -9,6 +9,7 @@
 #define WindowsPlatform_h
 
 #include <string>
+
 #include "Graphics/Enumeration.h"
 
 namespace Theodore {

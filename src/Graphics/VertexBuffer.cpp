@@ -2,6 +2,7 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "VertexBuffer.h"
+
 #include "Math/Color.h"
 #include "Math/Vector2d.h"
 #include "Math/Vector3d.h"

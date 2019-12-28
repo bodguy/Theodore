@@ -2,10 +2,12 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Shader.h"
+
 #include <algorithm>
 #include <cstdlib>
 #include <cstring>
 #include <vector>
+
 #include "Helper/Debug.h"
 #include "Helper/StringUtil.h"
 #include "Helper/Utility.h"

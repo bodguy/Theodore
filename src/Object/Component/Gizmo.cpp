@@ -2,6 +2,7 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Gizmo.h"
+
 #include "Asset/AssetManager.h"
 #include "Asset/Shader.h"
 #include "Camera.h"

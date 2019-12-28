@@ -5,6 +5,7 @@
 #define FrameBuffer_h
 
 #include <map>
+
 #include "Enumeration.h"
 
 namespace Theodore {

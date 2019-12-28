@@ -5,6 +5,7 @@
 #define Material_h
 
 #include <vector>
+
 #include "Math/Color.h"
 
 namespace Theodore {

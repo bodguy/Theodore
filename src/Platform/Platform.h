@@ -5,6 +5,7 @@
 #define Platform_h
 
 #include <string>
+
 #include "Graphics/Enumeration.h"
 #include "Helper/Debug.h"
 #include "KeyCode.h"

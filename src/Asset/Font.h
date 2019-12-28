@@ -5,8 +5,10 @@
 #define Font_h
 
 #include <stb/stb_truetype.h>
+
 #include <map>
 #include <string>
+
 #include "Asset.h"
 #include "Helper/Bitmap.h"
 #include "Math/Vector2d.h"

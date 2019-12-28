@@ -3,8 +3,10 @@
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "Font.h"
+
 #include <cmath>
 #include <cstdlib>
+
 #include "Helper/File.h"
 #include "Helper/StringUtil.h"
 

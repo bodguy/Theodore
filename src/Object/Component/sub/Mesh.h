@@ -5,6 +5,7 @@
 #define Mesh_h
 
 #include <vector>
+
 #include "Asset/Asset.h"
 #include "BoneWeight.h"
 #include "Geometry/Bounds.h"

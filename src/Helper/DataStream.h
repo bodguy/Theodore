@@ -6,6 +6,7 @@
 
 #include <cstdint>
 #include <string>
+
 #include "File.h"
 #include "Graphics/Enumeration.h"
 

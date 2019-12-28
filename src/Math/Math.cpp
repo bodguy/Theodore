@@ -2,6 +2,7 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Math.h"
+
 #include <cmath>
 #include <limits>
 

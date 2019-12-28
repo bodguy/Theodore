@@ -2,7 +2,9 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Scene.h"
+
 #include <algorithm>
+
 #include "Component/Camera.h"
 #include "Component/Light.h"
 #include "Component/Transform.h"

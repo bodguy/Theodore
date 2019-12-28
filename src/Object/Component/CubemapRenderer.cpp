@@ -2,6 +2,7 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "CubemapRenderer.h"
+
 #include "Asset/Shader.h"
 #include "Camera.h"
 #include "Graphics/Graphics.h"

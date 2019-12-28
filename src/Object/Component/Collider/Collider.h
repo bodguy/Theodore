@@ -5,6 +5,7 @@
 #define Collider_h
 
 #include <string>
+
 #include "Geometry/Ray.h"
 #include "Graphics/Enumeration.h"
 #include "Math/Color.h"

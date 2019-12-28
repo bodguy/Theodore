@@ -5,6 +5,7 @@
 #define Application_h
 
 #include <string>
+
 #include "Graphics/Enumeration.h"
 #include "Platform/Platform.h"
 

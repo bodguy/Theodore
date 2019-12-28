@@ -5,6 +5,7 @@
 #define FontRenderer_h
 
 #include <string>
+
 #include "Math/Color.h"
 #include "Renderer.h"
 

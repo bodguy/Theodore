@@ -1,6 +1,8 @@
 #include "Debug.h"
+
 #include <cstdarg>  // for va_list
 #include <cstdio>   // for vprintf
+
 #include "Asset/Font.h"
 #include "Asset/Texture2D.h"
 #include "Geometry/Ray.h"

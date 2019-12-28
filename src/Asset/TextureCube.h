@@ -5,6 +5,7 @@
 #define TextureCube_h
 
 #include <string>
+
 #include "Graphics/Enumeration.h"
 #include "Texture.h"
 
