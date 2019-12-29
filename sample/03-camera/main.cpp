@@ -14,10 +14,10 @@ public:
 		SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 10.f));
 
 		GameObject* spriteObject = new GameObject("mySpriteObject", this);
-		SpriteRenderer* spriteRenderer = spriteObject->AddComponent<SpriteRenderer>();
+		spriteRenderer = spriteObject->AddComponent<SpriteRenderer>();
 		Sprite* spriteSheet = Sprite::Create(AssetManager::RequestTexture(Application::GetResourcePath() + "dragon.png", TextureFormat::RGBA32));
 		spriteRenderer->SetSprite(spriteSheet);
-		spriteObject->GetTransform()->SetLocalScale(Vector3d(0.1f, 0.1f, 0.1f));
+		spriteObject->GetTransform()->SetLocalScale(Vector3d(0.05f, 0.05f, 0.05f));
 	}
 
 	virtual void OnStart() override {
@@ -28,7 +28,11 @@ public:
 		if (Input::GetKeyDown(KEY_ESCAPE)) {
 			Platform::GetInstance()->Quit();
 		}
+		spriteRenderer->SetColor(Color::Lerp(Color(1.f, 0.f, 0.f, 1.f), Color(0.f, 1.f, 1.f, 1.f), Math::PingPong(Time::ElapsedTime(), 1.f)));
 	}
+
+private:
+	SpriteRenderer* spriteRenderer;
 };
 
 int main(int argc, char** argv) {

@@ -5,6 +5,30 @@
 
 using namespace Theodore;
 
+class MyCubemapScene : public Scene {
+public:
+	MyCubemapScene() : Scene("MyCubemapScene") {}
+	virtual ~MyCubemapScene() override {}
+
+	virtual void OnAwake() override {
+		SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 10.f));
+
+		GameObject* myCubemapObject = new GameObject("myCubemapObject", this);
+		CubemapRenderer* cubemapRenderer = myCubemapObject->AddComponent<CubemapRenderer>();
+
+	}
+
+	virtual void OnStart() override {
+		Platform::ChangeTitle(SceneManager::GetActiveScene()->ToString());
+	}
+
+	virtual void OnUpdate() override {
+		if (Input::GetKeyDown(KEY_ESCAPE)) {
+			Platform::GetInstance()->Quit();
+		}
+	}
+};
+
 int main(int argc, char** argv) {
 	Application app;
 	PlatformContext context;
@@ -12,6 +36,7 @@ int main(int argc, char** argv) {
 	context.height = 720;
 
 	if (app.Initialize(context)) {
+		SceneManager::SetActiveScene(SceneManager::CreateScene<MyCubemapScene>("MyCubemapScene"));
 		app.Run();
 	}
 
