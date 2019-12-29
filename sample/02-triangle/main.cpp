@@ -17,7 +17,7 @@ public:
 	}
   virtual ~MyTriangleScene() override {}
 
-  virtual void OnAwake() {
+  virtual void OnAwake() override {
 		SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 10.f));
 
 		Font* fontAsset = AssetManager::RequestFont(Application::GetResourcePath() + "arial.ttf", 0, 48);
@@ -34,20 +34,21 @@ public:
 		sprites->GetTransform()->SetLocalScale(Vector3d(0.1f, 0.1f, 0.1f));
 	}
 
-  virtual void OnStart() {
+  virtual void OnStart() override {
     Platform::ChangeTitle(SceneManager::GetActiveScene()->ToString());
 		Input::AddAxis("Forward", new InputHandler(KEY_Q, KEY_E, 0.01f));
   }
 
-  virtual void OnUpdate() {
+  virtual void OnUpdate() override {
+		if (Input::GetKeyDown(KEY_ESCAPE)) {
+			Platform::GetInstance()->Quit();
+		}
+
 		CameraUpdate();
 	}
 
 	void CameraUpdate() {
 		Graphics::DrawFrustum(SceneManager::GetMainCamera(), Color::red);
-		if (Input::GetKeyDown(KEY_ESCAPE)) {
-			Platform::GetInstance()->Quit();
-		}
 
 		Camera* cam = SceneManager::GetMainCamera();
 		Transform* trans = cam->GetTransform();
