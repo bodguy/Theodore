@@ -16,8 +16,8 @@ namespace Theodore {
   typedef Vector3d PointCoord;
   class PlatformContext {
   public:
-    PlatformContext() : name("No Title"), width(800), height(600), fullscreen(false), majorVersion(4), minorVersion(3), multisample(0), style(WindowStyle::Resizable), profile(ContextProfile::Core) {}
-    ~PlatformContext() {}
+    PlatformContext();
+    ~PlatformContext();
 
     std::string name;
     int width;
@@ -40,7 +40,7 @@ namespace Theodore {
     Platform();
     ~Platform();
 
-    static Platform* GetInstance() { return instance; }
+    static Platform* GetInstance();
     bool Initialize(const PlatformContext& param);
     void Update();
     void SwapBuffer();
@@ -53,42 +53,13 @@ namespace Theodore {
     int GetVSync();
     bool IsFocus() const;
 
-    void Quit() { mIsRunning = false; }
-    bool IsRunning() const { return mIsRunning; }
-    static int GetWidth() { return GetInstance()->mWidth; }
-    static int GetHeight() { return GetInstance()->mHeight; }
+    void Quit();
+    bool IsRunning() const;
+    static int GetWidth();
+    static int GetHeight();
     static void ChangeTitle(const std::string& titleName);
-    static void LogSystemInfo() {
-      Debug::Log("Vendor              : %s", glGetString(GL_VENDOR));
-      Debug::Log("Renderer            : %s", glGetString(GL_RENDERER));
-      Debug::Log("Version             : %s", glGetString(GL_VERSION));
-      Debug::Log("GLSL                : %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
-
-      int param;
-      glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &param);
-      if (param == GL_CONTEXT_CORE_PROFILE_BIT) {
-        Debug::Log("Context Profile   : Core");
-      } else {
-        Debug::Log("Context Profile   : Compatibility");
-      }
-      // if (QueryExtentionSupported("GL_ARB_get_program_binary")) {
-      //	Debug::Log("program binary supported!\n");
-      //}
-    }
-
-    static bool QueryExtentionSupported(const std::string& extionsion_name) {
-      GLint n;
-      glGetIntegerv(GL_NUM_EXTENSIONS, &n);
-      for (int i = 0; i < n; i++) {
-        std::string ext = (const char*)glGetStringi(GL_EXTENSIONS, i);
-        Debug::Log(ext);
-        if (ext == extionsion_name) {
-          return true;
-        }
-      }
-
-      return false;
-    }
+    static void LogSystemInfo();
+    static bool QueryExtentionSupported(const std::string& extionsion_name);
 
   public:
     static Platform* instance;
