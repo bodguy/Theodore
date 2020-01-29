@@ -7,6 +7,7 @@
 #include <ctime>
 #include <string>
 #include <vector>
+#include <sstream>
 
 #include "Platform/os_types.h"
 
@@ -36,18 +37,45 @@ namespace Theodore {
     static float ParseFloat(const std::string& str);
     static double ParseDouble(const std::string& str);
     static int ParseInteger(const std::string& str);
+    static long ParseLong(const std::string& str);
     static int UTF8Decode(const char* ch);
-    // template<typename ...Args>
-    // static std::string Join(const std::string& delimiter, Args... args);
+    template <typename Iter>
+		static std::string Join(const std::string &delimiter, Iter start, Iter end);
+		template <typename Iter>
+	  static std::string Join(const std::string& delimiter, const std::string& prefix, const std::string& suffix, Iter start, Iter end);
+//		template<typename... T>
+//		static std::string Join(const std::string& delimiter, const T& ... args);
 
   private:
     static std::string monthTable[];
   };
 
-  // template<typename ... std::enable_if_t<std::is_same<Args, std::string>::value>::type = nullptr>
-  // std::string StringUtil::Join(const std::string& delimiter, const Args& ... args) {
-  //	return "";
-  //}
+	template <typename Iter>
+	std::string StringUtil::Join(const std::string &delimiter, Iter start, Iter end) {
+		std::stringstream ss;
+		for (Iter it = start; it != end; it++) {
+			if (&*it != &*start) {
+				ss << delimiter;
+			}
+			ss << *it;
+		}
+
+		return ss.str();
+	}
+
+	template <typename Iter>
+	std::string StringUtil::Join(const std::string& delimiter, const std::string& prefix, const std::string& suffix, Iter start, Iter end) {
+		std::string output = prefix;
+		output.append(Join(delimiter, start, end));
+		output.append(suffix);
+		return output;
+	}
+
+//	template<typename... T>
+//	std::string StringUtil::Join(const std::string &delimiter, const T&... args) {
+//		constexpr std::string strs[sizeof...(args)] = { args... };
+//		return Join(strs, delimiter);
+//	}
 }  // namespace Theodore
 
 #endif  // StringUtil_h

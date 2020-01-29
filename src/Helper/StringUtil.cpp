@@ -90,6 +90,10 @@ namespace Theodore {
 
   int StringUtil::ParseInteger(const std::string& str) { return std::stoi(str); }
 
+	long StringUtil::ParseLong(const std::string& str) {
+  	return std::stol(str);
+  }
+
   int StringUtil::UTF8Decode(const char* ch) {
     static const unsigned int limits[] = {0xFF, 0x7F, 0x7FF, 0xFFFF};
     const unsigned char* s = (const unsigned char*)ch;
