@@ -54,4 +54,19 @@ TEST_CASE("StringUtil unit test") {
   	evaluated = StringUtil::Join(", ", "[ ", " ]", flat_vec.begin(), flat_vec.end());
   	REQUIRE(expected == evaluated);
   }
+
+  SECTION("string leading trim") {
+  	std::string evaluated = "   Hello World!";
+  	REQUIRE(StringUtil::TrimLead(evaluated) == "Hello World!");
+  }
+
+	SECTION("string trailing trim") {
+		std::string evaluated = "Hello World!   ";
+		REQUIRE(StringUtil::TrimTrail(evaluated) == "Hello World!");
+	}
+
+	SECTION("string leading and trailing trim") {
+		std::string evaluated = "   Hello World!    ";
+		REQUIRE(StringUtil::Trim(evaluated) == "Hello World!");
+  }
 }

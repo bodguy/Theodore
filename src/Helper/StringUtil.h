@@ -39,6 +39,9 @@ namespace Theodore {
     static int ParseInteger(const std::string& str);
     static long ParseLong(const std::string& str);
     static int UTF8Decode(const char* ch);
+    static std::string Trim(const std::string& str);
+		static std::string TrimLead(const std::string& str);
+		static std::string TrimTrail(const std::string& str);
     template <typename Iter>
 		static std::string Join(const std::string &delimiter, Iter start, Iter end);
 		template <typename Iter>

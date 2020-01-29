@@ -116,4 +116,25 @@ namespace Theodore {
     }
     return res;
   }
+
+	std::string StringUtil::Trim(const std::string& str) {
+		std::string copy = str;
+		return TrimLead(TrimTrail(copy));;
+  }
+
+	std::string StringUtil::TrimLead(const std::string& str) {
+		std::string copy = str;
+		copy.erase(copy.begin(), std::find_if(copy.begin(), copy.end(), [](int ch) {
+			return !std::isspace(ch);
+		}));
+		return copy;
+  }
+
+	std::string StringUtil::TrimTrail(const std::string& str) {
+		std::string copy = str;
+		copy.erase(std::find_if(copy.rbegin(), copy.rend(), [](int ch) {
+			return !std::isspace(ch);
+		}).base(), copy.end());
+		return copy;
+	}
 }  // namespace Theodore
