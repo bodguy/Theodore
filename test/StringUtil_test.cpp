@@ -87,6 +87,13 @@ TEST_CASE("StringUtil unit test") {
   }
 
   SECTION("string repeat") {
+		REQUIRE("ba" + StringUtil::Repeat("na", 2) == "banana");
   	REQUIRE(StringUtil::Repeat("co", 2) + "nut" == "coconut");
+  }
+
+  SECTION("string occurance count") {
+		REQUIRE(StringUtil::Count("every", "e") == 2);
+  	REQUIRE(StringUtil::Count("occurance", "cc") == 1);
+		REQUIRE(StringUtil::Count("five", "") == 5);
   }
 }

@@ -30,6 +30,7 @@ namespace Theodore {
     static bool IsSpace(char ch);
     static size_t Split(const std::string& txt, std::vector<std::string>& strs, char ch);
     static bool EqualsIgnoreCase(const std::string& strA, const std::string& strB);
+    static std::string Replace(const std::string& str, const std::string& old_str, const std::string& new_str, int n);
     static std::string ReplaceAll(const std::string& str, const std::string& from, const std::string& to);
     static bool StartsWith(const std::string& str, const std::string& prefix);
     static bool EndsWith(const std::string& str, const std::string& suffix);
@@ -51,6 +52,7 @@ namespace Theodore {
 		static int Index(const std::string& str, const std::string& substr);
 		static int LastIndex(const std::string& str, const std::string& substr);
 		static std::string Repeat(const std::string& str, int count);
+		static int Count(const std::string& str, const std::string& substr);
 
   private:
     static std::string monthTable[];

@@ -61,6 +61,11 @@ namespace Theodore {
     return true;
   }
 
+	std::string StringUtil::Replace(const std::string& str, const std::string& old_str, const std::string& new_str, int n) {
+  	// TODO
+  	return std::string();
+  }
+
   std::string StringUtil::ReplaceAll(const std::string& str, const std::string& from, const std::string& to) {
     std::string result = str;
     std::string::size_type pos = 0;
@@ -169,5 +174,19 @@ namespace Theodore {
   		count--;
   	}
 		return copy;
+  }
+
+	int StringUtil::Count(const std::string& str, const std::string& substr) {
+  	if (!substr.empty()) {
+  		int n = 0;
+  		std::string::size_type pos = 0;
+			while ((pos = str.find(substr, pos)) != std::string::npos) {
+				n++;
+				pos += substr.length();
+			}
+			return n;
+  	}
+
+  	return str.length() + 1;
   }
 }  // namespace Theodore
