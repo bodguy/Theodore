@@ -29,6 +29,7 @@ TEST_CASE("StringUtil unit test") {
   SECTION("string split with delimiter") {
   	std::vector<std::string> ref_vec;
   	REQUIRE(StringUtil::Split("The quick brown fox jumps over the lazy dog", ref_vec, " ") == 9);
+  	REQUIRE(StringUtil::Join(", ", "[ ", " ]", ref_vec.begin(), ref_vec.end()) == "[ The, quick, brown, fox, jumps, over, the, lazy, dog ]");
   }
 
   SECTION("string joining with vector") {
@@ -50,39 +51,31 @@ TEST_CASE("StringUtil unit test") {
   	std::vector<std::vector<int>> nested_vec = {
 			{ 1, 2, 3}, { 4, 5, 6}, { 7, 8, 9}
   	};
-  	std::string expected = "[ [1, 2, 3], [4, 5, 6], [7, 8, 9] ]";
   	std::vector<std::string> flat_vec;
-  	std::string evaluated;
   	for (const auto& vec : nested_vec) {
 			flat_vec.emplace_back(StringUtil::Join(", ", "[", "]", vec.begin(), vec.end()));
   	}
-  	evaluated = StringUtil::Join(", ", "[ ", " ]", flat_vec.begin(), flat_vec.end());
-  	REQUIRE(expected == evaluated);
+  	REQUIRE(StringUtil::Join(", ", "[ ", " ]", flat_vec.begin(), flat_vec.end()) == "[ [1, 2, 3], [4, 5, 6], [7, 8, 9] ]");
   }
 
   SECTION("string leading trim") {
-  	std::string evaluated = "   Hello World!";
-  	REQUIRE(StringUtil::TrimLeft(evaluated) == "Hello World!");
+  	REQUIRE(StringUtil::TrimLeft("   Hello World!") == "Hello World!");
   }
 
 	SECTION("string trailing trim") {
-		std::string evaluated = "Hello World!   ";
-		REQUIRE(StringUtil::TrimRight(evaluated) == "Hello World!");
+		REQUIRE(StringUtil::TrimRight("Hello World!   ") == "Hello World!");
 	}
 
 	SECTION("string leading and trailing trim") {
-		std::string evaluated = "   Hello World!    ";
-		REQUIRE(StringUtil::Trim(evaluated) == "Hello World!");
+		REQUIRE(StringUtil::Trim("   Hello World!    ") == "Hello World!");
   }
 
   SECTION("string to lower case") {
-		std::string evaluated = "Hello World!";
-		REQUIRE(StringUtil::ToLower(evaluated) == "hello world!");
+		REQUIRE(StringUtil::ToLower("Hello World!") == "hello world!");
   }
 
 	SECTION("string to upper case") {
-		std::string evaluated = "Hello World!";
-		REQUIRE(StringUtil::ToUpper(evaluated) == "HELLO WORLD!");
+		REQUIRE(StringUtil::ToUpper("Hello World!") == "HELLO WORLD!");
 	}
 
 	SECTION("string last index of") {
