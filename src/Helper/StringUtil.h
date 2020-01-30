@@ -40,14 +40,17 @@ namespace Theodore {
     static long ParseLong(const std::string& str);
     static int UTF8Decode(const char* ch);
     static std::string Trim(const std::string& str);
-		static std::string TrimLead(const std::string& str);
-		static std::string TrimTrail(const std::string& str);
+		static std::string TrimLeft(const std::string& str);
+		static std::string TrimRight(const std::string& str);
     template <typename Iter>
 		static std::string Join(const std::string &delimiter, Iter start, Iter end);
 		template <typename Iter>
 	  static std::string Join(const std::string& delimiter, const std::string& prefix, const std::string& suffix, Iter start, Iter end);
-//		template<typename... T>
-//		static std::string Join(const std::string& delimiter, const T& ... args);
+		static std::string ToLower(const std::string& str);
+		static std::string ToUpper(const std::string& str);
+		static int Index(const std::string& str, const std::string& substr);
+		static int LastIndex(const std::string& str, const std::string& substr);
+		static std::string Repeat(const std::string& str, int count);
 
   private:
     static std::string monthTable[];
@@ -73,12 +76,6 @@ namespace Theodore {
 		output.append(suffix);
 		return output;
 	}
-
-//	template<typename... T>
-//	std::string StringUtil::Join(const std::string &delimiter, const T&... args) {
-//		constexpr std::string strs[sizeof...(args)] = { args... };
-//		return Join(strs, delimiter);
-//	}
 }  // namespace Theodore
 
 #endif  // StringUtil_h

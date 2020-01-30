@@ -4,6 +4,7 @@
 #include "StringUtil.h"
 
 #include <regex>
+#include <algorithm>
 
 namespace Theodore {
   std::string StringUtil::monthTable[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
@@ -119,10 +120,10 @@ namespace Theodore {
 
 	std::string StringUtil::Trim(const std::string& str) {
 		std::string copy = str;
-		return TrimLead(TrimTrail(copy));;
+		return TrimLeft(TrimRight(copy));;
   }
 
-	std::string StringUtil::TrimLead(const std::string& str) {
+	std::string StringUtil::TrimLeft(const std::string& str) {
 		std::string copy = str;
 		copy.erase(copy.begin(), std::find_if(copy.begin(), copy.end(), [](int ch) {
 			return !std::isspace(ch);
@@ -130,11 +131,43 @@ namespace Theodore {
 		return copy;
   }
 
-	std::string StringUtil::TrimTrail(const std::string& str) {
+	std::string StringUtil::TrimRight(const std::string& str) {
 		std::string copy = str;
 		copy.erase(std::find_if(copy.rbegin(), copy.rend(), [](int ch) {
 			return !std::isspace(ch);
 		}).base(), copy.end());
 		return copy;
 	}
+
+	std::string StringUtil::ToLower(const std::string &str) {
+		std::string copy = str;
+		std::transform(copy.begin(), copy.end(), copy.begin(), tolower);
+		return copy;
+	}
+
+	std::string StringUtil::ToUpper(const std::string &str) {
+		std::string copy = str;
+		std::transform(copy.begin(), copy.end(), copy.begin(), toupper);
+		return copy;
+	}
+
+	int StringUtil::Index(const std::string& str, const std::string& substr) {
+		std::string::size_type pos = str.find(substr);
+		return (pos != std::string::npos) ? pos : -1;
+  }
+
+	int StringUtil::LastIndex(const std::string& str, const std::string& substr) {
+		std::string::size_type pos = str.rfind(substr);
+		return (pos != std::string::npos) ? pos : -1;
+	}
+
+	std::string StringUtil::Repeat(const std::string& str, int count) {
+  	if (count < 0) throw std::out_of_range("count is negative");
+  	std::string copy;
+  	while(count) {
+  		copy.append(str);
+  		count--;
+  	}
+		return copy;
+  }
 }  // namespace Theodore

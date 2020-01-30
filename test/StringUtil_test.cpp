@@ -57,16 +57,36 @@ TEST_CASE("StringUtil unit test") {
 
   SECTION("string leading trim") {
   	std::string evaluated = "   Hello World!";
-  	REQUIRE(StringUtil::TrimLead(evaluated) == "Hello World!");
+  	REQUIRE(StringUtil::TrimLeft(evaluated) == "Hello World!");
   }
 
 	SECTION("string trailing trim") {
 		std::string evaluated = "Hello World!   ";
-		REQUIRE(StringUtil::TrimTrail(evaluated) == "Hello World!");
+		REQUIRE(StringUtil::TrimRight(evaluated) == "Hello World!");
 	}
 
 	SECTION("string leading and trailing trim") {
 		std::string evaluated = "   Hello World!    ";
 		REQUIRE(StringUtil::Trim(evaluated) == "Hello World!");
+  }
+
+  SECTION("string to lower case") {
+		std::string evaluated = "Hello World!";
+		REQUIRE(StringUtil::ToLower(evaluated) == "hello world!");
+  }
+
+	SECTION("string to upper case") {
+		std::string evaluated = "Hello World!";
+		REQUIRE(StringUtil::ToUpper(evaluated) == "HELLO WORLD!");
+	}
+
+	SECTION("string last index of") {
+		REQUIRE(StringUtil::Index("Hello gorilla", "ll") == 2);
+		REQUIRE(StringUtil::LastIndex("Hello gorilla", "ll") == 10);
+		REQUIRE(StringUtil::LastIndex("Hello gorilla", "og") == -1);
+  }
+
+  SECTION("string repeat") {
+  	REQUIRE(StringUtil::Repeat("co", 2) + "nut" == "coconut");
   }
 }
