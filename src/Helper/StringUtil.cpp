@@ -12,38 +12,34 @@ namespace Theodore {
 
   StringUtil::~StringUtil(void) {}
 
-  bool StringUtil::Contains(const std::string& txt, const std::string& contain) { return (txt.find(contain) != std::string::npos); }
+  bool StringUtil::Contains(const std::string& str, const std::string& substr) { return (str.find(substr) != std::string::npos); }
 
-  bool StringUtil::Match(const std::string& txt, const std::string& regex) {
-    std::regex pattern(regex);
-    if (std::regex_match(txt, pattern)) {
-      return true;
-    }
-
-    return false;
+  bool StringUtil::Matches(const std::string& str, const std::string& pat) {
+    std::regex pattern(pat);
+    return std::regex_match(str, pattern) ? true : false;
   }
 
-  bool StringUtil::IsComment(const std::string& c) { return (c.empty()) || (c.at(0) == '#'); }
+  bool StringUtil::IsComment(const std::string& str) { return (str.empty()) || (str.at(0) == '#'); }
 
   bool StringUtil::IsSpace(char ch) { return (ch == ' ' || ch == '\t' || ch == '\r' || ch == 'n'); }
 
-  size_t StringUtil::Split(const std::string& txt, std::vector<std::string>& strs, char ch) {
-    size_t pos = txt.find(ch);
+  size_t StringUtil::Split(const std::string& str, std::vector<std::string>& slices, const std::string& delim) {
+    size_t pos = str.find(delim);
     size_t initialPos = 0;
-    strs.clear();
+    slices.clear();
 
     // Decompose statement
     while (pos != std::string::npos) {
-      strs.push_back(txt.substr(initialPos, pos - initialPos));
+      slices.push_back(str.substr(initialPos, pos - initialPos));
       initialPos = pos + 1;
 
-      pos = txt.find(ch, initialPos);
+      pos = str.find(delim, initialPos);
     }
 
     // Add the last one
-    strs.push_back(txt.substr(initialPos, std::min(pos, txt.size()) - initialPos + 1));
+    slices.push_back(str.substr(initialPos, std::min(pos, str.size()) - initialPos + 1));
 
-    return strs.size();
+    return slices.size();
   }
 
   bool StringUtil::EqualsIgnoreCase(const std::string& strA, const std::string& strB) {
@@ -85,7 +81,7 @@ namespace Theodore {
     return (str.length() >= suffix.length() && str.compare(str.length() - suffix.length(), suffix.length(), suffix) == 0);
   }
 
-  std::string StringUtil::DateToUTCString(std::tm* date) {
+  std::string StringUtil::ToDateFormat(std::tm* date) {
     return std::string(StringUtil::monthTable[date->tm_mon] + " " + std::to_string(date->tm_mday) + ", " + std::to_string(date->tm_year + 1900) + " " + std::to_string(date->tm_hour) + ":" +
                        std::to_string(date->tm_min) + ":" + std::to_string(date->tm_sec));
   }

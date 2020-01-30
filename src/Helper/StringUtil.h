@@ -24,17 +24,17 @@ namespace Theodore {
     ~StringUtil();
 
   public:
-    static bool Contains(const std::string& txt, const std::string& contain);
-    static bool Match(const std::string& txt, const std::string& regex);
-    static bool IsComment(const std::string& c);
+    static bool Contains(const std::string& str, const std::string& substr);
+    static bool Matches(const std::string& str, const std::string& pat);
+    static bool IsComment(const std::string& str);
     static bool IsSpace(char ch);
-    static size_t Split(const std::string& txt, std::vector<std::string>& strs, char ch);
+    static size_t Split(const std::string& str, std::vector<std::string>& slices, const std::string& delim);
     static bool EqualsIgnoreCase(const std::string& strA, const std::string& strB);
     static std::string Replace(const std::string& str, const std::string& old_str, const std::string& new_str, int n);
     static std::string ReplaceAll(const std::string& str, const std::string& from, const std::string& to);
     static bool StartsWith(const std::string& str, const std::string& prefix);
     static bool EndsWith(const std::string& str, const std::string& suffix);
-    static std::string DateToUTCString(DateTime* date);
+    static std::string ToDateFormat(DateTime* date);
     static float ParseFloat(const std::string& str);
     static double ParseDouble(const std::string& str);
     static int ParseInteger(const std::string& str);

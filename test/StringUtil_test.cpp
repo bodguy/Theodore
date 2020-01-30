@@ -19,11 +19,16 @@ TEST_CASE("StringUtil unit test") {
 
 //  SECTION("string regex match") {
 //    std::string regex = "#include\\s{1,}\"(.[^\\s]*?)\"";
-//    REQUIRE(StringUtil::Match(text, regex) == true);
+//    REQUIRE(StringUtil::Matches(text, regex) == true);
 //  }
 
   SECTION("string comment") {
     REQUIRE(StringUtil::IsComment("#asdasd") == true);
+  }
+
+  SECTION("string split with delimiter") {
+  	std::vector<std::string> ref_vec;
+  	REQUIRE(StringUtil::Split("The quick brown fox jumps over the lazy dog", ref_vec, " ") == 9);
   }
 
   SECTION("string joining with vector") {

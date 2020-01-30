@@ -57,7 +57,7 @@ namespace Theodore {
 
   std::string Time::GetDateTime() {
     std::time_t now = std::time(nullptr);
-    return StringUtil::DateToUTCString(std::localtime(&now));
+    return StringUtil::ToDateFormat(std::localtime(&now));
   }
 
   TimePoint Time::GetTime() { return Clock::now(); }
