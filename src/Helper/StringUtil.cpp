@@ -58,18 +58,34 @@ namespace Theodore {
   }
 
 	std::string StringUtil::Replace(const std::string& str, const std::string& old_str, const std::string& new_str, int n) {
-  	// TODO
-  	return std::string();
+  	if (n < 0) {
+  			return ReplaceAll(str, old_str, new_str);
+  	}
+
+		std::string result = str;
+		std::string::size_type pos = 0;
+		std::string::size_type offset = 0;
+
+		while (n > 0) {
+			pos = result.find(old_str, offset);
+			if (pos != std::string::npos) {
+				result.replace(result.begin() + pos, result.begin() + pos + old_str.length(), new_str);
+				offset = pos + new_str.length();
+			}
+			n--;
+		}
+
+  	return result;
   }
 
-  std::string StringUtil::ReplaceAll(const std::string& str, const std::string& from, const std::string& to) {
+  std::string StringUtil::ReplaceAll(const std::string& str, const std::string& old_str, const std::string& new_str) {
     std::string result = str;
     std::string::size_type pos = 0;
     std::string::size_type offset = 0;
 
-    while ((pos = result.find(from, offset)) != std::string::npos) {
-      result.replace(result.begin() + pos, result.begin() + pos + from.length(), to);
-      offset = pos + to.length();
+    while ((pos = result.find(old_str, offset)) != std::string::npos) {
+      result.replace(result.begin() + pos, result.begin() + pos + old_str.length(), new_str);
+      offset = pos + new_str.length();
     }
 
     return result;

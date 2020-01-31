@@ -31,7 +31,7 @@ namespace Theodore {
     static size_t Split(const std::string& str, std::vector<std::string>& slices, const std::string& delim);
     static bool EqualsIgnoreCase(const std::string& strA, const std::string& strB);
     static std::string Replace(const std::string& str, const std::string& old_str, const std::string& new_str, int n);
-    static std::string ReplaceAll(const std::string& str, const std::string& from, const std::string& to);
+    static std::string ReplaceAll(const std::string& str, const std::string& old_str, const std::string& new_str);
     static bool StartsWith(const std::string& str, const std::string& prefix);
     static bool EndsWith(const std::string& str, const std::string& suffix);
     static std::string ToDateFormat(DateTime* date);

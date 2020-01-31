@@ -14,22 +14,29 @@ void main() {
 TEST_CASE("StringUtil unit test") {
   SECTION("string contains") {
     std::string dest = "#include";
-    REQUIRE(StringUtil::Contains(text, dest) == true);
+    REQUIRE(StringUtil::Contains(text, dest));
   }
 
 //  SECTION("string regex match") {
 //    std::string regex = "#include\\s{1,}\"(.[^\\s]*?)\"";
-//    REQUIRE(StringUtil::Matches(text, regex) == true);
+//    REQUIRE(StringUtil::Matches(text, regex));
 //  }
 
   SECTION("string comment") {
-    REQUIRE(StringUtil::IsComment("#asdasd") == true);
+    REQUIRE(StringUtil::IsComment("#asdasd"));
   }
 
   SECTION("string split with delimiter") {
   	std::vector<std::string> ref_vec;
   	REQUIRE(StringUtil::Split("The quick brown fox jumps over the lazy dog", ref_vec, " ") == 9);
   	REQUIRE(StringUtil::Join(", ", "[ ", " ]", ref_vec.begin(), ref_vec.end()) == "[ The, quick, brown, fox, jumps, over, the, lazy, dog ]");
+  }
+
+  SECTION("string replace") {
+  	REQUIRE(StringUtil::Replace("oink oink oink", "k", "ky", 2) == "oinky oinky oink");
+		REQUIRE(StringUtil::Replace("oink oink oink", "k", "ky", 0) == "oink oink oink");
+  	REQUIRE(StringUtil::Replace("oink oink oink", "oink", "moo", -1) == "moo moo moo");
+		REQUIRE(StringUtil::ReplaceAll("oink oink oink", "oink", "moo") == "moo moo moo");
   }
 
   SECTION("string joining with vector") {
