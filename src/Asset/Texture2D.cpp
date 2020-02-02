@@ -178,15 +178,20 @@ namespace Theodore {
         // Get pixel colors
         GLubyte* colors = (GLubyte*)&data[i];
 
+        // clang-format off
         // Color matches
-        if (colors[0] == Color::ConvertToByte(mColorKey.r) && colors[1] == Color::ConvertToByte(mColorKey.g) && colors[2] == Color::ConvertToByte(mColorKey.b) &&
-            (0 == mColorKey.a || colors[3] == Color::ConvertToByte(mColorKey.a))) {
+        if (colors[0] == Color::ToByte(mColorKey.r) &&
+            colors[1] == Color::ToByte(mColorKey.g) &&
+            colors[2] == Color::ToByte(mColorKey.b) &&
+            (0 == mColorKey.a || colors[3] == Color::ToByte(mColorKey.a))
+        ) {
           // Make transparent
           colors[0] = 000;
           colors[1] = 000;
           colors[2] = 000;
           colors[3] = 000;
         }
+        // clang-format on
       }
 
       glGenTextures(1, &mTextureID);

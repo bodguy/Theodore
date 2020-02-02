@@ -26,15 +26,15 @@ namespace Theodore {
 
   Color Texture::GetPixel(unsigned int x, unsigned int y) {
     GLubyte* colors = (GLubyte*)&mNativeTexturePtr[y * mWidth + x];
-    return Color::RGBToColor(colors[0], colors[1], colors[2], colors[3] ? colors[3] : 0);
+    return Color::FromRGBA(colors[0], colors[1], colors[2], colors[3] ? colors[3] : 0);
   }
 
   void Texture::SetPixel(unsigned int x, unsigned int y, const Color& color) {
     GLubyte* colors = (GLubyte*)&mNativeTexturePtr[y * mWidth + x];
-    colors[0] = Color::ConvertToByte(color.r);  // r
-    colors[1] = Color::ConvertToByte(color.g);  // g
-    colors[2] = Color::ConvertToByte(color.b);  // b
-    colors[3] = Color::ConvertToByte(color.a);  // a
+    colors[0] = Color::ToByte(color.r);  // r
+    colors[1] = Color::ToByte(color.g);  // g
+    colors[2] = Color::ToByte(color.b);  // b
+    colors[3] = Color::ToByte(color.a);  // a
   }
 
   unsigned int Texture::GetWidth() const { return mWidth; }

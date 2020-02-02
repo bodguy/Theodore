@@ -11,6 +11,8 @@
 namespace Theodore {
   Color::Color() : r(1.f), g(1.f), b(1.f), a(1.f) {}
 
+	Color::Color(float r, float g, float b) : r(r), g(g), b(b), a(0.f) {}
+
   Color::Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {}
 
   bool Color::operator==(const Color& rhs) { return (Math::IsEqual(r, rhs.r) && Math::IsEqual(g, rhs.g) && Math::IsEqual(b, rhs.b) && Math::IsEqual(a, rhs.a)); }
@@ -36,24 +38,24 @@ namespace Theodore {
                  std::max(0.f, std::min(1.f, a.a + (b.a - a.a) * t)));
   }
 
-  unsigned char Color::ConvertToByte(float value) {
+  unsigned char Color::ToByte(float value) {
     float f2 = std::max(0.f, std::min(1.f, value));
     return static_cast<unsigned char>(std::floor(f2 == 1.0 ? 255 : f2 * 256));
   }
 
-  Color Color::RGBToColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
+  Color Color::FromRGBA(unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
     float invConverter = 1.f / 255.f;
     return Color(r * invConverter, g * invConverter, b * invConverter, a * invConverter);
   }
 
-  Color Color::HexToColor(unsigned int hexValue) {
+  Color Color::FromHex(unsigned int hexValue) {
     return Color(((hexValue >> 16) & 0xFF) * (1.f / 255.f),   // Extract the R byte
                  ((hexValue >> 8) & 0xFF) * (1.f / 255.f),    // Extract the G byte
                  ((hexValue)&0xFF) * (1.f / 255.f),           // Extract the B byte
                  ((hexValue >> 24) & 0xFF) * (1.f / 255.f));  // Extract the A byte
   }
 
-  Color Color::HexToColor(const std::string& hexString) {
+  Color Color::FromHex(const std::string& hexString) {
     int hexValue = std::stoi(hexString.substr(1, hexString.size() - 1), 0, 16);
     return Color(((hexValue >> 16) & 0xFF) * (1.f / 255.f),  // Extract the R byte
                  ((hexValue >> 8) & 0xFF) * (1.f / 255.f),   // Extract the G byte
@@ -61,18 +63,29 @@ namespace Theodore {
                  1.f);                                       // alpha is fixed to 1
   }
 
-  Color Color::CMKYToColor(float c, float m, float y, float k) {
-    float cmyk_scale = 1.f / 100.f;
+  Color Color::FromCMYK(float c, float m, float y, float k) {
+    static const float cmyk_scale = 1.f / 100.f;
     float k2 = std::min(100.f, k);
     float precomputed = 1.f - k2 * cmyk_scale;
 
-    return Color((1.f - std::min(100.f, c) * cmyk_scale) * precomputed, (1.f - std::min(100.f, m) * cmyk_scale) * precomputed, (1.f - std::min(100.f, y) * cmyk_scale) * precomputed, 1.f);
+    // clang-format off
+    return Color(
+			(1.f - std::min(100.f, c) * cmyk_scale) * precomputed,
+			(1.f - std::min(100.f, m) * cmyk_scale) * precomputed,
+			(1.f - std::min(100.f, y) * cmyk_scale) * precomputed,
+			1.f
+		);
+    // clang-format on
   }
 
-  Color Color::HSVToColor(float h, float s, float v) {
-    // TODO
-    return Color();
-  }
+	/*
+	* H(Hue): 0 - 360 degree (int)
+	* S(Saturation): 0 - 1.00 (float)
+	* V(Value): 0 - 1.00 (float)
+	*/
+  Color Color::FromHSV(int hueInDegree, float saturation, float value) {
+		return Color();
+	}
 
   Color Color::white = Color(1.f, 1.f, 1.f, 1.f);
   Color Color::grey = Color(0.5f, 0.5f, 0.5f, 1.0f);

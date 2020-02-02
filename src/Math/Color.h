@@ -10,6 +10,7 @@ namespace Theodore {
   class Color {
   public:
     Color();
+		Color(float r, float g, float b);
     Color(float r, float g, float b, float a);
 
     //! Red, green, blue, alpha (translucency)
@@ -20,12 +21,12 @@ namespace Theodore {
     float& operator[](unsigned int i);
 
     static Color Lerp(const Color& a, const Color& b, float t);
-    static unsigned char ConvertToByte(float value);
-    static Color RGBToColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
-    static Color HexToColor(unsigned int hexValue);
-    static Color HexToColor(const std::string& hexString);
-    static Color CMKYToColor(float c, float m, float y, float k);
-    static Color HSVToColor(float h, float s, float v);
+    static unsigned char ToByte(float value);
+    static Color FromRGBA(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+    static Color FromHex(unsigned int hexValue);
+    static Color FromHex(const std::string& hexString);
+    static Color FromCMYK(float c, float m, float y, float k);
+    static Color FromHSV(int hueInDegree, float saturation, float value);
 
     static Color white;
     static Color grey;
