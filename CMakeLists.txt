@@ -71,6 +71,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/debug)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/release")
 
 # resource path
+set(THEODORE_RESOURCE_DIR "res")
+set(THEODORE_SHADER_DIR "shaders")
 configure_file("${CMAKE_SOURCE_DIR}/cmake/RootDir.h.in" "${THEODORE_INCLUDE_DIR}/RootDir.h")
 
 file(GLOB_RECURSE SOURCE_FILES ${SOURCE_PREFIX}/*.h ${SOURCE_PREFIX}/*.cpp ${SOURCE_PREFIX}/*.hpp ${SOURCE_PREFIX}/*.mm)
@@ -113,6 +115,16 @@ endfunction()
 set(PROJECT_SAMPLE_DIR "${CMAKE_SOURCE_DIR}/sample")
 add_sample(01-hello_world "${PROJECT_SAMPLE_DIR}/01-hello_world/main.cpp")
 add_sample(02-triangle "${PROJECT_SAMPLE_DIR}/02-triangle/main.cpp")
+add_sample(03-camera "${PROJECT_SAMPLE_DIR}/03-camera/main.cpp")
+add_sample(04-sprite "${PROJECT_SAMPLE_DIR}/04-sprite/main.cpp")
+add_sample(05-font_render "${PROJECT_SAMPLE_DIR}/05-font_render/main.cpp")
+add_sample(06-cubemap "${PROJECT_SAMPLE_DIR}/06-cubemap/main.cpp")
+add_sample(07-mesh_render "${PROJECT_SAMPLE_DIR}/07-mesh_render/main.cpp")
+add_sample(08-transform "${PROJECT_SAMPLE_DIR}/08-transform/main.cpp")
+add_sample(09-light "${PROJECT_SAMPLE_DIR}/09-light/main.cpp")
+add_sample(10-collider "${PROJECT_SAMPLE_DIR}/10-collider/main.cpp")
+add_sample(11-ray_casting "${PROJECT_SAMPLE_DIR}/11-ray_casting/main.cpp")
+add_sample(12-tween "${PROJECT_SAMPLE_DIR}/12-tween/main.cpp")
 
 # unit test target
 find_package(Catch2 REQUIRED)

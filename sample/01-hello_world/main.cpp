@@ -10,11 +10,11 @@ public:
 	HelloWorldScene() : Scene("HelloWorldScene") {}
   virtual ~HelloWorldScene() override {}
 
-  virtual void OnStart() {
+  virtual void OnStart() override {
     Platform::ChangeTitle(SceneManager::GetActiveScene()->ToString());
   }
 
-  virtual void OnUpdate() {
+  virtual void OnUpdate() override {
   	Debug::Log("Hello World!");
   }
 };

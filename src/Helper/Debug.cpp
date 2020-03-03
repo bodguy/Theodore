@@ -94,10 +94,10 @@ namespace Theodore {
   void Debug::Log(const Color& color) {
     // clang-format off
     Debug::Log("Color = r:%f[%d] g:%f[%d] b:%f[%d] a:%f[%d]",
-            color.r, Color::ConvertToByte(color.r),
-            color.g, Color::ConvertToByte(color.g),
-            color.b, Color::ConvertToByte(color.b),
-            color.a, Color::ConvertToByte(color.a)
+            color.r, Color::ToByte(color.r),
+            color.g, Color::ToByte(color.g),
+            color.b, Color::ToByte(color.b),
+            color.a, Color::ToByte(color.a)
     );
     // clang-format on
   }

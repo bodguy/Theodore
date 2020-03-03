@@ -5,9 +5,9 @@
 
 using namespace Theodore;
 
-class MyTriangleScene : public Scene {
+class MyMeshRenderScene : public Scene {
 public:
-	MyTriangleScene() : Scene("MyTriangleScene") {
+	MyMeshRenderScene() : Scene("MyMeshRenderScene") {
 		speed = 20.f;
 		rotationY = 0.f;
 		rotationX = 0.f;
@@ -15,43 +15,39 @@ public:
 		moveSensitivity = 0.5f;
 		fieldOfView = 60.f;
 	}
-  virtual ~MyTriangleScene() override {}
+	virtual ~MyMeshRenderScene() override {}
 
-  virtual void OnAwake() override {
+	virtual void OnAwake() override {
 		SceneManager::GetMainCamera()->GetTransform()->Translate(Vector3d(0.f, 0.f, 10.f));
+//		SceneManager::GetMainCamera()->GetTransform()->Rotate(Vector3d::right, 15.f);
 
-		Font* fontAsset = AssetManager::RequestFont(Application::GetResourcePath() + "arial.ttf", 0, 48);
-		GameObject* GUIFont = new GameObject("GUI font", this);
-		FontRenderer* fr = GUIFont->AddComponent<FontRenderer>(fontAsset);
-		fr->SetColor(Color::red);
-		fr->SetText("AB");
-		fr->GetTransform()->SetPosition(Vector3d(0.f, 0.f, 0.f));
+		GameObject* gizmo = new GameObject("gizmo", this);
+		gizmo->AddComponent<Gizmo>(GizmoType::Translation);
 
-		GameObject* sprites = new GameObject("sprite", this);
-		SpriteRenderer* sr = sprites->AddComponent<SpriteRenderer>();
-		Sprite* sprite = Sprite::Create(AssetManager::RequestTexture(Application::GetResourcePath() + "dragon.png", TextureFormat::RGBA32));
-		sr->SetSprite(sprite);
-		sprites->GetTransform()->SetLocalScale(Vector3d(0.1f, 0.1f, 0.1f));
+		GameObject* cube = GameObject::CreatePrimitive(PrimitiveType::Cube, this);
+		GameObject* torus = GameObject::CreatePrimitive(PrimitiveType::Torus, this);
+		torus->GetTransform()->SetLocalPosition(Vector3d(3.f, 0.f, 0.f));
+		GameObject* sphere = GameObject::CreatePrimitive(PrimitiveType::Sphere, this);
+		sphere->GetTransform()->SetLocalPosition(Vector3d(-3.f, 0.f, 0.f));
+		GameObject* cylinder = GameObject::CreatePrimitive(PrimitiveType::Cylinder, this);
+		cylinder->GetTransform()->SetLocalPosition(Vector3d(-6.f, 0.f, 0.f));
 	}
 
-  virtual void OnStart() override {
-    Platform::ChangeTitle(SceneManager::GetActiveScene()->ToString());
+	virtual void OnStart() override {
+		Platform::ChangeTitle(SceneManager::GetActiveScene()->ToString());
 		Input::AddAxis("Forward", new InputHandler(KEY_Q, KEY_E, 0.01f));
-  }
+	}
 
-  virtual void OnUpdate() override {
+	virtual void OnUpdate() override {
 		if (Input::GetKeyDown(KEY_ESCAPE)) {
 			Platform::GetInstance()->Quit();
 		}
-
 		CameraUpdate();
 	}
 
 	void CameraUpdate() {
-		Graphics::DrawFrustum(SceneManager::GetMainCamera(), Color::red);
-
 		Camera* cam = SceneManager::GetMainCamera();
-		Transform* trans = cam->GetTransform();
+		Transform* trans = SceneManager::GetMainCamera()->GetTransform();
 
 		if (Input::GetMouseButtonHeld(MOUSE_MIDDLE)) {
 			Vector3d right = SceneManager::GetMainCamera()->GetTransform()->GetRight();
@@ -100,6 +96,7 @@ public:
 		}
 	}
 
+private:
 	float speed;
 	float rotationY;
 	float rotationX;
@@ -109,15 +106,15 @@ public:
 };
 
 int main(int argc, char** argv) {
-  Application app;
-  PlatformContext context;
-  context.width = 1280;
-  context.height = 720;
+	Application app;
+	PlatformContext context;
+	context.width = 1280;
+	context.height = 720;
 
-  if (app.Initialize(context)) {
-		SceneManager::SetActiveScene(SceneManager::CreateScene<MyTriangleScene>("MyTriangleScene"));
-    app.Run();
-  }
+	if (app.Initialize(context)) {
+		SceneManager::SetActiveScene(SceneManager::CreateScene<MyMeshRenderScene>("MyMeshRenderScene"));
+		app.Run();
+	}
 
-  return 0;
+	return 0;
 }
