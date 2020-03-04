@@ -8,6 +8,35 @@
 #include GLEW_INCLUDE_DIR
 
 namespace Theodore {
+	enum class TextureFace {
+		TEX_2D,
+		TEX_3D_SPHERE,
+		TEX_3D_CUBE_TOP,
+		TEX_3D_CUBE_BOTTOM,
+		TEX_3D_CUBE_FRONT,
+		TEX_3D_CUBE_BACK,
+		TEX_3D_CUBE_LEFT,
+		TEX_3D_CUBE_RIGHT
+	};
+
+	enum class TextureType {
+		AMBIENT = 0, // map_Ka
+		DIFFUSE, // map_Kd
+		SPECULAR, // map_Ks
+		SPECULAR_HIGHLIGHT, // map_Ns
+		BUMP, // map_bump, map_Bump, bump
+		DISPLACEMENT, // disp
+		ALPHA, // map_d
+		REFLECTION, // refl
+	};
+
+	enum class MeshParseOption {
+		NONE = 0,
+		TRIANGULATE = 1 << 0,
+		FLIP_UV = 1 << 1,
+		CALC_TANGENT = 1 << 2,
+	};
+
   enum class Primitive {
     Triangles = GL_TRIANGLES,
     Lines = GL_LINES,
@@ -187,6 +216,14 @@ namespace Theodore {
   inline bool operator&(const VertexSemantic a, const VertexSemantic b) { return static_cast<VertexSemantic>(static_cast<int>(a) & static_cast<int>(b)) == b; }
 
   inline bool operator&(const LightType a, const LightType b) { return static_cast<LightType>(static_cast<int>(a) & static_cast<int>(b)) == b; }
+
+	inline bool operator&(const MeshParseOption a, const MeshParseOption b) {
+		return static_cast<MeshParseOption>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b)) == b;
+	}
+
+	inline MeshParseOption operator|(const MeshParseOption a, const MeshParseOption b) {
+		return static_cast<MeshParseOption>(static_cast<unsigned int>(a) | static_cast<unsigned int>(b));
+	}
 }  // namespace Theodore
 
 #endif /* Enumeration_h */

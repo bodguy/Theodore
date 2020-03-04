@@ -21,6 +21,10 @@ namespace Theodore {
 
   bool StringUtil::IsSpace(char ch) { return (ch == ' ' || ch == '\t' || ch == '\r' || ch == 'n'); }
 
+	bool StringUtil::IsNewLine(char ch) {
+		return ch == '\r' || ch == '\n' || ch == '\0';
+  }
+
   size_t StringUtil::Split(const std::string& str, std::vector<std::string>& slices, const std::string& delim) {
     size_t pos = str.find(delim);
     size_t initialPos = 0;
@@ -38,6 +42,15 @@ namespace Theodore {
     slices.push_back(str.substr(initialPos, std::min(pos, str.size()) - initialPos + 1));
 
     return slices.size();
+  }
+
+	std::pair<std::string, std::string> StringUtil::SplitDelims(const std::string& str, const char* delims) {
+		const size_t last_idx = str.find_last_of(delims);
+		if (std::string::npos != last_idx) {
+			return std::make_pair(str.substr(0, last_idx + 1), str.substr(last_idx + 1));
+		}
+
+		return std::make_pair(std::string(""), str);
   }
 
   bool StringUtil::EqualsIgnoreCase(const std::string& strA, const std::string& strB) {
@@ -193,5 +206,37 @@ namespace Theodore {
     }
 
     return str.length() + 1;
+  }
+
+	std::istream& StringUtil::GetLine(std::istream& input, std::string& line) {
+		line.clear();
+
+		// The characters in the stream are read one-by-one using a std::streambuf.
+		// That is faster than reading them one-by-one using the std::istream.
+		// Code that uses streambuf this way must be guarded by a sentry object.
+		// The sentry object performs various tasks,
+		// such as thread synchronization and updating the stream state.
+
+		std::istream::sentry se(input, true);
+		std::streambuf* sb = input.rdbuf();
+
+		for(;;) {
+			int c = sb->sbumpc();
+			switch (c) {
+				case '\n':
+					return input;
+				case '\r':
+					if(sb->sgetc() == '\n')
+						sb->sbumpc();
+					return input;
+				case std::streambuf::traits_type::eof():
+					// Also handle the case when the last line has no line ending
+					if(line.empty())
+						input.setstate(std::ios::eofbit);
+					return input;
+				default:
+					line += static_cast<char>(c);
+			}
+		}
   }
 }  // namespace Theodore
