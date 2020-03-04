@@ -4,45 +4,17 @@
 #include "Material.h"
 
 namespace Theodore {
-  Material::Material(Pipeline* program)
-      : ambient(), diffuse(), specular(), shininess(64.f), shader(program), texture0(nullptr), texture1(nullptr), texture2(nullptr), texture3(nullptr), texture4(nullptr), renderTexture(nullptr) {}
+  Material::Material(Pipeline* pipeline)
+      : mName(), mAmbient(), mDiffuse(), mSpecular(), mTransmittance(), mEmission(), mShininess(1.f), mIndexOfRefrection(1.f), mDissolve(1.f), mIlluminationModel(0), mPipeline(pipeline), mRenderTexture(nullptr), mTextureMap() {
+		mTextureMap.clear();
+  }
 
   Material::Material(Color ambient, Color diffuse, Color specular, float shininess)
-      : ambient(ambient),
-        diffuse(diffuse),
-        specular(specular),
-        shininess(shininess),
-        shader(nullptr),
-        texture0(nullptr),
-        texture1(nullptr),
-        texture2(nullptr),
-        texture3(nullptr),
-        texture4(nullptr),
-        renderTexture(nullptr) {}
+      : mName(), mAmbient(ambient), mDiffuse(diffuse), mSpecular(specular), mTransmittance(), mEmission(), mShininess(shininess), mIndexOfRefrection(1.f), mDissolve(1.f), mIlluminationModel(0), mPipeline(nullptr), mRenderTexture(nullptr), mTextureMap() {
+		mTextureMap.clear();
+  }
 
   Material::~Material() {}
-
-  Pipeline* Material::GetShader() const { return shader; }
-
-  Texture* Material::GetTexture0() const { return texture0; }
-
-  Texture* Material::GetTexture1() const { return texture1; }
-
-  Texture* Material::GetTexture2() const { return texture2; }
-
-  Texture* Material::GetTexture3() const { return texture3; }
-
-  Texture* Material::GetTexture4() const { return texture4; }
-
-  FrameBuffer* Material::GetRenderTexture() const { return renderTexture; }
-
-  Color Material::GetAmbient() const { return ambient; }
-
-  Color Material::GetDiffuse() const { return diffuse; }
-
-  Color Material::GetSpecular() const { return specular; }
-
-  float Material::GetShininess() const { return shininess; }
 
   const Material Material::emerald = Material(Color(0.0215f, 0.1745f, 0.0215f, 1.f), Color(0.07568f, 0.61424f, 0.07568f, 1.f), Color(0.633f, 0.727811f, 0.633f, 1.f), 0.6f);
   const Material Material::jade = Material(Color(0.135f, 0.222f, 0.1575f, 1.f), Color(0.54f, 0.89f, 0.63f, 1.f), Color(0.316228f, 0.316228f, 0.316228f, 1.f), 0.1f);
@@ -56,4 +28,6 @@ namespace Theodore {
   const Material Material::copper = Material(Color(0.19125f, 0.0735f, 0.0225f, 1.f), Color(0.7038f, 0.27048f, 0.0828f, 1.f), Color(0.256777f, 0.137622f, 0.086014f, 1.f), 0.1f);
   const Material Material::gold = Material(Color(0.24725f, 0.1995f, 0.0745f, 1.f), Color(0.75164f, 0.60648f, 0.22648f, 1.f), Color(0.628281f, 0.555802f, 0.366065f, 1.f), 0.4f);
   const Material Material::silver = Material(Color(0.19225f, 0.19225f, 0.19225f, 1.f), Color(0.50754f, 0.50754f, 0.50754f, 1.f), Color(0.508273f, 0.508273f, 0.508273f, 1.f), 0.4f);
+	const Material Material::blackPlastic = Material(Color(0.f, 0.f, 0.f, 1.f), Color(0.01f, 0.01f, 0.01f, 1.f), Color(0.5f, 0.5f, 0.5f, 1.f), 32.f);
+	const Material Material::blackRubber = Material(Color(0.02f, 0.02f, 0.02f, 1.f), Color(0.01f, 0.01f, 0.01f, 1.f), Color(0.4f, 0.4f, 0.4f, 1.f), 10.f);
 }  // namespace Theodore

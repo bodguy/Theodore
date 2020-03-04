@@ -10,6 +10,7 @@ namespace Theodore {
         mWidth(0),
         mHeight(0),
         mMipMapBias(1000.f),
+				mTextureOption(),
         mFilterMode(FilterMode::Trilinear),
         mWrapMode(WrapMode::ClampEdge),
         mDimension(TextureDimension::None),
@@ -42,8 +43,6 @@ namespace Theodore {
   unsigned int Texture::GetHeight() const { return mHeight; }
 
   unsigned int Texture::GetTextureID() const { return mTextureID; }
-
-  std::string Texture::GetMappingType() const { return mMappingType; }
 
   Color Texture::GetColorKey() const { return mColorKey; }
 
@@ -79,8 +78,6 @@ namespace Theodore {
     glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_T, static_cast<GLenum>(mWrapMode));
     if (mDimension == TextureDimension::CubeMap) glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_R, static_cast<GLenum>(mWrapMode));
   }
-
-  void Texture::SetMappingType(const std::string& type) { mMappingType = type; }
 
   void Texture::SetTextureFormat(const TextureFormat format) { mTextureFormat = format; }
 

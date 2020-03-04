@@ -6,8 +6,22 @@
 
 #include "Platform/os_types.h"
 #include GLEW_INCLUDE_DIR
+#include <unordered_map>
 
 namespace Theodore {
+	struct EnumClassHash {
+		template<typename T>
+		std::size_t operator()(T t) const {
+			return static_cast<std::size_t>(t);
+		}
+	};
+
+	template <typename Key>
+	using HashType = typename std::conditional<std::is_enum<Key>::value, EnumClassHash, std::hash<Key>>::type;
+
+	template <typename Key, typename T>
+	using unordered_map = std::unordered_map<Key, T, HashType<Key>>;
+
 	enum class TextureFace {
 		TEX_2D,
 		TEX_3D_SPHERE,

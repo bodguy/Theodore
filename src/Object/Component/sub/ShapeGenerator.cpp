@@ -223,7 +223,7 @@ namespace Theodore {
     }
 
     mesh->SetVertices(vertices);
-    mesh->SetTriangles(indices);
+		mesh->SetFaces(indices);
     mesh->RecalculateNormals();
 
     return mesh;
@@ -316,7 +316,7 @@ namespace Theodore {
     }
 
     mesh->SetVertices(vertices);
-    mesh->SetTriangles(indices);
+		mesh->SetFaces(indices);
     mesh->SetNormals(normals);
 
     return mesh;

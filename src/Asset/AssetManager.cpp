@@ -12,7 +12,7 @@
 #include "Shader.h"
 #include "Texture2D.h"
 #include "TextureCube.h"
-#include "WaveFrontObjMesh.h"
+#include "WaveFrontObj/WaveFrontObjMesh.h"
 
 namespace Theodore {
   AssetManager* AssetManager::instance = nullptr;

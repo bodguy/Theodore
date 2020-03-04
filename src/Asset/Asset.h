@@ -16,7 +16,8 @@ namespace Theodore {
     Asset();
     virtual ~Asset();
 
-    void SetAssetName(const std::string& filename);
+    std::string GetAssetName() const;
+    void SetAssetName(const std::string& assetName);
     bool IsManaged();
 
   private:

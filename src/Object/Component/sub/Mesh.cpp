@@ -4,15 +4,10 @@
 #include "Mesh.h"
 
 namespace Theodore {
-  Mesh::Mesh() : mFormat(IndexFormat::UInt32), mSemantic(VertexSemantic::SemanticNone), mUsage(BufferUsage::StaticDraw), mBounds(Vector3d::zero, Vector3d::one) {
+  Mesh::Mesh()
+  	: mFormat(IndexFormat::UInt32), mSemantic(VertexSemantic::SemanticNone), mUsage(BufferUsage::StaticDraw), mBounds(Vector3d::zero, Vector3d::one), mMaterialID(-1) {
     mType = AssetType::MeshType;
     mVertices.clear();
-    mUvs.clear();
-    mUvs2.clear();
-    mUvs3.clear();
-    mUvs4.clear();
-    mNormals.clear();
-    mTangents.clear();
     mFaces.clear();
     mBoneWeights.clear();
     mBindposes.clear();
@@ -20,82 +15,102 @@ namespace Theodore {
 
   Mesh::~Mesh() {}
 
-  void Mesh::SetVertices(const std::vector<Vector3d>& verts) {
-    mSemantic = mSemantic | VertexSemantic::SemanticPosition;
+	void Mesh::SetVertexSemantic(const VertexSemantic vertexSemantic) {
+  	mSemantic = vertexSemantic;
+  }
 
-    for (auto& i : verts) {
-      mVertices.push_back(i);
+  void Mesh::SetVertices(const std::vector<Vertex>& verts) {
+    for (auto& v : verts) {
+      mVertices.emplace_back(v);
     }
   }
 
-  void Mesh::SetUvs(const std::vector<Vector2d>& uvs) {
-    mSemantic = mSemantic | VertexSemantic::SemanticTexCoord;
-
-    for (auto& i : uvs) {
-      mUvs.push_back(i);
+  void Mesh::SetFaces(const std::vector<unsigned int>& faces) {
+    for (auto& f : faces) {
+      mFaces.emplace_back(f);
     }
   }
 
-  void Mesh::SetNormals(const std::vector<Vector3d>& normals) {
-    mSemantic = mSemantic | VertexSemantic::SemanticNormal;
-
-    for (auto& i : normals) {
-      mNormals.push_back(i);
-    }
+	void Mesh::PushVertex(const Vertex& vertex) {
+  	mVertices.emplace_back(vertex);
   }
 
-  void Mesh::SetTriangles(const std::vector<unsigned int>& faces) {
-    mSemantic = mSemantic | VertexSemantic::SemanticFaces;
-
-    for (auto& i : faces) {
-      mFaces.push_back(i);
-    }
-  }
-
-  void Mesh::SetBoneWeight(BoneWeight* bw) {}
+	void Mesh::PushFace(const unsigned int face) {
+		mFaces.emplace_back(face);
+	}
 
   void Mesh::RecalculateNormals() {
-    mSemantic = mSemantic | VertexSemantic::SemanticNormal;
-
-    unsigned int stride = 3;
+    static const unsigned int stride = 3;
     for (unsigned int i = 0; i < mFaces.size() / stride; i++) {
-      // clang-format off
-      mNormals.push_back(
-          Vector3d::CrossProduct(
-                  Vector3d(mVertices.at(mFaces[i * stride + 1]) - mVertices.at(mFaces[i * stride])),
-                  Vector3d(mVertices.at(mFaces[i * stride + 2]) - mVertices.at(mFaces[i * stride])))
-              .Normalize());
-      // clang-format on
+			Vector3d normal = Vector3d::CrossProduct(
+				Vector3d(mVertices.at(mFaces[i * stride + 1]).position - mVertices.at(mFaces[i * stride]).position),
+				Vector3d(mVertices.at(mFaces[i * stride + 2]).position - mVertices.at(mFaces[i * stride]).position)
+			).Normalize();
+
+			mVertices[i * stride].normal = normal;
+			mVertices[i * stride + 1].normal = normal;
+			mVertices[i * stride + 2].normal = normal;
     }
   }
+
+	void Mesh::RecalculateTangents(unsigned int offset) {
+		unsigned int offset_start = offset * 3;
+		Vertex v1 = mVertices.at(offset_start);
+		Vertex v2 = mVertices.at(offset_start + 1);
+		Vertex v3 = mVertices.at(offset_start + 2);
+
+		Vector3d e1 = v2.position - v1.position;
+		Vector3d e2 = v3.position - v1.position;
+		Vector2d delta1 = v2.texcoord - v1.texcoord;
+		Vector2d delta2 = v3.texcoord - v1.texcoord;
+
+		float f = 1.f / (delta1.x * delta2.y - delta2.x * delta1.y);
+
+		Vector3d tangent;
+		tangent.x = f * (delta2.y * e1.x - delta1.y * e2.x);
+		tangent.y = f * (delta2.y * e1.y - delta1.y * e2.y);
+		tangent.z = f * (delta2.y * e1.z - delta1.y * e2.z);
+		tangent.Normalize();
+
+		v1.tangent = tangent;
+		v2.tangent = tangent;
+		v3.tangent = tangent;
+
+		mVertices[offset_start] = v1;
+		mVertices[offset_start + 1] = v2;
+		mVertices[offset_start + 2] = v3;
+	}
 
   void Mesh::RecalculateBounds() {
     if (!mVertices.empty()) {
-      std::vector<Vector3d>::const_iterator iter;
       Vector3d min, max;
 
-      for (iter = mVertices.cbegin(); iter < mVertices.cend(); iter++) {
-        if ((*iter).x < min.x) {
-          min.x = (*iter).x;
-        } else if ((*iter).x > max.x) {
-          max.x = (*iter).x;
+      for (auto iter = mVertices.cbegin(); iter < mVertices.cend(); iter++) {
+        if ((*iter).position.x < min.x) {
+          min.x = (*iter).position.x;
+        } else if ((*iter).position.x > max.x) {
+          max.x = (*iter).position.x;
         }
 
-        if ((*iter).y < min.y) {
-          min.y = (*iter).y;
-        } else if ((*iter).y > max.y) {
-          max.y = (*iter).y;
+        if ((*iter).position.y < min.y) {
+          min.y = (*iter).position.y;
+        } else if ((*iter).position.y > max.y) {
+          max.y = (*iter).position.y;
         }
 
-        if ((*iter).z < min.z) {
-          min.z = (*iter).z;
-        } else if ((*iter).z > max.z) {
-          max.z = (*iter).z;
+        if ((*iter).position.z < min.z) {
+          min.z = (*iter).position.z;
+        } else if ((*iter).position.z > max.z) {
+          max.z = (*iter).position.z;
         }
       }
 
       mBounds.SetMinMax(min, max);
     }
+  }
+
+	void Mesh::Triangulate(size_t npolys) {
+  	// TODO
   }
 
   void Mesh::MarkDynamic() { mUsage = BufferUsage::DynamicDraw; }

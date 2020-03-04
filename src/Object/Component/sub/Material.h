@@ -4,9 +4,9 @@
 #ifndef Material_h
 #define Material_h
 
-#include <vector>
-
 #include "Math/Color.h"
+#include "Graphics/Enumeration.h"
+#include <string>
 
 namespace Theodore {
   class Pipeline;
@@ -18,46 +18,34 @@ namespace Theodore {
     Material(Color ambient, Color diffuse, Color specular, float shininess);
     ~Material();
 
-    Pipeline* GetShader() const;
-    Texture* GetTexture0() const;
-    Texture* GetTexture1() const;
-    Texture* GetTexture2() const;
-    Texture* GetTexture3() const;
-    Texture* GetTexture4() const;
-    FrameBuffer* GetRenderTexture() const;
-    Color GetAmbient() const;
-    Color GetDiffuse() const;
-    Color GetSpecular() const;
-    float GetShininess() const;
+		std::string mName;
+    Color mAmbient;
+    Color mDiffuse;
+    Color mSpecular;
+		Color mTransmittance;
+		Color mEmission;
+    float mShininess;
+		float mIndexOfRefrection;
+		float mDissolve; // 1 == opaque; 0 == fully transparent
+		int mIlluminationModel;
+		Pipeline* mPipeline;
+		FrameBuffer* mRenderTexture;
+		unordered_map<TextureType, Texture*> mTextureMap;
 
-    static const Material emerald;
-    static const Material jade;
-    static const Material obsidian;
-    static const Material pearl;
-    static const Material ruby;
-    static const Material turquoise;
-    static const Material brass;
-    static const Material bronze;
-    static const Material chrome;
-    static const Material copper;
-    static const Material gold;
-    static const Material silver;
-    static const Material black_plastic;
-    static const Material black_rubber;
-
-  private:
-    Pipeline* shader;
-    Texture* texture0;
-    Texture* texture1;
-    Texture* texture2;
-    Texture* texture3;
-    Texture* texture4;
-    FrameBuffer* renderTexture;
-
-    Color ambient;
-    Color diffuse;
-    Color specular;
-    float shininess;
+		static const Material emerald;
+		static const Material jade;
+		static const Material obsidian;
+		static const Material pearl;
+		static const Material ruby;
+		static const Material turquoise;
+		static const Material brass;
+		static const Material bronze;
+		static const Material chrome;
+		static const Material copper;
+		static const Material gold;
+		static const Material silver;
+		static const Material blackPlastic;
+		static const Material blackRubber;
   };
 }  // namespace Theodore
 

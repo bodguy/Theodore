@@ -21,6 +21,10 @@ namespace Theodore {
     return std::string("");
   }
 
+	std::string Asset::GetAssetName() const {
+		return mFullName;
+  }
+
   void Asset::SetAssetName(const std::string& assetName) {
     mBaseName = BaseName(assetName);
     mFullName = assetName;

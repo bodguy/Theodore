@@ -10,7 +10,7 @@
 #include "Asset/Shader.h"
 #include "Asset/Texture.h"
 #include "Asset/Texture2D.h"
-#include "Asset/WaveFrontObjMesh.h"
+#include "Asset/WaveFrontObj/WaveFrontObjMesh.h"
 #include "Geometry/Bounds.h"
 #include "Geometry/Plane.h"
 #include "Geometry/Ray.h"
