@@ -125,7 +125,15 @@ namespace Theodore {
       if (feof(fp))
         break;
       else if (c == '\n')
-        break;
+				break;
+			else if (c == '\r') {
+				c = static_cast<char>(fgetc(fp));
+				if (c == '\n') {
+					ungetc(c, fp);
+				}
+				break;
+      }
+
       temp += c;
     }
 

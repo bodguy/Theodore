@@ -3,17 +3,9 @@
 
 #include "WaveFrontObjMesh.h"
 
-#include <cstring>
-#include <iostream>
-#include <string>
 #include <fstream>
-#include <cstring>
-#include <cassert>
 #include <vector>
-#include <sstream>
-#include <algorithm>
 #include <unordered_map>
-#include <type_traits>
 #include <Object/Component/sub/Material.h>
 
 #include "Helper/StringUtil.h"
