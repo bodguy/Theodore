@@ -42,6 +42,7 @@ namespace Theodore {
 
 		size_t GetVertexCount() const { return mVertices.size(); }
     size_t GetFaceCount() const { return mFaces.size(); }
+    bool IsVertexEmpty() const { return GetVertexCount() == 0; }
     IndexFormat GetIndexFormat() const { return mFormat; }
     VertexSemantic GetVertexSemantic() const { return mSemantic; }
     BufferUsage GetBufferUsage() const { return mUsage; }
@@ -53,6 +54,8 @@ namespace Theodore {
     void RecalculateBounds();
     void Triangulate(size_t npolys);
     void MarkDynamic();
+
+    virtual bool LoadMesh(const std::string& fileName, MeshParseOption parseOption) { return false; }
 
   protected:
     IndexFormat mFormat;

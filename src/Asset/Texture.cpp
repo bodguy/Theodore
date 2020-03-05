@@ -81,5 +81,9 @@ namespace Theodore {
 
   void Texture::SetTextureFormat(const TextureFormat format) { mTextureFormat = format; }
 
+	void Texture::SetTextureOption(const TextureOption& option) {
+  	mTextureOption = option;
+  }
+
   TextureDimension Texture::GetDimension() const { return mDimension; }
 }  // namespace Theodore

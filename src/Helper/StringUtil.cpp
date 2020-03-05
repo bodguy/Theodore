@@ -19,7 +19,7 @@ namespace Theodore {
     return std::regex_match(str, pattern) ? true : false;
   }
 
-  bool StringUtil::IsSpace(char ch) { return (ch == ' ' || ch == '\t' || ch == '\r' || ch == 'n'); }
+  bool StringUtil::IsSpace(char ch) { return (ch == ' ' || ch == '\t'); }
 
 	bool StringUtil::IsNewLine(char ch) {
 		return ch == '\r' || ch == '\n' || ch == '\0';
@@ -44,7 +44,7 @@ namespace Theodore {
     return slices.size();
   }
 
-	std::pair<std::string, std::string> StringUtil::SplitDelims(const std::string& str, const char* delims) {
+	std::pair<std::string, std::string> StringUtil::SplitPair(const std::string& str, const char* delims) {
 		const size_t last_idx = str.find_last_of(delims);
 		if (std::string::npos != last_idx) {
 			return std::make_pair(str.substr(0, last_idx + 1), str.substr(last_idx + 1));

@@ -9,6 +9,7 @@
 #include "Object/Component/sub/Mesh.h"
 #include "Math/Vector2d.h"
 #include "Math/Vector3d.h"
+#include "MeshGroup.h"
 
 namespace Theodore {
 	struct VertexIndex {
@@ -25,24 +26,38 @@ namespace Theodore {
 
 	struct PrimitiveGroup {
 		PrimitiveGroup() : faces() { faces.clear(); }
-		bool is_empty() const { return faces.empty(); }
+		bool IsEmpty() const { return faces.empty(); }
 		std::vector<Face> faces;
 	};
 
   class WaveFrontObjMesh : public Mesh {
   public:
-		WaveFrontObjMesh() : Mesh() {}
-		virtual ~WaveFrontObjMesh() override {}
+		WaveFrontObjMesh();
+		virtual ~WaveFrontObjMesh() override;
+
+		virtual bool LoadMesh(const std::string& fileName, MeshParseOption parseOption) override;
 
 	private:
+		bool ParsePrimitive(Mesh& mesh, const PrimitiveGroup& primitive, MeshParseOption option, const int materialId,
+												const std::vector<Vector3d>& vertices, const std::vector<Vector2d>& texcoords, const std::vector<Vector3d>& normals,
+												const std::string& name, const std::string& default_name);
+		bool ParseIndices(const char** token, int vsize, int vnsize, int vtsize, VertexIndex* result);
+		TextureFace ParseTextureFace(const char** token, TextureFace defaultFace = TextureFace::TEX_2D);
+		bool ParseTexture(Texture& tex, const char* token);
+		bool LoadMaterial(std::vector<Material>& materials, std::unordered_map<std::string, int>& materialMap, std::istream& inputStream);
+		bool ParseMaterial(const std::string& materialName, std::vector<Material>& materials, std::unordered_map<std::string, int>& materialMap);
+
+		static void SplitWithToken(std::vector<std::string>& elems, const char* delims, const char** token);
 		std::string ParseString(const char** token) const;
-		float ParseReal(const char** token, float default_value) const;
-		void ParseReal2(Vector2d& vt, const char** token, float default_x = 0.f, float default_y = 0.f) const;
-		void ParseReal3(Vector3d& vn, const char** token, float default_x = 0.f, float default_y = 0.f, float default_z = 0.f) const;
+		float ParseReal(const char** token, float defaultValue) const;
+		void ParseReal2(Vector2d& vt, const char** token, float defaultX = 0.f, float defaultY = 0.f) const;
+		void ParseReal3(Vector3d& vn, const char** token, float defaultX = 0.f, float defaultY = 0.f, float defaultZ = 0.f) const;
 		int ParseInt(const char **token) const;
-		bool ParseOnOff(const char** token, bool default_value) const;
-		bool FixIndex(int idx, int n, int* ret) const ;
-		bool IsSpace(char x);
+		bool ParseOnOff(const char** token, bool defaultValue) const;
+		bool FixIndex(int idx, int n, int* ret) const;
+
+  private:
+  	MeshGroup mMeshGroup;
   };
 }  // namespace Theodore
 

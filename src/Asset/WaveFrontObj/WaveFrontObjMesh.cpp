@@ -14,25 +14,239 @@
 #include <algorithm>
 #include <unordered_map>
 #include <type_traits>
+#include <Object/Component/sub/Material.h>
 
+#include "Helper/StringUtil.h"
 #include "Helper/Debug.h"
 #include "Platform/Time.h"
+#include "Asset/Texture.h"
 
 namespace Theodore {
-	struct Scene {
-		Scene() : meshes(), materials(), base_dir() {
-			meshes.clear();
-			materials.clear();
-		}
-		std::vector<Mesh> meshes;
-		std::vector<Material> materials;
-		std::string base_dir;
-	};
+	WaveFrontObjMesh::WaveFrontObjMesh() : Mesh(), mMeshGroup() {
 
-	inline bool parsePrimitive(Mesh& mesh, const PrimitiveGroup& primitive, MeshParseOption option, const int material_id,
-														 const std::vector<vec3>& verts, const std::vector<vec2>& texcoords, const std::vector<vec3>& normals,
-														 const std::string& name, const std::string& default_name) {
-		if (primitive.is_empty()) {
+	}
+
+	WaveFrontObjMesh::~WaveFrontObjMesh() {
+
+	}
+
+	bool WaveFrontObjMesh::LoadMesh(const std::string& fileName, MeshParseOption parseOption) {
+		if (!StringUtil::EndsWith(fileName, ".obj")) {
+			Debug::Error("obj file should be .obj file format");
+			return false;
+		}
+
+		std::ifstream inputStream(fileName);
+		if(!inputStream) return false;
+
+		std::vector<Vector3d> vertices;
+		std::vector<Vector2d> texcoords;
+		std::vector<Vector3d> normals;
+		std::unordered_map<std::string, int> materialMap;
+		PrimitiveGroup currentPrimitive;
+		std::string currentObjectName;
+		std::string currentMaterialName;
+		Mesh currentMesh;
+		int currentMaterialId = -1;
+		auto pair = StringUtil::SplitPair(fileName, "\\/");
+		mBaseName = pair.first;
+		std::string pureFileName = pair.second;
+		std::string lineBuffer;
+
+		// preventing a empty file
+		while(inputStream.peek() != -1) {
+			StringUtil::GetLine(inputStream, lineBuffer);
+
+			// Trim newline '\r\n' or '\n'
+			if (!lineBuffer.empty()) {
+				if (lineBuffer[lineBuffer.size() - 1] == '\n')
+					lineBuffer.erase(lineBuffer.size() - 1);
+			}
+			if (!lineBuffer.empty()) {
+				if (lineBuffer[lineBuffer.size() - 1] == '\r')
+					lineBuffer.erase(lineBuffer.size() - 1);
+			}
+
+			// Skip if empty line.
+			if (lineBuffer.empty()) {
+				continue;
+			}
+
+			// Skip leading space.
+			const char *token = lineBuffer.c_str(); // read only token
+			token += strspn(token, " \t");
+
+			if (token == nullptr) return false;
+			if (token[0] == '\0') continue;  // empty line
+			if (token[0] == '#') continue;  // comment line
+
+			// vertex
+			if (token[0] == 'v' && StringUtil::IsSpace((token[1]))) {
+				token += 2;
+				Vector3d v;
+				ParseReal3(v, &token);
+				vertices.emplace_back(v);
+				continue;
+			}
+
+			// normal
+			if (token[0] == 'v' && token[1] == 'n' && StringUtil::IsSpace((token[2]))) {
+				token += 3;
+				Vector3d vn;
+				ParseReal3(vn, &token);
+				normals.emplace_back(vn);
+				continue;
+			}
+
+			// texcoord
+			if (token[0] == 'v' && token[1] == 't' && StringUtil::IsSpace((token[2]))) {
+				token += 3;
+				Vector2d vt;
+				ParseReal2(vt, &token);
+				if (parseOption & MeshParseOption::FLIP_UV) {
+					vt.y = 1.f - vt.y;
+				}
+				texcoords.emplace_back(vt);
+				continue;
+			}
+
+			// face
+			if (token[0] == 'f' && StringUtil::IsSpace((token[1]))) {
+				token += 2;
+				token += strspn(token, " \t"); // Skip leading space.
+
+				Face f;
+				f.vertex_indices.reserve(3);
+
+				while (!StringUtil::IsNewLine(token[0])) {
+					VertexIndex vi;
+					if (!ParseIndices(&token, vertices.size(), normals.size(), texcoords.size(), &vi)) {
+						return false;
+					}
+
+					// finish parse indices
+					f.vertex_indices.emplace_back(vi);
+					token += strspn(token, " \t\r"); // skip space
+				}
+
+				currentPrimitive.faces.emplace_back(f);
+				continue;
+			}
+
+			// use mtl
+			if ((0 == strncmp(token, "usemtl", 6)) && StringUtil::IsSpace((token[6]))) {
+				token += 7;
+				std::string newMaterialName = ParseString(&token);
+				int newMaterialId = -1;
+				// find material id
+				if (materialMap.find(newMaterialName) != materialMap.end()) {
+					newMaterialId = materialMap[newMaterialName];
+				}
+
+				// check current material and previous
+				if (newMaterialName != currentMaterialName) {
+					// when current object name is empty, then assign current material name as alternatives.
+					if (currentObjectName.empty()) {
+						currentObjectName = newMaterialName;
+					}
+					// return value not used
+					ParsePrimitive(currentMesh, currentPrimitive, parseOption, currentMaterialId, vertices, texcoords, normals, currentObjectName, pureFileName);
+					if (!currentMesh.IsVertexEmpty()) {
+						mMeshGroup.mMeshes.emplace_back(currentMesh);
+						// when successfully push a new mesh, then cache current material name.
+						currentObjectName = newMaterialName;
+					}
+					// reset
+					currentPrimitive = PrimitiveGroup();
+					currentMesh = Mesh();
+					// cache new material id
+					currentMaterialId = newMaterialId;
+					currentMaterialName = newMaterialName;
+				}
+				continue;
+			}
+
+			// load mtl
+			if ((0 == strncmp(token, "mtllib", 6)) && StringUtil::IsSpace((token[6]))) {
+				token += 7;
+				std::vector<std::string> materialFileNames;
+				// parse multiple mtl filenames split by whitespace
+				SplitWithToken(materialFileNames, " ", &token);
+				// load just one available mtl file in the list
+				for (auto& name : materialFileNames) {
+					if (ParseMaterial(mBaseName + name, mMeshGroup.mMaterials, materialMap)) {
+						break;
+					}
+				}
+				continue;
+			}
+
+			// group name
+			if (token[0] == 'g' && StringUtil::IsSpace((token[1]))) {
+				// return value not used
+				ParsePrimitive(currentMesh, currentPrimitive, parseOption, currentMaterialId, vertices, texcoords, normals, currentObjectName, pureFileName);
+				if (!currentMesh.IsVertexEmpty()) {
+					mMeshGroup.mMeshes.emplace_back(currentMesh);
+					currentObjectName = "";
+				}
+
+				// reset
+				currentPrimitive = PrimitiveGroup();
+				currentMesh = Mesh();
+
+				token += 2;
+
+				// assemble multi group name
+				std::vector<std::string> names;
+				while (!StringUtil::IsNewLine(token[0])) {
+					names.emplace_back(ParseString(&token));
+					token += strspn(token, " \t\r"); // skip space
+				}
+
+				if (!names.empty()) {
+					std::stringstream ss;
+					std::vector<std::string>::const_iterator it = names.begin();
+					ss << *it++;
+					for (; it != names.end(); it++) {
+						ss << " " << *it;
+					}
+					currentObjectName = ss.str();
+				}
+
+				continue;
+			}
+
+			// object name
+			if (token[0] == 'o' && StringUtil::IsSpace((token[1]))) {
+				// return value not used
+				ParsePrimitive(currentMesh, currentPrimitive, parseOption, currentMaterialId, vertices, texcoords, normals, currentObjectName, pureFileName);
+				if (!currentMesh.IsVertexEmpty()) {
+					mMeshGroup.mMeshes.emplace_back(currentMesh);
+					currentObjectName = "";
+				}
+
+				// reset
+				currentPrimitive = PrimitiveGroup();
+				currentMesh = Mesh();
+
+				token += 2;
+				currentObjectName = ParseString(&token);
+				continue;
+			}
+		}
+
+		bool result = ParsePrimitive(currentMesh, currentPrimitive, parseOption, currentMaterialId, vertices, texcoords, normals, currentObjectName, pureFileName);
+		if (result || !currentMesh.IsVertexEmpty()) {
+			mMeshGroup.mMeshes.emplace_back(currentMesh);
+		}
+
+		return true;
+	}
+
+	bool WaveFrontObjMesh::ParsePrimitive(Mesh& mesh, const PrimitiveGroup& primitive, MeshParseOption option, const int materialId,
+											const std::vector<Vector3d>& vertices, const std::vector<Vector2d>& texcoords, const std::vector<Vector3d>& normals,
+											const std::string& name, const std::string& default_name) {
+		if (primitive.IsEmpty()) {
 			return false;
 		}
 		mesh.name = name.empty() ? default_name : name;
@@ -49,15 +263,15 @@ namespace Theodore {
 
 			// triangulate only parsing flag is set and polygon has more than 3.
 			if ((option & MeshParseOption::TRIANGULATE) && npolys != 3) {
-				triangulate(mesh, verts, npolys);
+				triangulate(mesh, vertices, npolys);
 			} else {
 				for (size_t f = 0; f < npolys; f++) {
 					Vertex vtx;
 					VertexIndex idx = face.vertex_indices[f];
-					vtx.position = verts[idx.v_idx];
-					vtx.texcoord = (idx.vt_idx == -1 ? vec2() : texcoords[idx.vt_idx]);
-					vtx.normal = (idx.vn_idx == -1 ? vec3() : normals[idx.vn_idx]);
-					mesh.vertices.emplace_back(vtx);
+					vtx.position = vertices[idx.v_idx];
+					vtx.texcoord = (idx.vt_idx == -1 ? Vector2d() : texcoords[idx.vt_idx]);
+					vtx.normal = (idx.vn_idx == -1 ? Vector3d() : normals[idx.vn_idx]);
+					mesh.mVertices.emplace_back(vtx);
 				}
 
 				if ((option & MeshParseOption::CALC_TANGENT) && npolys == 3) {
@@ -68,7 +282,7 @@ namespace Theodore {
 				for (size_t ff = 0; ff < npolys; ff++) {
 					mesh.indices.emplace_back(preCompute + ff);
 				}
-				mesh.material_id = material_id;
+				mesh.material_id = materialId;
 				count++;
 			}
 		}
@@ -76,20 +290,18 @@ namespace Theodore {
 		return true;
 	}
 
-	inline bool parseIndices(const char** token, int vsize, int vnsize, int vtsize, VertexIndex* ret) {
-		if (!ret) {
-			return false;
-		}
+	bool WaveFrontObjMesh::ParseIndices(const char** token, int vsize, int vnsize, int vtsize, VertexIndex* result) {
+		if (!result) return false;
 
 		VertexIndex vi(-1);
 		// i
-		if (!fixIndex(atoi((*token)), vsize, &(vi.v_idx))) {
+		if (!FixIndex(atoi((*token)), vsize, &(vi.v_idx))) {
 			return false;
 		}
 		(*token) += strcspn((*token), "/ \t\r"); // go to next slash
 		// check if only have vertex
 		if ((*token)[0] != '/') {
-			(*ret) = vi;
+			(*result) = vi;
 			return true;
 		}
 		(*token)++;
@@ -98,127 +310,108 @@ namespace Theodore {
 		//   +--- here
 		if ((*token)[0] == '/') {
 			(*token)++; // now then, token is pointing at 'k'
-			if (!fixIndex(atoi((*token)), vnsize, &(vi.vn_idx))) {
+			if (!FixIndex(atoi((*token)), vnsize, &(vi.vn_idx))) {
 				return false;
 			}
 			(*token) += strcspn((*token), "/ \t\r"); // go to next slash (although, it's not exist)
-			(*ret) = vi;
+			(*result) = vi;
 			return true;
 		}
 
 		// i/j/k or i/j
 		//   +--- here
-		if (!fixIndex(atoi((*token)), vtsize, &(vi.vt_idx))) {
+		if (!FixIndex(atoi((*token)), vtsize, &(vi.vt_idx))) {
 			return false;
 		}
 		(*token) += strcspn((*token), "/ \t\r"); // go to next slash
 		if ((*token)[0] != '/') {
 			// it's i/j case
-			(*ret) = vi;
+			(*result) = vi;
 			return true;
 		}
 
 		// process last case
 		// i/j/k
 		(*token)++; // now then, token is pointing at 'k'
-		if (!fixIndex(atoi((*token)), vnsize, &(vi.vn_idx))) {
+		if (!FixIndex(atoi((*token)), vnsize, &(vi.vn_idx))) {
 			return false;
 		}
 		(*token) += strcspn((*token), "/ \t\r"); // go to next slash (although, it's not exist)
-		(*ret) = vi;
+		(*result) = vi;
 
 		return true;
 	}
 
-
-	inline void split(std::vector<std::string>& elems, const char* delims, const char** token) {
-		const char* end = (*token) + strcspn((*token), "\n\r");
-		size_t offset = end - (*token);
-		if (offset != 0) {
-			char* dest = (char*)malloc(sizeof(char) * offset + 1);
-			strncpy(dest, (*token), offset);
-			*(dest + offset) = 0;
-			const char* pch = strtok(dest, delims);
-			while (pch != nullptr) {
-				// trim relative path slash
-				// e.g) ./vp.mtl -> vp.mtl
-				elems.emplace_back(splitDelims(pch, "\\/").second);
-				pch = strtok(nullptr, delims);
-			}
-			free(dest);
-		}
-	}
-
-	inline TextureFace parseTextureFace(const char** token, TextureFace default_value) {
+	TextureFace WaveFrontObjMesh::ParseTextureFace(const char** token, TextureFace defaultFace) {
 		(*token) += strspn((*token), " \t");
 		const char *end = (*token) + strcspn((*token), " \t\r");
-		TextureFace tft = default_value;
+		TextureFace textureFace = defaultFace;
 
 		if ((0 == strncmp((*token), "cube_top", 8))) {
-			tft = TextureFace::TEX_3D_CUBE_TOP;
+			textureFace = TextureFace::TEX_3D_CUBE_TOP;
 		} else if ((0 == strncmp((*token), "cube_bottom", 11))) {
-			tft = TextureFace::TEX_3D_CUBE_BOTTOM;
+			textureFace = TextureFace::TEX_3D_CUBE_BOTTOM;
 		} else if ((0 == strncmp((*token), "cube_left", 9))) {
-			tft = TextureFace::TEX_3D_CUBE_LEFT;
+			textureFace = TextureFace::TEX_3D_CUBE_LEFT;
 		} else if ((0 == strncmp((*token), "cube_right", 10))) {
-			tft = TextureFace::TEX_3D_CUBE_RIGHT;
+			textureFace = TextureFace::TEX_3D_CUBE_RIGHT;
 		} else if ((0 == strncmp((*token), "cube_front", 10))) {
-			tft = TextureFace::TEX_3D_CUBE_FRONT;
+			textureFace = TextureFace::TEX_3D_CUBE_FRONT;
 		} else if ((0 == strncmp((*token), "cube_back", 9))) {
-			tft = TextureFace::TEX_3D_CUBE_BACK;
+			textureFace = TextureFace::TEX_3D_CUBE_BACK;
 		} else if ((0 == strncmp((*token), "sphere", 6))) {
-			tft = TextureFace::TEX_3D_SPHERE;
+			textureFace = TextureFace::TEX_3D_SPHERE;
 		}
 
 		(*token) = end;
-		return tft;
+		return textureFace;
 	}
 
-	inline bool parseTexture(Texture& tex, const char* token) {
-		while (!is_new_line((*token))) {
+	bool WaveFrontObjMesh::ParseTexture(Texture& tex, const char* token) {
+		while (!StringUtil::IsNewLine((*token))) {
 			token += strspn(token, " \t");  // skip space
-			if ((0 == strncmp(token, "-clamp", 6)) && is_space((token[6]))) {
+			if ((0 == strncmp(token, "-clamp", 6)) && StringUtil::IsSpace((token[6]))) {
 				token += 7;
-				tex.option.clamp = parseOnOff(&token, true);
-			} else if ((0 == strncmp(token, "-blendu", 7)) && is_space((token[7]))) {
+				tex.mTextureOption.clamp = ParseOnOff(&token, true);
+			} else if ((0 == strncmp(token, "-blendu", 7)) && StringUtil::IsSpace((token[7]))) {
 				token += 8;
-				tex.option.blendu = parseOnOff(&token, true);
-			} else if ((0 == strncmp(token, "-blendv", 7)) && is_space((token[7]))) {
+				tex.mTextureOption.blendu = ParseOnOff(&token, true);
+			} else if ((0 == strncmp(token, "-blendv", 7)) && StringUtil::IsSpace((token[7]))) {
 				token += 8;
-				tex.option.blendv = parseOnOff(&token, true);
-			} else if ((0 == strncmp(token, "-bm", 3)) && is_space((token[3]))) {
+				tex.mTextureOption.blendv = ParseOnOff(&token, true);
+			} else if ((0 == strncmp(token, "-bm", 3)) && StringUtil::IsSpace((token[3]))) {
 				token += 4;
-				tex.option.bump_multiplier = parseReal(&token, 1.f);
-			} else if ((0 == strncmp(token, "-boost", 6)) && is_space((token[6]))) {
+				tex.mTextureOption.bump_multiplier = ParseReal(&token, 1.f);
+			} else if ((0 == strncmp(token, "-boost", 6)) && StringUtil::IsSpace((token[6]))) {
 				token += 7;
-				tex.option.sharpness = parseReal(&token, 1.f);
-			} else if ((0 == strncmp(token, "-mm", 3)) && is_space((token[3]))) {
+				tex.mTextureOption.sharpness = ParseReal(&token, 1.f);
+			} else if ((0 == strncmp(token, "-mm", 3)) && StringUtil::IsSpace((token[3]))) {
 				token += 4;
-				tex.option.brightness = parseReal(&token, 0.f);
-				tex.option.contrast = parseReal(&token, 1.f);
-			} else if ((0 == strncmp(token, "-o", 2)) && is_space((token[2]))) {
+				tex.mTextureOption.brightness = ParseReal(&token, 0.f);
+				tex.mTextureOption.contrast = ParseReal(&token, 1.f);
+			} else if ((0 == strncmp(token, "-o", 2)) && StringUtil::IsSpace((token[2]))) {
 				token += 3;
-				parseReal3(tex.option.origin_offset, &token);
-			} else if ((0 == strncmp(token, "-s", 2)) && is_space((token[2]))) {
+				ParseReal3(tex.mTextureOption.origin_offset, &token);
+			} else if ((0 == strncmp(token, "-s", 2)) && StringUtil::IsSpace((token[2]))) {
 				token += 3;
-				parseReal3(tex.option.scale, &token, 1.f, 1.f, 1.f);
-			} else if ((0 == strncmp(token, "-t", 2)) && is_space((token[2]))) {
+				ParseReal3(tex.mTextureOption.scale, &token, 1.f, 1.f, 1.f);
+			} else if ((0 == strncmp(token, "-t", 2)) && StringUtil::IsSpace((token[2]))) {
 				token += 3;
-				parseReal3(tex.option.turbulence, &token);
-			} else if ((0 == strncmp(token, "-imfchan", 8)) && is_space((token[8]))) {
+				ParseReal3(tex.mTextureOption.turbulence, &token);
+			} else if ((0 == strncmp(token, "-imfchan", 8)) && StringUtil::IsSpace((token[8]))) {
 				token += 9;
 				token += strspn(token, " \t");
 				const char *end = token + strcspn(token, " \t\r");
 				if ((end - token) == 1) {  // Assume one char for -imfchan
-					tex.option.imfchan = (*token);
+					tex.mTextureOption.imfchan = (*token);
 				}
 				token = end;
-			} else if ((0 == strncmp(token, "-type", 5)) && is_space((token[5]))) {
+			} else if ((0 == strncmp(token, "-type", 5)) && StringUtil::IsSpace((token[5]))) {
 				token += 5;
-				tex.option.face_type = parseTextureFace(&token, TextureFace::TEX_2D);
+				tex.mTextureOption.face_type = ParseTextureFace(&token);
 			} else {
 				// parse texture name at last.
-				tex.name = parseString(&token);
+				tex.name = ParseString(&token);
 				if (tex.name.empty()) {
 					return false;
 				}
@@ -228,37 +421,37 @@ namespace Theodore {
 		return true;
 	}
 
-	inline bool loadMtl(std::vector<Material>& materials, std::unordered_map<std::string, int>& material_map, std::istream& ifs) {
+	bool WaveFrontObjMesh::LoadMaterial(std::vector<Material>& materials, std::unordered_map<std::string, int>& materialMap, std::istream& inputStream) {
 		Material current_mat;
 		bool has_d = false;
-		std::string line_buf;
+		std::string lineBuffer;
 
 		// preventing a empty file
-		while(ifs.peek() != -1) {
-			getLine(ifs, line_buf);
+		while(inputStream.peek() != -1) {
+			StringUtil::GetLine(inputStream, lineBuffer);
 
 			// Trim trailing whitespace.
-			if (!line_buf.empty()) {
-				line_buf = line_buf.substr(0, line_buf.find_last_not_of(" \t") + 1);
+			if (!lineBuffer.empty()) {
+				lineBuffer = lineBuffer.substr(0, lineBuffer.find_last_not_of(" \t") + 1);
 			}
 
 			// Trim newline '\r\n' or '\n'
-			if (!line_buf.empty()) {
-				if (line_buf[line_buf.size() - 1] == '\n')
-					line_buf.erase(line_buf.size() - 1);
+			if (!lineBuffer.empty()) {
+				if (lineBuffer[lineBuffer.size() - 1] == '\n')
+					lineBuffer.erase(lineBuffer.size() - 1);
 			}
-			if (!line_buf.empty()) {
-				if (line_buf[line_buf.size() - 1] == '\r')
-					line_buf.erase(line_buf.size() - 1);
+			if (!lineBuffer.empty()) {
+				if (lineBuffer[lineBuffer.size() - 1] == '\r')
+					lineBuffer.erase(lineBuffer.size() - 1);
 			}
 
 			// Skip if empty line.
-			if (line_buf.empty()) {
+			if (lineBuffer.empty()) {
 				continue;
 			}
 
 			// Skip leading space.
-			const char *token = line_buf.c_str(); // read only token
+			const char *token = lineBuffer.c_str(); // read only token
 			token += strspn(token, " \t");
 
 			if (token == nullptr) return false;
@@ -266,10 +459,10 @@ namespace Theodore {
 			if (token[0] == '#') continue;  // comment line
 
 			// new mtl
-			if ((0 == strncmp(token, "newmtl", 6)) && is_space((token[6]))) {
+			if ((0 == strncmp(token, "newmtl", 6)) && StringUtil::IsSpace((token[6]))) {
 				// save previous material
 				if (!current_mat.name.empty()) {
-					material_map.insert(std::make_pair(current_mat.name, static_cast<int>(materials.size())));
+					materialMap.insert(std::make_pair(current_mat.name, static_cast<int>(materials.size())));
 					materials.emplace_back(current_mat);
 				}
 
@@ -279,96 +472,96 @@ namespace Theodore {
 
 				// parse new mat name
 				token += 7;
-				current_mat.name = parseString(&token);
+				current_mat.name = ParseString(&token);
 				continue;
 			}
 
 			// ambient
-			if (token[0] == 'K' && token[1] == 'a' && is_space((token[2]))) {
+			if (token[0] == 'K' && token[1] == 'a' && StringUtil::IsSpace((token[2]))) {
 				token += 2;
-				vec3 ambient;
-				parseReal3(ambient, &token);
+				Vector3d ambient;
+				ParseReal3(ambient, &token);
 				current_mat.ambient = ambient;
 				continue;
 			}
 
 			// diffuse
-			if (token[0] == 'K' && token[1] == 'd' && is_space((token[2]))) {
+			if (token[0] == 'K' && token[1] == 'd' && StringUtil::IsSpace((token[2]))) {
 				token += 2;
-				vec3 diffuse;
-				parseReal3(diffuse, &token);
+				Vector3d diffuse;
+				ParseReal3(diffuse, &token);
 				current_mat.diffuse = diffuse;
 				continue;
 			}
 
 			// specular
-			if (token[0] == 'K' && token[1] == 's' && is_space((token[2]))) {
+			if (token[0] == 'K' && token[1] == 's' && StringUtil::IsSpace((token[2]))) {
 				token += 2;
-				vec3 specular;
-				parseReal3(specular, &token);
+				Vector3d specular;
+				ParseReal3(specular, &token);
 				current_mat.specular = specular;
 				continue;
 			}
 
 			// transmittance
-			if ((token[0] == 'K' && token[1] == 't' && is_space((token[2]))) ||
-					(token[0] == 'T' && token[1] == 'f' && is_space((token[2])))) {
+			if ((token[0] == 'K' && token[1] == 't' && StringUtil::IsSpace((token[2]))) ||
+					(token[0] == 'T' && token[1] == 'f' && StringUtil::IsSpace((token[2])))) {
 				token += 2;
-				vec3 transmittance;
-				parseReal3(transmittance, &token);
+				Vector3d transmittance;
+				ParseReal3(transmittance, &token);
 				current_mat.transmittance = transmittance;
 				continue;
 			}
 
 			// ior(index of refraction)
-			if (token[0] == 'N' && token[1] == 'i' && is_space((token[2]))) {
+			if (token[0] == 'N' && token[1] == 'i' && StringUtil::IsSpace((token[2]))) {
 				token += 2;
-				current_mat.ior = parseReal(&token, 0.f);
+				current_mat.ior = ParseReal(&token, 0.f);
 				continue;
 			}
 
 			// emission
-			if (token[0] == 'K' && token[1] == 'e' && is_space(token[2])) {
+			if (token[0] == 'K' && token[1] == 'e' && StringUtil::IsSpace(token[2])) {
 				token += 2;
-				vec3 emission;
-				parseReal3(emission, &token);
+				Vector3d emission;
+				ParseReal3(emission, &token);
 				current_mat.emission = emission;
 				continue;
 			}
 
 			// shininess
-			if (token[0] == 'N' && token[1] == 's' && is_space(token[2])) {
+			if (token[0] == 'N' && token[1] == 's' && StringUtil::IsSpace(token[2])) {
 				token += 2;
-				current_mat.shininess = parseReal(&token, 0.f);
+				current_mat.shininess = ParseReal(&token, 0.f);
 				continue;
 			}
 
 			// illum model
-			if (0 == strncmp(token, "illum", 5) && is_space(token[5])) {
+			if (0 == strncmp(token, "illum", 5) && StringUtil::IsSpace(token[5])) {
 				token += 6;
-				current_mat.illum = parseInt(&token);
+				current_mat.illum = ParseInt(&token);
 				continue;
 			}
 
 			// dissolve (the non-transparency of the material), The default is 1.0 (not transparent at all)
-			if ((token[0] == 'd' && is_space(token[1]))) {
+			if ((token[0] == 'd' && StringUtil::IsSpace(token[1]))) {
 				token += 1;
-				current_mat.dissolve = parseReal(&token, 1.f);
+				current_mat.dissolve = ParseReal(&token, 1.f);
 				has_d = true;
 				continue;
 			}
 
 			// dissolve (the transparency of the material): 1.0 - Tr, The default is 0.0 (not transparent at all)
-			if (token[0] == 'T' && token[1] == 'r' && is_space(token[2])) {
+			if (token[0] == 'T' && token[1] == 'r' && StringUtil::IsSpace(token[2])) {
 				token += 2;
 				if (!has_d) {
-					current_mat.dissolve = 1.f - parseReal(&token, 0.f);
+					current_mat.dissolve = 1.f - ParseReal(&token, 0.f);
 				}
 				continue;
 			}
 
 			// ambient texture
-			if ((0 == strncmp(token, "map_Ka", 6)) && is_space(token[6])) {
+			if ((0 == strncmp(token, "map_Ka", 6)) && StringUtil::IsSpace(token[6])) {
 				token += 7;
 				Texture ambient;
 				if (parseTexture(ambient, token)) {
@@ -378,7 +571,7 @@ namespace Theodore {
 			}
 
 			// diffuse texture
-			if ((0 == strncmp(token, "map_Kd", 6)) && is_space(token[6])) {
+			if ((0 == strncmp(token, "map_Kd", 6)) && StringUtil::IsSpace(token[6])) {
 				token += 7;
 				Texture diffuse;
 				if (parseTexture(diffuse, token)) {
@@ -388,7 +581,7 @@ namespace Theodore {
 			}
 
 			// specular texture
-			if ((0 == strncmp(token, "map_Ks", 6)) && is_space(token[6])) {
+			if ((0 == strncmp(token, "map_Ks", 6)) && StringUtil::IsSpace(token[6])) {
 				token += 7;
 				Texture specular;
 				if (parseTexture(specular, token)) {
@@ -398,7 +591,7 @@ namespace Theodore {
 			}
 
 			// specular highlight texture
-			if ((0 == strncmp(token, "map_Ns", 6)) && is_space(token[6])) {
+			if ((0 == strncmp(token, "map_Ns", 6)) && StringUtil::IsSpace(token[6])) {
 				token += 7;
 				Texture specular_highlight;
 				if (parseTexture(specular_highlight, token)) {
@@ -408,8 +601,8 @@ namespace Theodore {
 			}
 
 			// bump texture
-			if (((0 == strncmp(token, "map_bump", 8)) && is_space(token[8])) ||
-					((0 == strncmp(token, "map_Bump", 8)) && is_space(token[8]))) {
+			if (((0 == strncmp(token, "map_bump", 8)) && StringUtil::IsSpace(token[8])) ||
+					((0 == strncmp(token, "map_Bump", 8)) && StringUtil::IsSpace(token[8]))) {
 				token += 9;
 				Texture bump;
 				if (parseTexture(bump, token)) {
@@ -420,7 +613,7 @@ namespace Theodore {
 			}
 
 			// another name of bump map texture
-			if ((0 == strncmp(token, "bump", 4)) && is_space(token[4])) {
+			if ((0 == strncmp(token, "bump", 4)) && StringUtil::IsSpace(token[4])) {
 				token += 5;
 				Texture bump;
 				if (parseTexture(bump, token)) {
@@ -431,7 +624,7 @@ namespace Theodore {
 			}
 
 			// alpha texture
-			if ((0 == strncmp(token, "map_d", 5)) && is_space(token[5])) {
+			if ((0 == strncmp(token, "map_d", 5)) && StringUtil::IsSpace(token[5])) {
 				token += 6;
 				Texture alpha;
 				if (parseTexture(alpha, token)) {
@@ -441,7 +634,7 @@ namespace Theodore {
 			}
 
 			// displacement texture
-			if ((0 == strncmp(token, "disp", 4)) && is_space(token[4])) {
+			if ((0 == strncmp(token, "disp", 4)) && StringUtil::IsSpace(token[4])) {
 				token += 5;
 				Texture displacement;
 				if (parseTexture(displacement, token)) {
@@ -451,7 +644,7 @@ namespace Theodore {
 			}
 
 			// reflection map
-			if ((0 == strncmp(token, "refl", 4)) && is_space(token[4])) {
+			if ((0 == strncmp(token, "refl", 4)) && StringUtil::IsSpace(token[4])) {
 				token += 5;
 				Texture reflection;
 				if (parseTexture(reflection, token)) {
@@ -462,230 +655,116 @@ namespace Theodore {
 		}
 
 		// flush last material
-		material_map.insert(std::make_pair(current_mat.name, static_cast<int>(materials.size())));
+		materialMap.insert(std::make_pair(current_mat.name, static_cast<int>(materials.size())));
 		materials.emplace_back(current_mat);
 
 		return true;
 	}
 
-	inline bool parseMtl(const std::string& mtl_dir, std::vector<Material>& materials, std::unordered_map<std::string, int>& material_map) {
-		std::ifstream ifs(mtl_dir);
-		if (!ifs) {
-			return false;
-		}
-		loadMtl(materials, material_map, ifs);
-		return true;
+	bool WaveFrontObjMesh::ParseMaterial(const std::string& materialName, std::vector<Material>& materials, std::unordered_map<std::string, int>& materialMap) {
+		std::ifstream inputStream(materialName);
+		if (!inputStream) return false;
+		return LoadMaterial(materials, materialMap, inputStream);
 	}
 
-	bool loadObj(const std::string& path, Scene& scene, MeshParseOption parse_option) {
-		if (!endsWith(path, ".obj")) {
+	void WaveFrontObjMesh::SplitWithToken(std::vector<std::string>& elems, const char* delims, const char** token) {
+		const char* end = (*token) + strcspn((*token), "\n\r");
+		size_t offset = end - (*token);
+		if (offset != 0) {
+			char* dest = (char*)malloc(sizeof(char) * offset + 1);
+			strncpy(dest, (*token), offset);
+			*(dest + offset) = 0;
+			const char* pch = strtok(dest, delims);
+			while (pch != nullptr) {
+				// trim relative path slash
+				// e.g) ./vp.mtl -> vp.mtl
+				elems.emplace_back(StringUtil::SplitPair(pch, "\\/").second);
+				pch = strtok(nullptr, delims);
+			}
+			free(dest);
+		}
+	}
+
+	std::string WaveFrontObjMesh::ParseString(const char **token) const {
+		(*token) += strspn((*token), " \t");
+		const char* end = (*token) + strcspn((*token), " \t\r");
+		size_t offset = end - (*token);
+		std::string str;
+		if (offset != 0) {
+			char* dest = (char*)malloc(sizeof(char) * offset + 1);
+			strncpy(dest, (*token), offset);
+			*(dest + offset) = 0;
+			str.assign(dest);
+			free(dest);
+		}
+
+		(*token) = end;
+		return str;
+	}
+
+	float WaveFrontObjMesh::ParseReal(const char **token, float defaultValue) const {
+		(*token) += strspn((*token), " \t");
+		const char* end = (*token) + strcspn((*token), " \t\r");
+		size_t offset = end - (*token);
+		float f = defaultValue;
+		if (offset != 0) {
+			char* dest = (char*)malloc(sizeof(char) * offset + 1);
+			strncpy(dest, (*token), offset);
+			*(dest + offset) = 0;
+			f = (float)atof(dest);
+			free(dest);
+		}
+
+		(*token) = end;
+		return f;
+	}
+
+	void WaveFrontObjMesh::ParseReal2(Vector2d &vt, const char **token, float defaultX, float defaultY) const {
+		vt.x = ParseReal(token, defaultX);
+		vt.y = ParseReal(token, defaultY);
+	}
+
+	void WaveFrontObjMesh::ParseReal3(Vector3d &vn, const char **token, float defaultX, float defaultY, float defaultZ) const {
+		vn.x = ParseReal(token, defaultX);
+		vn.y = ParseReal(token, defaultY);
+		vn.z = ParseReal(token, defaultZ);
+	}
+
+	int WaveFrontObjMesh::ParseInt(const char **token) const {
+		(*token) += strspn((*token), " \t");
+		int i = atoi((*token));
+		(*token) += strcspn((*token), " \t\r");
+		return i;
+	}
+
+	bool WaveFrontObjMesh::ParseOnOff(const char **token, bool defaultValue) const {
+		(*token) += strspn((*token), " \t");
+		const char *end = (*token) + strcspn((*token), " \t\r");
+
+		bool ret = defaultValue;
+		if ((0 == strncmp((*token), "on", 2))) {
+			ret = true;
+		} else if ((0 == strncmp((*token), "off", 3))) {
+			ret = false;
+		}
+
+		(*token) = end;
+		return ret;
+	}
+
+	bool WaveFrontObjMesh::FixIndex(int idx, int n, int *ret) const {
+		if (!ret || idx == 0) {
 			return false;
 		}
 
-		std::ifstream ifs(path);
-		if(!ifs) {
-			return false;
+		if (idx > 0) {
+			(*ret) = idx - 1;
 		}
 
-		std::vector<vec3> vertices;
-		std::vector<vec2> texcoords;
-		std::vector<vec3> normals;
-		std::unordered_map<std::string, int> material_map;
-		PrimitiveGroup current_prim;
-		std::string current_object_name;
-		std::string current_material_name;
-		Mesh current_mesh;
-		int current_material_id = -1;
-		std::pair<std::string, std::string> pair = splitDelims(path, "\\/");
-		scene.base_dir = pair.first;
-		std::string filename = pair.second;
-		std::string line_buf;
-
-		// preventing a empty file
-		while(ifs.peek() != -1) {
-			getLine(ifs, line_buf);
-
-			// Trim newline '\r\n' or '\n'
-			if (!line_buf.empty()) {
-				if (line_buf[line_buf.size() - 1] == '\n')
-					line_buf.erase(line_buf.size() - 1);
-			}
-			if (!line_buf.empty()) {
-				if (line_buf[line_buf.size() - 1] == '\r')
-					line_buf.erase(line_buf.size() - 1);
-			}
-
-			// Skip if empty line.
-			if (line_buf.empty()) {
-				continue;
-			}
-
-			// Skip leading space.
-			const char *token = line_buf.c_str(); // read only token
-			token += strspn(token, " \t");
-
-			if (token == nullptr) return false;
-			if (token[0] == '\0') continue;  // empty line
-			if (token[0] == '#') continue;  // comment line
-
-			// vertex
-			if (token[0] == 'v' && is_space((token[1]))) {
-				token += 2;
-				vec3 v;
-				parseReal3(v, &token);
-				vertices.emplace_back(v);
-				continue;
-			}
-
-			// normal
-			if (token[0] == 'v' && token[1] == 'n' && is_space((token[2]))) {
-				token += 3;
-				vec3 vn;
-				parseReal3(vn, &token);
-				normals.emplace_back(vn);
-				continue;
-			}
-
-			// texcoord
-			if (token[0] == 'v' && token[1] == 't' && is_space((token[2]))) {
-				token += 3;
-				vec2 vt;
-				parseReal2(vt, &token);
-				if (parse_option & MeshParseOption::FLIP_UV) {
-					vt.y = 1.f - vt.y;
-				}
-				texcoords.emplace_back(vt);
-				continue;
-			}
-
-			// face
-			if (token[0] == 'f' && is_space((token[1]))) {
-				token += 2;
-				token += strspn(token, " \t"); // Skip leading space.
-
-				Face f;
-				f.vertex_indices.reserve(3);
-
-				while (!is_new_line(token[0])) {
-					VertexIndex vi;
-					if (!parseIndices(&token, vertices.size(), normals.size(), texcoords.size(), &vi)) {
-						return false;
-					}
-
-					// finish parse indices
-					f.vertex_indices.emplace_back(vi);
-					token += strspn(token, " \t\r"); // skip space
-				}
-
-				current_prim.faces.emplace_back(f);
-				continue;
-			}
-
-			// use mtl
-			if ((0 == strncmp(token, "usemtl", 6)) && is_space((token[6]))) {
-				token += 7;
-				std::string new_material_name = parseString(&token);
-				int new_material_id = -1;
-				// find material id
-				if (material_map.find(new_material_name) != material_map.end()) {
-					new_material_id = material_map[new_material_name];
-				}
-
-				// check current material and previous
-				if (new_material_name != current_material_name) {
-					// when current object name is empty, then assign current material name as alternatives.
-					if (current_object_name.empty()) {
-						current_object_name = new_material_name;
-					}
-					parsePrimitive(current_mesh, current_prim, parse_option, current_material_id, vertices, texcoords, normals, current_object_name, filename); // return value not used
-					if (!current_mesh.vertices.empty()) {
-						scene.meshes.emplace_back(current_mesh);
-						// when successfully push a new mesh, then cache current material name.
-						current_object_name = new_material_name;
-					}
-					// reset
-					current_prim = PrimitiveGroup();
-					current_mesh = Mesh();
-					// cache new material id
-					current_material_id = new_material_id;
-					current_material_name = new_material_name;
-				}
-				continue;
-			}
-
-			// load mtl
-			if ((0 == strncmp(token, "mtllib", 6)) && is_space((token[6]))) {
-				token += 7;
-				std::vector<std::string> mtl_file_names;
-				// parse multiple mtl filenames split by whitespace
-				split(mtl_file_names, " ", &token);
-				// load just one available mtl file in the list
-				for (std::string& name : mtl_file_names) {
-					if (parseMtl(scene.base_dir + name, scene.materials, material_map)) {
-						break;
-					}
-				}
-				continue;
-			}
-
-			// group name
-			if (token[0] == 'g' && is_space((token[1]))) {
-				parsePrimitive(current_mesh, current_prim, parse_option, current_material_id, vertices, texcoords, normals, current_object_name, filename); // return value not used
-				if (!current_mesh.vertices.empty()) {
-					scene.meshes.emplace_back(current_mesh);
-					current_object_name = "";
-				}
-
-				// reset
-				current_prim = PrimitiveGroup();
-				current_mesh = Mesh();
-
-				token += 2;
-
-				// assemble multi group name
-				std::vector<std::string> names;
-				while (!is_new_line(token[0])) {
-					names.emplace_back(parseString(&token));
-					token += strspn(token, " \t\r"); // skip space
-				}
-
-				if (!names.empty()) {
-					std::stringstream ss;
-					std::vector<std::string>::const_iterator it = names.begin();
-					ss << *it++;
-					for (; it != names.end(); it++) {
-						ss << " " << *it;
-					}
-					current_object_name = ss.str();
-				}
-
-				continue;
-			}
-
-			// object name
-			if (token[0] == 'o' && is_space((token[1]))) {
-				parsePrimitive(current_mesh, current_prim, parse_option, current_material_id, vertices, texcoords, normals, current_object_name, filename); // return value not used
-				if (!current_mesh.vertices.empty()) {
-					scene.meshes.emplace_back(current_mesh);
-					current_object_name = "";
-				}
-
-				// reset
-				current_prim = PrimitiveGroup();
-				current_mesh = Mesh();
-
-				token += 2;
-				current_object_name = parseString(&token);
-				continue;
-			}
-		}
-
-		bool ret = parsePrimitive(current_mesh, current_prim, parse_option, current_material_id, vertices, texcoords, normals, current_object_name, filename);
-		if (ret || !current_mesh.vertices.empty()) {
-			scene.meshes.emplace_back(current_mesh);
+		if (idx < 0) {
+			(*ret) = n + idx;
 		}
 
 		return true;
 	}
-
 }  // namespace Theodore

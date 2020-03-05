@@ -288,17 +288,24 @@ namespace Theodore {
   }
 
   // TODO implement MeshFormat
-  Mesh* AssetManager::RequestMesh(const std::string& filename, MeshFormat format) {
-    WaveFrontObjMesh* asset = static_cast<WaveFrontObjMesh*>(GetAssetByBasename(filename));
+  Mesh* AssetManager::RequestMesh(const std::string& fileName, MeshFormat format, MeshParseOption parseOption) {
+    Mesh* asset = static_cast<Mesh*>(GetAssetByBasename(fileName));
 
     if (!asset) {
-      asset = new WaveFrontObjMesh();
+      switch (format) {
+        case MeshFormat::WaveFrontObj:
+          asset = new WaveFrontObjMesh();
+          break;
+        default:
+          Debug::Error("Unknown format");
+          break;
+      }
 
-      if (asset->LoadObj(filename)) {
-        asset->SetAssetName(filename);
+      if (asset->LoadMesh(fileName, parseOption)) {
+        asset->SetAssetName(fileName);
         instance->StoreAsset(asset);
       } else {
-        Debug::Error("[%s] is not found!", filename.c_str());
+        Debug::Error("[%s] is not found!", fileName.c_str());
         SafeDealloc(asset);
         return static_cast<Mesh*>(nullptr);
       }
@@ -307,7 +314,7 @@ namespace Theodore {
     if (asset) {
       asset->AddReference();
       if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
+        Debug::Log("'%s' is already loaded. so just increase reference count to %d", fileName.c_str(), asset->mRefCount);
       }
     }
 

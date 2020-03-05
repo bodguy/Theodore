@@ -28,12 +28,12 @@ namespace Theodore {
 		Vector3d origin_offset; // -o u [v [w]] (default 0 0 0)
 		Vector3d scale; // -s u [v [w]] (default 1 1 1)
 		Vector3d turbulence; // -t u [v [w]] (default 0 0 0)
-		char imfchan; // -imfchan (image file channel) r | g | b | m | l | z
-		// bump default l, decal default m
+		char imfchan; // -imfchan (image file channel) r | g | b | m | l | z // bump default l, decal default m
 	};
 
   class Texture : public Asset {
     friend class Debug;
+    friend class WaveFrontObjMesh;
 
   public:
     Texture();
@@ -55,6 +55,7 @@ namespace Theodore {
     void SetFilter(const FilterMode mode);
     void SetWrapMode(const WrapMode mode);
     void SetTextureFormat(const TextureFormat format);
+    void SetTextureOption(const TextureOption& option);
 
     TextureDimension GetDimension() const;
 

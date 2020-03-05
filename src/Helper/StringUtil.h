@@ -29,7 +29,7 @@ namespace Theodore {
     static bool IsSpace(char ch);
     static bool IsNewLine(char ch);
     static size_t Split(const std::string& str, std::vector<std::string>& slices, const std::string& delim);
-		static std::pair<std::string, std::string> SplitDelims(const std::string& str, const char* delims);
+		static std::pair<std::string, std::string> SplitPair(const std::string& str, const char* delims);
     static bool EqualsIgnoreCase(const std::string& strA, const std::string& strB);
     static std::string Replace(const std::string& str, const std::string& old_str, const std::string& new_str, int n);
     static std::string ReplaceAll(const std::string& str, const std::string& old_str, const std::string& new_str);
