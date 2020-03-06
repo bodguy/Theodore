@@ -240,4 +240,13 @@ namespace Theodore {
 			}
 		}
   }
+
+	std::string StringUtil::Base(const std::string &path) {
+		const size_t last_slash_idx = path.find_last_of("\\/");
+		if (std::string::npos != last_slash_idx) {
+			return path.substr(last_slash_idx + 1);
+		}
+
+		return std::string("");
+	}
 }  // namespace Theodore

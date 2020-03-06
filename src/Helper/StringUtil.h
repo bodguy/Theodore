@@ -55,6 +55,7 @@ namespace Theodore {
     static std::string Repeat(const std::string& str, int count);
     static int Count(const std::string& str, const std::string& substr);
 		static std::istream& GetLine(std::istream& input, std::string& line);
+		static std::string Base(const std::string& path);
 
   private:
     static std::string monthlyMap[];

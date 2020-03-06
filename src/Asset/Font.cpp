@@ -2,11 +2,10 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #define STB_TRUETYPE_IMPLEMENTATION
-#include "Font.h"
-
 #include <cmath>
 #include <cstdlib>
-
+#include "Font.h"
+#include "GlyphInfo.h"
 #include "Helper/File.h"
 #include "Helper/StringUtil.h"
 

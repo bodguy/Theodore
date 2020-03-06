@@ -2,9 +2,6 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Texture2D.h"
-
-#include "Platform/CondiitonalVars.h"
-#include GLEW_INCLUDE_DIR
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
@@ -24,7 +21,7 @@ namespace Theodore {
     unsigned char* data = stbi_load(filename.c_str(), &w, &h, &bpp, static_cast<int>(format));
 
     if (data) {
-			colorKey = colorKey;
+			this->colorKey = colorKey;
 			nativeTexturePtr = data;
 			width = w;
 			height = h;
@@ -163,7 +160,7 @@ namespace Theodore {
     unsigned char* data = stbi_load_from_memory(&native.front(), (int)native.size(), &w, &h, &bpp, static_cast<int>(format));
 
     if (data) {
-			colorKey = colorKey;
+			this->colorKey = colorKey;
 			nativeTexturePtr = data;
 			width = w;
 			height = h;

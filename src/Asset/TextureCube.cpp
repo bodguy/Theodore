@@ -1,11 +1,9 @@
 // Copyright (C) 2017 by bodguy
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
-#include "TextureCube.h"
-
 #include <stb/stb_image.h>
-
-#include "Object/Component/CubemapRenderer.h"
+#include "TextureCube.h"
+#include "Component/CubemapRenderer.h"
 
 namespace Theodore {
   TextureCube::TextureCube() {

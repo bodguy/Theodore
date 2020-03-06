@@ -25,22 +25,23 @@ namespace Theodore {
     AssetManager();
     ~AssetManager();
 
-    static Texture2D* RequestTexture(const std::string& filename, TextureFormat format, const Color& colorKey);
-    static Texture2D* RequestTexture(const std::string& filename, TextureFormat format);
-    static Texture2D* RequestTexture(const std::string& filename, TextureFormat format, std::vector<unsigned char>& data, const Color& colorKey);
-    static Texture2D* RequestTexture(const std::string& filename, TextureFormat format, std::vector<unsigned char>& data);
-    static Texture2D* RequestTexture(const std::string& filename, unsigned int width, unsigned int height, TextureFormat format, unsigned char* data);
-    static TextureCube* RequestTexture(const CubemapRenderer* cubemap, const std::string& filename, TextureFormat format, CubemapFace face);
-    static MSAATexture2D* RequestTexture(const std::string& filename, unsigned int width, unsigned int height, TextureFormat format, unsigned int sample);
-    static Font* RequestFont(const std::string& filename, unsigned int faceIndex, int height);
-    static Shader* RequestShader(const std::string& filename, ShaderType type);
-    static Mesh* RequestMesh(const std::string& fileName, MeshFormat format, MeshParseOption parseOption = MeshParseOption::NONE);
-    static Asset* GetAssetByBasename(const std::string& filename);
+    static Texture2D* RequestTexture(const std::string& filePath, TextureFormat format, const Color& colorKey);
+    static Texture2D* RequestTexture(const std::string& filePath, TextureFormat format);
+    static Texture2D* RequestTexture(const std::string& filePath, TextureFormat format, std::vector<unsigned char>& data, const Color& colorKey);
+    static Texture2D* RequestTexture(const std::string& filePath, TextureFormat format, std::vector<unsigned char>& data);
+    static Texture2D* RequestTexture(const std::string& filePath, unsigned int width, unsigned int height, TextureFormat format, unsigned char* data);
+    static TextureCube* RequestTexture(const CubemapRenderer* cubemap, const std::string& filePath, TextureFormat format, CubemapFace face);
+    static MSAATexture2D* RequestTexture(const std::string& filePath, unsigned int width, unsigned int height, TextureFormat format, unsigned int sample);
+    static Font* RequestFont(const std::string& filePath, unsigned int faceIndex, int height);
+    static Shader* RequestShader(const std::string& filePath, ShaderType type);
+    static Mesh* RequestMesh(const std::string& filePath, MeshFormat format, MeshParseOption parseOption = MeshParseOption::NONE);
+    static Asset* GetAssetByFilePath(const std::string& filePath);
     static void RemoveAsset(Asset* asset);
-		static void AddReferenceThenLog(Asset* asset);
 
   private:
     void StoreAsset(Asset* asset);
+		static void AddReferenceThenLog(Asset* asset);
+		static void LoadSuccess(const std::string& filePath, Asset* asset);
 
     static AssetManager* instance;
     std::list<Asset*> mAssets;

@@ -5,24 +5,13 @@
 #define Font_h
 
 #include <stb/stb_truetype.h>
-
 #include <map>
 #include <string>
-
 #include "Asset.h"
-#include "Helper/Bitmap.h"
 #include "Math/Vector2d.h"
 
 namespace Theodore {
-  struct GlyphInfo {
-    int bearingX, bearingY;
-    int advance;
-    int ascender, descender, lineGap;
-    unsigned int textureId;
-    Bitmap<unsigned char> bitmap;
-    std::map<uint32_t, float> kerning;
-  };
-
+	class GlyphInfo;
   class Font : public Asset {
     friend class Debug;
 
@@ -46,6 +35,6 @@ namespace Theodore {
     int lineGap;
     std::map<uint32_t, GlyphInfo*> loadedGlyphLookUpTable;
   };
-}  // namespace Theodore
+} // namespace Theodore
 
 #endif  // Font_h

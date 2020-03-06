@@ -4,7 +4,7 @@
 #ifndef Texture2D_h
 #define Texture2D_h
 
-#include "Graphics/Enumeration.h"
+#include <vector>
 #include "Texture.h"
 
 namespace Theodore {

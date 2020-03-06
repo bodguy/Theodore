@@ -38,7 +38,7 @@ namespace Theodore {
 		Mesh currentMesh;
 		int currentMaterialId = -1;
 		auto pair = StringUtil::SplitPair(fileName, "\\/");
-		baseName = pair.first;
+		fileName = pair.first;
 		std::string pureFileName = pair.second;
 		std::string lineBuffer;
 
@@ -163,7 +163,7 @@ namespace Theodore {
 				SplitWithToken(materialFileNames, " ", &token);
 				// load just one available mtl file in the list
 				for (auto& name : materialFileNames) {
-					if (ParseMaterial(baseName + name, meshGroup.mMaterials, materialMap)) {
+					if (ParseMaterial(fileName + name, meshGroup.mMaterials, materialMap)) {
 						break;
 					}
 				}

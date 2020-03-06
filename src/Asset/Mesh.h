@@ -5,7 +5,6 @@
 #define Mesh_h
 
 #include <vector>
-
 #include "Asset/Asset.h"
 #include "Component/BoneWeight.h"
 #include "Geometry/Bounds.h"
@@ -14,17 +13,9 @@
 #include "Math/Vector2d.h"
 #include "Math/Vector3d.h"
 #include "Math/Vector4d.h"
+#include "Vertex.h"
 
 namespace Theodore {
-	struct Vertex {
-		Vertex() : position(), texcoord(), normal(), tangent() {}
-
-		Vector3d position;
-		Vector2d texcoord;
-		Vector3d normal;
-		Vector3d tangent;
-	};
-
   class MeshRenderer;
   class SkinndedMeshRenderer;
   class Mesh : public Asset {
@@ -56,7 +47,7 @@ namespace Theodore {
     void Triangulate(size_t npolys);
     void MarkDynamic();
 
-    virtual bool LoadMesh(const std::string& fileName, MeshParseOption parseOption) { return false; }
+    virtual bool LoadMesh(const std::string& fileName, MeshParseOption parseOption) = 0;
 
   protected:
     IndexFormat indexFormat;

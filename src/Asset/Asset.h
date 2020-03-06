@@ -5,7 +5,6 @@
 #define Asset_h
 
 #include <string>
-
 #include "Graphics/Enumeration.h"
 
 namespace Theodore {
@@ -16,20 +15,19 @@ namespace Theodore {
     Asset();
     virtual ~Asset();
 
-    std::string GetAssetName() const;
-    void SetAssetName(const std::string& assetName);
+    std::string GetFilePath() const;
+    void SetAssetName(const std::string& name);
     bool IsManaged();
 
   private:
     void AddReference();
     void RemoveReference();
-    static std::string BaseName(const std::string& path);
 
   protected:
     AssetType assetType;
     unsigned int referenceCount;
-    std::string baseName;
-    std::string fullName;
+    std::string fileName;
+    std::string filePath;
     bool isManaged;
   };
 }  // namespace Theodore

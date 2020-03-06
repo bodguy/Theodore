@@ -2,7 +2,6 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "AssetManager.h"
-
 #include "Asset.h"
 #include "Font.h"
 #include "Helper/Debug.h"
@@ -23,15 +22,15 @@ namespace Theodore {
 
   AssetManager::~AssetManager() { SafeContDealloc(mAssets); }
 
-  Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format, const Color& colorKey) {
-    Texture2D* asset = static_cast<Texture2D*>(GetAssetByBasename(filename));
+  Texture2D* AssetManager::RequestTexture(const std::string& filePath, TextureFormat format, const Color& colorKey) {
+    Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilePath(filePath));
 
     if (!asset) {
       asset = new Texture2D();
-      if (asset->LoadImage(filename, format, colorKey)) {
-        instance->StoreAsset(asset);
+      if (asset->LoadImage(filePath, format, colorKey)) {
+        LoadSuccess(filePath, asset);
       } else {
-        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filePath.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -41,15 +40,15 @@ namespace Theodore {
     return asset;
   }
 
-  Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format) {
-    Texture2D* asset = static_cast<Texture2D*>(GetAssetByBasename(filename));
+  Texture2D* AssetManager::RequestTexture(const std::string& filePath, TextureFormat format) {
+    Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilePath(filePath));
 
     if (!asset) {
       asset = new Texture2D();
-      if (asset->LoadImage(filename, format)) {
-        instance->StoreAsset(asset);
+      if (asset->LoadImage(filePath, format)) {
+        LoadSuccess(filePath, asset);
       } else {
-        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filePath.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -59,15 +58,15 @@ namespace Theodore {
     return asset;
   }
 
-  Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format, std::vector<unsigned char>& data, const Color& colorKey) {
-    Texture2D* asset = static_cast<Texture2D*>(GetAssetByBasename(filename));
+  Texture2D* AssetManager::RequestTexture(const std::string& filePath, TextureFormat format, std::vector<unsigned char>& data, const Color& colorKey) {
+    Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilePath(filePath));
 
     if (!asset) {
       asset = new Texture2D();
-      if (asset->LoadRawTextureData(filename, format, data, colorKey)) {
-        instance->StoreAsset(asset);
+      if (asset->LoadRawTextureData(filePath, format, data, colorKey)) {
+        LoadSuccess(filePath, asset);
       } else {
-        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filePath.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -77,15 +76,15 @@ namespace Theodore {
     return asset;
   }
 
-  Texture2D* AssetManager::RequestTexture(const std::string& filename, TextureFormat format, std::vector<unsigned char>& data) {
-    Texture2D* asset = static_cast<Texture2D*>(GetAssetByBasename(filename));
+  Texture2D* AssetManager::RequestTexture(const std::string& filePath, TextureFormat format, std::vector<unsigned char>& data) {
+    Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilePath(filePath));
 
     if (!asset) {
       asset = new Texture2D();
-      if (asset->LoadRawTextureData(filename, format, data)) {
-        instance->StoreAsset(asset);
+      if (asset->LoadRawTextureData(filePath, format, data)) {
+        LoadSuccess(filePath, asset);
       } else {
-        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filePath.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -95,16 +94,15 @@ namespace Theodore {
     return asset;
   }
 
-  Texture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, TextureFormat format, unsigned char* data) {
-    Texture2D* asset = static_cast<Texture2D*>(GetAssetByBasename(filename));
+  Texture2D* AssetManager::RequestTexture(const std::string& filePath, unsigned int width, unsigned int height, TextureFormat format, unsigned char* data) {
+    Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilePath(filePath));
 
     if (!asset) {
       asset = new Texture2D();
       if (asset->LoadCustomTexture(width, height, format, data)) {
-        asset->SetAssetName(filename);
-        instance->StoreAsset(asset);
+        LoadSuccess(filePath, asset);
       } else {
-        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filePath.c_str());
         SafeDealloc(asset);
         return static_cast<Texture2D*>(nullptr);
       }
@@ -114,15 +112,15 @@ namespace Theodore {
     return asset;
   }
 
-  TextureCube* AssetManager::RequestTexture(const CubemapRenderer* cubemap, const std::string& filename, TextureFormat format, CubemapFace face) {
-    TextureCube* asset = static_cast<TextureCube*>(GetAssetByBasename(filename));
+  TextureCube* AssetManager::RequestTexture(const CubemapRenderer* cubemap, const std::string& filePath, TextureFormat format, CubemapFace face) {
+    TextureCube* asset = static_cast<TextureCube*>(GetAssetByFilePath(filePath));
 
     if (!asset) {
       asset = new TextureCube();
-      if (asset->LoadCubemapTexture(cubemap, filename, format, face)) {
-        instance->StoreAsset(asset);
+      if (asset->LoadCubemapTexture(cubemap, filePath, format, face)) {
+        LoadSuccess(filePath, asset);
       } else {
-        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filePath.c_str());
         SafeDealloc(asset);
         return static_cast<TextureCube*>(nullptr);
       }
@@ -132,16 +130,15 @@ namespace Theodore {
     return asset;
   }
 
-  MSAATexture2D* AssetManager::RequestTexture(const std::string& filename, unsigned int width, unsigned int height, TextureFormat format, unsigned int sample) {
-    MSAATexture2D* asset = static_cast<MSAATexture2D*>(GetAssetByBasename(filename));
+  MSAATexture2D* AssetManager::RequestTexture(const std::string& filePath, unsigned int width, unsigned int height, TextureFormat format, unsigned int sample) {
+    MSAATexture2D* asset = static_cast<MSAATexture2D*>(GetAssetByFilePath(filePath));
 
     if (!asset) {
       asset = new MSAATexture2D();
       if (asset->LoadMultiSampleTexture(width, height, format, sample)) {
-        asset->SetAssetName(filename);
-        instance->StoreAsset(asset);
+        LoadSuccess(filePath, asset);
       } else {
-        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filename.c_str());
+        Debug::Error("[%s] TextureFormat does not exist or Image file is not found!", filePath.c_str());
         SafeDealloc(asset);
         return static_cast<MSAATexture2D*>(nullptr);
       }
@@ -151,24 +148,23 @@ namespace Theodore {
     return asset;
   }
 
-  Font* AssetManager::RequestFont(const std::string& filename, unsigned int faceIndex, int height) {
-    Font* asset = static_cast<Font*>(GetAssetByBasename(filename));
+  Font* AssetManager::RequestFont(const std::string& filePath, unsigned int faceIndex, int height) {
+    Font* asset = static_cast<Font*>(GetAssetByFilePath(filePath));
 
     if (!asset) {
       asset = new Font();
-      if (asset->InitFont(filename, faceIndex, height)) {
-        instance->StoreAsset(asset);
-        asset->SetAssetName(filename);
-        asset->LoadGlyph("A");
-        asset->LoadGlyph("B");
-        asset->LoadGlyph("C");
-        asset->LoadGlyph("D");
-        asset->LoadGlyph("E");
-        asset->LoadGlyph("F");
-        asset->LoadGlyph("G");
+      if (asset->InitFont(filePath, faceIndex, height)) {
+        LoadSuccess(filePath, asset);
+//        asset->LoadGlyph("A");
+//        asset->LoadGlyph("B");
+//        asset->LoadGlyph("C");
+//        asset->LoadGlyph("D");
+//        asset->LoadGlyph("E");
+//        asset->LoadGlyph("F");
+//        asset->LoadGlyph("G");
 
       } else {
-        Debug::Error("[%s] font file is not found!", filename.c_str());
+        Debug::Error("[%s] font file is not found!", filePath.c_str());
         SafeDealloc(asset);
         return static_cast<Font*>(nullptr);
       }
@@ -178,13 +174,13 @@ namespace Theodore {
     return asset;
   }
 
-  Shader* AssetManager::RequestShader(const std::string& filename, ShaderType type) {
-    Shader* asset = static_cast<Shader*>(GetAssetByBasename(filename));
+  Shader* AssetManager::RequestShader(const std::string& filePath, ShaderType type) {
+    Shader* asset = static_cast<Shader*>(GetAssetByFilePath(filePath));
 
     if (!asset) {
       asset = new Shader(type);
 
-      File file(filename, OpenMode::Read);
+      File file(filePath, OpenMode::Read);
       if (file.IsOpen()) {
         asset->SetAssetName(file.GetBaseName());
 
@@ -215,9 +211,8 @@ namespace Theodore {
     return asset;
   }
 
-  // TODO implement MeshFormat
-  Mesh* AssetManager::RequestMesh(const std::string& fileName, MeshFormat format, MeshParseOption parseOption) {
-    Mesh* asset = static_cast<Mesh*>(GetAssetByBasename(fileName));
+  Mesh* AssetManager::RequestMesh(const std::string& filePath, MeshFormat format, MeshParseOption parseOption) {
+    Mesh* asset = static_cast<Mesh*>(GetAssetByFilePath(filePath));
 
     if (!asset) {
       switch (format) {
@@ -229,11 +224,10 @@ namespace Theodore {
           break;
       }
 
-      if (asset->LoadMesh(fileName, parseOption)) {
-        asset->SetAssetName(fileName);
-        instance->StoreAsset(asset);
+      if (asset->LoadMesh(filePath, parseOption)) {
+        LoadSuccess(filePath, asset);
       } else {
-        Debug::Error("[%s] is not found!", fileName.c_str());
+        Debug::Error("[%s] is not found!", filePath.c_str());
         SafeDealloc(asset);
         return static_cast<Mesh*>(nullptr);
       }
@@ -243,10 +237,9 @@ namespace Theodore {
     return static_cast<Mesh*>(asset);
   }
 
-  Asset* AssetManager::GetAssetByBasename(const std::string& filename) {
-    std::string basename(Asset::BaseName(filename));
+  Asset* AssetManager::GetAssetByFilePath(const std::string& filePath) {
     for (auto asset : instance->mAssets) {
-      if (asset->baseName == basename) {
+      if (asset->filePath == filePath) {
         return asset;
       }
     }
@@ -276,10 +269,15 @@ namespace Theodore {
 		unsigned int beforeRefCount = asset->referenceCount;
 		asset->AddReference();
 		if (asset->referenceCount != 1) {
-			Debug::Trace("[%s] is already exist, increase refcount %d -> %d", asset->baseName.c_str(), beforeRefCount, asset->referenceCount);
+			Debug::Trace("[%s] is already exist, increase refcount %d -> %d", asset->fileName.c_str(), beforeRefCount, asset->referenceCount);
 			return;
 		}
 
-		Debug::Log("[%s] is successfully loaded", asset->baseName.c_str());
+		Debug::Log("[%s] is successfully loaded", asset->fileName.c_str());
 	}
+
+  void AssetManager::LoadSuccess(const std::string& filePath, Asset* asset) {
+    asset->SetAssetName(filePath);
+    instance->StoreAsset(asset);
+  }
 }  // namespace Theodore
