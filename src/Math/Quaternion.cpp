@@ -2,12 +2,9 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Quaternion.h"
-
-#include <cmath>
-#include <utility>  // since c++11 for std::swap
-
-#include "Mathf.h"
 #include "Vector3d.h"
+#include "Mathf.h"
+#include <utility>
 
 namespace Theodore {
   const Quaternion Quaternion::zero(0.f, 0.f, 0.f, 0.f);
@@ -70,10 +67,6 @@ namespace Theodore {
 
     return *this;
   }
-
-  // Quaternion Quaternion::operator *(const Vector3d& other) const {
-  //	return Quaternion(*this) *= other;
-  //}
 
   Quaternion& Quaternion::operator*=(const Vector3d& other) {
     Quaternion tmp;
@@ -197,7 +190,7 @@ namespace Theodore {
     return *this;
   }
 
-  float Quaternion::Length() const { return std::sqrt(x * x + y * y + z * z + w * w); }
+  float Quaternion::Length() const { return Mathf::Sqrt(x * x + y * y + z * z + w * w); }
 
   Vector3d Quaternion::ConjugateProduct(const Vector3d& v) const {
     Quaternion q2(0.f, v.x, v.y, v.z), q = *this, qinv = q;
@@ -225,25 +218,25 @@ namespace Theodore {
     Vector3d eulerAngle;
     if (Mathf::IsEqual(test, 1.0f)) {
       // heading = rotation about z-axis
-      eulerAngle.z = -2.0f * std::atan2(quat.x, quat.w);
+      eulerAngle.z = -2.0f * Mathf::Atan2(quat.x, quat.w);
       // bank = rotation about x-axis
       eulerAngle.x = 0.f;
       // attitude = rotation about y-axis
       eulerAngle.y = Mathf::pi / 2.0f;
     } else if (Mathf::IsEqual(test, -1.0)) {
       // heading = rotation about z-axis
-      eulerAngle.z = 2.0f * std::atan2(quat.x, quat.w);
+      eulerAngle.z = 2.0f * Mathf::Atan2(quat.x, quat.w);
       // bank = rotation about x-axis
       eulerAngle.x = 0.f;
       // attitude = rotation about y-axis
       eulerAngle.y = Mathf::pi / -2.0f;
     } else {
       // heading = rotation about z-axis
-      eulerAngle.z = std::atan2(2.0f * (quat.x * quat.y + quat.z * quat.w), (sqx - sqy - sqz + sqw));
+      eulerAngle.z = Mathf::Atan2(2.0f * (quat.x * quat.y + quat.z * quat.w), (sqx - sqy - sqz + sqw));
       // bank = rotation about x-axis
-      eulerAngle.x = std::atan2(2.0f * (quat.y * quat.z + quat.x * quat.w), (-sqx - sqy + sqz + sqw));
+      eulerAngle.x = Mathf::Atan2(2.0f * (quat.y * quat.z + quat.x * quat.w), (-sqx - sqy + sqz + sqw));
       // attitude = rotation about y-axis
-      eulerAngle.y = std::asin(Mathf::Clamp(test, -1.0, 1.0));
+      eulerAngle.y = Mathf::Asin(Mathf::Clamp(test, -1.0, 1.0));
     }
 
     return eulerAngle;
@@ -258,15 +251,15 @@ namespace Theodore {
      Qx * Qy * Qz
     */
     // Suppose euler is in radian unit.
-    Quaternion qx(std::cos(euler.x * 0.5f), std::sin(euler.x * 0.5f), 0.f, 0.f);
-    Quaternion qy(std::cos(euler.y * 0.5f), 0.f, std::sin(euler.y * 0.5f), 0.f);
-    Quaternion qz(std::cos(euler.z * 0.5f), 0.f, 0.f, std::sin(euler.z * 0.5f));
+    Quaternion qx(Mathf::Cos(euler.x * 0.5f), Mathf::Sin(euler.x * 0.5f), 0.f, 0.f);
+    Quaternion qy(Mathf::Cos(euler.y * 0.5f), 0.f, Mathf::Sin(euler.y * 0.5f), 0.f);
+    Quaternion qz(Mathf::Cos(euler.z * 0.5f), 0.f, 0.f, Mathf::Sin(euler.z * 0.5f));
 
     return qx * qy * qz;
   }
 
   void Quaternion::AxisAngle(Vector3d& axis, float& angle) {
-    const float scale = std::sqrt(x * x + y * y + z * z);
+    const float scale = Mathf::Sqrt(x * x + y * y + z * z);
 
     if (Mathf::IsZero(scale) || w > 1.0f || w < -1.0f) {
       angle = 0.0f;
@@ -275,7 +268,7 @@ namespace Theodore {
       axis.z = 0.0f;
     } else {
       const float invscale = 1.0f / scale;
-      angle = 2.0f * acosf(w);
+      angle = 2.0f * Mathf::Acos(w);
       axis.x = z * invscale;
       axis.y = y * invscale;
       axis.z = z * invscale;
@@ -284,10 +277,10 @@ namespace Theodore {
 
   Quaternion Quaternion::AngleAxis(const float angle, const Vector3d& axis) {
     const float halfAngle = angle * 0.5f;
-    const float sin_half = std::sin(halfAngle);
+    const float sin_half = Mathf::Sin(halfAngle);
     Quaternion result;
 
-    result.w = std::cos(halfAngle);
+    result.w = Mathf::Cos(halfAngle);
     result.x = sin_half * axis.x;
     result.y = sin_half * axis.y;
     result.z = sin_half * axis.z;
@@ -369,7 +362,7 @@ namespace Theodore {
   }
 
   Quaternion Quaternion::FromRotationMatrix(const Matrix4x4& other) {
-    float w = std::sqrt(other.m44[0][0] + other.m44[1][1] + other.m44[2][2] + 1.0f) / 2.f;
+    float w = Mathf::Sqrt(other.m44[0][0] + other.m44[1][1] + other.m44[2][2] + 1.0f) / 2.f;
     float x = (other.m44[2][1] - other.m44[1][2]) / (4 * w);
     float y = (other.m44[0][2] - other.m44[2][0]) / (4 * w);
     float z = (other.m44[1][0] - other.m44[0][1]) / (4 * w);
@@ -394,8 +387,8 @@ namespace Theodore {
     }
 
     if (angle <= (1 - 0.05f)) {
-      const float theta = std::acos(angle);
-      return (a * std::sin((1.0f - t) * theta) + c * std::sin(t * theta)) / std::sin(theta);
+      const float theta = Mathf::Acos(angle);
+      return (a * Mathf::Sin((1.0f - t) * theta) + c * Mathf::Sin(t * theta)) / Mathf::Sin(theta);
     }
 
     // Perform a linear interpolation when cosTheta is close to 1 to avoid side effect of sin(angle)

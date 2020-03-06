@@ -2,12 +2,8 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Vector2d.h"
-
-#include <algorithm>  // until c++11 for std::swap
-#include <cmath>
-#include <utility>  // since c++11 for std::swap
-
 #include "Mathf.h"
+#include <utility>
 
 namespace Theodore {
   Vector2d::Vector2d() : x(0.f), y(0.f) {}
@@ -143,7 +139,7 @@ namespace Theodore {
   Vector2d Vector2d::Perpendicular() { return Vector2d(-y, x); }
 
   Vector2d& Vector2d::Normalize() {
-    float len = std::sqrt(x * x + y * y);
+    float len = Mathf::Sqrt(x * x + y * y);
     if (Mathf::IsZero(len) || Mathf::IsEqual(len, 1.f)) return *this;
 
     float inv = 1 / len;
@@ -154,16 +150,16 @@ namespace Theodore {
     return *this;
   }
 
-  float Vector2d::Length() { return std::sqrt(x * x + y * y); }
+  float Vector2d::Length() { return Mathf::Sqrt(x * x + y * y); }
 
-  float Vector2d::Distance(const Vector2d& other) { return std::sqrt((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y)); }
+  float Vector2d::Distance(const Vector2d& other) { return Mathf::Sqrt((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y)); }
 
   float Vector2d::DistanceSqrare(const Vector2d& other) {
     Vector2d c = *this - other;
     return Vector2d::DotProduct(c, c);
   }
 
-  Vector2d Vector2d::Absolute(const Vector2d& other) { return Vector2d(std::fabsf(other.x), std::fabsf(other.y)); }
+  Vector2d Vector2d::Absolute(const Vector2d& other) { return Vector2d(Mathf::Abs(other.x), Mathf::Abs(other.y)); }
 
   Vector2d Vector2d::Lerp(const Vector2d& a, const Vector2d& b, float t) { return (a + (b - a) * t); }
 
@@ -175,11 +171,11 @@ namespace Theodore {
     // Acos(dot) returns the angle between start and end,
     // And multiplying that by t returns the angle between
     // start and the final result.
-    float theta = std::acos(dot) * t;
+    float theta = Mathf::Acos(dot) * t;
     Vector2d rv = b - a * dot;
     rv.Normalize();
 
-    return ((a * std::cos(theta)) + (rv * std::sin(theta)));
+    return ((a * Mathf::Cos(theta)) + (rv * Mathf::Sin(theta)));
   }
 
   Vector2d Vector2d::Nlerp(const Vector2d& a, const Vector2d& b, float t) {
@@ -189,7 +185,7 @@ namespace Theodore {
   }
 
   Vector2d Vector2d::Normalize(const Vector2d& vector) {
-    float len = std::sqrt(vector.x * vector.x + vector.y * vector.y);
+    float len = Mathf::Sqrt(vector.x * vector.x + vector.y * vector.y);
     if (Mathf::IsZero(len) || Mathf::IsEqual(len, 1.f)) return vector;
 
     float inv = 1 / len;

@@ -2,13 +2,9 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Vector3d.h"
-
-#include <algorithm>  // until c++11 for std::swap
-#include <cmath>
-#include <utility>  // since c++11 for std::swap
-
-#include "Mathf.h"
 #include "Vector2d.h"
+#include "Mathf.h"
+#include <utility>
 
 namespace Theodore {
   Vector3d::Vector3d() : x(0.f), y(0.f), z(0.f) {}
@@ -187,7 +183,7 @@ namespace Theodore {
   Vector3d Vector3d::Perpendicular() { return Vector3d(-y, x, z); }
 
   Vector3d& Vector3d::Normalize() {
-    float len = std::sqrt(x * x + y * y + z * z);
+    float len = Mathf::Sqrt(x * x + y * y + z * z);
     if (Mathf::IsZero(len) || Mathf::IsEqual(len, 1.f)) return *this;
 
     float inv = 1 / len;
@@ -199,11 +195,11 @@ namespace Theodore {
     return *this;
   }
 
-  float Vector3d::Length() const { return std::sqrt(x * x + y * y + z * z); }
+  float Vector3d::Length() const { return Mathf::Sqrt(x * x + y * y + z * z); }
 
   float Vector3d::SquaredLength() const { return x * x + y * y + z * z; }
 
-  float Vector3d::Distance(const Vector3d& other) const { return std::sqrt((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y) + (z - other.z) * (z - other.z)); }
+  float Vector3d::Distance(const Vector3d& other) const { return Mathf::Sqrt((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y) + (z - other.z) * (z - other.z)); }
 
   float Vector3d::DistanceSquare(const Vector3d& other) const {
     Vector3d c = *this - other;
@@ -214,7 +210,7 @@ namespace Theodore {
 
   Vector4d Vector3d::ToVector4d(const Vector3d& other) { return Vector4d(other.x, other.y, other.z, 1.f); }
 
-  Vector3d Vector3d::Absolute(const Vector3d& other) { return Vector3d(std::fabsf(other.x), std::fabsf(other.y), std::fabsf(other.z)); }
+  Vector3d Vector3d::Absolute(const Vector3d& other) { return Vector3d(Mathf::Abs(other.x), Mathf::Abs(other.y), Mathf::Abs(other.z)); }
 
   Vector3d Vector3d::Lerp(const Vector3d& a, const Vector3d& b, float t) { return (a + (b - a) * t); }
 
@@ -226,11 +222,11 @@ namespace Theodore {
     // Acos(dot) returns the angle between start and end,
     // And multiplying that by t returns the angle between
     // start and the final result.
-    float theta = std::acos(dot) * t;
+    float theta = Mathf::Acos(dot) * t;
     Vector3d rv = b - a * dot;
     rv.Normalize();
 
-    return ((a * std::cos(theta)) + (rv * std::sin(theta)));
+    return ((a * Mathf::Cos(theta)) + (rv * Mathf::Sin(theta)));
   }
 
   Vector3d Vector3d::Nlerp(const Vector3d& a, const Vector3d& b, float t) {
@@ -250,7 +246,7 @@ namespace Theodore {
   Vector3d Vector3d::ProjectOnPlane(const Vector3d& vector, const Vector3d& planeNormal) { return vector - Vector3d::Project(vector, planeNormal); }
 
   Vector3d Vector3d::Normalize(const Vector3d& vector) {
-    float len = std::sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+    float len = Mathf::Sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
     if (Mathf::IsZero(len) || Mathf::IsEqual(len, 1.f)) return vector;
 
     float inv = 1 / len;
@@ -263,7 +259,6 @@ namespace Theodore {
 
   void Vector3d::Swap(Vector3d& first, Vector3d& second) {
     using std::swap;
-
     swap(first.x, second.x);
     swap(first.y, second.y);
     swap(first.z, second.z);

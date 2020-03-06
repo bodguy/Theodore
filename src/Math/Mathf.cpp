@@ -126,6 +126,10 @@ namespace Theodore {
 
   float Mathf::Atan(float angle) { return std::atan(angle); }
 
+	float Mathf::Atan2(float y, float x) {
+		return std::atan2(y, x);
+  }
+
   float Mathf::Ceil(float a) { return std::ceilf(a); }
 
   float Mathf::Floor(float a) { return std::floorf(a); }

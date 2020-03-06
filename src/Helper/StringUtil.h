@@ -38,7 +38,7 @@ namespace Theodore {
     static std::string ToDateFormat(DateTime* date);
     static float ParseFloat(const std::string& str);
     static double ParseDouble(const std::string& str);
-    static int ParseInteger(const std::string& str);
+    static int ParseInteger(const std::string& str, size_t* idx = 0, int base = 10);
     static long ParseLong(const std::string& str);
     static int UTF8Decode(const char* ch);
     static std::string Trim(const std::string& str);

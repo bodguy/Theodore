@@ -4,38 +4,29 @@
 #ifndef Rect_h
 #define Rect_h
 
-#include <utility>  // since c++11 for std::swap
+#include <utility>
 
 namespace Theodore {
   template <typename T>
   class Rect {
   public:
-    //! default contructor
     Rect();
-    //! constructor with all elements
     Rect(const T _left, const T _top, const T _right, const T _bottom);
-    //! copy constructor
     Rect(const Rect<T>& other);
-    //! assignment operator
     Rect<T>& operator=(Rect<T> other);
 
-    //! equal, not equal operator
     bool operator==(const Rect<T>& other) const;
     bool operator!=(const Rect<T>& other) const;
 
-    //! add, add and assignment operator
     Rect<T> operator+(const Rect<T>& other) const;
     Rect<T>& operator+=(const Rect<T>& other);
 
-    //! subtract, assignment operator
     Rect<T> operator-(const Rect<T>& other) const;
     Rect<T>& operator-=(const Rect<T>& other);
 
-    //! multiply, assignment operator
     Rect<T> operator*(const Rect<T>& other) const;
     Rect<T>& operator*=(const Rect<T>& other);
 
-    //! Divided, assignment operator
     Rect<T> operator/(const Rect<T>& other) const;
     Rect<T>& operator/=(const Rect<T>& other);
 
@@ -53,8 +44,7 @@ namespace Theodore {
     static const Rect<T> zero, one;
 
   private:
-    //! non-throwing swap function
-    void Swap(Rect<T>& first, Rect<T>& second) noexcept;
+    static void Swap(Rect<T>& first, Rect<T>& second) noexcept;
   };
 
   template <typename T>

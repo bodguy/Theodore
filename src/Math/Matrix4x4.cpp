@@ -2,22 +2,19 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Matrix4x4.h"
-
-#include <algorithm>  // until c++11 for std::swap
-#include <cmath>      // for std::sin, std::cos
-#include <stdexcept>  // for std::logic_error, std::out_of_range
-#include <utility>    // since c++11 for std::swap
-
-#include "Mathf.h"
 #include "Quaternion.h"
-#include "Vector2d.h"
 #include "Vector3d.h"
 #include "Vector4d.h"
+#include "Mathf.h"
+#include <stdexcept>  // for std::logic_error, std::out_of_range
 
 namespace Theodore {
   Matrix4x4::Matrix4x4() { MakeIdentity(); }
 
-  Matrix4x4::Matrix4x4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44) {
+  Matrix4x4::Matrix4x4(float m11, float m12, float m13, float m14,
+  				float m21, float m22, float m23, float m24,
+  				float m31, float m32, float m33, float m34,
+  				float m41, float m42, float m43, float m44) {
     m16[0] = m11;
     m16[1] = m12;
     m16[2] = m13;
@@ -138,8 +135,12 @@ namespace Theodore {
   }
 
   Vector4d Matrix4x4::operator*(const Vector4d& other) {
-    return Vector4d(m16[0] * other.x + m16[1] * other.y + m16[2] * other.z + m16[3] * other.w, m16[4] * other.x + m16[5] * other.y + m16[6] * other.z + m16[7] * other.w,
-                    m16[8] * other.x + m16[9] * other.y + m16[10] * other.z + m16[11] * other.w, m16[12] * other.x + m16[13] * other.y + m16[14] * other.z + m16[15] * other.w);
+    return Vector4d(
+			m16[0] * other.x + m16[1] * other.y + m16[2] * other.z + m16[3] * other.w,
+			m16[4] * other.x + m16[5] * other.y + m16[6] * other.z + m16[7] * other.w,
+			m16[8] * other.x + m16[9] * other.y + m16[10] * other.z + m16[11] * other.w,
+			m16[12] * other.x + m16[13] * other.y + m16[14] * other.z + m16[15] * other.w
+    );
   }
 
   const float Matrix4x4::operator()(unsigned int row, unsigned int col) const { return m16[row * 4 + col]; }
@@ -272,7 +273,7 @@ namespace Theodore {
   const float* Matrix4x4::Pointer() const { return m16; }
 
   Matrix4x4 Matrix4x4::Perspective(float fieldOfView, float aspectRatio, float znear, float zfar) {
-    float tanHalfFovy = std::tan(fieldOfView / 2.f);
+    float tanHalfFovy = Mathf::Tan(fieldOfView / 2.f);
 
     Matrix4x4 mat = Matrix4x4::Zero();
     mat.m16[0] = 1.0f / (aspectRatio * tanHalfFovy);
@@ -305,8 +306,12 @@ namespace Theodore {
     Vector3d xaxis = Vector3d::CrossProduct(up, zaxis).Normalize();
     Vector3d yaxis = Vector3d::CrossProduct(zaxis, xaxis);
 
-    return Matrix4x4(xaxis.x, yaxis.x, zaxis.x, 0.f, xaxis.y, yaxis.y, zaxis.y, 0.f, xaxis.z, yaxis.z, zaxis.z, 0.f, -Vector3d::DotProduct(xaxis, eye), -Vector3d::DotProduct(yaxis, eye),
-                     -Vector3d::DotProduct(zaxis, eye), 1.f);
+    return Matrix4x4(
+			xaxis.x, yaxis.x, zaxis.x, 0.f,
+			xaxis.y, yaxis.y, zaxis.y, 0.f,
+			xaxis.z, yaxis.z, zaxis.z, 0.f,
+			-Vector3d::DotProduct(xaxis, eye), -Vector3d::DotProduct(yaxis, eye), -Vector3d::DotProduct(zaxis, eye), 1.f
+		);
   }
 
   Matrix4x4 Matrix4x4::Translate(const Vector3d& translation) {
@@ -356,8 +361,8 @@ namespace Theodore {
      |  0    0  1 0 |
      |  0    0  0 1 |
     */
-    float c = std::cos(radianAngle);
-    float s = std::sin(radianAngle);
+    float c = Mathf::Cos(radianAngle);
+    float s = Mathf::Sin(radianAngle);
     float t = 1.f - c;
 
     float tx = t * axis.x;
@@ -375,14 +380,21 @@ namespace Theodore {
   Matrix4x4 Matrix4x4::Zero() { return Matrix4x4(0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f); }
 
   Matrix4x4 Matrix4x4::ToMatrix3x3(const Matrix4x4& other) {
-    return Matrix4x4(other.m16[0], other.m16[1], other.m16[2], other.m16[3], other.m16[4], other.m16[5], other.m16[6], other.m16[7], other.m16[8], other.m16[9], other.m16[10], other.m16[11], 0.f, 0.f,
-                     0.f, 1.f);
+    return Matrix4x4(
+			other.m16[0], other.m16[1], other.m16[2], other.m16[3],
+			other.m16[4], other.m16[5], other.m16[6], other.m16[7],
+			other.m16[8], other.m16[9], other.m16[10], other.m16[11],
+			0.f, 0.f, 0.f, 1.f
+		);
   }
 
   Matrix4x4 Matrix4x4::Absolute(const Matrix4x4& other) {
-    return Matrix4x4(std::fabsf(other.m16[0]), std::fabsf(other.m16[1]), std::fabsf(other.m16[2]), std::fabsf(other.m16[3]), std::fabsf(other.m16[4]), std::fabsf(other.m16[5]),
-                     std::fabsf(other.m16[6]), std::fabsf(other.m16[7]), std::fabsf(other.m16[8]), std::fabsf(other.m16[9]), std::fabsf(other.m16[10]), std::fabsf(other.m16[11]),
-                     std::fabsf(other.m16[12]), std::fabsf(other.m16[13]), std::fabsf(other.m16[14]), std::fabsf(other.m16[15]));
+    return Matrix4x4(
+			Mathf::Abs(other.m16[0]), Mathf::Abs(other.m16[1]), Mathf::Abs(other.m16[2]), Mathf::Abs(other.m16[3]),
+			Mathf::Abs(other.m16[4]), Mathf::Abs(other.m16[5]), Mathf::Abs(other.m16[6]), Mathf::Abs(other.m16[7]),
+			Mathf::Abs(other.m16[8]), Mathf::Abs(other.m16[9]), Mathf::Abs(other.m16[10]), Mathf::Abs(other.m16[11]),
+			Mathf::Abs(other.m16[12]), Mathf::Abs(other.m16[13]), Mathf::Abs(other.m16[14]), Mathf::Abs(other.m16[15])
+		);
   }
 
   Matrix4x4 Matrix4x4::OrthoNormalize(const Matrix4x4& matrix) {
@@ -399,11 +411,11 @@ namespace Theodore {
     Matrix4x4 normalized = Matrix4x4::OrthoNormalize(transformation);
 
     // In radian unit
-    return Vector3d(std::atan2f(normalized._23, normalized._33),
-                    -std::asinf(normalized._13),  // std::atan2f(-normalized._13,
-                                                  // std::sqrtf(normalized._23 * normalized._23 +
-                                                  // normalized._33 * normalized._33)),
-                    std::atan2f(normalized._12, normalized._11));
+    return Vector3d(
+    	Mathf::Atan2(normalized._23, normalized._33),
+			-Mathf::Asin(normalized._13),
+			Mathf::Atan2(normalized._12, normalized._11)
+    );
   }
 
   Vector3d Matrix4x4::DecomposeScale(const Matrix4x4& transformation) {

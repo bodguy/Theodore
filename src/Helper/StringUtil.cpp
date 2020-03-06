@@ -118,7 +118,7 @@ namespace Theodore {
 
   double StringUtil::ParseDouble(const std::string& str) { return std::stod(str); }
 
-  int StringUtil::ParseInteger(const std::string& str) { return std::stoi(str); }
+  int StringUtil::ParseInteger(const std::string& str, size_t* idx, int base) { return std::stoi(str, idx, base); }
 
   long StringUtil::ParseLong(const std::string& str) { return std::stol(str); }
 

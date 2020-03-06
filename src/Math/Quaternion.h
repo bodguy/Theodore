@@ -10,48 +10,35 @@ namespace Theodore {
   class Vector3d;
   class Quaternion {
   public:
-    //! default contructor
     Quaternion();
-    //! constructor with all elements
     Quaternion(float w, float x, float y, float z);
     Quaternion(float w, const Vector3d& v);
-    //! copy constructor
     Quaternion(const Quaternion& other);
-    //! assignment operator
     const Quaternion& operator=(Quaternion other);
 
-    //! add, add and assignment operator
     Quaternion operator+(const Quaternion& other) const;
     Quaternion& operator+=(const Quaternion& other);
 
-    //! subtract, assignment operator
     Quaternion operator-(const Quaternion& other) const;
     Quaternion& operator-=(const Quaternion& other);
 
-    //! multiply, assignment operator
     Quaternion operator*(const Quaternion& other) const;
     Quaternion& operator*=(const Quaternion& other);
-    // Quaternion operator *(const Vector3d& other) const;
     Quaternion& operator*=(const Vector3d& other);
     Vector3d operator*(const Vector3d& other) const;
 
-    //! add by scalar
     Quaternion operator+(const float scalar) const;
     Quaternion& operator+=(const float scalar);
 
-    //! subtract by scalar
     Quaternion operator-(const float scalar) const;
     Quaternion& operator-=(const float scalar);
 
-    //! multiply by scalar
     Quaternion operator*(const float scalar) const;
     Quaternion& operator*=(const float scalar);
 
-    //! divided by scalar
     Quaternion operator/(const float scalar) const;
     Quaternion& operator/=(const float scalar);
 
-    //! vector comparison
     bool operator<(const Quaternion& other) const;
     bool operator>(const Quaternion& other) const;
     bool operator<=(const Quaternion& other) const;
@@ -59,13 +46,11 @@ namespace Theodore {
     bool operator==(const Quaternion& other) const;
     bool operator!=(const Quaternion& other) const;
 
-    //! scalar comparison
     bool operator<(const float scalar) const;
     bool operator>(const float scalar) const;
     bool operator<=(const float scalar) const;
     bool operator>=(const float scalar) const;
 
-    //! utility functions
     Quaternion& Conjugate();
     Quaternion& Normalize();
     Quaternion& MakeInverse();
@@ -89,8 +74,7 @@ namespace Theodore {
     static const Quaternion zero, identity;
 
   private:
-    //! non-throwing swap function
-    void Swap(Quaternion& first, Quaternion& second);
+    static void Swap(Quaternion& first, Quaternion& second);
   };
 }  // namespace Theodore
 

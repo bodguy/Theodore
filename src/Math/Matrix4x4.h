@@ -13,63 +13,48 @@ namespace Theodore {
   class Quaternion;
   class Matrix4x4 {
   public:
-    //! default contructor
     Matrix4x4();
-    //! constructor with all elements
     Matrix4x4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44);
-    //! copy constructor
     Matrix4x4(const Matrix4x4& other);
-    //! assignment operator
     Matrix4x4& operator=(Matrix4x4 other);
 
-    //! equal, not equal operator
     bool operator==(const Matrix4x4& other) const;
     bool operator!=(const Matrix4x4& other) const;
 
-    //! add, add and assignment operator
     Matrix4x4 operator+(const Matrix4x4& other) const;
     Matrix4x4& operator+=(const Matrix4x4& other);
 
-    //! subtract, assignment operator
     Matrix4x4 operator-(const Matrix4x4& other) const;
     Matrix4x4& operator-=(const Matrix4x4& other);
 
-    //! multiply, assignment operator
     Matrix4x4 operator*(const Matrix4x4& other) const;
     Matrix4x4& operator*=(const Matrix4x4& other);
 
-    //! multiply by scalar
     Matrix4x4 operator*(const float scalar) const;
     Matrix4x4& operator*=(const float scalar);
 
-    //! divided by scalar
     Matrix4x4 operator/(const float scalar) const;
     Matrix4x4& operator/=(const float scalar);
 
     Vector4d operator*(const Vector4d& other);
 
-    //! read only accessor
     const float operator()(unsigned int row, unsigned int col) const;
     const float operator[](unsigned int index) const;
     const float At(int index) const;
     const float At(int row, int col) const;
 
-    //! Identity matrix
     Matrix4x4& MakeIdentity();
     static Matrix4x4 Identity();
     bool IsIdentity() const;
 
-    //! Inverse matrix
     Matrix4x4& MakeInverse();
     static Matrix4x4 Inverse(const Matrix4x4& other);
 
-    //! Transpose matrix
     Matrix4x4& MakeTranspose();
 
     //! get native matrix pointer, Note : this is for shader
     const float* Pointer() const;
 
-    //! Transform functions
     static Matrix4x4 Perspective(float fieldOfView, float aspectRatio, float znear, float zfar);
     static Matrix4x4 Orthogonal(float left, float right, float bottom, float top, float znear, float zfar);
     static Matrix4x4 LookAt(const Vector3d& eye, const Vector3d& lookat, const Vector3d& up);
@@ -100,8 +85,7 @@ namespace Theodore {
     };
 
   private:
-    //! non-throwing swap function
-    void Swap(Matrix4x4& first, Matrix4x4& second);
+    static void Swap(Matrix4x4& first, Matrix4x4& second);
   };
 }  // namespace Theodore
 

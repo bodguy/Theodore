@@ -2,14 +2,10 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Vector4d.h"
-
-#include <algorithm>  // until c++11 for std::swap
-#include <cmath>
-#include <utility>  // since c++11 for std::swap
-
-#include "Mathf.h"
 #include "Vector2d.h"
 #include "Vector3d.h"
+#include "Mathf.h"
+#include <utility>
 
 namespace Theodore {
   Vector4d::Vector4d() : x(0.f), y(0.f), z(0.f), w(1.f) {}
@@ -201,7 +197,7 @@ namespace Theodore {
   bool Vector4d::operator!=(const float scalar) const { return !(*this == scalar); }
 
   Vector4d& Vector4d::Normalize() {
-    float len = std::sqrt(x * x + y * y + z * z + w * w);
+    float len = Mathf::Sqrt(x * x + y * y + z * z + w * w);
     if (Mathf::IsZero(len) || Mathf::IsEqual(len, 1.f)) return *this;
 
     float inv = 1 / len;
@@ -213,11 +209,11 @@ namespace Theodore {
     return *this;
   }
 
-  float Vector4d::Length() { return std::sqrt(x * x + y * y + z * z + w * w); }
+  float Vector4d::Length() { return Mathf::Sqrt(x * x + y * y + z * z + w * w); }
 
   Vector3d Vector4d::ToVector3d(const Vector4d& other) { return Vector3d(other.x, other.y, other.z); }
 
-  Vector4d Vector4d::Absolute(const Vector4d& other) { return Vector4d(std::fabsf(other.x), std::fabsf(other.y), std::fabsf(other.z), std::fabsf(other.w)); }
+  Vector4d Vector4d::Absolute(const Vector4d& other) { return Vector4d(Mathf::Abs(other.x), Mathf::Abs(other.y), Mathf::Abs(other.z), Mathf::Abs(other.w)); }
 
   void Vector4d::Swap(Vector4d& first, Vector4d& second) {
     using std::swap;

@@ -40,6 +40,7 @@ namespace Theodore {
     static float Asin(float angle);
     static float Acos(float angle);
     static float Atan(float angle);
+    static float Atan2(float y, float x);
 
     static float Ceil(float a);
     static float Floor(float a);

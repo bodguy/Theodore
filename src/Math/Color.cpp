@@ -2,11 +2,8 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Color.h"
-
-#include <algorithm>  // for std::max, std::min
-#include <cmath>      // for std::floor
-
 #include "Mathf.h"
+#include "Helper/StringUtil.h"
 
 namespace Theodore {
   Color::Color() : r(1.f), g(1.f), b(1.f), a(1.f) {}
@@ -34,13 +31,17 @@ namespace Theodore {
 
   Color Color::Lerp(const Color& a, const Color& b, float t) {
     // c = a+(b-a)*t
-    return Color(std::max(0.f, std::min(1.f, a.r + (b.r - a.r) * t)), std::max(0.f, std::min(1.f, a.g + (b.g - a.g) * t)), std::max(0.f, std::min(1.f, a.b + (b.b - a.b) * t)),
-                 std::max(0.f, std::min(1.f, a.a + (b.a - a.a) * t)));
+    return Color(
+			Mathf::Max(0.f, Mathf::Min(1.f, a.r + (b.r - a.r) * t)),
+			Mathf::Max(0.f, Mathf::Min(1.f, a.g + (b.g - a.g) * t)),
+			Mathf::Max(0.f, Mathf::Min(1.f, a.b + (b.b - a.b) * t)),
+			Mathf::Max(0.f, Mathf::Min(1.f, a.a + (b.a - a.a) * t))
+    );
   }
 
   unsigned char Color::ToByte(float value) {
-    float f2 = std::max(0.f, std::min(1.f, value));
-    return static_cast<unsigned char>(std::floor(f2 == 1.0 ? 255 : f2 * 256));
+    float f2 = Mathf::Max(0.f, Mathf::Min(1.f, value));
+    return static_cast<unsigned char>(Mathf::Floor(f2 == 1.0 ? 255 : f2 * 256));
   }
 
   Color Color::FromRGBA(unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
@@ -51,12 +52,12 @@ namespace Theodore {
   Color Color::FromHex(unsigned int hexValue) {
     return Color(((hexValue >> 16) & 0xFF) * (1.f / 255.f),   // Extract the R byte
                  ((hexValue >> 8) & 0xFF) * (1.f / 255.f),    // Extract the G byte
-                 ((hexValue)&0xFF) * (1.f / 255.f),           // Extract the B byte
+                 ((hexValue) & 0xFF) * (1.f / 255.f),           // Extract the B byte
                  ((hexValue >> 24) & 0xFF) * (1.f / 255.f));  // Extract the A byte
   }
 
   Color Color::FromHex(const std::string& hexString) {
-    int hexValue = std::stoi(hexString.substr(1, hexString.size() - 1), 0, 16);
+    int hexValue = StringUtil::ParseInteger(hexString.substr(1, hexString.size() - 1), 0, 16);
     return Color(((hexValue >> 16) & 0xFF) * (1.f / 255.f),  // Extract the R byte
                  ((hexValue >> 8) & 0xFF) * (1.f / 255.f),   // Extract the G byte
                  ((hexValue)&0xFF) * (1.f / 255.f),          // Extract the B byte
@@ -65,14 +66,14 @@ namespace Theodore {
 
   Color Color::FromCMYK(float c, float m, float y, float k) {
     static const float cmyk_scale = 1.f / 100.f;
-    float k2 = std::min(100.f, k);
+    float k2 = Mathf::Min(100.f, k);
     float precomputed = 1.f - k2 * cmyk_scale;
 
     // clang-format off
     return Color(
-			(1.f - std::min(100.f, c) * cmyk_scale) * precomputed,
-			(1.f - std::min(100.f, m) * cmyk_scale) * precomputed,
-			(1.f - std::min(100.f, y) * cmyk_scale) * precomputed,
+			(1.f - Mathf::Min(100.f, c) * cmyk_scale) * precomputed,
+			(1.f - Mathf::Min(100.f, m) * cmyk_scale) * precomputed,
+			(1.f - Mathf::Min(100.f, y) * cmyk_scale) * precomputed,
 			1.f
 		);
     // clang-format on
