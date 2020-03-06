@@ -8,7 +8,7 @@
 #include "Vector3d.h"
 
 namespace Theodore {
-  class Math {
+  class Mathf {
   public:
     static bool IsEqual(const float a, const float b);
     static bool IsZero(const float a);

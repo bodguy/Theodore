@@ -5,7 +5,7 @@
 #define Physics_h
 
 #include "Geometry/Ray.h"
-#include "Math/Math.h"
+#include "Math/Mathf.h"
 #include "Math/Vector3d.h"
 
 namespace Theodore {
@@ -15,10 +15,10 @@ namespace Theodore {
     Physics() = delete;
     ~Physics() = delete;
 
-    static bool Raycast(const Vector3d& origin, const Vector3d& directoin, float maxDistance = Math::infinity);
-    static bool Raycast(const Vector3d& origin, const Vector3d& directoin, RaycastHit* hitInfo, float maxDistance = Math::infinity);
-    static bool Raycast(const Ray& ray, float maxDistance = Math::infinity);
-    static bool Raycast(const Ray& ray, RaycastHit* hitInfo, float maxDistance = Math::infinity);
+    static bool Raycast(const Vector3d& origin, const Vector3d& directoin, float maxDistance = Mathf::infinity);
+    static bool Raycast(const Vector3d& origin, const Vector3d& directoin, RaycastHit* hitInfo, float maxDistance = Mathf::infinity);
+    static bool Raycast(const Ray& ray, float maxDistance = Mathf::infinity);
+    static bool Raycast(const Ray& ray, RaycastHit* hitInfo, float maxDistance = Mathf::infinity);
   };
 }  // namespace Theodore
 

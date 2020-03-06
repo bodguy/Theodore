@@ -2,16 +2,16 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "SpriteRenderer.h"
-
 #include "Asset/AssetManager.h"
-#include "Asset/Shader.h"
+#include "Asset/Pipeline.h"
 #include "Asset/Texture2D.h"
 #include "Camera.h"
 #include "Graphics/Graphics.h"
 #include "Helper/Utility.h"
+#include "Math/Mathf.h"
 #include "Sprite.h"
-#include "Object/GameObject.h"
-#include "Object/SceneManager.h"
+#include "Core/GameObject.h"
+#include "Core/SceneManager.h"
 #include "Transform.h"
 
 namespace Theodore {
@@ -25,13 +25,13 @@ namespace Theodore {
   void SpriteRenderer::SetSprite(Sprite* sprite) {
     sprite = sprite;
 
-    Buffer* buffer = new Buffer(BufferType::BufferVertex);
+    GPUBuffer* buffer = new GPUBuffer(BufferType::BufferVertex);
     buffer->Data(nullptr, sizeof(Vector2d) * 8, BufferUsage::StaticDraw);
     buffer->SubData(sprite->vertices, 0, sizeof(Vector2d) * 4);
     buffer->SubData(sprite->texcoords, sizeof(Vector2d) * 4, sizeof(Vector2d) * 4);
     vertexBuffers.push_back(buffer);
 
-    Buffer* index = new Buffer(BufferType::BufferIndex);
+    GPUBuffer* index = new GPUBuffer(BufferType::BufferIndex);
     index->Data(sprite->indices, sizeof(unsigned short) * 6, BufferUsage::StaticDraw);
     indexBuffers.push_back(index);
 
@@ -45,11 +45,11 @@ namespace Theodore {
     sprite->initialPivot = Vector2d((sprite->bounds.GetMin() + sprite->bounds.GetMax()) / 2.f);
   }
 
-  void SpriteRenderer::SetColor(const Color& color) { color = color; }
+  void SpriteRenderer::SetColor(const Color& color) { this->color = color; }
 
-  void SpriteRenderer::SetFlipX(const bool flipX) { flipX = flipX; }
+  void SpriteRenderer::SetFlipX(const bool flipX) { this->flipX = flipX; }
 
-  void SpriteRenderer::SetFlipY(const bool flipY) { flipY = flipY; }
+  void SpriteRenderer::SetFlipY(const bool flipY) { this->flipY = flipY; }
 
   Color SpriteRenderer::GetColor() const { return color; }
 
@@ -66,11 +66,11 @@ namespace Theodore {
 
     Vector2d decompsedTranslation = Vector2d(Matrix4x4::DecomposeTranslation(world));
     Vector2d decomposedScale = Vector2d(Matrix4x4::DecomposeScale(world));
-    Vector2d powScale = Math::Pow(decomposedScale, 2.f);
+    Vector2d powScale = Mathf::Pow(decomposedScale, 2.f);
 
-    Vector2d newCenter = decompsedTranslation + powScale * Vector2d(Math::Dot(Vector3d(model.rows[0]), center), Math::Dot(Vector3d(model.rows[1]), center));
+    Vector2d newCenter = decompsedTranslation + powScale * Vector2d(Mathf::Dot(Vector3d(model.rows[0]), center), Mathf::Dot(Vector3d(model.rows[1]), center));
 
-    Vector2d newExtents = powScale * Vector2d(Math::AbsDot(Vector3d(model.rows[0]), extents), Math::AbsDot(Vector3d(model.rows[1]), extents));
+    Vector2d newExtents = powScale * Vector2d(Mathf::AbsDot(Vector3d(model.rows[0]), extents), Mathf::AbsDot(Vector3d(model.rows[1]), extents));
 
     // update bounds min, max every frame
     bounds.SetMinMax(Vector3d(newCenter - newExtents), Vector3d(newCenter + newExtents));

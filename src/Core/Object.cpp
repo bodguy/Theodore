@@ -30,7 +30,7 @@ namespace Theodore {
   uint32_t Object::GetInstanceID() const { return instanceId; }
 
   void Object::SetName(const std::string& name) {
-		name = name;
+		this->name = name;
 		hashCode = CRC32_STR(name.c_str());
   }
 

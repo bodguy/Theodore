@@ -3,8 +3,8 @@
 
 #include "Transform.h"
 
-#include "Math/Math.h"
-#include "Object/GameObject.h"
+#include "Math/Mathf.h"
+#include "Core/GameObject.h"
 
 namespace Theodore {
   Transform::Transform() : Component("Transform"), rotation(), localToWorldMatrix(), worldToLocalMatrix(), localRotation() {
@@ -34,20 +34,20 @@ namespace Theodore {
 
   void Transform::Rotate(const Vector3d& axis, float angle, Space relativeTo) {
     if (relativeTo == Space::Self) {
-      localRotation = Quaternion::AngleAxis(Math::Radians(angle), Vector3d(axis).Normalize()) * localRotation;
+      localRotation = Quaternion::AngleAxis(Mathf::Radians(angle), Vector3d(axis).Normalize()) * localRotation;
       localRotation.Normalize();
     } else if (relativeTo == Space::World) {
-      rotation = Quaternion::AngleAxis(Math::Radians(angle), Vector3d(axis).Normalize()) * rotation;
+      rotation = Quaternion::AngleAxis(Mathf::Radians(angle), Vector3d(axis).Normalize()) * rotation;
       rotation.Normalize();
     }
   }
 
   void Transform::Rotate(const Vector3d& eulerAngles, Space relativeTo) {
     if (relativeTo == Space::Self) {
-      localRotation = Quaternion::FromEuler(Vector3d(Math::Radians(eulerAngles.x), Math::Radians(eulerAngles.y), Math::Radians(eulerAngles.z))) * localRotation;
+      localRotation = Quaternion::FromEuler(Vector3d(Mathf::Radians(eulerAngles.x), Mathf::Radians(eulerAngles.y), Mathf::Radians(eulerAngles.z))) * localRotation;
       localRotation.Normalize();
     } else if (relativeTo == Space::World) {
-      rotation = Quaternion::FromEuler(Vector3d(Math::Radians(eulerAngles.x), Math::Radians(eulerAngles.y), Math::Radians(eulerAngles.z))) * rotation;
+      rotation = Quaternion::FromEuler(Vector3d(Mathf::Radians(eulerAngles.x), Mathf::Radians(eulerAngles.y), Mathf::Radians(eulerAngles.z))) * rotation;
       rotation.Normalize();
     }
   }
@@ -111,12 +111,12 @@ namespace Theodore {
     return worldToLocalMatrix;
   }
 
-  void Transform::SetPosition(const Vector3d& position) { position = position; }
+  void Transform::SetPosition(const Vector3d& position) { this->position = position; }
 
   void Transform::SetLossyScale(const Vector3d& scale) { lossyScale = scale; }
 
   void Transform::SetEulerAngles(const Vector3d& euler) {
-    rotation = Quaternion::FromEuler(Vector3d(Math::Radians(euler.x), Math::Radians(euler.y), Math::Radians(euler.z)));
+    rotation = Quaternion::FromEuler(Vector3d(Mathf::Radians(euler.x), Mathf::Radians(euler.y), Mathf::Radians(euler.z)));
     rotation.Normalize();
   }
 
@@ -127,7 +127,7 @@ namespace Theodore {
   void Transform::SetLocalScale(const Vector3d& scale) { localScale = scale; }
 
   void Transform::SetLocalEulerAngles(const Vector3d& euler) {
-    localRotation = Quaternion::FromEuler(Vector3d(Math::Radians(euler.x), Math::Radians(euler.y), Math::Radians(euler.z)));
+    localRotation = Quaternion::FromEuler(Vector3d(Mathf::Radians(euler.x), Mathf::Radians(euler.y), Mathf::Radians(euler.z)));
     localRotation.Normalize();
   }
 

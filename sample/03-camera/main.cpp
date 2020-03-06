@@ -28,7 +28,7 @@ public:
 		if (Input::GetKeyDown(KEY_ESCAPE)) {
 			Platform::GetInstance()->Quit();
 		}
-		spriteRenderer->SetColor(Color::Lerp(Color(1.f, 0.f, 0.f, 1.f), Color(0.f, 1.f, 1.f, 1.f), Math::PingPong(Time::ElapsedTime(), 1.f)));
+		spriteRenderer->SetColor(Color::Lerp(Color(1.f, 0.f, 0.f, 1.f), Color(0.f, 1.f, 1.f, 1.f), Mathf::PingPong(Time::ElapsedTime(), 1.f)));
 	}
 
 private:

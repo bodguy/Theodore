@@ -6,7 +6,7 @@
 #include <cmath>
 #include <utility>  // since c++11 for std::swap
 
-#include "Math.h"
+#include "Mathf.h"
 #include "Vector3d.h"
 
 namespace Theodore {
@@ -223,27 +223,27 @@ namespace Theodore {
     const float test = 2.0f * (quat.y * quat.w - quat.x * quat.z);
 
     Vector3d eulerAngle;
-    if (Math::IsEqual(test, 1.0f)) {
+    if (Mathf::IsEqual(test, 1.0f)) {
       // heading = rotation about z-axis
       eulerAngle.z = -2.0f * std::atan2(quat.x, quat.w);
       // bank = rotation about x-axis
       eulerAngle.x = 0.f;
       // attitude = rotation about y-axis
-      eulerAngle.y = Math::pi / 2.0f;
-    } else if (Math::IsEqual(test, -1.0)) {
+      eulerAngle.y = Mathf::pi / 2.0f;
+    } else if (Mathf::IsEqual(test, -1.0)) {
       // heading = rotation about z-axis
       eulerAngle.z = 2.0f * std::atan2(quat.x, quat.w);
       // bank = rotation about x-axis
       eulerAngle.x = 0.f;
       // attitude = rotation about y-axis
-      eulerAngle.y = Math::pi / -2.0f;
+      eulerAngle.y = Mathf::pi / -2.0f;
     } else {
       // heading = rotation about z-axis
       eulerAngle.z = std::atan2(2.0f * (quat.x * quat.y + quat.z * quat.w), (sqx - sqy - sqz + sqw));
       // bank = rotation about x-axis
       eulerAngle.x = std::atan2(2.0f * (quat.y * quat.z + quat.x * quat.w), (-sqx - sqy + sqz + sqw));
       // attitude = rotation about y-axis
-      eulerAngle.y = std::asin(Math::Clamp(test, -1.0, 1.0));
+      eulerAngle.y = std::asin(Mathf::Clamp(test, -1.0, 1.0));
     }
 
     return eulerAngle;
@@ -268,7 +268,7 @@ namespace Theodore {
   void Quaternion::AxisAngle(Vector3d& axis, float& angle) {
     const float scale = std::sqrt(x * x + y * y + z * z);
 
-    if (Math::IsZero(scale) || w > 1.0f || w < -1.0f) {
+    if (Mathf::IsZero(scale) || w > 1.0f || w < -1.0f) {
       angle = 0.0f;
       axis.x = 0.0f;
       axis.y = 1.0f;

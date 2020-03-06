@@ -2,9 +2,7 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "DataStream.h"
-
 #include <assert.h>
-
 #include <vector>
 
 namespace Theodore {

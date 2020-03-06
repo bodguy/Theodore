@@ -9,7 +9,6 @@
 #include "Component/Light.h"
 #include "Component/Transform.h"
 #include "GameObject.h"
-#include "Graphics/Graphics.h"
 #include "Helper/Utility.h"
 #include "Helper/crc32.h"
 #include "SceneManager.h"
@@ -21,13 +20,13 @@ namespace Theodore {
     // Every scene has at least a camera.
     GameObject* camera = new GameObject("MainCamera", this);
     Camera* cameraComponent = camera->AddComponent<Camera>();
-		sceneManager->mMainCamera = cameraComponent;
+		sceneManager->mainCamera = cameraComponent;
 
     // global light source setting.
-    GameObject* lightSource = new GameObject("GlobalLight", this);
-    Light* lightComponent = lightSource->AddComponent<Light>(LightType::DirectionalLight);
+    GameObject* lightGameObject = new GameObject("GlobalLight", this);
+    Light* lightComponent = lightGameObject->AddComponent<Light>(LightType::DirectionalLight);
     lightComponent->GetTransform()->SetLocalPosition(Vector3d(10.f, 10.f, 10.f));
-		sceneManager->mGlobalLight = lightComponent;
+		sceneManager->globalLight = lightComponent;
   }
 
   Scene::~Scene() {

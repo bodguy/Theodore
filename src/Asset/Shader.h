@@ -4,10 +4,10 @@
 #ifndef Shader_h
 #define Shader_h
 
-#include "Asset.h"
-#include "Graphics/Enumeration.h"
 #include <string>
 #include <vector>
+#include "Asset.h"
+#include "Graphics/Enumeration.h"
 
 namespace Theodore {
   typedef int Attribute;

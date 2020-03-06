@@ -2,7 +2,6 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "GameObject.h"
-
 #include "Asset/AssetManager.h"
 #include "Asset/Shader.h"
 #include "Asset/Texture.h"
@@ -64,7 +63,7 @@ namespace Theodore {
   const std::string& GameObject::GetTag() const { return tagName; }
 
   bool GameObject::CompareTag(const std::string& tag) const {
-    if (tag == CRC32_STR(tag.c_str())) return true;
+    if (this->tag == CRC32_STR(tag.c_str())) return true;
 
     return false;
   }
@@ -77,10 +76,10 @@ namespace Theodore {
     unsigned int base = msg.GetType();
     for (auto& i : subscriber[base]) i->HandleMessage(msg);
 
-    GameObject* parent = parent;
-    while (parent != nullptr) {
-      for (auto& i : parent->subscriber[base]) i->HandleMessage(msg);
-      parent = parent->parent;
+    GameObject* link = parent;
+    while (link != nullptr) {
+      for (auto& i : link->subscriber[base]) i->HandleMessage(msg);
+			link = link->parent;
     }
 
     return true;

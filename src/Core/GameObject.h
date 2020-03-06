@@ -10,7 +10,6 @@
 #include <typeinfo>
 #include <unordered_map>
 #include <vector>
-
 #include "Component/Camera.h"
 #include "Component/Collider/BoxCollider.h"
 #include "Component/Collider/Collider.h"
@@ -96,12 +95,12 @@ namespace Theodore {
     // check if there is already exist.
     if (components.find(std::type_index(typeid(T))) != components.end()) return static_cast<T*>(nullptr);
 
-    // allocate with malloc() because of mGameObject member.
+    // allocate with malloc() because of gameObject member.
     T* component = static_cast<T*>(malloc(sizeof(T)));
     // check if component casting to T type were failed.
     if (!component) return static_cast<T*>(nullptr);
     // set the member variables...
-    component->mGameObject = this;
+    component->gameObject = this;
     // placement new and call constructor.
     new (component) T(args...);
     // store to unordered_map(hash map).

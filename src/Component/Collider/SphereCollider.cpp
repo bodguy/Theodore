@@ -2,25 +2,21 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "SphereCollider.h"
-
-#include <cmath>
-
 #include "Graphics/Graphics.h"
 #include "Component/MeshRenderer.h"
 #include "Component/Transform.h"
 #include "Asset/Mesh.h"
-#include "Object/GameObject.h"
+#include "Core/GameObject.h"
 
 namespace Theodore {
   SphereCollider::SphereCollider() : Collider("SphereCollider"), center(), radius(1.f), maxLengthVector() {
 		colliderType = ColliderType::Sphere;
-    CalculateBoundingVolumes();
   }
 
   SphereCollider::~SphereCollider() {}
 
   bool SphereCollider::Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) {
-    // Error!!!!!!!
+    // TODO: Error!!!!!!!
     Vector3d L = center - ray.origin;
     float tca = Vector3d::DotProduct(L, ray.direction);
     float d2 = Vector3d::DotProduct(L, L) - tca * tca;
@@ -42,11 +38,11 @@ namespace Theodore {
 
   Vector3d SphereCollider::GetCenter() const { return center; }
 
-  void SphereCollider::SetCenter(const Vector3d& center) { center = center; }
+  void SphereCollider::SetCenter(const Vector3d& center) { this->center = center; }
 
   float SphereCollider::GetRadius() const { return radius; }
 
-  void SphereCollider::SetRadius(float radius) { radius = radius; }
+  void SphereCollider::SetRadius(float radius) { this->radius = radius; }
 
   void SphereCollider::CalculateBoundingVolumes() {
     MeshRenderer* meshRenderer = gameObject->GetComponent<MeshRenderer>();
@@ -97,7 +93,11 @@ namespace Theodore {
 
     float newRadius = (maxLengthVector * scale).Length();
     Vector3d newCenter = Matrix4x4::DecomposeTranslation(world) +
-                         Math::Pow(scale, 2.f) * Vector3d(Math::Dot(Vector3d(model.rows[0]), center), Math::Dot(Vector3d(model.rows[1]), center), Math::Dot(Vector3d(model.rows[2]), center));
+                         Mathf::Pow(scale, 2.f) * Vector3d(
+                           Mathf::Dot(Vector3d(model.rows[0]), center),
+                           Mathf::Dot(Vector3d(model.rows[1]), center),
+                           Mathf::Dot(Vector3d(model.rows[2]), center)
+                         );
 
     Graphics::DrawSphere(newCenter, newRadius, Color::orange);
   }

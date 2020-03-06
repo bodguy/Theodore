@@ -6,7 +6,7 @@
 #include "Asset/Shader.h"
 #include "Camera.h"
 #include "Graphics/Graphics.h"
-#include "Math/Math.h"
+#include "Math/Mathf.h"
 #include "Asset/Mesh.h"
 #include "Helper/ShapeGenerator.h"
 #include "Object/SceneManager.h"
@@ -31,7 +31,7 @@ namespace Theodore {
 
     Camera* cam = SceneManager::GetMainCamera();
     pipeline->SetUniform("view", Matrix4x4::ToMatrix3x3(cam->GetWorldToCameraMatrix()));
-    pipeline->SetUniform("projection", Matrix4x4::Perspective(Math::Radians(cam->GetFieldOfView()), cam->GetAspectRatio(), cam->GetNearClipPlane(), cam->GetFarClipPlane()));
+    pipeline->SetUniform("projection", Matrix4x4::Perspective(Mathf::Radians(cam->GetFieldOfView()), cam->GetAspectRatio(), cam->GetNearClipPlane(), cam->GetFarClipPlane()));
 
     pipeline->SetUniform("cubemap", 0);
     glActiveTexture(GL_TEXTURE0);

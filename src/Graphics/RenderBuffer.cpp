@@ -2,9 +2,7 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "RenderBuffer.h"
-
-#include "Platform/CondiitonalVars.h"
-#include GLEW_INCLUDE_DIR
+#include "Enumeration.h"
 
 namespace Theodore {
   RenderBuffer::RenderBuffer() { glGenRenderbuffers(1, &renderBufferId); }

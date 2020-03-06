@@ -9,7 +9,7 @@
 #include "Graphics/Enumeration.h"
 #include "Helper/Debug.h"
 #include "KeyCode.h"
-#include "Math/Math.h"
+#include "Math/Mathf.h"
 #include "Math/Vector3d.h"
 
 namespace Theodore {

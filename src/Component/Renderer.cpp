@@ -3,7 +3,7 @@
 
 #include "Renderer.h"
 
-#include "Graphics/VertexBuffer.h"
+#include "Graphics/VertexArray.h"
 #include "Helper/Utility.h"
 
 namespace Theodore {
@@ -21,7 +21,7 @@ namespace Theodore {
     // DO NOT DEALLOCATE mProgram.
   }
 
-  void Renderer::SetPrimitive(const Primitive primitive) { primitive = primitive; }
+  void Renderer::SetPrimitive(const Primitive primitive) { this->primitive = primitive; }
 
   bool Renderer::GetVisibleGizmos() const { return isVisibleGizmos; }
 

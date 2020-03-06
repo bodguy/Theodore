@@ -11,7 +11,7 @@
 #include "Graphics/Enumeration.h"
 
 namespace Theodore {
-  class Buffer;
+  class GPUBuffer;
   class VertexArray;
   class Pipeline;
   class Renderer : public Component {
@@ -25,8 +25,8 @@ namespace Theodore {
     Bounds* GetBounds();
 
   protected:
-    std::vector<Buffer*> vertexBuffers;
-    std::vector<Buffer*> indexBuffers;
+    std::vector<GPUBuffer*> vertexBuffers;
+    std::vector<GPUBuffer*> indexBuffers;
     VertexArray* vertexArray;
     Pipeline* pipeline;
     Pipeline* normalVisualizePipeline;

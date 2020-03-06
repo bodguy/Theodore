@@ -2,16 +2,16 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "File.h"
-
+#include "Helper/StringUtil.h"
 #include <stdarg.h>
 #pragma warning(disable : 4996)
 
 namespace Theodore {
-  File::File() : filePointer(NULL), baseName(""), fileName(""), fullName(""), openMode(OpenMode::Read) {}
+  File::File() : filePointer(NULL), baseName(), fileName(), fullName(), openMode(OpenMode::Read) {}
 
   File::File(const std::string& name, OpenMode accessType) { Open(name, accessType); }
 
-  File::File(FILE* file) : filePointer(file), baseName(""), fileName(""), fullName(""), openMode(OpenMode::Read) {}
+  File::File(FILE* file) : filePointer(file), baseName(), fileName(), fullName(), openMode(OpenMode::Read) {}
 
   File::~File() { Clear(); }
 
@@ -22,8 +22,8 @@ namespace Theodore {
   }
 
   bool File::Open(const std::string& name, OpenMode access_type) {
-		fullName = std::string(name);
-		baseName = BaseName(fullName);
+		fullName = name;
+		baseName = StringUtil::Base(fullName);
 		fileName = RemoveExtension(baseName);
 		openMode = access_type;
 
@@ -195,15 +195,6 @@ namespace Theodore {
   std::string File::GetBaseName() const { return baseName; }
 
   std::string File::GetFileName() const { return fileName; }
-
-  std::string File::BaseName(const std::string& path) {
-    const size_t last_slash_idx = path.find_last_of("\\/");
-    if (std::string::npos != last_slash_idx) {
-      return path.substr(last_slash_idx + 1);
-    }
-
-    return std::string("");
-  }
 
   std::string File::RemoveExtension(const std::string& filename) {
     const size_t period_idx = filename.find_last_of('.');

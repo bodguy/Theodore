@@ -7,11 +7,11 @@
 #include "Graphics/FrameBuffer.h"
 #include "Graphics/Graphics.h"
 #include "Helper/Utility.h"
-#include "Math/Math.h"
+#include "Math/Mathf.h"
 #include "MeshRenderer.h"
 #include "Material.h"
 #include "Asset/Mesh.h"
-#include "Object/GameObject.h"
+#include "Core/GameObject.h"
 #include "Platform/Platform.h"
 #include "Transform.h"
 
@@ -46,7 +46,7 @@ namespace Theodore {
     if (isOrthographic) {
 			projectionMatrix = Matrix4x4::Orthogonal(-10.f, 10.f, -10.f, 10.f, nearClipPlane, farClipPlane);
     } else {
-			projectionMatrix = Matrix4x4::Perspective(Math::Radians(fieldOfView), aspect, nearClipPlane, farClipPlane);
+			projectionMatrix = Matrix4x4::Perspective(Mathf::Radians(fieldOfView), aspect, nearClipPlane, farClipPlane);
     }
     return projectionMatrix;
   }

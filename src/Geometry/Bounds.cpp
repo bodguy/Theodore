@@ -106,8 +106,8 @@ namespace Theodore {
   void Bounds::Expand(float amount) { extents += amount; }
 
   void Bounds::SetMinMax(const Vector3d& min, const Vector3d& max) {
-    min = min;
-    max = max;
+    this->min = min;
+    this->max = max;
     center = (max + min) * 0.5f;
     extents = center - min;
     size = extents * 2.f;

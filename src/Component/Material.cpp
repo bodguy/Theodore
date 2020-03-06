@@ -5,12 +5,15 @@
 
 namespace Theodore {
   Material::Material(Pipeline* pipeline)
-      : name(), ambient(), diffuse(), specular(), transmittance(), emission(), shininess(1.f), indexOfRefrection(1.f), dissolve(1.f), illuminationModel(0), pipeline(pipeline), renderTexture(nullptr), textureMap() {
+      : name(), ambient(), diffuse(), specular(), transmittance(), emission(), shininess(1.f), indexOfRefrection(1.f),
+      dissolve(1.f), illuminationModel(0), pipeline(pipeline), renderTexture(nullptr), textureMap() {
 		textureMap.clear();
   }
 
   Material::Material(Color ambient, Color diffuse, Color specular, float shininess)
-      : name(), ambient(ambient), diffuse(diffuse), specular(specular), transmittance(), emission(), shininess(shininess), indexOfRefrection(1.f), dissolve(1.f), illuminationModel(0), pipeline(nullptr), renderTexture(nullptr), textureMap() {
+      : name(), ambient(ambient), diffuse(diffuse), specular(specular), transmittance(), emission(),
+      shininess(shininess), indexOfRefrection(1.f), dissolve(1.f), illuminationModel(0), pipeline(nullptr),
+      renderTexture(nullptr), textureMap() {
 		textureMap.clear();
   }
 

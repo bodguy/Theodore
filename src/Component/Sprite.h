@@ -6,14 +6,14 @@
 
 #include "Geometry/Bounds.h"
 #include "Graphics/Enumeration.h"
-#include "Graphics/VertexBuffer.h"
+#include "Graphics/VertexArray.h"
 #include "Math/Color.h"
 #include "Math/Rect.h"
 #include "Math/Vector2d.h"
 
 namespace Theodore {
   class Texture2D;
-  class Buffer;
+  class GPUBuffer;
   class VertexArray;
   class Sprite {
     friend class SpriteRenderer;

@@ -4,12 +4,11 @@
 #include "FontRenderer.h"
 
 #include "Asset/Font.h"
-#include "Asset/Shader.h"
+#include "Asset/Pipeline.h"
+#include "Asset/GlyphInfo.h"
 #include "Graphics/Graphics.h"
-#include "Graphics/VertexBuffer.h"
-#include "Math/Vector4d.h"
-#include "Camera.h"
-#include "Object/SceneManager.h"
+#include "Graphics/VertexArray.h"
+#include "Core/SceneManager.h"
 #include "Transform.h"
 
 namespace Theodore {
@@ -49,9 +48,9 @@ namespace Theodore {
     glBindVertexArray(0);
   }
 
-  void FontRenderer::SetColor(const Color& color) { color = color; }
+  void FontRenderer::SetColor(const Color& color) { this->color = color; }
 
-  void FontRenderer::SetText(const std::string& text) { text = text; }
+  void FontRenderer::SetText(const std::string& text) { this->text = text; }
 
   void FontRenderer::Update(float deltaTime) {}
 

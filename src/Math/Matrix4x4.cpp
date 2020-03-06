@@ -8,7 +8,7 @@
 #include <stdexcept>  // for std::logic_error, std::out_of_range
 #include <utility>    // since c++11 for std::swap
 
-#include "Math.h"
+#include "Mathf.h"
 #include "Quaternion.h"
 #include "Vector2d.h"
 #include "Vector3d.h"

@@ -5,7 +5,6 @@
 #define File_h
 
 #include <string>
-
 #include "Graphics/Enumeration.h"
 
 namespace Theodore {
@@ -48,7 +47,6 @@ namespace Theodore {
     std::string GetFileName() const;
 
   private:
-    std::string BaseName(const std::string& path);
     std::string RemoveExtension(const std::string& filename);
 
 #if (_MSC_VER == 1700)

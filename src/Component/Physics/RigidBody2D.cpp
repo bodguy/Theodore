@@ -4,7 +4,7 @@
 #include "RigidBody2D.h"
 
 #include "Component/Transform.h"
-#include "Object/GameObject.h"
+#include "Core/GameObject.h"
 
 namespace Theodore {
   RigidBody2D::RigidBody2D() : Component("RigidBody2D"), mPosition(), mVelocity(), mForce() {

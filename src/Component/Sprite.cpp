@@ -10,16 +10,8 @@
 
 namespace Theodore {
   Sprite::Sprite()
-      : indexFormat(IndexFormat::UInt16),
-				texture(nullptr),
-				rect(),
-				textureRect(),
-				textureRectOffset(),
-				pivot(),
-				initialPivot(),
-				colorKey(Color::white),
-				useColorKey(false),
-				bounds(Vector3d::zero, Vector3d::one) {
+      : indexFormat(IndexFormat::UInt16), texture(nullptr), rect(), textureRect(), textureRectOffset(), pivot(),
+				initialPivot(), colorKey(Color::white), useColorKey(false), bounds(Vector3d::zero, Vector3d::one) {
     memset(vertices, 0, sizeof(Vector2d) * 4);
     memset(texcoords, 0, sizeof(Vector2d) * 4);
     memset(indices, 0, sizeof(unsigned short) * 6);

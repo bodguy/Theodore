@@ -13,8 +13,14 @@ namespace Theodore {
     bool operator==(const BoneWeight& other) const;
     bool operator!=(const BoneWeight& other) const;
 
-    int boneIndex0, boneIndex1, boneIndex2, boneIndex3;
-    float weight0, weight1, weight2, weight3;
+    int boneIndex0;
+    int boneIndex1;
+		int boneIndex2;
+		int boneIndex3;
+    float weight0;
+		float weight1;
+		float weight2;
+		float weight3;
   };
 }  // namespace Theodore
 

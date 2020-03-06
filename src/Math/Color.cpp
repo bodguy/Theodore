@@ -6,7 +6,7 @@
 #include <algorithm>  // for std::max, std::min
 #include <cmath>      // for std::floor
 
-#include "Math.h"
+#include "Mathf.h"
 
 namespace Theodore {
   Color::Color() : r(1.f), g(1.f), b(1.f), a(1.f) {}
@@ -15,7 +15,7 @@ namespace Theodore {
 
   Color::Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {}
 
-  bool Color::operator==(const Color& rhs) { return (Math::IsEqual(r, rhs.r) && Math::IsEqual(g, rhs.g) && Math::IsEqual(b, rhs.b) && Math::IsEqual(a, rhs.a)); }
+  bool Color::operator==(const Color& rhs) { return (Mathf::IsEqual(r, rhs.r) && Mathf::IsEqual(g, rhs.g) && Mathf::IsEqual(b, rhs.b) && Mathf::IsEqual(a, rhs.a)); }
 
   bool Color::operator!=(const Color& rhs) { return !(*this == rhs); }
 

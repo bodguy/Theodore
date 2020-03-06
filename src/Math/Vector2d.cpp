@@ -7,7 +7,7 @@
 #include <cmath>
 #include <utility>  // since c++11 for std::swap
 
-#include "Math.h"
+#include "Mathf.h"
 
 namespace Theodore {
   Vector2d::Vector2d() : x(0.f), y(0.f) {}
@@ -120,7 +120,7 @@ namespace Theodore {
 
   bool Vector2d::operator>=(const Vector2d& other) const { return x >= other.x && y >= other.y; }
 
-  bool Vector2d::operator==(const Vector2d& other) const { return (Math::IsEqual(x, other.x) && Math::IsEqual(y, other.y)); }
+  bool Vector2d::operator==(const Vector2d& other) const { return (Mathf::IsEqual(x, other.x) && Mathf::IsEqual(y, other.y)); }
 
   bool Vector2d::operator!=(const Vector2d& other) const { return !(*this == other); }
 
@@ -132,7 +132,7 @@ namespace Theodore {
 
   bool Vector2d::operator>=(const float scalar) const { return x >= scalar && y >= scalar; }
 
-  bool Vector2d::operator==(const float scalar) const { return (Math::IsEqual(x, scalar) && Math::IsEqual(y, scalar)); }
+  bool Vector2d::operator==(const float scalar) const { return (Mathf::IsEqual(x, scalar) && Mathf::IsEqual(y, scalar)); }
 
   bool Vector2d::operator!=(const float scalar) const { return !(*this == scalar); }
 
@@ -144,7 +144,7 @@ namespace Theodore {
 
   Vector2d& Vector2d::Normalize() {
     float len = std::sqrt(x * x + y * y);
-    if (Math::IsZero(len) || Math::IsEqual(len, 1.f)) return *this;
+    if (Mathf::IsZero(len) || Mathf::IsEqual(len, 1.f)) return *this;
 
     float inv = 1 / len;
 
@@ -190,7 +190,7 @@ namespace Theodore {
 
   Vector2d Vector2d::Normalize(const Vector2d& vector) {
     float len = std::sqrt(vector.x * vector.x + vector.y * vector.y);
-    if (Math::IsZero(len) || Math::IsEqual(len, 1.f)) return vector;
+    if (Mathf::IsZero(len) || Mathf::IsEqual(len, 1.f)) return vector;
 
     float inv = 1 / len;
     return Vector2d(vector.x * inv, vector.y * inv);

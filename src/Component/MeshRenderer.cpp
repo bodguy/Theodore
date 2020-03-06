@@ -2,18 +2,18 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "MeshRenderer.h"
-
 #include "Asset/Texture2D.h"
+#include "Asset/Mesh.h"
+#include "Asset/Pipeline.h"
 #include "Graphics/FrameBuffer.h"
 #include "Graphics/Graphics.h"
-#include "Graphics/VertexBuffer.h"
+#include "Graphics/VertexArray.h"
 #include "Helper/Debug.h"
 #include "Helper/Utility.h"
-#include "Math/Math.h"
+#include "Math/Mathf.h"
 #include "Material.h"
-#include "Asset/Mesh.h"
-#include "Object/GameObject.h"
-#include "Object/SceneManager.h"
+#include "Core/GameObject.h"
+#include "Core/SceneManager.h"
 #include "Transform.h"
 
 namespace Theodore {
@@ -31,14 +31,14 @@ namespace Theodore {
 		pipeline = material->GetShader();
   }
 
-  void MeshRenderer::SetMesh(Mesh* mesh) {
+  void MeshRenderer::SetMesh(Mesh* pmesh) {
     if (mesh == NULL) {
       return;
     }
 
-		mesh = mesh;
+		mesh = pmesh;
 
-    Buffer* buffer = new Buffer(BufferType::BufferVertex);
+    GPUBuffer* buffer = new GPUBuffer(BufferType::BufferVertex);
     VertexSemantic semantic = mesh->GetVertexSemantic();
     size_t size = 0;
 
@@ -58,7 +58,7 @@ namespace Theodore {
     vertexBuffers.push_back(buffer);
 
     if (semantic & VertexSemantic::SemanticFaces) {
-      Buffer* index = new Buffer(BufferType::BufferIndex);
+      GPUBuffer* index = new GPUBuffer(BufferType::BufferIndex);
       size_t indexSize = 0;
       switch (mesh->GetIndexFormat()) {
         case IndexFormat::UInt16:
@@ -102,12 +102,12 @@ namespace Theodore {
 
     Vector3d center = mesh->GetBounds()->GetCenter();
     Vector3d extents = mesh->GetBounds()->GetExtents();
-    Vector3d powScale = Math::Pow(Matrix4x4::DecomposeScale(world), 2.f);
+    Vector3d powScale = Mathf::Pow(Matrix4x4::DecomposeScale(world), 2.f);
 
     Vector3d newCenter = Matrix4x4::DecomposeTranslation(world) +
-                         powScale * Vector3d(Math::Dot(Vector3d(model.rows[0]), center), Math::Dot(Vector3d(model.rows[1]), center), Math::Dot(Vector3d(model.rows[2]), center));
+                         powScale * Vector3d(Mathf::Dot(Vector3d(model.rows[0]), center), Mathf::Dot(Vector3d(model.rows[1]), center), Mathf::Dot(Vector3d(model.rows[2]), center));
 
-    Vector3d newExtents = powScale * Vector3d(Math::AbsDot(Vector3d(model.rows[0]), extents), Math::AbsDot(Vector3d(model.rows[1]), extents), Math::AbsDot(Vector3d(model.rows[2]), extents));
+    Vector3d newExtents = powScale * Vector3d(Mathf::AbsDot(Vector3d(model.rows[0]), extents), Mathf::AbsDot(Vector3d(model.rows[1]), extents), Mathf::AbsDot(Vector3d(model.rows[2]), extents));
 
     bounds.SetMinMax(newCenter - newExtents, newCenter + newExtents);
   }

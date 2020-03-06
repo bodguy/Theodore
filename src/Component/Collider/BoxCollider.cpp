@@ -2,28 +2,27 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "BoxCollider.h"
-
 #include "Graphics/Graphics.h"
 #include "Component/MeshRenderer.h"
 #include "Component/Transform.h"
 #include "Asset/Mesh.h"
-#include "Object/GameObject.h"
+#include "Core/GameObject.h"
+#include "Math/Mathf.h"
 
 namespace Theodore {
   BoxCollider::BoxCollider() : Collider("BoxCollider"), center(), size() {
 		colliderType = ColliderType::Box;
-    CalculateBoundingVolumes();
   }
 
   BoxCollider::~BoxCollider() {}
 
   Vector3d BoxCollider::GetCenter() const { return center; }
 
-  void BoxCollider::SetCenter(const Vector3d& center) { center = center; }
+  void BoxCollider::SetCenter(const Vector3d& center) { this->center = center; }
 
   Vector3d BoxCollider::GetSize() const { return size; }
 
-  void BoxCollider::SetSize(const Vector3d& size) { size = size; }
+  void BoxCollider::SetSize(const Vector3d& size) { this->size = size; }
 
   bool BoxCollider::Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance) {
     Vector3d min = center - size * 0.5f;
@@ -32,18 +31,18 @@ namespace Theodore {
     float t1 = (min[0] - ray.origin[0]) * ray.inverseDirection[0];
     float t2 = (max[0] - ray.origin[0]) * ray.inverseDirection[0];
 
-    float tmin = std::fminf(t1, t2);
-    float tmax = std::fmaxf(t1, t2);
+    float tmin = Mathf::Min(t1, t2);
+    float tmax = Mathf::Max(t1, t2);
 
     for (unsigned int i = 1; i < 3; i++) {
       t1 = (min[i] - ray.origin[i]) * ray.inverseDirection[i];
       t2 = (max[i] - ray.origin[i]) * ray.inverseDirection[i];
 
-      tmin = std::fmaxf(tmin, std::fminf(t1, t2));
-      tmax = std::fminf(tmax, std::fmaxf(t1, t2));
+      tmin = Mathf::Max(tmin, Mathf::Min(t1, t2));
+      tmax = Mathf::Min(tmax, Mathf::Max(t1, t2));
     }
 
-    return tmax > std::fmaxf(tmin, 0.f);
+    return tmax > Mathf::Max(tmin, 0.f);
   }
 
   void BoxCollider::CalculateBoundingVolumes() {

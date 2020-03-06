@@ -2,9 +2,8 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Application.h"
-
 #include "Asset/AssetManager.h"
-#include "Asset/Shader.h"
+#include "Asset/Pipeline.h"
 #include "Graphics/Graphics.h"
 #include "Helper/Utility.h"
 #include "Math/Random.h"
@@ -12,6 +11,7 @@
 #include "Platform/Time.h"
 #include "RootDir.h"
 #include "SceneManager.h"
+#include "ShaderManager.h"
 
 namespace Theodore {
   Application* Application::instance = nullptr;

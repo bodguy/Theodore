@@ -3,7 +3,7 @@
 
 #include "BoneWeight.h"
 
-#include "Math/Math.h"
+#include "Math/Mathf.h"
 
 namespace Theodore {
   BoneWeight::BoneWeight() {
@@ -20,8 +20,16 @@ namespace Theodore {
   BoneWeight::~BoneWeight() {}
 
   bool BoneWeight::operator==(const BoneWeight& other) const {
-    return (boneIndex0 == other.boneIndex0 && boneIndex1 == other.boneIndex1 && boneIndex2 == other.boneIndex2 && boneIndex3 == other.boneIndex3 && Math::IsEqual(weight0, other.weight0) &&
-            Math::IsEqual(weight1, other.weight1) && Math::IsEqual(weight2, other.weight2) && Math::IsEqual(weight3, other.weight3));
+    return (
+      boneIndex0 == other.boneIndex0 &&
+      boneIndex1 == other.boneIndex1 &&
+      boneIndex2 == other.boneIndex2 &&
+      boneIndex3 == other.boneIndex3 &&
+      Mathf::IsEqual(weight0, other.weight0) &&
+      Mathf::IsEqual(weight1, other.weight1) &&
+      Mathf::IsEqual(weight2, other.weight2) &&
+      Mathf::IsEqual(weight3, other.weight3)
+    );
   }
 
   bool BoneWeight::operator!=(const BoneWeight& other) const { return !(*this == other); }

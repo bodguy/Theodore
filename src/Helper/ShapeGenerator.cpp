@@ -3,7 +3,7 @@
 
 #include "ShapeGenerator.h"
 
-#include "Math/Math.h"
+#include "Math/Mathf.h"
 #include "Asset/Mesh.h"
 
 namespace Theodore {
@@ -270,7 +270,7 @@ namespace Theodore {
   Mesh* ShapeGenerator::GenerateIcoSphere(unsigned int subdivisions) {
     Mesh* mesh = new Mesh();
 
-    float t = (1.f + Math::Sqrt(5.f) / 2.f);
+    float t = (1.f + Mathf::Sqrt(5.f) / 2.f);
     std::vector<Vector3d> vertices = {Vector3d(-1.f, t, 0.f).Normalize(), Vector3d(1.f, t, 0.f).Normalize(), Vector3d(-1.f, -t, 0.f).Normalize(), Vector3d(1.f, -t, 0.f).Normalize(),
                                       Vector3d(0.f, -1.f, t).Normalize(), Vector3d(0.f, 1.f, t).Normalize(), Vector3d(0.f, -1.f, -t).Normalize(), Vector3d(0.f, 1.f, -t).Normalize(),
                                       Vector3d(t, 0.f, -1.f).Normalize(), Vector3d(t, 0.f, 1.f).Normalize(), Vector3d(-t, 0.f, -1.f).Normalize(), Vector3d(-t, 0.f, 1.f).Normalize()};
@@ -350,11 +350,11 @@ namespace Theodore {
 
     float hl = length * 0.5f;
     float a = 0.0f;
-    float step = Math::pi * 2.f / (float)numSteps;
+    float step = Mathf::pi * 2.f / (float)numSteps;
 
     for (int i = 0; i <= numSteps; ++i) {
-      float x = Math::Cos(a) * radius;
-      float y = Math::Sin(a) * radius;
+      float x = Mathf::Cos(a) * radius;
+      float y = Mathf::Sin(a) * radius;
 
       normals.push_back(Vector3d(x / radius, y / radius, 0.f).Normalize());
       vertices.push_back(Vector3d(x, y, -hl));
@@ -378,7 +378,7 @@ namespace Theodore {
     std::vector<Vector3d> vertices;
     std::vector<Vector3d> normals;
 
-    float twopi = 2.f * Math::pi;
+    float twopi = 2.f * Mathf::pi;
     float radius = 0.3f;
 
     for (int i = 0; i < numc; i++) {
@@ -387,9 +387,9 @@ namespace Theodore {
           float s = (i + k) % numc + 0.5f;
           float t = (float)(j % numt);
 
-          float x = (1 + radius * Math::Cos(s * twopi / numc)) * Math::Cos(t * twopi / numt);
-          float y = (1 + radius * Math::Cos(s * twopi / numc)) * Math::Sin(t * twopi / numt);
-          float z = radius * Math::Sin(s * twopi / numc);
+          float x = (1 + radius * Mathf::Cos(s * twopi / numc)) * Mathf::Cos(t * twopi / numt);
+          float y = (1 + radius * Mathf::Cos(s * twopi / numc)) * Mathf::Sin(t * twopi / numt);
+          float z = radius * Mathf::Sin(s * twopi / numc);
           vertices.push_back(Vector3d(x, y, z));
           normals.push_back(Vector3d(x, y, z).Normalize());
         }
@@ -410,13 +410,13 @@ namespace Theodore {
 
     float phi = 0.f;
     int nPhi = 100;
-    float dPhi = 2.f * Math::pi / (nPhi - 1);
+    float dPhi = 2.f * Mathf::pi / (nPhi - 1);
 
     vertices.push_back(Vector3d(0.f, height, 0.f));
     normals.push_back(Vector3d(0.f, height, 0.f));
     for (int i = 0; i < nPhi; i++) {
-      vertices.push_back(Vector3d(Math::Cos(phi) * radius, -height, Math::Sin(phi) * radius));
-      normals.push_back(Vector3d(height * Math::Cos(phi), radius, height * Math::Sin(phi)));
+      vertices.push_back(Vector3d(Mathf::Cos(phi) * radius, -height, Mathf::Sin(phi) * radius));
+      normals.push_back(Vector3d(height * Mathf::Cos(phi), radius, height * Mathf::Sin(phi)));
       phi += dPhi;
     }
 

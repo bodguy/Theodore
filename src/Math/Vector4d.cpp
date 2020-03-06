@@ -7,7 +7,7 @@
 #include <cmath>
 #include <utility>  // since c++11 for std::swap
 
-#include "Math.h"
+#include "Mathf.h"
 #include "Vector2d.h"
 #include "Vector3d.h"
 
@@ -181,7 +181,7 @@ namespace Theodore {
 
   bool Vector4d::operator>=(const Vector4d& other) const { return x >= other.x && y >= other.y && z >= other.z && w >= other.w; }
 
-  bool Vector4d::operator==(const Vector4d& other) const { return (Math::IsEqual(x, other.x) && Math::IsEqual(y, other.y) && Math::IsEqual(z, other.z) && Math::IsEqual(w, other.w)); }
+  bool Vector4d::operator==(const Vector4d& other) const { return (Mathf::IsEqual(x, other.x) && Mathf::IsEqual(y, other.y) && Mathf::IsEqual(z, other.z) && Mathf::IsEqual(w, other.w)); }
 
   bool Vector4d::operator!=(const Vector4d& other) const { return !(*this == other); }
 
@@ -195,14 +195,14 @@ namespace Theodore {
 
   bool Vector4d::operator==(const float scalar) const {
     // scalar only equal with vector components.
-    return (Math::IsEqual(x, scalar) && Math::IsEqual(y, scalar) && Math::IsEqual(z, scalar));
+    return (Mathf::IsEqual(x, scalar) && Mathf::IsEqual(y, scalar) && Mathf::IsEqual(z, scalar));
   }
 
   bool Vector4d::operator!=(const float scalar) const { return !(*this == scalar); }
 
   Vector4d& Vector4d::Normalize() {
     float len = std::sqrt(x * x + y * y + z * z + w * w);
-    if (Math::IsZero(len) || Math::IsEqual(len, 1.f)) return *this;
+    if (Mathf::IsZero(len) || Mathf::IsEqual(len, 1.f)) return *this;
 
     float inv = 1 / len;
 

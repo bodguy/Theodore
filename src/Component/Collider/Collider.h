@@ -8,11 +8,10 @@
 
 #include "Geometry/Ray.h"
 #include "Graphics/Enumeration.h"
-#include "Math/Color.h"
 #include "Component/Component.h"
-#include "Component/Physics/Physics.h"
 
 namespace Theodore {
+	class RaycastHit;
   class Collider : public Component {
   public:
     explicit Collider(const std::string& name);

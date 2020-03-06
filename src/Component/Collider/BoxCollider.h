@@ -22,7 +22,6 @@ namespace Theodore {
 
   private:
     virtual void CalculateBoundingVolumes() override;
-
     virtual void Update(float deltaTime) override;
     virtual void Render() override;
     virtual bool CompareEquality(const Object& rhs) const override;

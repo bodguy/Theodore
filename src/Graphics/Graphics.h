@@ -14,7 +14,7 @@ namespace Theodore {
   class VertexArray;
   class FrameBuffer;
   class Pipeline;
-  class Buffer;
+  class GPUBuffer;
   class Camera;
   class Graphics {
   public:
@@ -79,7 +79,7 @@ namespace Theodore {
 
     static Pipeline* gizmoPipline;
     static Pipeline* spherePipline;
-    static Buffer* gizmoBuffer;
+    static GPUBuffer* gizmoBuffer;
     static VertexArray* gizmoVao;
   };
 }  // namespace Theodore

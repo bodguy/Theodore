@@ -2,17 +2,16 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Gizmo.h"
-
 #include "Asset/AssetManager.h"
-#include "Asset/Shader.h"
+#include "Asset/Pipeline.h"
 #include "Camera.h"
 #include "Graphics/Graphics.h"
-#include "Graphics/VertexBuffer.h"
+#include "Graphics/VertexArray.h"
 #include "Helper/File.h"
 #include "Helper/Utility.h"
-#include "Math/Math.h"
-#include "Object/GameObject.h"
-#include "Object/SceneManager.h"
+#include "Math/Mathf.h"
+#include "Core/GameObject.h"
+#include "Core/SceneManager.h"
 #include "Transform.h"
 
 namespace Theodore {
@@ -20,7 +19,7 @@ namespace Theodore {
 		pipeline = Shader::Find("Gizmo");
 
     InputStream verts;
-    Buffer buffer(BufferType::BufferVertex);
+    GPUBuffer buffer(BufferType::BufferVertex);
 		vertexArray = new VertexArray();
 
     switch (gizmoType) {
@@ -39,8 +38,8 @@ namespace Theodore {
         int mHalfCircleSegmentCount = 64;
         for (int axis = 0; axis < 3; axis++) {
           for (int i = 0; i < mHalfCircleSegmentCount; i++) {
-            float ng = Math::pi * ((float)i / (float)mHalfCircleSegmentCount);
-            Vector3d axisPos = Vector3d(Math::Cos(ng), Math::Sin(ng), 0.f);
+            float ng = Mathf::pi * ((float)i / (float)mHalfCircleSegmentCount);
+            Vector3d axisPos = Vector3d(Mathf::Cos(ng), Mathf::Sin(ng), 0.f);
             verts.Vec3(Vector3d(axisPos[axis], axisPos[(axis + 1) % 3], axisPos[(axis + 2) % 3]));
           }
         }
@@ -88,8 +87,8 @@ namespace Theodore {
       case GizmoType::Rotation:
         // rotation X
         pipeline->Use();
-        Quaternion quat = Quaternion::AngleAxis(Math::Radians(90.f), Vector3d(0.f, 1.f, 0.f));
-        quat *= Quaternion::AngleAxis(Math::Radians(-90.f), Vector3d(1.f, 0.f, 0.f));
+        Quaternion quat = Quaternion::AngleAxis(Mathf::Radians(90.f), Vector3d(0.f, 1.f, 0.f));
+        quat *= Quaternion::AngleAxis(Mathf::Radians(-90.f), Vector3d(1.f, 0.f, 0.f));
         transform->SetRotation(quat);
         pipeline->SetUniform("model", transform->GetLocalToWorldMatrix());
         pipeline->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
@@ -110,7 +109,7 @@ namespace Theodore {
 
         // rotation Y
         pipeline->Use();
-        transform->SetRotation(Quaternion::AngleAxis(Math::Radians(-90.f), Vector3d(1.f, 0.f, 0.f)));
+        transform->SetRotation(Quaternion::AngleAxis(Mathf::Radians(-90.f), Vector3d(1.f, 0.f, 0.f)));
         pipeline->SetUniform("model", transform->GetLocalToWorldMatrix());
         pipeline->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
         pipeline->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());

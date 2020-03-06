@@ -6,7 +6,7 @@
 #include <cstring>
 
 #include "Helper/Utility.h"
-#include "Math/Math.h"
+#include "Math/Mathf.h"
 #include "Platform.h"
 
 namespace Theodore {
@@ -20,7 +20,7 @@ namespace Theodore {
 
   float InputHandler::GetAccumulator() const { return accumulator; }
 
-  void InputHandler::Accumulate(float delta) { accumulator = Math::Clamp(accumulator + delta, -1.f, 1.f); }
+  void InputHandler::Accumulate(float delta) { accumulator = Mathf::Clamp(accumulator + delta, -1.f, 1.f); }
 
   void InputHandler::ResetAccumulator() { accumulator = 0.f; }
 

@@ -2,18 +2,18 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Graphics.h"
-
 #include "Asset/Shader.h"
+#include "Asset/Pipeline.h"
 #include "FrameBuffer.h"
 #include "Helper/Debug.h"
 #include "Helper/Utility.h"
 #include "Math/Color.h"
-#include "Math/Math.h"
-#include "Object/Component/Camera.h"
-#include "Object/Component/Transform.h"
-#include "Object/SceneManager.h"
+#include "Math/Mathf.h"
+#include "Component/Camera.h"
+#include "Component/Transform.h"
+#include "Core/SceneManager.h"
 #include "Platform/Platform.h"
-#include "VertexBuffer.h"
+#include "VertexArray.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb/stb_image_write.h>
@@ -21,7 +21,7 @@
 namespace Theodore {
   Pipeline* Graphics::gizmoPipline = NULL;
   Pipeline* Graphics::spherePipline = NULL;
-  Buffer* Graphics::gizmoBuffer = NULL;
+  GPUBuffer* Graphics::gizmoBuffer = NULL;
   VertexArray* Graphics::gizmoVao = NULL;
 
   Graphics::Graphics() {}
@@ -31,7 +31,7 @@ namespace Theodore {
   void Graphics::SetGraphicsSettings() {
 		gizmoPipline = Shader::Find("Gizmo");
 		spherePipline = Shader::Find("Sphere");
-    gizmoBuffer = new Buffer(BufferType::BufferVertex);
+    gizmoBuffer = new GPUBuffer(BufferType::BufferVertex);
     gizmoBuffer->Data(nullptr, 24 * sizeof(Vector3d), BufferUsage::DynamicDraw);
     gizmoVao = new VertexArray();
     gizmoVao->BindAttribute(gizmoPipline->GetAttribute("position"), *gizmoBuffer, 3, sizeof(Vector3d), 0);
@@ -233,7 +233,8 @@ namespace Theodore {
 
         // bottom
         center + extent * Vector3d(-1.f, -1.f, -1.f), center + extent * Vector3d(1.f, -1.f, -1.f), center + extent * Vector3d(1.f, -1.f, -1.f), center + extent * Vector3d(1.f, -1.f, 1.f),
-        center + extent * Vector3d(1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, -1.f)};
+        center + extent * Vector3d(1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, -1.f)
+    };
 
     gizmoPipline->Use();
     gizmoPipline->SetUniform("model", model);
@@ -260,7 +261,7 @@ namespace Theodore {
   }
 
   void Graphics::DrawFrustum(const Vector3d& center, float fov, float maxRange, float minRange, float aspect, const Color color) {
-    float tanAngle = Math::Tan(fov / 2);
+    float tanAngle = Mathf::Tan(fov / 2);
 
     float yNear = minRange * tanAngle;
     float xNear = aspect * yNear;
@@ -340,9 +341,9 @@ namespace Theodore {
     SetColor(color);
     glLineWidth(thickness);
     glBegin(GL_LINE_LOOP);
-    for (int i = 0; i < Math::degrees; i++) {
-      const float rad = i * Math::degrees_to_radians;
-      Vertex(Vector3d(center.x + Math::Cos(rad) * radius, center.y + Math::Sin(rad) * radius));
+    for (int i = 0; i < Mathf::degrees; i++) {
+      const float rad = i * Mathf::degrees_to_radians;
+      Vertex(Vector3d(center.x + Mathf::Cos(rad) * radius, center.y + Mathf::Sin(rad) * radius));
     }
     glEnd();
   }

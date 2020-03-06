@@ -32,19 +32,14 @@ namespace Theodore {
     ~ShapeGenerator() {}
 
     static unsigned int Subdivide(unsigned int p1, unsigned int p2, std::vector<Vector3d>& positions);
-    /*static void GeneratePatches(float * v, float * n, float * tc, unsigned short* el, int grid);
-    static void MoveLid(int grid, float *v, Matrix4x4 lidTransform);
-    static void BuildPatchReflect(int patchNum, float *B, float *dB, float *v, float *n, float *tc,
-    unsigned short *el, int &index, int &elIndex, int &tcIndex, int grid, bool reflectX, bool
-    reflectY);
-    static void BuildPatch(Vector3d patch[][4], float *B, float *dB, float *v, float *n, float *tc,
-    unsigned short *el, int &index, int &elIndex, int &tcIndex, int grid, glm::mat3 reflect, bool
-    invertNormal);
-    static void GetPatch(int patchNum, Vector3d patch[][4], bool reverseV);
-    static void ComputeBasisFunctions(float * B, float * dB, int grid);
-    static Vector3d Evaluate(int gridU, int gridV, float *B, Vector3d patch[][4]);
-    static Vector3d EvaluateNormal(int gridU, int gridV, float *B, float *dB, Vector3d
-    patch[][4]);*/
+//    static void GeneratePatches(float * v, float * n, float * tc, unsigned short* el, int grid);
+//    static void MoveLid(int grid, float *v, Matrix4x4 lidTransform);
+//    static void BuildPatchReflect(int patchNum, float *B, float *dB, float *v, float *n, float *tc, unsigned short *el, int &index, int &elIndex, int &tcIndex, int grid, bool reflectX, bool reflectY);
+//    static void BuildPatch(Vector3d patch[][4], float *B, float *dB, float *v, float *n, float *tc, unsigned short *el, int &index, int &elIndex, int &tcIndex, int grid, glm::mat3 reflect, bool invertNormal);
+//    static void GetPatch(int patchNum, Vector3d patch[][4], bool reverseV);
+//    static void ComputeBasisFunctions(float * B, float * dB, int grid);
+//    static Vector3d Evaluate(int gridU, int gridV, float *B, Vector3d patch[][4]);
+//    static Vector3d EvaluateNormal(int gridU, int gridV, float *B, float *dB, Vector3d patch[][4]);
   };
 }  // namespace Theodore
 

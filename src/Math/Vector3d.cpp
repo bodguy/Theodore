@@ -7,7 +7,7 @@
 #include <cmath>
 #include <utility>  // since c++11 for std::swap
 
-#include "Math.h"
+#include "Mathf.h"
 #include "Vector2d.h"
 
 namespace Theodore {
@@ -155,7 +155,7 @@ namespace Theodore {
 
   bool Vector3d::operator>=(const Vector3d& other) const { return x >= other.x && y >= other.y && z >= other.z; }
 
-  bool Vector3d::operator==(const Vector3d& other) const { return (Math::IsEqual(x, other.x) && Math::IsEqual(y, other.y) && Math::IsEqual(z, other.z)); }
+  bool Vector3d::operator==(const Vector3d& other) const { return (Mathf::IsEqual(x, other.x) && Mathf::IsEqual(y, other.y) && Mathf::IsEqual(z, other.z)); }
 
   bool Vector3d::operator!=(const Vector3d& other) const { return !(*this == other); }
 
@@ -167,7 +167,7 @@ namespace Theodore {
 
   bool Vector3d::operator>=(const float scalar) const { return x >= scalar && y >= scalar && z >= scalar; }
 
-  bool Vector3d::operator==(const float scalar) const { return (Math::IsEqual(x, scalar) && Math::IsEqual(y, scalar) && Math::IsEqual(z, scalar)); }
+  bool Vector3d::operator==(const float scalar) const { return (Mathf::IsEqual(x, scalar) && Mathf::IsEqual(y, scalar) && Mathf::IsEqual(z, scalar)); }
 
   bool Vector3d::operator!=(const float scalar) const { return !(*this == scalar); }
 
@@ -188,7 +188,7 @@ namespace Theodore {
 
   Vector3d& Vector3d::Normalize() {
     float len = std::sqrt(x * x + y * y + z * z);
-    if (Math::IsZero(len) || Math::IsEqual(len, 1.f)) return *this;
+    if (Mathf::IsZero(len) || Mathf::IsEqual(len, 1.f)) return *this;
 
     float inv = 1 / len;
 
@@ -221,7 +221,7 @@ namespace Theodore {
   Vector3d Vector3d::Slerp(const Vector3d& a, const Vector3d& b, float t) {
     // Dot product - the cosine of the angle between 2 vectors.
     float dot = Vector3d::DotProduct(a, b);
-    Math::Clamp(dot, -1.0f, 1.0f);
+    Mathf::Clamp(dot, -1.0f, 1.0f);
 
     // Acos(dot) returns the angle between start and end,
     // And multiplying that by t returns the angle between
@@ -241,7 +241,7 @@ namespace Theodore {
 
   Vector3d Vector3d::Project(const Vector3d& vector, const Vector3d& onNormal) {
     float num = Vector3d::DotProduct(onNormal, onNormal);
-    if (num < Math::flt_epsilon) {
+    if (num < Mathf::flt_epsilon) {
       return Vector3d::zero;
     }
     return onNormal * Vector3d::DotProduct(vector, onNormal) / num;
@@ -251,14 +251,14 @@ namespace Theodore {
 
   Vector3d Vector3d::Normalize(const Vector3d& vector) {
     float len = std::sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
-    if (Math::IsZero(len) || Math::IsEqual(len, 1.f)) return vector;
+    if (Mathf::IsZero(len) || Mathf::IsEqual(len, 1.f)) return vector;
 
     float inv = 1 / len;
     return Vector3d(vector.x * inv, vector.y * inv, vector.z * inv);
   }
 
   float Vector3d::Angle(const Vector3d& from, const Vector3d& to) {
-    return Math::Degrees(Math::Acos(Math::Clamp(Vector3d::DotProduct(Vector3d::Normalize(from), Vector3d::Normalize(to)), -1.f, 1.f)));
+    return Mathf::Degrees(Mathf::Acos(Mathf::Clamp(Vector3d::DotProduct(Vector3d::Normalize(from), Vector3d::Normalize(to)), -1.f, 1.f)));
   }
 
   void Vector3d::Swap(Vector3d& first, Vector3d& second) {

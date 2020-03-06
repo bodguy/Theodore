@@ -2,8 +2,7 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "Ray.h"
-
-#include "Math/Math.h"
+#include "Math/Mathf.h"
 
 namespace Theodore {
   Ray::Ray() : origin(), direction(), inverseDirection() {}

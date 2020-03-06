@@ -16,7 +16,7 @@ namespace Theodore {
     virtual ~MeshRenderer() override;
 
     void SetMaterial(Material* mat);
-    void SetMesh(Mesh* mesh);
+    void SetMesh(Mesh* pmesh);
     Mesh* GetMesh() const;
 
   private:
