@@ -10,13 +10,13 @@
 namespace Theodore {
   class UniqueId {
   public:
-    UniqueId() : mInstanceId(++type_id) {}
+    UniqueId() : instanceId(++type_id) {}
 
   private:
     static std::atomic<uint32_t> type_id;
 
   protected:
-    uint32_t mInstanceId;
+    uint32_t instanceId;
   };
 
   class Vector3d;
@@ -59,8 +59,8 @@ namespace Theodore {
   protected:
     Object(const Object& rhs);  // copy constructor
 
-    uint32_t mHashValue;
-    std::string mName;
+    uint32_t hashCode;
+    std::string name;
   };
 }  // namespace Theodore
 

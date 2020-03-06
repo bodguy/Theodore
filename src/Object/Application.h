@@ -32,14 +32,14 @@ namespace Theodore {
     void Render();
     void Update(float deltaTime);
 
-    Platform* mPlatform;
-    Input* mInput;
-    Time* mTime;
-    SceneManager* mSceneManager;
-    AssetManager* mAssetManager;
-    ShaderManager* mShaderManager;
-    static std::string ResourcePath;
-    static std::string ShaderPath;
+    Platform* platform;
+    Input* input;
+    Time* timer;
+    SceneManager* sceneManager;
+    AssetManager* assetManager;
+    ShaderManager* shaderManager;
+    static std::string resourcePath;
+    static std::string shaderPath;
   };
 }  // namespace Theodore
 

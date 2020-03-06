@@ -14,7 +14,7 @@ namespace Theodore {
     void Storage(unsigned int width, unsigned int height);
 
   private:
-    unsigned int mRenderBufferID;
+    unsigned int renderBufferId;
   };
 }  // namespace Theodore
 

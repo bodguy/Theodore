@@ -4,7 +4,7 @@
 #ifndef Enumeration_h
 #define Enumeration_h
 
-#include "Platform/os_types.h"
+#include "Platform/CondiitonalVars.h"
 #include GLEW_INCLUDE_DIR
 #include <unordered_map>
 

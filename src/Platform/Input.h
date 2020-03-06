@@ -24,10 +24,10 @@ namespace Theodore {
     float GetDelta() const;
 
   private:
-    KeyCode mPositive;
-    KeyCode mNegative;
-    float mAccumulator;
-    float mDeltaSpeed;
+    KeyCode positive;
+    KeyCode negative;
+    float accumulator;
+    float deltaSpeed;
   };
 
   class Input {
@@ -61,16 +61,16 @@ namespace Theodore {
   private:
     static Input* instance;
 
-    bool mPreviousKeys[KEY_MAX];
-    bool mCurrentKeys[KEY_MAX];
+    bool previousKeys[KEY_MAX];
+    bool currentKeys[KEY_MAX];
 
-    bool mPreviousMouseButtons[MOUSE_BUTTON_MAX];
-    bool mCurrentMouseButtons[MOUSE_BUTTON_MAX];
+    bool previousMouseButtons[MOUSE_BUTTON_MAX];
+    bool currentMouseButtons[MOUSE_BUTTON_MAX];
 
-    std::map<std::string, InputHandler*> mHandlerMapping;
+    std::map<std::string, InputHandler*> handlerMapping;
 
-    Vector3d mlastMousePos;
-    Vector3d mMouseDelta;
+    Vector3d lastMousePosition;
+    Vector3d mouseDeltaPosition;
   };
 }  // namespace Theodore
 

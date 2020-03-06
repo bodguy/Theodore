@@ -28,6 +28,9 @@ namespace Theodore {
 
   class Utility {
   public:
+		Utility() = delete;
+		~Utility() = delete;
+
     struct KeyAndValueCompare {
       template <typename T>
       bool operator()(T const& lhs, T const& rhs) const {
@@ -57,10 +60,6 @@ namespace Theodore {
     static bool SortLayer(unsigned int a, unsigned int b) { return a < b; }
 
     static int States(int X, int Y) { return (X << 1) | Y; }  // switch (STATES(a,b))
-
-  private:
-    Utility() {}
-    ~Utility() {}
   };
 }  // namespace Theodore
 #endif /* Utility_h */

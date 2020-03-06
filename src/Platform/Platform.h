@@ -64,17 +64,17 @@ namespace Theodore {
   public:
     static Platform* instance;
 
-    int mWidth, mHeight;
-    std::string mTitle;
-    bool mIsShowCursor;
-    bool mIsFullScreen;
-    bool mKeys[KEY_MAX];
-    mutable bool mIsFocused;
-    unsigned short mLocalKeymap[KEY_MAX];
-    bool mMouseButtons[MOUSE_BUTTON_MAX];
-    bool mIsRunning;
-    Vector3d mMousePosition;
-    bool mIsMultisampleSupported;
+    int width, height;
+    std::string title;
+    bool isCursorVisible;
+    bool isFullScreen;
+    bool keys[KEY_MAX];
+    mutable bool isFocused;
+    unsigned short localKeymap[KEY_MAX];
+    bool mouseButtons[MOUSE_BUTTON_MAX];
+    bool isRunning;
+    Vector3d mousePosition;
+    bool isMultisampleSupported;
   };
 }  // namespace Theodore
 

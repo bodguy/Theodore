@@ -79,9 +79,9 @@ namespace Theodore {
     // dealloc with free()
     // and deinitialized with calling destructor manually.
     Scene* scene = static_cast<T*>(malloc(sizeof(T)));
-    scene->mManager = GetInstance();
+    scene->sceneManager = GetInstance();
     // assign the scene count that it will be stored.
-    scene->mBuildIndex = scene->mManager->mSceneCount;
+    scene->buildIndex = scene->sceneManager->mSceneCount;
     // then, call c++ constructor with placement new operator.
     new (scene) T(args...);                   // parameterize variadic constructor members.
     scene->OnAwake();                         // call awake function before stored it

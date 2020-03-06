@@ -12,7 +12,7 @@
 #include "Shader.h"
 #include "Texture2D.h"
 #include "TextureCube.h"
-#include "WaveFrontObj/WaveFrontObjMesh.h"
+#include "WaveFrontObjMesh.h"
 
 namespace Theodore {
   AssetManager* AssetManager::instance = nullptr;
@@ -37,15 +37,7 @@ namespace Theodore {
       }
     }
 
-    if (asset) {
-      asset->AddReference();
-      if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
-      } else {
-        Debug::Log(asset);
-      }
-    }
-
+		AddReferenceThenLog(asset);
     return asset;
   }
 
@@ -63,15 +55,7 @@ namespace Theodore {
       }
     }
 
-    if (asset) {
-      asset->AddReference();
-      if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
-      } else {
-        Debug::Log(asset);
-      }
-    }
-
+		AddReferenceThenLog(asset);
     return asset;
   }
 
@@ -89,15 +73,7 @@ namespace Theodore {
       }
     }
 
-    if (asset) {
-      asset->AddReference();
-      if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
-      } else {
-        Debug::Log(asset);
-      }
-    }
-
+		AddReferenceThenLog(asset);
     return asset;
   }
 
@@ -115,15 +91,7 @@ namespace Theodore {
       }
     }
 
-    if (asset) {
-      asset->AddReference();
-      if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
-      } else {
-        Debug::Log(asset);
-      }
-    }
-
+		AddReferenceThenLog(asset);
     return asset;
   }
 
@@ -142,15 +110,7 @@ namespace Theodore {
       }
     }
 
-    if (asset) {
-      asset->AddReference();
-      if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
-      } else {
-        Debug::Log(asset);
-      }
-    }
-
+		AddReferenceThenLog(asset);
     return asset;
   }
 
@@ -168,15 +128,7 @@ namespace Theodore {
       }
     }
 
-    if (asset) {
-      asset->AddReference();
-      if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
-      } else {
-        Debug::Log(asset);
-      }
-    }
-
+		AddReferenceThenLog(asset);
     return asset;
   }
 
@@ -195,15 +147,7 @@ namespace Theodore {
       }
     }
 
-    if (asset) {
-      asset->AddReference();
-      if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d", filename.c_str(), asset->mRefCount);
-      } else {
-        Debug::Log(asset);
-      }
-    }
-
+		AddReferenceThenLog(asset);
     return asset;
   }
 
@@ -230,16 +174,7 @@ namespace Theodore {
       }
     }
 
-    if (asset) {
-      unsigned int beforeInc = asset->mRefCount;
-      asset->AddReference();
-      if (asset->mRefCount != 1) {
-        Debug::Trace("'%s' exist, increase refcount %d -> %d", asset->mBaseName.c_str(), beforeInc, asset->mRefCount);
-      } else {
-        Debug::Log(asset);
-      }
-    }
-
+		AddReferenceThenLog(asset);
     return asset;
   }
 
@@ -258,7 +193,7 @@ namespace Theodore {
         int result = asset->Compile(file.ReadFile());
         // compile error
         if (!result) {
-          Debug::Error("'%s' compilation error", file.GetBaseName().c_str());
+          Debug::Error("[%s] compilation error", file.GetBaseName().c_str());
           SafeDealloc(asset);
           file.Close();
           return static_cast<Shader*>(nullptr);
@@ -268,22 +203,15 @@ namespace Theodore {
         TimePoint end = Time::GetTime();
         // end measure time
 
-        Debug::Log("'%s' compilation success, elapsed %fsec", file.GetBaseName().c_str(), Time::GetInterval(start, end) / 1000.f);
+        Debug::Log("[%s] compilation success, elapsed %fsec", file.GetBaseName().c_str(), Time::GetInterval(start, end) / 1000.f);
       } else {
-        Debug::Error("'%s' file not found!", file.GetBaseName().c_str());
+        Debug::Error("[%s] file not found!", file.GetBaseName().c_str());
         SafeDealloc(asset);
         return static_cast<Shader*>(nullptr);
       }
     }
 
-    if (asset) {
-      unsigned int beforeInc = asset->mRefCount;
-      asset->AddReference();
-      if (asset->mRefCount != 1) {
-        Debug::Trace("'%s' exist, increase refcount %d -> %d", asset->mBaseName.c_str(), beforeInc, asset->mRefCount);
-      }
-    }
-
+		AddReferenceThenLog(asset);
     return asset;
   }
 
@@ -297,7 +225,7 @@ namespace Theodore {
           asset = new WaveFrontObjMesh();
           break;
         default:
-          Debug::Error("Unknown format");
+          Debug::Error("Unknown Meshformat");
           break;
       }
 
@@ -311,20 +239,14 @@ namespace Theodore {
       }
     }
 
-    if (asset) {
-      asset->AddReference();
-      if (asset->mRefCount != 1) {
-        Debug::Log("'%s' is already loaded. so just increase reference count to %d", fileName.c_str(), asset->mRefCount);
-      }
-    }
-
+		AddReferenceThenLog(asset);
     return static_cast<Mesh*>(asset);
   }
 
   Asset* AssetManager::GetAssetByBasename(const std::string& filename) {
     std::string basename(Asset::BaseName(filename));
     for (auto asset : instance->mAssets) {
-      if (asset->mBaseName == basename) {
+      if (asset->baseName == basename) {
         return asset;
       }
     }
@@ -334,19 +256,30 @@ namespace Theodore {
   }
 
   void AssetManager::RemoveAsset(Asset* asset) {
-    if (asset) {
-      if (asset->mRefCount != 0) {
-        asset->RemoveReference();
-        if (asset->mRefCount == 0) {
-          instance->mAssets.remove(asset);
-          SafeDealloc(asset);
-        }
-      }
-    }
+    if (!asset || asset->referenceCount == 0) return;
+
+		asset->RemoveReference();
+		if (asset->referenceCount == 0) {
+			instance->mAssets.remove(asset);
+			SafeDealloc(asset);
+		}
   }
 
   void AssetManager::StoreAsset(Asset* asset) {
     mAssets.push_back(asset);
-    asset->mIsManaged = true;
+    asset->isManaged = true;
   }
+
+	void AssetManager::AddReferenceThenLog(Asset* asset) {
+		if (!asset) return;
+
+		unsigned int beforeRefCount = asset->referenceCount;
+		asset->AddReference();
+		if (asset->referenceCount != 1) {
+			Debug::Trace("[%s] is already exist, increase refcount %d -> %d", asset->baseName.c_str(), beforeRefCount, asset->referenceCount);
+			return;
+		}
+
+		Debug::Log("[%s] is successfully loaded", asset->baseName.c_str());
+	}
 }  // namespace Theodore

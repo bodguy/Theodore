@@ -35,15 +35,15 @@ namespace Theodore {
 
   private:
     // The minimal point of the box. This is always equal to center-extents.
-    Vector3d mMin;
+    Vector3d min;
     // The maximal point of the box.This is always equal to center + extents.
-    Vector3d mMax;
+    Vector3d max;
     // The center of the bounding box.
-    Vector3d mCenter;
+    Vector3d center;
     // The extents of the Bounding Box. This is always half of the size of the Bounds.
-    Vector3d mExtents;
+    Vector3d extents;
     // The total size of the box. This is always twice as large as the extents.
-    Vector3d mSize;
+    Vector3d size;
   };
 }  // namespace Theodore
 

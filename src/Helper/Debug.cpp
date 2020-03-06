@@ -109,9 +109,9 @@ namespace Theodore {
   void Debug::Log(const Texture* texture) {
     // clang-format off
     Debug::Log("Texture loaded %s[w=%d, h=%d], ref=%d, id=%d format=%d",
-               texture->mBaseName.c_str(), texture->mWidth, texture->mHeight, texture->mRefCount, texture->mTextureID, texture->mTextureFormat);
+							 texture->baseName.c_str(), texture->width, texture->height, texture->referenceCount, texture->textureId, texture->textureFormat);
     // clang-format on
   }
 
-  void Debug::Log(const Font* font) { Debug::Log("Font loaded %s, loaded glyph num: %d, font size: %d", font->mBaseName.c_str(), font->mGlyphMap.size(), font->mPixelHeight); }
+  void Debug::Log(const Font* font) { Debug::Log("Font loaded %s, loaded glyph num: %d, font size: %d", font->baseName.c_str(), font->loadedGlyphLookUpTable.size(), font->pixelHeight); }
 }  // namespace Theodore

@@ -11,13 +11,13 @@ namespace Theodore {
 
   Platform* Platform::GetInstance() { return instance; }
 
-  void Platform::Quit() { mIsRunning = false; }
+  void Platform::Quit() { isRunning = false; }
 
-  bool Platform::IsRunning() const { return mIsRunning; }
+  bool Platform::IsRunning() const { return isRunning; }
 
-  int Platform::GetWidth() { return GetInstance()->mWidth; }
+  int Platform::GetWidth() { return GetInstance()->width; }
 
-  int Platform::GetHeight() { return GetInstance()->mHeight; }
+  int Platform::GetHeight() { return GetInstance()->height; }
 
   void Platform::LogSystemInfo() {
     Debug::Log("Vendor              : %s", glGetString(GL_VENDOR));

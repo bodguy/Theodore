@@ -79,22 +79,22 @@ namespace Theodore {
     std::vector<Camera*>& GetAllCameras() const;
     std::vector<Collider*> GetAllColliders() const;
 
-    std::set<Component*> mSubscriber[TheNumberOfMessage];
-    std::unordered_map<std::type_index, Component*> mComponents;
-    std::vector<GameObject*> mChildren;
-    GameObject* mParent;
-    Scene* mScene;
-    bool mActiveSelf;
-    uint32_t mTag;
-    std::string mTagString;
-    Transform* mTransform;
+    std::set<Component*> subscriber[TheNumberOfMessage];
+    std::unordered_map<std::type_index, Component*> components;
+    std::vector<GameObject*> children;
+    GameObject* parent;
+    Scene* scene;
+    bool activeSelf;
+    uint32_t tag;
+    std::string tagName;
+    Transform* transform;
   };
 
   // public member functions
   template <typename T, typename... Ts>
   T* GameObject::AddComponent(Ts... args) {
     // check if there is already exist.
-    if (mComponents.find(std::type_index(typeid(T))) != mComponents.end()) return static_cast<T*>(nullptr);
+    if (components.find(std::type_index(typeid(T))) != components.end()) return static_cast<T*>(nullptr);
 
     // allocate with malloc() because of mGameObject member.
     T* component = static_cast<T*>(malloc(sizeof(T)));
@@ -105,28 +105,28 @@ namespace Theodore {
     // placement new and call constructor.
     new (component) T(args...);
     // store to unordered_map(hash map).
-    mComponents.insert(std::make_pair(std::type_index(typeid(T)), component));
+    components.insert(std::make_pair(std::type_index(typeid(T)), component));
 
     // caching light components
     Light* light = this->GetComponent<Light>();
     if (light && light->type != LightType::DirectionalLight) {
-      mScene->mLights.push_back(light);
+      scene->lights.push_back(light);
     }
 
     // caching camera components
     Camera* camera = this->GetComponent<Camera>();
     if (camera) {
-      mScene->mCameras.push_back(camera);
+      scene->cameras.push_back(camera);
     }
 
     // caching collider components
     Collider* collider = this->GetComponent<BoxCollider>();
     if (collider) {
-      mScene->mCollider.push_back(collider);
+      scene->colliders.push_back(collider);
     }
     collider = this->GetComponent<SphereCollider>();
     if (collider) {
-      mScene->mCollider.push_back(collider);
+      scene->colliders.push_back(collider);
     }
 
     return component;
@@ -135,9 +135,9 @@ namespace Theodore {
   template <typename T>
   T* GameObject::GetComponent() {
     // find STL algorithm with hash value
-    auto iter = mComponents.find(std::type_index(typeid(T)));
+    auto iter = components.find(std::type_index(typeid(T)));
     // not exists in component map.
-    if (iter == mComponents.end()) return static_cast<T*>(nullptr);
+    if (iter == components.end()) return static_cast<T*>(nullptr);
 
     // find and return it.
     return static_cast<T*>(iter->second);
@@ -147,7 +147,7 @@ namespace Theodore {
   T* GameObject::GetComponentInChildren() {
     // find matching T type component in children.
     // return first matching one.
-    for (auto& i : mChildren) {
+    for (auto& i : children) {
       T* value = i->GetComponent<T>();
       if (value) return value;
     }
@@ -158,14 +158,14 @@ namespace Theodore {
   template <typename T>
   T* GameObject::GetComponentInParent() {
     // copy parent pointer.
-    GameObject* iter = mParent;
+    GameObject* iter = parent;
 
     // loop while end of parent.
     while (iter != nullptr) {
       T* value = (*iter).GetComponent<T>();
       if (value)  // if finds
         return value;
-      iter = iter->mParent;  // linking node with next.
+      iter = iter->parent;  // linking node with next.
     }
 
     return static_cast<T*>(nullptr);
@@ -173,16 +173,16 @@ namespace Theodore {
 
   template <typename T>
   bool GameObject::RemoveComponent() {
-    auto iter = mComponents.find(std::type_index(typeid(T)));
+    auto iter = components.find(std::type_index(typeid(T)));
     // not exists in cache.
-    if (iter == mComponents.end()) return false;
+    if (iter == components.end()) return false;
 
     if (iter->second) {
       iter->second->~Component();
       free(iter->second);
       iter->second = nullptr;
     }
-    mComponents.erase(iter);
+    components.erase(iter);
     return true;
   }
 
@@ -192,7 +192,7 @@ namespace Theodore {
     if (!ret) return false;
 
     unsigned int base = msg.GetType();
-    for (auto i : mSubscriber[base]) {
+    for (auto i : subscriber[base]) {
       if (i == ret) i->HandleMessage(msg);
     }
 
@@ -204,7 +204,7 @@ namespace Theodore {
     auto ret = GetComponent<T>();
     if (!ret) return false;
 
-    mSubscriber[msgType].insert(ret);
+    subscriber[msgType].insert(ret);
 
     return true;
   }
@@ -214,7 +214,7 @@ namespace Theodore {
     auto ret = GetComponent<T>();
     if (!ret) return false;
 
-    for (int i = 0; i < TheNumberOfMessage; i++) mSubscriber[i].insert(ret);
+    for (int i = 0; i < TheNumberOfMessage; i++) subscriber[i].insert(ret);
 
     return true;
   }

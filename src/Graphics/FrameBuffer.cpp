@@ -8,25 +8,25 @@
 #include "RenderBuffer.h"
 
 namespace Theodore {
-  FrameBuffer::FrameBuffer(unsigned int width, unsigned int height) : mWidth(width), mHeight(height), mRender(nullptr), mIsCreated(false) { mTextures.clear(); }
+  FrameBuffer::FrameBuffer(unsigned int width, unsigned int height) : width(width), height(height), renderBuffer(nullptr), isCreated(false) { textures.clear(); }
 
-  FrameBuffer::~FrameBuffer() { glDeleteFramebuffers(1, &mFrameBufferID); }
+  FrameBuffer::~FrameBuffer() { glDeleteFramebuffers(1, &frameBufferId); }
 
-  bool FrameBuffer::AttachTexture(Texture2D* tex, Attachment attach) { return mTextures.insert(std::make_pair(attach, tex)).second; }
+  bool FrameBuffer::AttachTexture(Texture2D* tex, Attachment attach) { return textures.insert(std::make_pair(attach, tex)).second; }
 
-  Texture2D* FrameBuffer::GetRenderTexture(Attachment attach) { return mTextures[attach]; }
+  Texture2D* FrameBuffer::GetRenderTexture(Attachment attach) { return textures[attach]; }
 
-  void FrameBuffer::SetRenderBuffer(RenderBuffer* buffer) { mRender = buffer; }
+  void FrameBuffer::SetRenderBuffer(RenderBuffer* buffer) { renderBuffer = buffer; }
 
   bool FrameBuffer::Create(bool writable) {
-    glGenFramebuffers(1, &mFrameBufferID);
-    glBindFramebuffer(GL_FRAMEBUFFER, mFrameBufferID);
-    for (std::pair<Attachment, Texture2D*> p : mTextures) {
+    glGenFramebuffers(1, &frameBufferId);
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId);
+    for (std::pair<Attachment, Texture2D*> p : textures) {
       glFramebufferTexture2D(GL_FRAMEBUFFER, static_cast<GLenum>(p.first), static_cast<int>(p.second->GetDimension()), p.second->GetTextureID(), 0);
     }
 
-    if (mRender) {
-      glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, mRender->GetRenderBufferID());
+    if (renderBuffer) {
+      glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, renderBuffer->GetRenderBufferID());
     }
 
     if (!writable) {
@@ -59,20 +59,20 @@ namespace Theodore {
       return false;
     }
 
-    Debug::Log("FrameBuffer successfully created [id=%d]", mFrameBufferID);
-    mIsCreated = true;
+    Debug::Log("FrameBuffer successfully created [id=%d]", frameBufferId);
+    isCreated = true;
     return true;
   }
 
-  bool FrameBuffer::IsCreated() const { return mIsCreated; }
+  bool FrameBuffer::IsCreated() const { return isCreated; }
 
-  unsigned int FrameBuffer::GetFrameBufferID() const { return mFrameBufferID; }
+  unsigned int FrameBuffer::GetFrameBufferID() const { return frameBufferId; }
 
-  unsigned int FrameBuffer::GetWidth() const { return mWidth; }
+  unsigned int FrameBuffer::GetWidth() const { return width; }
 
-  unsigned int FrameBuffer::GetHeight() const { return mHeight; }
+  unsigned int FrameBuffer::GetHeight() const { return height; }
 
-  Texture2D* FrameBuffer::GetTexture(Attachment attach) { return mTextures[attach]; }
+  Texture2D* FrameBuffer::GetTexture(Attachment attach) { return textures[attach]; }
 
   void FrameBuffer::GetBufferInfo() {
     /*
@@ -84,7 +84,7 @@ namespace Theodore {
       GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE: initial value is
       GL_TEXTURE_CUBE_MAP_POSITIVE_X
     */
-    glBindFramebuffer(GL_FRAMEBUFFER, mFrameBufferID);
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId);
 
     int res, i = 0;
     GLint buffer;
@@ -107,7 +107,7 @@ namespace Theodore {
   }
 
   void FrameBuffer::SetDimension(unsigned int w, unsigned int h) {
-    mWidth = w;
-    mHeight = h;
+    width = w;
+    height = h;
   }
 }  // namespace Theodore

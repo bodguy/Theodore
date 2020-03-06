@@ -17,8 +17,8 @@ namespace Theodore {
   struct GlyphInfo {
     int bearingX, bearingY;
     int advance;
-    int ascender, descender, line_gap;
-    unsigned int texture_id;
+    int ascender, descender, lineGap;
+    unsigned int textureId;
     Bitmap<unsigned char> bitmap;
     std::map<uint32_t, float> kerning;
   };
@@ -39,12 +39,12 @@ namespace Theodore {
     bool LoadGlyphBitmap(GlyphInfo* out, int glyphIndex);
 
   private:
-    stbtt_fontinfo* mFace;
-    unsigned char* mFaceBuffer;
-    int mPixelHeight;
-    int mAscender, mDescender;
-    int mLineGap;
-    std::map<uint32_t, GlyphInfo*> mGlyphMap;
+    stbtt_fontinfo* fontFace;
+    unsigned char* faceBuffer;
+    int pixelHeight;
+    int ascender, descender;
+    int lineGap;
+    std::map<uint32_t, GlyphInfo*> loadedGlyphLookUpTable;
   };
 }  // namespace Theodore
 

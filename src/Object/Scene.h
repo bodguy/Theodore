@@ -58,13 +58,13 @@ namespace Theodore {
     bool Remove(GameObject* object);
 
   protected:
-    std::vector<GameObject*> mGameObjects;
-    std::vector<Light*> mLights;
-    std::vector<Camera*> mCameras;
-    std::vector<Collider*> mCollider;
-    int32_t mBuildIndex;
-    SceneManager* mManager;
-    bool mActive;
+    std::vector<GameObject*> gameObjects;
+    std::vector<Light*> lights;
+    std::vector<Camera*> cameras;
+    std::vector<Collider*> colliders;
+    int32_t buildIndex;
+    SceneManager* sceneManager;
+    bool isActive;
   };
 }  // namespace Theodore
 

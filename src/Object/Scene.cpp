@@ -15,45 +15,45 @@
 #include "SceneManager.h"
 
 namespace Theodore {
-  Scene::Scene(const std::string& name) : Object(name), mActive(true) {
+  Scene::Scene(const std::string& name) : Object(name), isActive(true) {
     /* Does not initialize SceneManager, BuildIndex here! */
-    mGameObjects.clear();
+    gameObjects.clear();
     // Every scene has at least a camera.
     GameObject* camera = new GameObject("MainCamera", this);
     Camera* cameraComponent = camera->AddComponent<Camera>();
-    mManager->mMainCamera = cameraComponent;
+		sceneManager->mMainCamera = cameraComponent;
 
     // global light source setting.
     GameObject* lightSource = new GameObject("GlobalLight", this);
     Light* lightComponent = lightSource->AddComponent<Light>(LightType::DirectionalLight);
     lightComponent->GetTransform()->SetLocalPosition(Vector3d(10.f, 10.f, 10.f));
-    mManager->mGlobalLight = lightComponent;
+		sceneManager->mGlobalLight = lightComponent;
   }
 
   Scene::~Scene() {
-    for (auto& i : mGameObjects) {
+    for (auto& i : gameObjects) {
       SafeDealloc(i);
     }
-    mGameObjects.clear();
+    gameObjects.clear();
   }
 
-  bool Scene::IsActive() const { return mActive; }
+  bool Scene::IsActive() const { return isActive; }
 
   void Scene::SetActive(bool value) {
     value ? OnEnable() : OnDisable();
-    mActive = value;
+		isActive = value;
   }
 
   void Scene::Attach(GameObject* object) {
     if (object == nullptr) return;
-    object->mScene = this;
+    object->scene = this;
 
-    mGameObjects.push_back(object);
+    gameObjects.push_back(object);
   }
 
   GameObject* Scene::Find(const std::string& name) const {
     uint32_t find = CRC32_STR(name.c_str());
-    for (auto& i : mGameObjects) {
+    for (auto& i : gameObjects) {
       if (i->GetHashCode() == find) return i;
     }
 
@@ -62,8 +62,8 @@ namespace Theodore {
 
   GameObject* Scene::FindWithTag(const std::string& tag) const {
     uint32_t value = CRC32_STR(tag.c_str());
-    for (auto& i : mGameObjects) {
-      if (i->mTag == value) return i;
+    for (auto& i : gameObjects) {
+      if (i->tag == value) return i;
     }
 
     return nullptr;
@@ -72,8 +72,8 @@ namespace Theodore {
   std::vector<GameObject*> Scene::FindGameObjectsWithTag(const std::string& tag) const {
     std::vector<GameObject*> vectors;
     uint32_t value = CRC32_STR(tag.c_str());
-    for (auto& i : mGameObjects) {
-      if (i->mTag == value) vectors.push_back(i);
+    for (auto& i : gameObjects) {
+      if (i->tag == value) vectors.push_back(i);
     }
 
     return std::move(vectors);
@@ -81,8 +81,8 @@ namespace Theodore {
 
   void Scene::Update(float deltaTime) {
     // std::sort(sprites.begin(), sprites.end(), SpriteRenderer::SortLayer);
-    for (auto& i : mGameObjects)
-      if (i->mActiveSelf) i->Update(deltaTime);
+    for (auto& i : gameObjects)
+      if (i->activeSelf) i->Update(deltaTime);
     OnUpdate();
     OnLateUpdate();
   }
@@ -90,8 +90,8 @@ namespace Theodore {
   void Scene::Render() {
     OnPreRender();
 
-    for (auto& i : mGameObjects)
-      if (i->mActiveSelf) i->Render();
+    for (auto& i : gameObjects)
+      if (i->activeSelf) i->Render();
 
     OnAfterRender();
   }
@@ -101,9 +101,9 @@ namespace Theodore {
     const Scene* temp_rhs = dynamic_cast<const Scene*>(&rhs);
     if (temp_rhs) {
       // compare
-      auto leftIt = mGameObjects.begin();
-      auto rightIt = temp_rhs->mGameObjects.begin();
-      while (leftIt != mGameObjects.end() && rightIt != temp_rhs->mGameObjects.end()) {
+      auto leftIt = gameObjects.begin();
+      auto rightIt = temp_rhs->gameObjects.begin();
+      while (leftIt != gameObjects.end() && rightIt != temp_rhs->gameObjects.end()) {
         if (*leftIt != *rightIt) {
           returnValue = false;
           return returnValue;
@@ -117,19 +117,19 @@ namespace Theodore {
   }
 
   bool Scene::Destroy() {
-    for (auto& i : mGameObjects) {
+    for (auto& i : gameObjects) {
       SafeDealloc(i);
     }
-    mGameObjects.clear();
-    return mManager->Remove(this->ToString());
+    gameObjects.clear();
+    return sceneManager->Remove(this->ToString());
   }
 
   bool Scene::Remove(GameObject* object) {
-    auto iter = std::find(mGameObjects.begin(), mGameObjects.end(), object);
-    if (iter == mGameObjects.end()) return false;
+    auto iter = std::find(gameObjects.begin(), gameObjects.end(), object);
+    if (iter == gameObjects.end()) return false;
 
     SafeDealloc(*iter);
-    mGameObjects.erase(iter);
+    gameObjects.erase(iter);
 
     return true;
   }

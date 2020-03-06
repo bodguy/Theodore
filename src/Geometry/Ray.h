@@ -20,7 +20,7 @@ namespace Theodore {
 
     Vector3d origin;
     Vector3d direction;
-    Vector3d invDirection;
+    Vector3d inverseDirection;
   };
 }  // namespace Theodore
 

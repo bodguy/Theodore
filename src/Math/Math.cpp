@@ -75,7 +75,7 @@ namespace Theodore {
     }
   }
 
-  float Math::KbToMb(int kb) { return kb / 1024.f; }
+  float Math::ConvertKilloToMega(int kb) { return kb / 1024.f; }
 
   float Math::PerlinNoise(float x) {
     // TODO

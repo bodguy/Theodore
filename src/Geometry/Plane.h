@@ -17,8 +17,8 @@ namespace Theodore {
     bool Raycast(const Ray& r, float* enter);
 
   private:
-    Vector3d n;
-    float d;
+    Vector3d normal;
+    float distance;
   };
 }  // namespace Theodore
 

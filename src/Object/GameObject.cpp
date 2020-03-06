@@ -9,62 +9,62 @@
 #include "Asset/Texture2D.h"
 #include "Component/MeshRenderer.h"
 #include "Component/Transform.h"
-#include "Component/sub/Material.h"
-#include "Component/sub/Mesh.h"
-#include "Component/sub/ShapeGenerator.h"
+#include "Component/Material.h"
+#include "Asset/Mesh.h"
+#include "Helper/ShapeGenerator.h"
 #include "Helper/Utility.h"
 #include "Helper/crc32.h"
 #include "Scene.h"
 
 namespace Theodore {
-  GameObject::GameObject(const std::string& name, Scene* scene) : Object(name), mParent(nullptr), mScene(nullptr), mActiveSelf(true), mTagString("untagged"), mTag(0), mTransform(nullptr) {
-    mChildren.clear();
-    mTransform = AddComponent<Transform>();
+  GameObject::GameObject(const std::string& name, Scene* scene) : Object(name), parent(nullptr), scene(nullptr), activeSelf(true), tagName("untagged"), tag(0), transform(nullptr) {
+    children.clear();
+		transform = AddComponent<Transform>();
     scene->Attach(this);
   }
 
   GameObject::GameObject(const std::string& name, GameObject* parent, Scene* scene)
-      : Object(name), mParent(parent), mScene(nullptr), mActiveSelf(true), mTagString("untagged"), mTag(0), mTransform(nullptr) {
-    mParent->mChildren.push_back(this);
-    mTransform = AddComponent<Transform>();
+      : Object(name), parent(parent), scene(nullptr), activeSelf(true), tagName("untagged"), tag(0), transform(nullptr) {
+    parent->children.push_back(this);
+		transform = AddComponent<Transform>();
     scene->Attach(this);
   }
 
-  GameObject::GameObject(const GameObject& other) : Object(other.mName) {
+  GameObject::GameObject(const GameObject& other) : Object(other.name) {
     // TODO
   }
 
   GameObject::~GameObject() {
-    for (auto& i : mComponents) {
+    for (auto& i : components) {
       if (i.second) {
         i.second->~Component();
         free(i.second);
         i.second = nullptr;
       }
     }
-    mComponents.clear();
-    mChildren.clear();
+    components.clear();
+    children.clear();
   }
 
-  bool GameObject::IsActive() const { return mActiveSelf; }
+  bool GameObject::IsActive() const { return activeSelf; }
 
-  void GameObject::SetActive(bool value) { mActiveSelf = value; }
+  void GameObject::SetActive(bool value) { activeSelf = value; }
 
   void GameObject::SetActiveRecursive(bool value) {
     SetActive(value);
-    for (auto& i : mChildren) i->SetActiveRecursive(value);
+    for (auto& i : children) i->SetActiveRecursive(value);
   }
 
   void GameObject::SetTag(const std::string& newTag) {
-    mTagString = newTag;
-    mTag = CRC32_STR(newTag.c_str());
+		tagName = newTag;
+		tag = CRC32_STR(newTag.c_str());
     // TagManager::AddTag(mTag);
   }
 
-  const std::string& GameObject::GetTag() const { return mTagString; }
+  const std::string& GameObject::GetTag() const { return tagName; }
 
   bool GameObject::CompareTag(const std::string& tag) const {
-    if (mTag == CRC32_STR(tag.c_str())) return true;
+    if (tag == CRC32_STR(tag.c_str())) return true;
 
     return false;
   }
@@ -75,12 +75,12 @@ namespace Theodore {
 
   bool GameObject::SendMessageUpwards(Message& msg) {
     unsigned int base = msg.GetType();
-    for (auto& i : mSubscriber[base]) i->HandleMessage(msg);
+    for (auto& i : subscriber[base]) i->HandleMessage(msg);
 
-    GameObject* parent = mParent;
+    GameObject* parent = parent;
     while (parent != nullptr) {
-      for (auto& i : parent->mSubscriber[base]) i->HandleMessage(msg);
-      parent = parent->mParent;
+      for (auto& i : parent->subscriber[base]) i->HandleMessage(msg);
+      parent = parent->parent;
     }
 
     return true;
@@ -88,11 +88,11 @@ namespace Theodore {
 
   bool GameObject::BroadcastMessage(Message& msg) {
     unsigned int base = msg.GetType();
-    for (auto& i : mSubscriber[base]) i->HandleMessage(msg);
+    for (auto& i : subscriber[base]) i->HandleMessage(msg);
 
-    if (!mChildren.empty()) {
-      for (auto& i : mChildren) {
-        for (auto& j : i->mSubscriber[base]) j->HandleMessage(msg);
+    if (!children.empty()) {
+      for (auto& i : children) {
+        for (auto& j : i->subscriber[base]) j->HandleMessage(msg);
       }
     }
 
@@ -148,10 +148,10 @@ namespace Theodore {
     return primitive;
   }
 
-  Transform* GameObject::GetTransform() const { return mTransform; }
+  Transform* GameObject::GetTransform() const { return transform; }
 
   void GameObject::Update(float deltaTime) {
-    for (auto& i : mComponents) {
+    for (auto& i : components) {
       if (i.second->IsEnabled()) {
         i.second->Update(deltaTime);
       }
@@ -159,7 +159,7 @@ namespace Theodore {
   }
 
   void GameObject::Render() {
-    for (auto& i : mComponents) {
+    for (auto& i : components) {
       if (i.second->IsEnabled()) {
         i.second->Render();
       }
@@ -170,22 +170,22 @@ namespace Theodore {
     const GameObject* t = dynamic_cast<const GameObject*>(&rhs);
 
     // compareing each mParent is not allowed.
-    return !(!t || mActiveSelf != t->mActiveSelf || mTag != t->mTag || !Utility::CompareUnorderedmap(mComponents, t->mComponents) || !Utility::CompareVector(mChildren, t->mChildren));
+    return !(!t || activeSelf != t->activeSelf || tag != t->tag || !Utility::CompareUnorderedmap(components, t->components) || !Utility::CompareVector(children, t->children));
   }
 
   bool GameObject::Destroy() {
-    for (auto& i : mChildren) {
-      if (mScene) mScene->Remove(i);
+    for (auto& i : children) {
+      if (scene) scene->Remove(i);
     }
 
-    if (mScene) return mScene->Remove(this);
+    if (scene) return scene->Remove(this);
 
     return false;
   }
 
-  std::vector<Light*>& GameObject::GetAllLights() const { return mScene->mLights; }
+  std::vector<Light*>& GameObject::GetAllLights() const { return scene->lights; }
 
-  std::vector<Camera*>& GameObject::GetAllCameras() const { return mScene->mCameras; }
+  std::vector<Camera*>& GameObject::GetAllCameras() const { return scene->cameras; }
 
-  std::vector<Collider*> GameObject::GetAllColliders() const { return mScene->mCollider; }
+  std::vector<Collider*> GameObject::GetAllColliders() const { return scene->colliders; }
 }  // namespace Theodore

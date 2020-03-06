@@ -10,41 +10,41 @@
 #include "Platform.h"
 
 namespace Theodore {
-  InputHandler::InputHandler(KeyCode positive, KeyCode negative, float delta) : mPositive(positive), mNegative(negative), mAccumulator(0.f), mDeltaSpeed(delta) {}
+  InputHandler::InputHandler(KeyCode positive, KeyCode negative, float delta) : positive(positive), negative(negative), accumulator(0.f), deltaSpeed(delta) {}
 
   InputHandler::~InputHandler() {}
 
-  KeyCode InputHandler::GetPositive() const { return mPositive; }
+  KeyCode InputHandler::GetPositive() const { return positive; }
 
-  KeyCode InputHandler::GetNegative() const { return mNegative; }
+  KeyCode InputHandler::GetNegative() const { return negative; }
 
-  float InputHandler::GetAccumulator() const { return mAccumulator; }
+  float InputHandler::GetAccumulator() const { return accumulator; }
 
-  void InputHandler::Accumulate(float delta) { mAccumulator = Math::Clamp(mAccumulator + delta, -1.f, 1.f); }
+  void InputHandler::Accumulate(float delta) { accumulator = Math::Clamp(accumulator + delta, -1.f, 1.f); }
 
-  void InputHandler::ResetAccumulator() { mAccumulator = 0.f; }
+  void InputHandler::ResetAccumulator() { accumulator = 0.f; }
 
-  float InputHandler::GetDelta() const { return mDeltaSpeed; }
+  float InputHandler::GetDelta() const { return deltaSpeed; }
 
   Input* Input::instance = nullptr;
   Input::Input() {
     instance = this;
 
     for (int i = 0; i < KEY_MAX; i++) {
-      mPreviousKeys[i] = mCurrentKeys[i] = false;
+			previousKeys[i] = currentKeys[i] = false;
     }
 
     for (int i = 0; i < MOUSE_BUTTON_MAX; i++) {
-      mPreviousMouseButtons[i] = mCurrentMouseButtons[i] = false;
+			previousMouseButtons[i] = currentMouseButtons[i] = false;
     }
 
     // default input handler
-    mHandlerMapping.insert(std::make_pair(std::string("Horizontal"), new InputHandler(KEY_D, KEY_A, 0.01f)));
-    mHandlerMapping.insert(std::make_pair(std::string("Vertical"), new InputHandler(KEY_W, KEY_S, 0.01f)));
+    handlerMapping.insert(std::make_pair(std::string("Horizontal"), new InputHandler(KEY_D, KEY_A, 0.01f)));
+    handlerMapping.insert(std::make_pair(std::string("Vertical"), new InputHandler(KEY_W, KEY_S, 0.01f)));
   }
 
   Input::~Input() {
-    for (auto& i : mHandlerMapping) {
+    for (auto& i : handlerMapping) {
       SafeDealloc(i.second);
     }
   }
@@ -52,57 +52,57 @@ namespace Theodore {
   void Input::Update() {
     if (Platform::GetInstance()->IsFocus()) {
       for (int i = 0; i < KEY_MAX; i++) {
-        mPreviousKeys[i] = mCurrentKeys[i];
-        mCurrentKeys[i] = Platform::GetInstance()->mKeys[i];
+				previousKeys[i] = currentKeys[i];
+				currentKeys[i] = Platform::GetInstance()->keys[i];
       }
 
       for (int i = 0; i < MOUSE_BUTTON_MAX; i++) {
-        mPreviousMouseButtons[i] = mCurrentMouseButtons[i];
-        mCurrentMouseButtons[i] = Platform::GetInstance()->mMouseButtons[i];
+				previousMouseButtons[i] = currentMouseButtons[i];
+				currentMouseButtons[i] = Platform::GetInstance()->mouseButtons[i];
       }
 
-      mMouseDelta = Platform::GetInstance()->mMousePosition - mlastMousePos;
-      mlastMousePos = Platform::GetInstance()->mMousePosition;
+			mouseDeltaPosition = Platform::GetInstance()->mousePosition - lastMousePosition;
+			lastMousePosition = Platform::GetInstance()->mousePosition;
       return;
     }
 
-    memset(mPreviousKeys, 0, KEY_MAX);
-    memset(mCurrentKeys, 0, KEY_MAX);
+    memset(previousKeys, 0, KEY_MAX);
+    memset(currentKeys, 0, KEY_MAX);
 
-    memset(mPreviousMouseButtons, 0, MOUSE_BUTTON_MAX);
-    memset(mCurrentMouseButtons, 0, MOUSE_BUTTON_MAX);
+    memset(previousMouseButtons, 0, MOUSE_BUTTON_MAX);
+    memset(currentMouseButtons, 0, MOUSE_BUTTON_MAX);
 
-    memset(&mMouseDelta, 0, sizeof(Vector3d));
-    memset(&mlastMousePos, 0, sizeof(Vector3d));
+    memset(&mouseDeltaPosition, 0, sizeof(Vector3d));
+    memset(&lastMousePosition, 0, sizeof(Vector3d));
   }
 
-  bool Input::GetKeyDown(KeyCode keyCode) { return instance->mCurrentKeys[keyCode] && !instance->mPreviousKeys[keyCode]; }
+  bool Input::GetKeyDown(KeyCode keyCode) { return instance->currentKeys[keyCode] && !instance->previousKeys[keyCode]; }
 
-  bool Input::GetKeyUp(KeyCode keyCode) { return !instance->mCurrentKeys[keyCode] && instance->mPreviousKeys[keyCode]; }
+  bool Input::GetKeyUp(KeyCode keyCode) { return !instance->currentKeys[keyCode] && instance->previousKeys[keyCode]; }
 
-  bool Input::GetKeyHeld(KeyCode keyCode) { return instance->mCurrentKeys[keyCode]; }
+  bool Input::GetKeyHeld(KeyCode keyCode) { return instance->currentKeys[keyCode]; }
 
-  Vector3d Input::GetMousePosition() { return instance->mlastMousePos; }
+  Vector3d Input::GetMousePosition() { return instance->lastMousePosition; }
 
-  Vector3d Input::GetMouseDeltaPosition() { return instance->mMouseDelta; }
+  Vector3d Input::GetMouseDeltaPosition() { return instance->mouseDeltaPosition; }
 
-  bool Input::GetMouseButtonDown(MouseButton button) { return instance->mCurrentMouseButtons[button] && !instance->mPreviousMouseButtons[button]; }
+  bool Input::GetMouseButtonDown(MouseButton button) { return instance->currentMouseButtons[button] && !instance->previousMouseButtons[button]; }
 
-  bool Input::GetMouseButtonUp(MouseButton button) { return !instance->mCurrentMouseButtons[button] && instance->mPreviousMouseButtons[button]; }
+  bool Input::GetMouseButtonUp(MouseButton button) { return !instance->currentMouseButtons[button] && instance->previousMouseButtons[button]; }
 
-  bool Input::GetMouseButtonHeld(MouseButton button) { return instance->mCurrentMouseButtons[button]; }
+  bool Input::GetMouseButtonHeld(MouseButton button) { return instance->currentMouseButtons[button]; }
 
   bool Input::AddAxis(const std::string& axisName, InputHandler* handler) {
-    if (instance->mHandlerMapping.find(axisName) != instance->mHandlerMapping.end()) return false;
+    if (instance->handlerMapping.find(axisName) != instance->handlerMapping.end()) return false;
 
-    instance->mHandlerMapping.insert(std::make_pair(axisName, handler));
+    instance->handlerMapping.insert(std::make_pair(axisName, handler));
     return true;
   }
 
   float Input::GetAxis(const std::string& axis) {
-    auto iter = instance->mHandlerMapping.find(axis);
+    auto iter = instance->handlerMapping.find(axis);
 
-    if (iter != instance->mHandlerMapping.end()) {
+    if (iter != instance->handlerMapping.end()) {
       InputHandler* input = iter->second;
       if (Input::GetKeyHeld(input->GetPositive())) {
         input->Accumulate(input->GetDelta());  // positive
@@ -119,9 +119,9 @@ namespace Theodore {
   }
 
   float Input::GetAxisRaw(const std::string& axis) {
-    auto iter = instance->mHandlerMapping.find(axis);
+    auto iter = instance->handlerMapping.find(axis);
 
-    if (iter != instance->mHandlerMapping.end()) {
+    if (iter != instance->handlerMapping.end()) {
       InputHandler* input = iter->second;
       if (Input::GetKeyHeld(input->GetPositive())) {
         return 1.f;  // positive

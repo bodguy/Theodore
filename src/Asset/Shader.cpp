@@ -24,24 +24,24 @@ namespace Theodore {
 
   Shader::Shader(ShaderType type) {
     // BinaryShaderType is not implemented yet. Future consideration
-    mType = AssetType::TextShaderType;
-    mShaderID = glCreateShader(static_cast<GLenum>(type));
+    assetType = AssetType::TextShaderType;
+		shaderId = glCreateShader(static_cast<GLenum>(type));
   }
 
-  Shader::~Shader() { glDeleteShader(mShaderID); }
+  Shader::~Shader() { glDeleteShader(shaderId); }
 
   int Shader::Compile(const std::string& source) {
     const char* c_str = PreprocessFromString(const_cast<char*>(source.c_str()), Application::GetShaderPath());
-    glShaderSource(mShaderID, 1, &c_str, NULL);
-    glCompileShader(mShaderID);
+    glShaderSource(shaderId, 1, &c_str, NULL);
+    glCompileShader(shaderId);
 
     GLint compile_result = GL_FALSE;
     int log_length;
-    glGetShaderiv(mShaderID, GL_COMPILE_STATUS, &compile_result);
-    glGetShaderiv(mShaderID, GL_INFO_LOG_LENGTH, &log_length);
+    glGetShaderiv(shaderId, GL_COMPILE_STATUS, &compile_result);
+    glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &log_length);
     if (log_length > 0) {
       std::vector<char> log_msg_arr(log_length);
-      glGetShaderInfoLog(mShaderID, log_length, NULL, log_msg_arr.data());
+      glGetShaderInfoLog(shaderId, log_length, NULL, log_msg_arr.data());
       std::string log_msg(std::begin(log_msg_arr), std::end(log_msg_arr));
       log_msg.erase(std::remove(log_msg.begin(), log_msg.end(), '\n'), log_msg.end());
       Debug::Error("%s", log_msg.substr(7).c_str());
@@ -50,7 +50,7 @@ namespace Theodore {
     return compile_result;
   }
 
-  Pipeline* Shader::Find(const std::string& name) { return ShaderManager::shaderManager->mPipelines.find(name)->second; }
+  Pipeline* Shader::Find(const std::string& name) { return ShaderManager::shaderManager->loadedPiplineLookUpTable.find(name)->second; }
 
   char* Shader::PreprocessFromString(char* str, const std::string& path) {
     std::vector<ShaderPreprocess*> plist;
@@ -157,28 +157,28 @@ namespace Theodore {
   // Program
 
   Pipeline::Pipeline(const std::string& name) {
-    mPipelineID = glCreateProgram();
-    mName = name;
+		pipelineId = glCreateProgram();
+		name = name;
   }
 
   Pipeline::Pipeline(const std::string& name, const Shader& vertex) {
-    mPipelineID = glCreateProgram();
-    mName = name;
+		pipelineId = glCreateProgram();
+		name = name;
     AttachShader(vertex);
     Link();
   }
 
   Pipeline::Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment) {
-    mPipelineID = glCreateProgram();
-    mName = name;
+		pipelineId = glCreateProgram();
+		name = name;
     AttachShader(vertex);
     AttachShader(fragment);
     Link();
   }
 
   Pipeline::Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry) {
-    mPipelineID = glCreateProgram();
-    mName = name;
+		pipelineId = glCreateProgram();
+		name = name;
     AttachShader(vertex);
     AttachShader(fragment);
     AttachShader(geometry);
@@ -186,8 +186,8 @@ namespace Theodore {
   }
 
   Pipeline::Pipeline(const std::string& name, const Shader& vertex, const Shader& fragment, const Shader& geometry, const Shader& tessControl, const Shader& tessEval) {
-    mPipelineID = glCreateProgram();
-    mName = name;
+		pipelineId = glCreateProgram();
+		name = name;
     AttachShader(vertex);
     AttachShader(fragment);
     AttachShader(geometry);
@@ -196,24 +196,24 @@ namespace Theodore {
     Link();
   }
 
-  Pipeline::~Pipeline() { glDeleteProgram(mPipelineID); }
+  Pipeline::~Pipeline() { glDeleteProgram(pipelineId); }
 
-  void Pipeline::AttachShader(const Shader& shader) { glAttachShader(mPipelineID, shader.mShaderID); }
+  void Pipeline::AttachShader(const Shader& shader) { glAttachShader(pipelineId, shader.shaderId); }
 
-  void Pipeline::DetachShader(const Shader& shader) { glDetachShader(mPipelineID, shader.mShaderID); }
+  void Pipeline::DetachShader(const Shader& shader) { glDetachShader(pipelineId, shader.shaderId); }
 
   int Pipeline::Link() {
-    Debug::Log("[PipelineID: %d] '%s' Link program", mPipelineID, mName.c_str());
-    glLinkProgram(mPipelineID);
+    Debug::Log("[PipelineID: %d] '%s' Link program", pipelineId, name.c_str());
+    glLinkProgram(pipelineId);
 
     GLint result = GL_FALSE;
     int length;
 
-    glGetProgramiv(mPipelineID, GL_LINK_STATUS, &result);
-    glGetProgramiv(mPipelineID, GL_INFO_LOG_LENGTH, &length);
+    glGetProgramiv(pipelineId, GL_LINK_STATUS, &result);
+    glGetProgramiv(pipelineId, GL_INFO_LOG_LENGTH, &length);
     if (length > 0) {
       GLchar* message = (GLchar*)malloc(sizeof(char) * length + 1);
-      glGetProgramInfoLog(mPipelineID, length, NULL, message);
+      glGetProgramInfoLog(pipelineId, length, NULL, message);
       Debug::Error("%s", message);
       free(message);
       return GL_FALSE;
@@ -221,8 +221,8 @@ namespace Theodore {
 
     if (result) {
       if (!ShaderManager::Append(this)) {
-        Debug::Warn("'%s' already managed", mName.c_str());
-        glDeleteProgram(mPipelineID);
+        Debug::Warn("'%s' already managed", name.c_str());
+        glDeleteProgram(pipelineId);
         return GL_FALSE;
       }
     }
@@ -230,17 +230,17 @@ namespace Theodore {
     return result;
   }
 
-  void Pipeline::Use() { glUseProgram(mPipelineID); }
+  void Pipeline::Use() { glUseProgram(pipelineId); }
 
   void Pipeline::UnUse() { glUseProgram(NULL); }
 
-  unsigned int Pipeline::GetPipelineID() const { return mPipelineID; }
+  unsigned int Pipeline::GetPipelineID() const { return pipelineId; }
 
-  Attribute Pipeline::GetAttribute(const std::string& name) { return glGetAttribLocation(mPipelineID, name.c_str()); }
+  Attribute Pipeline::GetAttribute(const std::string& name) { return glGetAttribLocation(pipelineId, name.c_str()); }
 
-  Uniform Pipeline::GetUniform(const std::string& name) { return glGetUniformLocation(mPipelineID, name.c_str()); }
+  Uniform Pipeline::GetUniform(const std::string& name) { return glGetUniformLocation(pipelineId, name.c_str()); }
 
-  Uniform Pipeline::GetUniformBlockIndex(const std::string& name) { return glGetUniformBlockIndex(mPipelineID, name.c_str()); }
+  Uniform Pipeline::GetUniformBlockIndex(const std::string& name) { return glGetUniformBlockIndex(pipelineId, name.c_str()); }
 
   void Pipeline::SetUniform(const Uniform& uniform, int value) { glUniform1i(uniform, value); }
 
@@ -270,7 +270,7 @@ namespace Theodore {
 
   void Pipeline::SetUniform(const Uniform& uniform, bool value) { glUniform1i(uniform, value); }
 
-  void Pipeline::SetUniformBlock(const Uniform& uniform, const unsigned int bindingPoint) { glUniformBlockBinding(mPipelineID, uniform, bindingPoint); }
+  void Pipeline::SetUniformBlock(const Uniform& uniform, const unsigned int bindingPoint) { glUniformBlockBinding(pipelineId, uniform, bindingPoint); }
 
   void Pipeline::SetUniform(const std::string& name, int value) { glUniform1i(GetUniform(name), value); }
 
@@ -300,26 +300,26 @@ namespace Theodore {
 
   void Pipeline::SetUniform(const std::string& name, bool value) { glUniform1i(GetUniform(name), value); }
 
-  void Pipeline::SetUniformBlock(const std::string& name, const unsigned int bindingPoint) { glUniformBlockBinding(mPipelineID, GetUniform(name), bindingPoint); }
+  void Pipeline::SetUniformBlock(const std::string& name, const unsigned int bindingPoint) { glUniformBlockBinding(pipelineId, GetUniform(name), bindingPoint); }
 
   void Pipeline::DispatchCompute(unsigned int x, unsigned int y, unsigned int z) { glDispatchCompute(x, y, z); }
 
   ShaderManager* ShaderManager::shaderManager = nullptr;
   ShaderManager::ShaderManager() {
     shaderManager = this;
-    shaderManager->mPipelines.clear();
+    shaderManager->loadedPiplineLookUpTable.clear();
   }
 
   ShaderManager::~ShaderManager() {
-    for (auto& i : mPipelines) {
+    for (auto& i : loadedPiplineLookUpTable) {
       SafeDealloc(i.second);
     }
-    mPipelines.clear();
+    loadedPiplineLookUpTable.clear();
   }
 
   bool ShaderManager::Append(Pipeline* program) {
     std::pair<std::map<std::string, Pipeline*>::iterator, bool> result;
-    result = shaderManager->mPipelines.insert(std::pair<std::string, Pipeline*>(program->mName, program));
+    result = shaderManager->loadedPiplineLookUpTable.insert(std::pair<std::string, Pipeline*>(program->name, program));
     return result.second;
   }
 }  // namespace Theodore

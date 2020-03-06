@@ -78,11 +78,11 @@ namespace Theodore {
   }
 
   void SceneManager::Update(float deltaTime) const {
-    if (mCurrentScene && mCurrentScene->mActive) mCurrentScene->Update(deltaTime);
+    if (mCurrentScene && mCurrentScene->isActive) mCurrentScene->Update(deltaTime);
   }
 
   void SceneManager::Render() const {
-    if (mCurrentScene && mCurrentScene->mActive) mCurrentScene->Render();
+    if (mCurrentScene && mCurrentScene->isActive) mCurrentScene->Render();
   }
 
   bool SceneManager::Remove(const std::string& sceneName) {

@@ -31,15 +31,15 @@ namespace Theodore {
     int GetIndex(const int x, const int y) const;
 
   private:
-    int mWidth, mHeight;
-    std::vector<T> mBuffer;
+    int width, height;
+    std::vector<T> buffer;
   };
 
   template <typename T>
-  Bitmap<T>::Bitmap() : mWidth(0), mHeight(0), mBuffer() {}
+  Bitmap<T>::Bitmap() : width(0), height(0), buffer() {}
 
   template <typename T>
-  Bitmap<T>::Bitmap(int w, int h, T val) : mWidth(w), mHeight(h), mBuffer() {
+  Bitmap<T>::Bitmap(int w, int h, T val) : width(w), height(h), buffer() {
     Clear(w, h, val);
   }
 
@@ -56,17 +56,17 @@ namespace Theodore {
 
   template <typename T>
   void Bitmap<T>::Clear(int w, int h, T val) {
-    mBuffer.resize(w * h);
-    std::fill(mBuffer.begin(), mBuffer.end(), val);
+    buffer.resize(w * h);
+    std::fill(buffer.begin(), buffer.end(), val);
   }
 
   template <typename T>
   int Bitmap<T>::GetIndex(const int x, const int y) const {
-    if (x < 0 || y < 0 || x > mWidth || y > mHeight) {
+    if (x < 0 || y < 0 || x > width || y > height) {
       return -1;
     }
-    int rows_from_bottom = (mHeight - 1) - y;
-    int arr_pos = mWidth * rows_from_bottom;
+    int rows_from_bottom = (height - 1) - y;
+    int arr_pos = width * rows_from_bottom;
     arr_pos += x;
     return arr_pos;
   }
@@ -75,7 +75,7 @@ namespace Theodore {
   T Bitmap<T>::GetBit(const int x, const int y) const {
     int idx = GetIndex(x, y);
     assert(idx >= 0);
-    return mBuffer[idx];
+    return buffer[idx];
   }
 
   template <typename T>
@@ -84,17 +84,17 @@ namespace Theodore {
     if (idx < 0) {
       return;
     }
-    mBuffer[idx] = val;
+		buffer[idx] = val;
   }
 
   template <typename T>
   bool Bitmap<T>::ReplaceSubBit(Bitmap<T> const& other, int x_left, int y_bottom) {
-    if ((x_left + other.mWidth) > mWidth || (y_bottom + other.mHeight) > mHeight) {
+    if ((x_left + other.width) > width || (y_bottom + other.height) > height) {
       return false;
     }
 
-    for (int row = 0; row < other.mHeight; row++) {
-      for (int col = 0; col < other.mWidth; col++) {
+    for (int row = 0; row < other.height; row++) {
+      for (int col = 0; col < other.width; col++) {
         SetBit(col + x_left, row + y_bottom, other.GetBit(col, row));
       }
     }
@@ -103,27 +103,27 @@ namespace Theodore {
 
   template <typename T>
   int Bitmap<T>::GetWidth() const {
-    return mWidth;
+    return width;
   }
 
   template <typename T>
   int Bitmap<T>::GetHeight() const {
-    return mHeight;
+    return height;
   }
 
   template <typename T>
   void Bitmap<T>::SetWidth(int w) {
-    mWidth = w;
+		width = w;
   }
 
   template <typename T>
   void Bitmap<T>::SetHeight(int h) {
-    mHeight = h;
+		height = h;
   }
 
   template <typename T>
   T* Bitmap<T>::GetNativePointer() {
-    return mBuffer.data();
+    return buffer.data();
   }
 }  // namespace Theodore
 

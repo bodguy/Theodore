@@ -36,19 +36,19 @@ namespace Theodore {
   private:
     static Time* instance;
 
-    TimePoint mStart;
-    TimePoint mCurrentTime;
-    float mAccumulator;  // for internal use
-    int mFrameCounter;   // for internal use
-    int mFrameRate;
-    float mTimeScale;
+    TimePoint startTime;
+    TimePoint currentTime;
+    float accumulator;  // for internal use
+    int frameCounter;   // for internal use
+    int frameRate;
+    float timeScale;
 
-    float mDeltaTime;
-    float mUnscaledDeltaTime;
-    float mTime;
-    float mUnscaledTime;
-    float mFixedDeltaTime;
-    float mUnscaledFixedDeltaTime;
+    float deltaTime;
+    float unscaledDeltaTime;
+    float elapsedTime;
+    float unscaledTime;
+    float fixedDeltaTime;
+    float unscaledFixedDeltaTime;
   };
 }  // namespace Theodore
 

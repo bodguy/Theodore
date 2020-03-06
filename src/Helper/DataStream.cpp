@@ -8,14 +8,14 @@
 #include <vector>
 
 namespace Theodore {
-  DataStream::DataStream(void* b, size_t n) : mByteOrder(ByteOrder::BigEndian), mPrecision(FloatingPointPrecision::DoublePrecision), mOccupied(0) {
-    mStart = (uint8_t*)b;
-    mData = mStart;
+  DataStream::DataStream(void* b, size_t n) : byteOrder(ByteOrder::BigEndian), precision(FloatingPointPrecision::DoublePrecision), occupied(0) {
+		start = (uint8_t*)b;
+		data = start;
 
     if (n == 0)
-      mSize = SIZE_MAX;
+			size = SIZE_MAX;
     else
-      mSize = n;
+			size = n;
 
     /*
     QFile file("file.dat");
@@ -112,16 +112,16 @@ namespace Theodore {
     assert(Remaining() >= n);
     uint8_t* d = (uint8_t*)dst;
 
-    if (mByteOrder == ByteOrder::LittleEndian) {
+    if (byteOrder == ByteOrder::LittleEndian) {
       for (size_t i = 0; i < n; i++) {
-        *d++ = *mData++;
+        *d++ = *data++;
       }
     }
 
-    if (mByteOrder == ByteOrder::BigEndian) {
+    if (byteOrder == ByteOrder::BigEndian) {
       d += n;
       for (size_t i = 0; i < n; i++) {
-        *--d = *mData++;
+        *--d = *data++;
       }
     }
 
@@ -130,7 +130,7 @@ namespace Theodore {
 
   DataStream& DataStream::operator>>(int8_t& i) {
     assert(Remaining() >= 1);
-    i = *mData++;
+    i = *data++;
 
     return *this;
   }
@@ -138,10 +138,10 @@ namespace Theodore {
   DataStream& DataStream::operator>>(int16_t& i) {
     assert(Remaining() >= 2);
     uint16_t d;
-    d = *mData++;
+    d = *data++;
     d <<= 8;
-    d |= *mData++;
-    if (mByteOrder == ByteOrder::LittleEndian) {
+    d |= *data++;
+    if (byteOrder == ByteOrder::LittleEndian) {
       d = swap_uint16(d);
     }
     i = d;
@@ -152,14 +152,14 @@ namespace Theodore {
   DataStream& DataStream::operator>>(int32_t& i) {
     assert(Remaining() >= 4);
     uint32_t d;
-    d = *mData++;
+    d = *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
-    if (mByteOrder == ByteOrder::LittleEndian) {
+    d |= *data++;
+    if (byteOrder == ByteOrder::LittleEndian) {
       d = swap_uint32(d);
     }
     i = d;
@@ -170,22 +170,22 @@ namespace Theodore {
   DataStream& DataStream::operator>>(int64_t& i) {
     assert(Remaining() >= 8);
     uint64_t d;
-    d = *mData++;
+    d = *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
-    if (mByteOrder == ByteOrder::LittleEndian) d = swap_uint64(d);
+    d |= *data++;
+    if (byteOrder == ByteOrder::LittleEndian) d = swap_uint64(d);
     i = d;
 
     return *this;
@@ -193,7 +193,7 @@ namespace Theodore {
 
   DataStream& DataStream::operator>>(uint8_t& i) {
     assert(Remaining() >= 1);
-    i = *mData++;
+    i = *data++;
 
     return *this;
   }
@@ -201,10 +201,10 @@ namespace Theodore {
   DataStream& DataStream::operator>>(uint16_t& i) {
     assert(Remaining() >= 2);
     uint16_t d;
-    d = *mData++;
+    d = *data++;
     d <<= 8;
-    d |= *mData++;
-    if (mByteOrder == ByteOrder::LittleEndian) {
+    d |= *data++;
+    if (byteOrder == ByteOrder::LittleEndian) {
       d = swap_uint16(d);
     }
     i = d;
@@ -215,14 +215,14 @@ namespace Theodore {
   DataStream& DataStream::operator>>(uint32_t& i) {
     assert(Remaining() >= 4);
     uint32_t d;
-    d = *mData++;
+    d = *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
-    if (mByteOrder == ByteOrder::LittleEndian) {
+    d |= *data++;
+    if (byteOrder == ByteOrder::LittleEndian) {
       d = swap_uint32(d);
     }
     i = d;
@@ -233,22 +233,22 @@ namespace Theodore {
   DataStream& DataStream::operator>>(uint64_t& i) {
     assert(Remaining() >= 8);
     uint64_t d;
-    d = *mData++;
+    d = *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
+    d |= *data++;
     d <<= 8;
-    d |= *mData++;
-    if (mByteOrder == ByteOrder::LittleEndian) d = swap_uint64(d);
+    d |= *data++;
+    if (byteOrder == ByteOrder::LittleEndian) d = swap_uint64(d);
     i = d;
 
     return *this;
@@ -295,28 +295,28 @@ namespace Theodore {
     assert(Remaining() >= n);
     uint8_t* d = (uint8_t*)src;
 
-    if (mByteOrder == ByteOrder::LittleEndian) {
+    if (byteOrder == ByteOrder::LittleEndian) {
       for (size_t i = 0; i < n; i++) {
-        *mData++ = *d++;
+        *data++ = *d++;
       }
     }
 
-    if (mByteOrder == ByteOrder::BigEndian) {
+    if (byteOrder == ByteOrder::BigEndian) {
       d += n;
       for (size_t i = 0; i < n; i++) {
-        *mData++ = *--d;
+        *data++ = *--d;
       }
     }
 
-    mOccupied += n;
+    occupied += n;
 
     return n;
   }
 
   DataStream& DataStream::operator<<(int8_t i) {
     assert(Remaining() >= 1);
-    *mData++ = (uint8_t)i;
-    mOccupied += sizeof(uint8_t);
+    *data++ = (uint8_t)i;
+    occupied += sizeof(uint8_t);
 
     return *this;
   }
@@ -324,13 +324,13 @@ namespace Theodore {
   DataStream& DataStream::operator<<(int16_t i) {
     assert(Remaining() >= 2);
     uint16_t d = (uint16_t)i;
-    if (mByteOrder == ByteOrder::BigEndian) {
+    if (byteOrder == ByteOrder::BigEndian) {
       d = swap_uint16(d);
     }
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
-    mOccupied += sizeof(int16_t);
+    *data++ = d;
+    occupied += sizeof(int16_t);
 
     return *this;
   }
@@ -338,17 +338,17 @@ namespace Theodore {
   DataStream& DataStream::operator<<(int32_t i) {
     assert(Remaining() >= 4);
     uint32_t d = (uint32_t)i;
-    if (mByteOrder == ByteOrder::BigEndian) {
+    if (byteOrder == ByteOrder::BigEndian) {
       d = swap_uint32(d);
     }
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
-    mOccupied += sizeof(int32_t);
+    *data++ = d;
+    occupied += sizeof(int32_t);
 
     return *this;
   }
@@ -356,33 +356,33 @@ namespace Theodore {
   DataStream& DataStream::operator<<(int64_t i) {
     assert(Remaining() >= 8);
     uint64_t d = (uint64_t)i;
-    if (mByteOrder == ByteOrder::BigEndian) {
+    if (byteOrder == ByteOrder::BigEndian) {
       d = swap_uint64(d);
     }
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
-    mOccupied += sizeof(int64_t);
+    *data++ = d;
+    occupied += sizeof(int64_t);
 
     return *this;
   }
 
   DataStream& DataStream::operator<<(uint8_t i) {
     assert(Remaining() >= 1);
-    *mData++ = (uint8_t)i;
-    mOccupied += sizeof(uint8_t);
+    *data++ = (uint8_t)i;
+    occupied += sizeof(uint8_t);
 
     return *this;
   }
@@ -390,13 +390,13 @@ namespace Theodore {
   DataStream& DataStream::operator<<(uint16_t i) {
     assert(Remaining() >= 2);
     uint16_t d = (uint16_t)i;
-    if (mByteOrder == ByteOrder::BigEndian) {
+    if (byteOrder == ByteOrder::BigEndian) {
       d = swap_uint16(d);
     }
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
-    mOccupied += sizeof(uint16_t);
+    *data++ = d;
+    occupied += sizeof(uint16_t);
 
     return *this;
   }
@@ -404,17 +404,17 @@ namespace Theodore {
   DataStream& DataStream::operator<<(uint32_t i) {
     assert(Remaining() >= 4);
     uint32_t d = (uint32_t)i;
-    if (mByteOrder == ByteOrder::BigEndian) {
+    if (byteOrder == ByteOrder::BigEndian) {
       d = swap_uint32(d);
     }
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
-    mOccupied += sizeof(uint32_t);
+    *data++ = d;
+    occupied += sizeof(uint32_t);
 
     return *this;
   }
@@ -422,25 +422,25 @@ namespace Theodore {
   DataStream& DataStream::operator<<(uint64_t i) {
     assert(Remaining() >= 8);
     uint64_t d = (uint64_t)i;
-    if (mByteOrder == ByteOrder::BigEndian) {
+    if (byteOrder == ByteOrder::BigEndian) {
       d = swap_uint64(d);
     }
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
+    *data++ = d;
     d >>= 8;
-    *mData++ = d;
-    mOccupied += sizeof(uint64_t);
+    *data++ = d;
+    occupied += sizeof(uint64_t);
 
     return *this;
   }
@@ -453,7 +453,7 @@ namespace Theodore {
     } d;
     d.f = i;
     this->operator<<(d.u);
-    mOccupied += sizeof(uint32_t);
+    occupied += sizeof(uint32_t);
 
     return *this;
   }
@@ -466,7 +466,7 @@ namespace Theodore {
     } d;
     d.f = i;
     this->operator<<(d.u);
-    mOccupied += sizeof(uint64_t);
+    occupied += sizeof(uint64_t);
 
     return *this;
   }
@@ -485,23 +485,23 @@ namespace Theodore {
     return *this;
   }
 
-  size_t DataStream::GetSize() const { return mSize; }
+  size_t DataStream::GetSize() const { return size; }
 
-  size_t DataStream::GetOccupied() const { return mOccupied; }
+  size_t DataStream::GetOccupied() const { return occupied; }
 
-  void DataStream::Reset() { mData = mStart; }
+  void DataStream::Reset() { data = start; }
 
   void DataStream::Seek(size_t pos) {
-    assert(pos < mSize);
-    mData = mStart + pos;
+    assert(pos < size);
+		data = start + pos;
   }
 
   size_t DataStream::Remaining() {
-    size_t n = mSize - ((char*)mData - (char*)mStart);
+    size_t n = size - ((char*)data - (char*)start);
     return n;
   }
 
-  bool DataStream::AtEnd() { return mData == mStart + mSize; }
+  bool DataStream::AtEnd() { return data == start + size; }
 
   /*
   void DataStream::WriteFile() {
@@ -512,13 +512,13 @@ namespace Theodore {
   }
   */
 
-  ByteOrder DataStream::GetByteOrder() const { return mByteOrder; }
+  ByteOrder DataStream::GetByteOrder() const { return byteOrder; }
 
-  FloatingPointPrecision DataStream::GetFloatingPointPrecision() const { return mPrecision; }
+  FloatingPointPrecision DataStream::GetFloatingPointPrecision() const { return precision; }
 
-  void DataStream::SetByteOrder(ByteOrder bo) { mByteOrder = bo; }
+  void DataStream::SetByteOrder(ByteOrder bo) { byteOrder = bo; }
 
-  void DataStream::SetFloatingPointPrecision(FloatingPointPrecision precision) { mPrecision = precision; }
+  void DataStream::SetFloatingPointPrecision(FloatingPointPrecision precision) { precision = precision; }
 
   bool DataStream::TestBigEndian() {
     union {

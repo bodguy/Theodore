@@ -18,8 +18,8 @@ namespace Theodore {
     static void RemoveLayer(unsigned int layer);
 
   private:
-    std::vector<unsigned int> mTags;
-    std::vector<unsigned int> mLayers;
+    std::vector<unsigned int> tags;
+    std::vector<unsigned int> layers;
 
     static TagManager* instance;
   };

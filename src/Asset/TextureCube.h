@@ -20,7 +20,7 @@ namespace Theodore {
     CubemapFace GetFace() const;
 
   private:
-    CubemapFace mFace;
+    CubemapFace cubemapFace;
   };
 }  // namespace Theodore
 

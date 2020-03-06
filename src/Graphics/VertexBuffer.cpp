@@ -35,100 +35,100 @@ namespace Theodore {
 
   void InputStream::Color4(const Color& v) { Bytes((unsigned char*)&v, sizeof(v)); }
 
-  void* InputStream::Pointer() { return &mData[0]; }
+  void* InputStream::Pointer() { return &buffer[0]; }
 
-  unsigned long InputStream::Size() { return mData.size(); }
+  unsigned long InputStream::Size() { return buffer.size(); }
 
   void InputStream::Bytes(unsigned char* bytes, unsigned int count) {
-    for (unsigned int i = 0; i < count; i++) mData.push_back(bytes[i]);
+    for (unsigned int i = 0; i < count; i++) buffer.push_back(bytes[i]);
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
   // Buffer
 
   Buffer::Buffer(BufferType type) {
-    mType = type;
-    mLength = 0;
-    glGenBuffers(1, &mVertexBufferID);
+		bufferType = type;
+		length = 0;
+    glGenBuffers(1, &wertexBufferId);
   }
 
   Buffer::Buffer(const void* data, size_t length, BufferUsage usage, BufferType type) {
-    glGenBuffers(1, &mVertexBufferID);
-    mType = type;
+    glGenBuffers(1, &wertexBufferId);
+		bufferType = type;
     Data(data, length, usage);
   }
 
-  Buffer::~Buffer() { glDeleteBuffers(1, &mVertexBufferID); }
+  Buffer::~Buffer() { glDeleteBuffers(1, &wertexBufferId); }
 
   Buffer::Buffer(const Buffer& other) {
-    if (mLength) {
-      glBindBuffer(GL_COPY_READ_BUFFER, other.mVertexBufferID);
-      glBindBuffer(GL_COPY_WRITE_BUFFER, mVertexBufferID);
-      glCopyBufferSubData(GL_ARRAY_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, mLength);
+    if (length) {
+      glBindBuffer(GL_COPY_READ_BUFFER, other.wertexBufferId);
+      glBindBuffer(GL_COPY_WRITE_BUFFER, wertexBufferId);
+      glCopyBufferSubData(GL_ARRAY_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, length);
     }
 
-    mVertexBufferID = other.mVertexBufferID;
-    mType = other.mType;
-    mLength = other.mLength;
+		wertexBufferId = other.wertexBufferId;
+		bufferType = other.bufferType;
+		length = other.length;
   }
 
   const Buffer& Buffer::operator=(Buffer other) {
-    if (mLength) {
-      glBindBuffer(GL_COPY_READ_BUFFER, other.mVertexBufferID);
-      glBindBuffer(GL_COPY_WRITE_BUFFER, mVertexBufferID);
-      glCopyBufferSubData(GL_ARRAY_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, mLength);
+    if (length) {
+      glBindBuffer(GL_COPY_READ_BUFFER, other.wertexBufferId);
+      glBindBuffer(GL_COPY_WRITE_BUFFER, wertexBufferId);
+      glCopyBufferSubData(GL_ARRAY_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, length);
     }
 
-    mVertexBufferID = other.mVertexBufferID;
-    mType = other.mType;
-    mLength = other.mLength;
+		wertexBufferId = other.wertexBufferId;
+		bufferType = other.bufferType;
+		length = other.length;
     return *this;
   }
 
-  unsigned int Buffer::GetBufferID() const { return mVertexBufferID; }
+  unsigned int Buffer::GetBufferID() const { return wertexBufferId; }
 
   void Buffer::Data(const void* data, size_t length, BufferUsage usage) {
-    mLength = length;
-    glBindBuffer(static_cast<GLenum>(mType), mVertexBufferID);
-    glBufferData(static_cast<GLenum>(mType), length, data, static_cast<GLenum>(usage));
+		length = length;
+    glBindBuffer(static_cast<GLenum>(bufferType), wertexBufferId);
+    glBufferData(static_cast<GLenum>(bufferType), length, data, static_cast<GLenum>(usage));
   }
 
   void Buffer::SubData(const void* data, size_t offset, size_t length) {
-    glBindBuffer(static_cast<GLenum>(mType), mVertexBufferID);
-    glBufferSubData(static_cast<GLenum>(mType), offset, length, data);
+    glBindBuffer(static_cast<GLenum>(bufferType), wertexBufferId);
+    glBufferSubData(static_cast<GLenum>(bufferType), offset, length, data);
   }
 
   void Buffer::GetSubData(void* data, size_t offset, size_t length) {
-    glBindBuffer(static_cast<GLenum>(mType), mVertexBufferID);
-    glGetBufferSubData(static_cast<GLenum>(mType), offset, length, data);
+    glBindBuffer(static_cast<GLenum>(bufferType), wertexBufferId);
+    glGetBufferSubData(static_cast<GLenum>(bufferType), offset, length, data);
   }
 
-  void Buffer::BindBase(unsigned int index) { glBindBufferBase(static_cast<GLenum>(mType), index, mVertexBufferID); }
+  void Buffer::BindBase(unsigned int index) { glBindBufferBase(static_cast<GLenum>(bufferType), index, wertexBufferId); }
 
-  void Buffer::BindRange(unsigned int index, unsigned int offset, unsigned int size) { glBindBufferRange(static_cast<GLenum>(mType), index, mVertexBufferID, offset, size); }
+  void Buffer::BindRange(unsigned int index, unsigned int offset, unsigned int size) { glBindBufferRange(static_cast<GLenum>(bufferType), index, wertexBufferId, offset, size); }
 
-  void* Buffer::Lock(LockMode mode) { return glMapBuffer(static_cast<GLenum>(mType), static_cast<GLenum>(mode)); }
+  void* Buffer::Lock(LockMode mode) { return glMapBuffer(static_cast<GLenum>(bufferType), static_cast<GLenum>(mode)); }
 
-  void Buffer::UnLock() { glUnmapBuffer(static_cast<GLenum>(mType)); }
+  void Buffer::UnLock() { glUnmapBuffer(static_cast<GLenum>(bufferType)); }
 
   ////////////////////////////////////////////////////////////////////////////////////
   // VertexArray
 
-  VertexArray::VertexArray() { glGenVertexArrays(1, &mVertexArrayID); }
+  VertexArray::VertexArray() { glGenVertexArrays(1, &vertexArrayId); }
 
-  VertexArray::VertexArray(const VertexArray& other) { mVertexArrayID = other.mVertexArrayID; }
+  VertexArray::VertexArray(const VertexArray& other) { vertexArrayId = other.vertexArrayId; }
 
-  VertexArray::~VertexArray() { glDeleteVertexArrays(1, &mVertexArrayID); }
+  VertexArray::~VertexArray() { glDeleteVertexArrays(1, &vertexArrayId); }
 
-  unsigned int VertexArray::GetArrayID() const { return mVertexArrayID; }
+  unsigned int VertexArray::GetArrayID() const { return vertexArrayId; }
 
   const VertexArray& VertexArray::operator=(const VertexArray& other) {
-    mVertexArrayID = other.mVertexArrayID;
+		vertexArrayId = other.vertexArrayId;
     return *this;
   }
 
   void VertexArray::BindAttribute(const Attribute& attribute, const Buffer& buffer, unsigned int count, unsigned int stride, unsigned int offset) {
-    glBindVertexArray(mVertexArrayID);
+    glBindVertexArray(vertexArrayId);
     glBindBuffer(GL_ARRAY_BUFFER, buffer.GetBufferID());
     glEnableVertexAttribArray(attribute);
     glVertexAttribPointer(attribute, count, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<const void*>(offset));
@@ -136,13 +136,13 @@ namespace Theodore {
   }
 
   void VertexArray::BindElements(const Buffer& elements) {
-    glBindVertexArray(mVertexArrayID);
+    glBindVertexArray(vertexArrayId);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elements.GetBufferID());
     glBindVertexArray(NULL);
   }
 
   void VertexArray::AttributeDivisor(const Attribute& attribute, unsigned int divisor) {
-    glBindVertexArray(mVertexArrayID);
+    glBindVertexArray(vertexArrayId);
     glVertexAttribDivisor(attribute, divisor);
     glBindVertexArray(NULL);
   }

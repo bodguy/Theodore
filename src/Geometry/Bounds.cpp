@@ -6,34 +6,34 @@
 #include <cmath>
 
 namespace Theodore {
-  Bounds::Bounds(const Vector3d& center, const Vector3d& size) : mCenter(center), mSize(size) {
-    mExtents = size / 2.f;
-    mMin = center - mExtents;
-    mMax = center + mExtents;
+  Bounds::Bounds(const Vector3d& center, const Vector3d& size) : center(center), size(size) {
+    extents = size / 2.f;
+    min = center - extents;
+    max = center + extents;
   }
 
   Bounds::~Bounds(void) {}
 
-  Vector3d Bounds::GetMin() const { return mMin; }
+  Vector3d Bounds::GetMin() const { return min; }
 
-  Vector3d Bounds::GetMax() const { return mMax; }
+  Vector3d Bounds::GetMax() const { return max; }
 
-  Vector3d Bounds::GetCenter() const { return mCenter; }
+  Vector3d Bounds::GetCenter() const { return center; }
 
-  Vector3d Bounds::GetExtents() const { return mExtents; }
+  Vector3d Bounds::GetExtents() const { return extents; }
 
-  Vector3d Bounds::GetSize() const { return mSize; }
+  Vector3d Bounds::GetSize() const { return size; }
 
   bool Bounds::IntersectRay(const Ray& ray) {
-    float t1 = (mMin[0] - ray.origin[0]) * ray.invDirection[0];
-    float t2 = (mMax[0] - ray.origin[0]) * ray.invDirection[0];
+    float t1 = (min[0] - ray.origin[0]) * ray.inverseDirection[0];
+    float t2 = (max[0] - ray.origin[0]) * ray.inverseDirection[0];
 
     float tmin = std::fminf(t1, t2);
     float tmax = std::fmaxf(t1, t2);
 
     for (unsigned int i = 1; i < 3; i++) {
-      t1 = (mMin[i] - ray.origin[i]) * ray.invDirection[i];
-      t2 = (mMax[i] - ray.origin[i]) * ray.invDirection[i];
+      t1 = (min[i] - ray.origin[i]) * ray.inverseDirection[i];
+      t2 = (max[i] - ray.origin[i]) * ray.inverseDirection[i];
 
       tmin = std::fmaxf(tmin, std::fminf(t1, t2));
       tmax = std::fminf(tmax, std::fmaxf(t1, t2));
@@ -43,19 +43,19 @@ namespace Theodore {
   }
 
   bool Bounds::Intersect(const Bounds& bounds) {
-    if (mMax.x < bounds.mMin.x || mMin.x > bounds.mMax.x) return false;
-    if (mMax.y < bounds.mMin.y || mMin.y > bounds.mMax.y) return false;
-    if (mMax.z < bounds.mMin.z || mMin.z > bounds.mMax.z) return false;
+    if (max.x < bounds.min.x || min.x > bounds.max.x) return false;
+    if (max.y < bounds.min.y || min.y > bounds.max.y) return false;
+    if (max.z < bounds.min.z || min.z > bounds.max.z) return false;
 
     return true;
   }
 
   bool Bounds::Intersect(const Plane& bounds) { return false; }
 
-  bool Bounds::Contains(const Vector3d& point) { return mMin.x <= point.x && point.x <= mMax.x && mMin.y <= point.y && point.y <= mMax.y && mMin.z <= point.z && point.z <= mMax.z; }
+  bool Bounds::Contains(const Vector3d& point) { return min.x <= point.x && point.x <= max.x && min.y <= point.y && point.y <= max.y && min.z <= point.z && point.z <= max.z; }
 
   bool Bounds::Contains(const Bounds& bounds) {
-    return mMin.x <= bounds.mMin.x && mMin.y <= bounds.mMin.y && mMin.z <= bounds.mMin.z && bounds.mMax.x <= mMax.x && bounds.mMax.y <= mMax.y && bounds.mMax.z <= mMax.z;
+    return min.x <= bounds.min.x && min.y <= bounds.min.y && min.z <= bounds.min.z && bounds.max.x <= max.x && bounds.max.y <= max.y && bounds.max.z <= max.z;
   }
 
   void Bounds::Encapsulate(const Vector3d& point) {
@@ -82,20 +82,20 @@ namespace Theodore {
     } else {
       Vector3d maxDist(0.f, 0.f, 0.f);
 
-      if (point.x < mMin.x)
-        maxDist.x = mMin.x - point.x;
-      else if (point.x > mMax.x)
-        maxDist.x = point.x - mMax.x;
+      if (point.x < min.x)
+        maxDist.x = min.x - point.x;
+      else if (point.x > max.x)
+        maxDist.x = point.x - max.x;
 
-      if (point.y < mMin.y)
-        maxDist.y = mMin.y - point.y;
-      else if (point.y > mMax.y)
-        maxDist.y = point.y - mMax.y;
+      if (point.y < min.y)
+        maxDist.y = min.y - point.y;
+      else if (point.y > max.y)
+        maxDist.y = point.y - max.y;
 
-      if (point.z < mMin.z)
-        maxDist.z = mMin.z - point.z;
-      else if (point.z > mMax.z)
-        maxDist.z = point.z - mMax.z;
+      if (point.z < min.z)
+        maxDist.z = min.z - point.z;
+      else if (point.z > max.z)
+        maxDist.z = point.z - max.z;
 
       return maxDist.SquaredLength();
     }
@@ -103,13 +103,13 @@ namespace Theodore {
 
   float Bounds::Distance(const Vector3d& point) { return std::sqrt(SqrDistance(point)); }
 
-  void Bounds::Expand(float amount) { mExtents += amount; }
+  void Bounds::Expand(float amount) { extents += amount; }
 
   void Bounds::SetMinMax(const Vector3d& min, const Vector3d& max) {
-    mMin = min;
-    mMax = max;
-    mCenter = (mMax + mMin) * 0.5f;
-    mExtents = mCenter - mMin;
-    mSize = mExtents * 2.f;
+    min = min;
+    max = max;
+    center = (max + min) * 0.5f;
+    extents = center - min;
+    size = extents * 2.f;
   }
 }  // namespace Theodore

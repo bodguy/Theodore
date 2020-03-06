@@ -37,6 +37,7 @@ namespace Theodore {
     static Mesh* RequestMesh(const std::string& fileName, MeshFormat format, MeshParseOption parseOption = MeshParseOption::NONE);
     static Asset* GetAssetByBasename(const std::string& filename);
     static void RemoveAsset(Asset* asset);
+		static void AddReferenceThenLog(Asset* asset);
 
   private:
     void StoreAsset(Asset* asset);

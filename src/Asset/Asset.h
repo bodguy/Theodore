@@ -26,11 +26,11 @@ namespace Theodore {
     static std::string BaseName(const std::string& path);
 
   protected:
-    AssetType mType;
-    unsigned int mRefCount;
-    std::string mBaseName;
-    std::string mFullName;
-    bool mIsManaged;
+    AssetType assetType;
+    unsigned int referenceCount;
+    std::string baseName;
+    std::string fullName;
+    bool isManaged;
   };
 }  // namespace Theodore
 

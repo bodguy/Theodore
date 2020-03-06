@@ -19,8 +19,8 @@
 #include <stb/stb_image_write.h>
 
 namespace Theodore {
-  Pipeline* Graphics::gizmoProgram = NULL;
-  Pipeline* Graphics::sphereProgram = NULL;
+  Pipeline* Graphics::gizmoPipline = NULL;
+  Pipeline* Graphics::spherePipline = NULL;
   Buffer* Graphics::gizmoBuffer = NULL;
   VertexArray* Graphics::gizmoVao = NULL;
 
@@ -29,13 +29,13 @@ namespace Theodore {
   Graphics::~Graphics() {}
 
   void Graphics::SetGraphicsSettings() {
-    gizmoProgram = Shader::Find("Gizmo");
-    sphereProgram = Shader::Find("Sphere");
+		gizmoPipline = Shader::Find("Gizmo");
+		spherePipline = Shader::Find("Sphere");
     gizmoBuffer = new Buffer(BufferType::BufferVertex);
     gizmoBuffer->Data(nullptr, 24 * sizeof(Vector3d), BufferUsage::DynamicDraw);
     gizmoVao = new VertexArray();
-    gizmoVao->BindAttribute(gizmoProgram->GetAttribute("position"), *gizmoBuffer, 3, sizeof(Vector3d), 0);
-    gizmoVao->BindAttribute(sphereProgram->GetAttribute("position"), *gizmoBuffer, 3, sizeof(Vector3d), 0);
+    gizmoVao->BindAttribute(gizmoPipline->GetAttribute("position"), *gizmoBuffer, 3, sizeof(Vector3d), 0);
+    gizmoVao->BindAttribute(spherePipline->GetAttribute("position"), *gizmoBuffer, 3, sizeof(Vector3d), 0);
   }
 
   void Graphics::Dispose() {
@@ -210,14 +210,14 @@ namespace Theodore {
   void Graphics::DrawLine(const Vector3d& start, const Vector3d& end, const Color color) {
     Vector3d vertices[2] = {start, end};
 
-    gizmoProgram->Use();
-    gizmoProgram->SetUniform("model", Matrix4x4::Identity());
-    gizmoProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-    gizmoProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
-    gizmoProgram->SetUniform("color", color);
+    gizmoPipline->Use();
+    gizmoPipline->SetUniform("model", Matrix4x4::Identity());
+    gizmoPipline->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+    gizmoPipline->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
+    gizmoPipline->SetUniform("color", color);
     gizmoBuffer->SubData(vertices, 0, 2 * sizeof(Vector3d));
     Graphics::DrawArrays(*gizmoVao, Primitive::LineLoop, 0, 2);
-    gizmoProgram->UnUse();
+    gizmoPipline->UnUse();
   }
 
   void Graphics::DrawCube(const Vector3d& center, const Vector3d& size, const Color color, const Matrix4x4 model) {
@@ -235,28 +235,28 @@ namespace Theodore {
         center + extent * Vector3d(-1.f, -1.f, -1.f), center + extent * Vector3d(1.f, -1.f, -1.f), center + extent * Vector3d(1.f, -1.f, -1.f), center + extent * Vector3d(1.f, -1.f, 1.f),
         center + extent * Vector3d(1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, 1.f), center + extent * Vector3d(-1.f, -1.f, -1.f)};
 
-    gizmoProgram->Use();
-    gizmoProgram->SetUniform("model", model);
-    gizmoProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-    gizmoProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
-    gizmoProgram->SetUniform("color", color);
+    gizmoPipline->Use();
+    gizmoPipline->SetUniform("model", model);
+    gizmoPipline->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+    gizmoPipline->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
+    gizmoPipline->SetUniform("color", color);
     gizmoBuffer->SubData(vertices, 0, 24 * sizeof(Vector3d));
     Graphics::DrawArrays(*gizmoVao, Primitive::Lines, 0, 24);
-    gizmoProgram->UnUse();
+    gizmoPipline->UnUse();
   }
 
   void Graphics::DrawSphere(const Vector3d& center, float radius, const Color color) {
-    sphereProgram->Use();
+    spherePipline->Use();
     //    Camera* cam = SceneManager::GetMainCamera();
-    sphereProgram->SetUniform("model", Matrix4x4::Identity());
-    sphereProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-    sphereProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
-    sphereProgram->SetUniform("perspective", SceneManager::GetMainCamera()->GetProjectionMatrix());
-    sphereProgram->SetUniform("radius", radius);
-    sphereProgram->SetUniform("color", color);
+    spherePipline->SetUniform("model", Matrix4x4::Identity());
+    spherePipline->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+    spherePipline->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
+    spherePipline->SetUniform("perspective", SceneManager::GetMainCamera()->GetProjectionMatrix());
+    spherePipline->SetUniform("radius", radius);
+    spherePipline->SetUniform("color", color);
     gizmoBuffer->SubData(&center, 0, sizeof(Vector3d));
     Graphics::DrawArrays(*gizmoVao, Primitive::Points, 0, 1);
-    sphereProgram->UnUse();
+    spherePipline->UnUse();
   }
 
   void Graphics::DrawFrustum(const Vector3d& center, float fov, float maxRange, float minRange, float aspect, const Color color) {
@@ -286,14 +286,14 @@ namespace Theodore {
         nearRightBottom, farRightBottom,  farRightTop,     nearRightTop    // right face
     };
 
-    gizmoProgram->Use();
-    gizmoProgram->SetUniform("model", Matrix4x4::Identity());
-    gizmoProgram->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
-    gizmoProgram->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
-    gizmoProgram->SetUniform("color", color);
+    gizmoPipline->Use();
+    gizmoPipline->SetUniform("model", Matrix4x4::Identity());
+    gizmoPipline->SetUniform("view", SceneManager::GetMainCamera()->GetWorldToCameraMatrix());
+    gizmoPipline->SetUniform("projection", SceneManager::GetMainCamera()->GetProjectionMatrix());
+    gizmoPipline->SetUniform("color", color);
     gizmoBuffer->SubData(vertices, 0, 24 * sizeof(Vector3d));
     Graphics::DrawArrays(*gizmoVao, Primitive::Lines, 0, 24);
-    gizmoProgram->UnUse();
+    gizmoPipline->UnUse();
   }
 
   void Graphics::DrawFrustum(const Camera* camera, const Color color) {

@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "Platform/os_types.h"
+#include "Platform/CondiitonalVars.h"
 
 #ifdef Theodore_MacOS
 #define DateTime tm
@@ -57,7 +57,7 @@ namespace Theodore {
 		static std::istream& GetLine(std::istream& input, std::string& line);
 
   private:
-    static std::string monthTable[];
+    static std::string monthlyMap[];
   };
 
   template <typename Iter>

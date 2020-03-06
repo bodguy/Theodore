@@ -3,18 +3,18 @@
 
 #include "RenderBuffer.h"
 
-#include "Platform/os_types.h"
+#include "Platform/CondiitonalVars.h"
 #include GLEW_INCLUDE_DIR
 
 namespace Theodore {
-  RenderBuffer::RenderBuffer() { glGenRenderbuffers(1, &mRenderBufferID); }
+  RenderBuffer::RenderBuffer() { glGenRenderbuffers(1, &renderBufferId); }
 
-  RenderBuffer::~RenderBuffer() { glDeleteRenderbuffers(1, &mRenderBufferID); }
+  RenderBuffer::~RenderBuffer() { glDeleteRenderbuffers(1, &renderBufferId); }
 
-  unsigned int RenderBuffer::GetRenderBufferID() const { return mRenderBufferID; }
+  unsigned int RenderBuffer::GetRenderBufferID() const { return renderBufferId; }
 
   void RenderBuffer::Storage(unsigned int width, unsigned int height) {
-    glBindRenderbuffer(GL_RENDERBUFFER, mRenderBufferID);
+    glBindRenderbuffer(GL_RENDERBUFFER, renderBufferId);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
   }

@@ -11,7 +11,7 @@ namespace Theodore {
   public:
     Message();
     explicit Message(MessageType type);
-    Message(MessageType type, void* data);
+    Message(MessageType type, void* payload);
 
     // copy, operator
     Message(const Message& rhs);
@@ -21,8 +21,8 @@ namespace Theodore {
     void* GetData() const;
 
   private:
-    MessageType mType;
-    void* mData;
+    MessageType messageType;
+    void* messagePayload;
   };
 }  // namespace Theodore
 #endif /* Message_h */

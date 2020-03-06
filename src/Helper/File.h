@@ -54,17 +54,17 @@ namespace Theodore {
 #if (_MSC_VER == 1700)
     int vfscanf(FILE* file, const char* format, va_list argPtr);
 #endif
-    FILE* fp;  // Pointer to file
-    std::string mBaseName;
-    std::string mFileName;
-    std::string mFullFileName;
-    OpenMode mMode;
+    FILE* filePointer;  // Pointer to file
+    std::string baseName;
+    std::string fileName;
+    std::string fullName;
+    OpenMode openMode;
   };
 
   template <typename T, size_t size>
   size_t File::WriteBuf(const T (&buffer)[size]) {
     if (IsOpen()) {
-      return fwrite(&buffer, sizeof(T), size, fp);
+      return fwrite(&buffer, sizeof(T), size, filePointer);
     }
 
     return 0;
@@ -73,7 +73,7 @@ namespace Theodore {
   template <typename T, size_t size>
   size_t File::ReadBuf(T (&buffer)[size]) {
     if (IsOpen()) {
-      return fread(&buffer, sizeof(T), size, fp);
+      return fread(&buffer, sizeof(T), size, filePointer);
     }
 
     return 0;

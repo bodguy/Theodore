@@ -15,31 +15,31 @@
 
 namespace Theodore {
   Application* Application::instance = nullptr;
-  std::string Application::ResourcePath = RESOURCE_DIR;
-  std::string Application::ShaderPath = SHADER_DIR;
+  std::string Application::resourcePath = RESOURCE_DIR;
+  std::string Application::shaderPath = SHADER_DIR;
   Application::Application() { instance = this; }
 
   Application::~Application() {
-    SafeDealloc(mSceneManager);
-    SafeDealloc(mShaderManager);
-    SafeDealloc(mAssetManager);
-    SafeDealloc(mTime);
-    SafeDealloc(mInput);
-    SafeDealloc(mPlatform);
+    SafeDealloc(sceneManager);
+    SafeDealloc(shaderManager);
+    SafeDealloc(assetManager);
+    SafeDealloc(timer);
+    SafeDealloc(input);
+    SafeDealloc(platform);
     Graphics::Dispose();
   }
 
   bool Application::Initialize(const PlatformContext& param) {
-    mPlatform = new Platform();
-    if (!mPlatform->Initialize(param)) {
+    platform = new Platform();
+    if (!platform->Initialize(param)) {
       return false;
     }
-    mPlatform->SetVSync(true);
+    platform->SetVSync(true);
 
-    mInput = new Input();
-    mTime = new Time();
-    mAssetManager = new AssetManager();
-    mShaderManager = new ShaderManager();
+		input = new Input();
+    timer = new Time();
+    assetManager = new AssetManager();
+		shaderManager = new ShaderManager();
 
     // default program setting and caching
     Shader* phong_vs = AssetManager::RequestShader(Application::GetShaderPath() + "light/phong_vs.glsl", ShaderType::VertexShader);
@@ -78,7 +78,7 @@ namespace Theodore {
     Shader* font_fs = AssetManager::RequestShader(Application::GetShaderPath() + "font/font_fs.glsl", ShaderType::FragmentShader);
     ShaderManager::Append(new Pipeline("Font", *font_vs, *font_fs));
 
-    mSceneManager = new SceneManager();
+		sceneManager = new SceneManager();
     Graphics::SetGraphicsSettings();
     Graphics::Enable(Capabilities::DepthTest);
 
@@ -88,10 +88,10 @@ namespace Theodore {
   }
 
   void Application::Run() {
-    while (mPlatform->IsRunning()) {
-      mPlatform->Update();
-      mTime->Update();
-      mInput->Update();
+    while (platform->IsRunning()) {
+      platform->Update();
+      timer->Update();
+      input->Update();
 
       Graphics::ClearColor(Color(0.f, 0.f, 0.f, 1.f), BufferBits::ColorBits | BufferBits::DepthBits);
       {
@@ -99,15 +99,15 @@ namespace Theodore {
         Update(Time::DeltaTime());
         Render();
       }
-      mPlatform->SwapBuffer();
+      platform->SwapBuffer();
     }
   }
 
-  std::string Application::GetResourcePath() { return Application::ResourcePath; }
+  std::string Application::GetResourcePath() { return Application::resourcePath; }
 
-  std::string Application::GetShaderPath() { return Application::ShaderPath; }
+  std::string Application::GetShaderPath() { return Application::shaderPath; }
 
-  void Application::Render() { mSceneManager->Render(); }
+  void Application::Render() { sceneManager->Render(); }
 
-  void Application::Update(float deltaTime) { mSceneManager->Update(deltaTime); }
+  void Application::Update(float deltaTime) { sceneManager->Update(deltaTime); }
 }  // namespace Theodore

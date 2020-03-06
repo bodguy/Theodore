@@ -6,7 +6,7 @@
 
 #include "Asset/Shader.h"
 #include "Enumeration.h"
-#include "Platform/os_types.h"
+#include "Platform/CondiitonalVars.h"
 #include GLEW_INCLUDE_DIR
 #include <vector>
 
@@ -34,7 +34,7 @@ namespace Theodore {
     unsigned long Size();
 
   private:
-    std::vector<unsigned char> mData;
+    std::vector<unsigned char> buffer;
 
     void Bytes(unsigned char* bytes, unsigned int count);
   };
@@ -61,9 +61,9 @@ namespace Theodore {
     void UnLock();
 
   private:
-    GLuint mVertexBufferID;
-    BufferType mType;
-    size_t mLength;
+    GLuint wertexBufferId;
+    BufferType bufferType;
+    size_t length;
   };
 
   class VertexArray {
@@ -80,7 +80,7 @@ namespace Theodore {
     void AttributeDivisor(const Attribute& attribute, unsigned int divisor);
 
   private:
-    GLuint mVertexArrayID;
+    GLuint vertexArrayId;
   };
 }  // namespace Theodore
 

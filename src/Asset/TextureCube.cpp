@@ -9,45 +9,45 @@
 
 namespace Theodore {
   TextureCube::TextureCube() {
-    mType = AssetType::TextureType;
-    mDimension = TextureDimension::CubeMap;
-    mWrapMode = WrapMode::Clamp;
-    mFilterMode = FilterMode::Bilinear;
+		assetType = AssetType::TextureType;
+		textureDimension = TextureDimension::CubeMap;
+		wrapMode = WrapMode::Clamp;
+		filterMode = FilterMode::Bilinear;
   }
 
-  TextureCube::~TextureCube() { stbi_image_free(mNativeTexturePtr); }
+  TextureCube::~TextureCube() { stbi_image_free(nativeTexturePtr); }
 
   bool TextureCube::LoadCubemapTexture(const CubemapRenderer* cubemap, const std::string& filename, TextureFormat format, CubemapFace face) {
     int w, h, bpp;
     unsigned char* data = stbi_load(filename.c_str(), &w, &h, &bpp, static_cast<int>(format));
 
     if (data) {
-      mNativeTexturePtr = data;
-      mWidth = w;
-      mHeight = h;
+			nativeTexturePtr = data;
+			width = w;
+			height = h;
       SetAssetName(filename);
       SetTextureFormat(format);
 
-      glBindTexture(static_cast<GLenum>(mDimension), cubemap->GetTextureID());
+      glBindTexture(static_cast<GLenum>(textureDimension), cubemap->GetTextureID());
       switch (format) {
         case TextureFormat::RGB24:
-          glTexImage2D(static_cast<GLenum>(face), 0, GL_RGB, mWidth, mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+          glTexImage2D(static_cast<GLenum>(face), 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
           break;
         case TextureFormat::RGBA32:
           glEnable(GL_ALPHA_TEST);
           glAlphaFunc(GL_GREATER, 0);
-          glTexImage2D(static_cast<GLenum>(face), 0, GL_RGBA8, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+          glTexImage2D(static_cast<GLenum>(face), 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
           break;
         default:
           return false;
       }
 
       // set parameters
-      SetFilter(mFilterMode);
-      SetWrapMode(mWrapMode);
-      mFace = face;
+      SetFilter(filterMode);
+      SetWrapMode(wrapMode);
+			cubemapFace = face;
 
-      glBindTexture(static_cast<GLenum>(mDimension), static_cast<GLuint>(NULL));
+      glBindTexture(static_cast<GLenum>(textureDimension), static_cast<GLuint>(NULL));
 
       return true;
     }
@@ -55,5 +55,5 @@ namespace Theodore {
     return false;
   }
 
-  CubemapFace TextureCube::GetFace() const { return mFace; }
+  CubemapFace TextureCube::GetFace() const { return cubemapFace; }
 }  // namespace Theodore

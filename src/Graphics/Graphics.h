@@ -77,8 +77,8 @@ namespace Theodore {
     Graphics();
     ~Graphics();
 
-    static Pipeline* gizmoProgram;
-    static Pipeline* sphereProgram;
+    static Pipeline* gizmoPipline;
+    static Pipeline* spherePipline;
     static Buffer* gizmoBuffer;
     static VertexArray* gizmoVao;
   };

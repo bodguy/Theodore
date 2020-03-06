@@ -10,20 +10,20 @@ namespace Theodore {
     // ax + by + cz + d = 0
     // d = -(ax1 + by1 + cz1)
     // d = -((x1, y1, z1) * (a,b,c))
-    n = inNormal.Normalize();
-    d = -Vector3d::DotProduct(inPoint, n);
+    normal = inNormal.Normalize();
+		distance = -Vector3d::DotProduct(inPoint, normal);
   }
 
   Plane::Plane(const Vector3d& a, const Vector3d& b, const Vector3d& c) {
-    n = Vector3d::CrossProduct(b - a, c - a).Normalize();
-    d = -Vector3d::DotProduct(a, n);
+		normal = Vector3d::CrossProduct(b - a, c - a).Normalize();
+		distance = -Vector3d::DotProduct(a, normal);
   }
 
   Plane::~Plane() {}
 
   bool Plane::Raycast(const Ray& r, float* enter) {
-    float numer = Vector3d::DotProduct(r.origin, n) + d;
-    float denom = Vector3d::DotProduct(r.direction, n);
+    float numer = Vector3d::DotProduct(r.origin, normal) + distance;
+    float denom = Vector3d::DotProduct(r.direction, normal);
 
     if (denom < Math::flt_epsilon) {  // normal is orthogonal to vector, cant intersect
       *enter = -1.f;

@@ -5,85 +5,85 @@
 
 namespace Theodore {
   Texture::Texture()
-      : mNativeTexturePtr(nullptr),
-        mTextureID(1),
-        mWidth(0),
-        mHeight(0),
-        mMipMapBias(1000.f),
-				mTextureOption(),
-        mFilterMode(FilterMode::Trilinear),
-        mWrapMode(WrapMode::ClampEdge),
-        mDimension(TextureDimension::None),
-        mTextureFormat(TextureFormat::UNKNOWN),
-        mColorKey(Color::white),
-        mUseColorKey(false) {
-    mType = AssetType::TextureType;
-    glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &mAnisoLevel);
+      : nativeTexturePtr(nullptr),
+				textureId(1),
+				width(0),
+				height(0),
+				mipMapBias(1000.f),
+				textureOption(),
+				filterMode(FilterMode::Trilinear),
+				wrapMode(WrapMode::ClampEdge),
+				textureDimension(TextureDimension::None),
+				textureFormat(TextureFormat::UNKNOWN),
+				colorKey(Color::white),
+				useColorKey(false) {
+		assetType = AssetType::TextureType;
+    glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &anisoLevel);
   }
 
   Texture::~Texture() {}
 
-  unsigned char* Texture::GetNativeTexturePtr() { return mNativeTexturePtr; }
+  unsigned char* Texture::GetNativeTexturePtr() { return nativeTexturePtr; }
 
   Color Texture::GetPixel(unsigned int x, unsigned int y) {
-    GLubyte* colors = (GLubyte*)&mNativeTexturePtr[y * mWidth + x];
+    GLubyte* colors = (GLubyte*)&nativeTexturePtr[y * width + x];
     return Color::FromRGBA(colors[0], colors[1], colors[2], colors[3] ? colors[3] : 0);
   }
 
   void Texture::SetPixel(unsigned int x, unsigned int y, const Color& color) {
-    GLubyte* colors = (GLubyte*)&mNativeTexturePtr[y * mWidth + x];
+    GLubyte* colors = (GLubyte*)&nativeTexturePtr[y * width + x];
     colors[0] = Color::ToByte(color.r);  // r
     colors[1] = Color::ToByte(color.g);  // g
     colors[2] = Color::ToByte(color.b);  // b
     colors[3] = Color::ToByte(color.a);  // a
   }
 
-  unsigned int Texture::GetWidth() const { return mWidth; }
+  unsigned int Texture::GetWidth() const { return width; }
 
-  unsigned int Texture::GetHeight() const { return mHeight; }
+  unsigned int Texture::GetHeight() const { return height; }
 
-  unsigned int Texture::GetTextureID() const { return mTextureID; }
+  unsigned int Texture::GetTextureID() const { return textureId; }
 
-  Color Texture::GetColorKey() const { return mColorKey; }
+  Color Texture::GetColorKey() const { return colorKey; }
 
-  bool Texture::UseColorKey() const { return mUseColorKey; }
+  bool Texture::UseColorKey() const { return useColorKey; }
 
   void Texture::SetMipmapBias(float bias) {
-    mMipMapBias = bias;
+		mipMapBias = bias;
     // Set mipmap bias value
-    if (mFilterMode == FilterMode::Trilinear) {
-      glTexParameterf(GL_TEXTURE_ENV, GL_TEXTURE_MIN_LOD, -mMipMapBias);
-      glTexParameterf(GL_TEXTURE_ENV, GL_TEXTURE_MAX_LOD, mMipMapBias);
+    if (filterMode == FilterMode::Trilinear) {
+      glTexParameterf(GL_TEXTURE_ENV, GL_TEXTURE_MIN_LOD, -mipMapBias);
+      glTexParameterf(GL_TEXTURE_ENV, GL_TEXTURE_MAX_LOD, mipMapBias);
     }
   }
 
   void Texture::SetAnisoLevel(float level) {
-    mAnisoLevel = level;
+		anisoLevel = level;
     // Set anisotrophy filtering
-    glTexParameterf(static_cast<GLenum>(mDimension), GL_TEXTURE_MAX_ANISOTROPY_EXT, mAnisoLevel);
+    glTexParameterf(static_cast<GLenum>(textureDimension), GL_TEXTURE_MAX_ANISOTROPY_EXT, anisoLevel);
   }
 
   void Texture::SetFilter(const FilterMode mode) {
-    mFilterMode = mode;
+		filterMode = mode;
     // Set filtering mode
-    glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(mFilterMode));
-    glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(mFilterMode));
-    if (mFilterMode == FilterMode::Trilinear) glGenerateMipmap(static_cast<GLenum>(mDimension));
+    glTexParameteri(static_cast<GLenum>(textureDimension), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(filterMode));
+    glTexParameteri(static_cast<GLenum>(textureDimension), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(filterMode));
+    if (filterMode == FilterMode::Trilinear) glGenerateMipmap(static_cast<GLenum>(textureDimension));
   }
 
   void Texture::SetWrapMode(const WrapMode mode) {
-    mWrapMode = mode;
+		wrapMode = mode;
     // Set wrap mode
-    glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_S, static_cast<GLenum>(mWrapMode));
-    glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_T, static_cast<GLenum>(mWrapMode));
-    if (mDimension == TextureDimension::CubeMap) glTexParameteri(static_cast<GLenum>(mDimension), GL_TEXTURE_WRAP_R, static_cast<GLenum>(mWrapMode));
+    glTexParameteri(static_cast<GLenum>(textureDimension), GL_TEXTURE_WRAP_S, static_cast<GLenum>(wrapMode));
+    glTexParameteri(static_cast<GLenum>(textureDimension), GL_TEXTURE_WRAP_T, static_cast<GLenum>(wrapMode));
+    if (textureDimension == TextureDimension::CubeMap) glTexParameteri(static_cast<GLenum>(textureDimension), GL_TEXTURE_WRAP_R, static_cast<GLenum>(wrapMode));
   }
 
-  void Texture::SetTextureFormat(const TextureFormat format) { mTextureFormat = format; }
+  void Texture::SetTextureFormat(const TextureFormat format) { textureFormat = format; }
 
 	void Texture::SetTextureOption(const TextureOption& option) {
-  	mTextureOption = option;
+		textureOption = option;
   }
 
-  TextureDimension Texture::GetDimension() const { return mDimension; }
+  TextureDimension Texture::GetDimension() const { return textureDimension; }
 }  // namespace Theodore

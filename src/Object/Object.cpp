@@ -11,7 +11,7 @@
 
 namespace Theodore {
   std::atomic<uint32_t> UniqueId::type_id;
-  Object::Object(const std::string& name) : mName(name), mHashValue(CRC32_STR(name.c_str())) {}
+  Object::Object(const std::string& name) : name(name), hashCode(CRC32_STR(name.c_str())) {}
 
   Object::Object(const Object& rhs) {
     // TODO
@@ -19,19 +19,19 @@ namespace Theodore {
 
   Object::~Object() {}
 
-  bool Object::operator==(const Object& rhs) const { return mHashValue == rhs.mHashValue && this->CompareEquality(rhs); }
+  bool Object::operator==(const Object& rhs) const { return hashCode == rhs.hashCode && this->CompareEquality(rhs); }
 
   bool Object::operator!=(const Object& rhs) const { return !(*this == rhs && this->CompareEquality(rhs)); }
 
-  const std::string& Object::ToString() const { return mName; }
+  const std::string& Object::ToString() const { return name; }
 
-  const uint32_t Object::GetHashCode() const { return mHashValue; }
+  const uint32_t Object::GetHashCode() const { return hashCode; }
 
-  uint32_t Object::GetInstanceID() const { return mInstanceId; }
+  uint32_t Object::GetInstanceID() const { return instanceId; }
 
   void Object::SetName(const std::string& name) {
-    mName = name;
-    mHashValue = CRC32_STR(name.c_str());
+		name = name;
+		hashCode = CRC32_STR(name.c_str());
   }
 
   bool Object::Destroy(GameObject* obj) {

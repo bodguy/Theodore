@@ -5,9 +5,10 @@
 
 #include <algorithm>
 #include <regex>
+#include <streambuf>
 
 namespace Theodore {
-  std::string StringUtil::monthTable[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+  std::string StringUtil::monthlyMap[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
   StringUtil::StringUtil(void) {}
 
   StringUtil::~StringUtil(void) {}
@@ -109,8 +110,8 @@ namespace Theodore {
   }
 
   std::string StringUtil::ToDateFormat(std::tm* date) {
-    return std::string(StringUtil::monthTable[date->tm_mon] + " " + std::to_string(date->tm_mday) + ", " + std::to_string(date->tm_year + 1900) + " " + std::to_string(date->tm_hour) + ":" +
-                       std::to_string(date->tm_min) + ":" + std::to_string(date->tm_sec));
+    return std::string(StringUtil::monthlyMap[date->tm_mon] + " " + std::to_string(date->tm_mday) + ", " + std::to_string(date->tm_year + 1900) + " " + std::to_string(date->tm_hour) + ":" +
+											 std::to_string(date->tm_min) + ":" + std::to_string(date->tm_sec));
   }
 
   float StringUtil::ParseFloat(const std::string& str) { return std::stof(str); }

@@ -4,13 +4,13 @@
 #include "Asset.h"
 
 namespace Theodore {
-  Asset::Asset() : mType(AssetType::Undefined), mRefCount(0), mBaseName(""), mFullName(""), mIsManaged(false) {}
+  Asset::Asset() : assetType(AssetType::Undefined), referenceCount(0), baseName(""), fullName(""), isManaged(false) {}
 
   Asset::~Asset() {}
 
-  void Asset::AddReference() { mRefCount++; }
+  void Asset::AddReference() { referenceCount++; }
 
-  void Asset::RemoveReference() { mRefCount--; }
+  void Asset::RemoveReference() { referenceCount--; }
 
   std::string Asset::BaseName(const std::string& path) {
     const size_t last_slash_idx = path.find_last_of("\\/");
@@ -22,13 +22,13 @@ namespace Theodore {
   }
 
 	std::string Asset::GetAssetName() const {
-		return mFullName;
+		return fullName;
   }
 
   void Asset::SetAssetName(const std::string& assetName) {
-    mBaseName = BaseName(assetName);
-    mFullName = assetName;
+		baseName = BaseName(assetName);
+		fullName = assetName;
   }
 
-  bool Asset::IsManaged() { return mIsManaged; }
+  bool Asset::IsManaged() { return isManaged; }
 }  // namespace Theodore

@@ -7,7 +7,7 @@
 #include "Asset.h"
 #include "Graphics/Enumeration.h"
 #include "Math/Color.h"
-#include "Platform/os_types.h"
+#include "Platform/CondiitonalVars.h"
 #include "Math/Vector3d.h"
 #include GLEW_INCLUDE_DIR
 #include <vector>
@@ -60,19 +60,19 @@ namespace Theodore {
     TextureDimension GetDimension() const;
 
   protected:
-    unsigned char* mNativeTexturePtr;
-    unsigned int mTextureID;
-    int mWidth, mHeight;
-    float mAnisoLevel;
-    float mMipMapBias;
+    unsigned char* nativeTexturePtr;
+    unsigned int textureId;
+    int width, height;
+    float anisoLevel;
+    float mipMapBias;
 
-		TextureOption mTextureOption;
-    FilterMode mFilterMode;
-    WrapMode mWrapMode;
-    TextureDimension mDimension;
-    TextureFormat mTextureFormat;
-    Color mColorKey;
-    bool mUseColorKey;
+		TextureOption textureOption;
+    FilterMode filterMode;
+    WrapMode wrapMode;
+    TextureDimension textureDimension;
+    TextureFormat textureFormat;
+    Color colorKey;
+    bool useColorKey;
   };
 }  // namespace Theodore
 

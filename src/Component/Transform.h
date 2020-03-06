@@ -1,0 +1,110 @@
+// Copyright (C) 2017 by bodguy
+// This code is licensed under Apache 2.0 license (see LICENSE.md for details)
+
+#ifndef Transform_h
+#define Transform_h
+
+#include "Component.h"
+#include "Graphics/Enumeration.h"
+#include "Math/Matrix4x4.h"
+#include "Math/Quaternion.h"
+#include "Math/Vector3d.h"
+
+namespace Theodore {
+  class Transform : public Component {
+  public:
+    Transform();
+    virtual ~Transform() override;
+
+    void Translate(const Vector3d& translation, Space relativeTo = Space::Self);
+    void Rotate(const Vector3d& axis, float angle, Space relativeTo = Space::Self);
+    void Rotate(const Vector3d& eulerAngles, Space relativeTo = Space::Self);
+    void RotateAround(const Vector3d& point, const Vector3d& axis, float angle);
+    void Scale(const Vector3d& axis, Space relativeTo = Space::Self);
+
+    Vector3d GetPosition() const;
+    Vector3d GetScale() const;
+    Quaternion GetRotation() const;
+
+    Vector3d GetLocalPosition() const;
+    Vector3d GetLocalScale() const;
+    Quaternion GetLocalRotation() const;
+
+    Vector3d GetForward() const;
+    Vector3d GetUp() const;
+    Vector3d GetRight() const;
+
+    Vector3d GetEulerAngles() const;
+    Vector3d GetLocalEulerAngles() const;
+
+    Matrix4x4 GetLocalToWorldMatrix() const;
+    Matrix4x4 GetWorldToLocalMatrix() const;
+
+    void SetPosition(const Vector3d& position);
+    void SetLossyScale(const Vector3d& scale);
+    void SetEulerAngles(const Vector3d& euler);
+    void SetRotation(const Quaternion& quat);
+
+    void SetLocalPosition(const Vector3d& position);
+    void SetLocalScale(const Vector3d& scale);
+    void SetLocalEulerAngles(const Vector3d& euler);
+    void SetLocalRotation(const Quaternion& quat);
+
+    // TODO: test
+    void LookAt(const Transform& target, const Vector3d& worldUp = Vector3d::up);
+
+    GameObject* GetParent() const;
+    void SetParent(GameObject* parent);
+
+    // Transforms direction from world space to local space.
+    // This operation is not affected by scale or position but only affected by rotate of the
+    // transform.
+    Vector3d InverseTransformDirection(const Vector3d& direction) const;
+    // Transforms position from world space to local space.
+    // This operation is affected by rotate, scale and position of the transform.
+    Vector3d InverseTransformPoint(const Vector3d& position) const;
+    // Transforms vector from world space to local space.
+    // This operation is affected by rotate and scale of the transform.
+    Vector3d InverseTransformVector(const Vector3d& vector) const;
+    // Transforms direction from local space to world space.
+    // This operation is not affected by scale or position but only affected by rotate of the
+    // transform.
+    Vector3d TransformDirection(const Vector3d& direction) const;
+    // Transforms position from local space to world space.
+    // This operation is affected by rotate, scale and position of the transform.
+    Vector3d TransformPoint(const Vector3d& position) const;
+    // Transforms vector from local space to world space.
+    // This operation is affected by rotate and scale of the transform.
+    Vector3d TransformVector(const Vector3d& vector) const;
+
+  private:
+    Matrix4x4 GetWorldMatrix() const;
+    Matrix4x4 GetLocalMatrix() const;
+    Matrix4x4 GetParentLocalMatrix() const;
+
+    virtual void Update(float deltaTime) override;
+    virtual void Render() override;
+    virtual bool CompareEquality(const Object& rhs) const override;
+    virtual bool Destroy() override;
+
+  private:
+    Vector3d position;
+    Quaternion rotation;
+    Vector3d lossyScale;
+
+    Vector3d localPosition;
+    Quaternion localRotation;
+    Vector3d localScale;
+    mutable Vector3d localEulerAngles;
+
+    mutable Vector3d forward;
+    mutable Vector3d up;
+    mutable Vector3d right;
+
+    mutable Vector3d eulerAngles;
+    mutable Matrix4x4 localToWorldMatrix;
+    mutable Matrix4x4 worldToLocalMatrix;
+  };
+}  // namespace Theodore
+
+#endif /* Transform_h */

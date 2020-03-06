@@ -7,8 +7,8 @@ namespace Theodore {
   TagManager* TagManager::instance = nullptr;
   TagManager::TagManager() {
     instance = this;
-    mTags.clear();
-    mLayers.clear();
+    tags.clear();
+    layers.clear();
   }
 
   TagManager::~TagManager() {}

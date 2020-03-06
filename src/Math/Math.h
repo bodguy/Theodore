@@ -25,7 +25,7 @@ namespace Theodore {
     static float Repeat(float t, float length);
     static float DeltaAngle(float current, float target);
     static float PingPong(float t, float len);
-    static float KbToMb(int kb);
+    static float ConvertKilloToMega(int kb);
     static float PerlinNoise(float x);
     static float PerlinNoise(float x, float y);
     static float PerlinNoise(float x, float y, float z);

@@ -32,12 +32,12 @@ namespace Theodore {
     void SetDimension(unsigned int w, unsigned int h);
 
   private:
-    unsigned int mFrameBufferID;
-    unsigned int mWidth;
-    unsigned int mHeight;
-    std::map<Attachment, Texture2D*> mTextures;
-    RenderBuffer* mRender;
-    bool mIsCreated;
+    unsigned int frameBufferId;
+    unsigned int width;
+    unsigned int height;
+    std::map<Attachment, Texture2D*> textures;
+    RenderBuffer* renderBuffer;
+    bool isCreated;
   };
 }  // namespace Theodore
 

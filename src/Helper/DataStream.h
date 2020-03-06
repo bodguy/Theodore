@@ -64,12 +64,12 @@ namespace Theodore {
     uint64_t swap_uint64(uint64_t val);
 
   private:
-    uint8_t* mStart;  // start of data
-    uint8_t* mData;   // current data pointers
-    size_t mSize;     // size of data
-    size_t mOccupied;
-    ByteOrder mByteOrder;
-    FloatingPointPrecision mPrecision;
+    uint8_t* start;  // start of data
+    uint8_t* data;   // current data pointers
+    size_t size;     // size of data
+    size_t occupied;
+    ByteOrder byteOrder;
+    FloatingPointPrecision precision;
   };
 };  // namespace Theodore
 

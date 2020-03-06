@@ -7,47 +7,47 @@
 #pragma warning(disable : 4996)
 
 namespace Theodore {
-  File::File() : fp(NULL), mBaseName(""), mFileName(""), mFullFileName(""), mMode(OpenMode::Read) {}
+  File::File() : filePointer(NULL), baseName(""), fileName(""), fullName(""), openMode(OpenMode::Read) {}
 
   File::File(const std::string& name, OpenMode accessType) { Open(name, accessType); }
 
-  File::File(FILE* file) : fp(file), mBaseName(""), mFileName(""), mFullFileName(""), mMode(OpenMode::Read) {}
+  File::File(FILE* file) : filePointer(file), baseName(""), fileName(""), fullName(""), openMode(OpenMode::Read) {}
 
   File::~File() { Clear(); }
 
   bool File::IsOpen() {
-    if (!fp) return false;
+    if (!filePointer) return false;
 
     return true;
   }
 
   bool File::Open(const std::string& name, OpenMode access_type) {
-    mFullFileName = std::string(name);
-    mBaseName = BaseName(mFullFileName);
-    mFileName = RemoveExtension(mBaseName);
-    mMode = access_type;
+		fullName = std::string(name);
+		baseName = BaseName(fullName);
+		fileName = RemoveExtension(baseName);
+		openMode = access_type;
 
     switch (access_type) {
       case OpenMode::Read:
-        fp = fopen(mFullFileName.c_str(), "r");
+				filePointer = fopen(fullName.c_str(), "r");
         break;
       case OpenMode::Write:
-        fp = fopen(mFullFileName.c_str(), "w");
+				filePointer = fopen(fullName.c_str(), "w");
         break;
       case OpenMode::ReadWrite:
-        fp = fopen(mFullFileName.c_str(), "w+");
+				filePointer = fopen(fullName.c_str(), "w+");
         break;
       case OpenMode::Append:
-        fp = fopen(mFullFileName.c_str(), "a");
+				filePointer = fopen(fullName.c_str(), "a");
         break;
       case OpenMode::ReadBinary:
-        fp = fopen(mFullFileName.c_str(), "rb");
+				filePointer = fopen(fullName.c_str(), "rb");
         break;
       case OpenMode::WriteBinary:
-        fp = fopen(mFullFileName.c_str(), "wb");
+				filePointer = fopen(fullName.c_str(), "wb");
         break;
       case OpenMode::ReadWriteBinary:
-        fp = fopen(mFullFileName.c_str(), "wb+");
+				filePointer = fopen(fullName.c_str(), "wb+");
         break;
       default:
         return false;
@@ -58,30 +58,30 @@ namespace Theodore {
 
   void File::Close(void) {
     if (IsOpen()) {
-      fclose(fp);
-      fp = NULL;
+      fclose(filePointer);
+			filePointer = NULL;
     }
   }
 
   void File::Clear(void) {
     Close();
-    mBaseName = "";
-    mFileName = "";
-    mFullFileName = "";
-    mMode = OpenMode::Read;
+		baseName = "";
+		fileName = "";
+		fullName = "";
+		openMode = OpenMode::Read;
   }
 
   void File::Writef(const char* format, ...) {
     va_list args;
     va_start(args, format);
-    vfprintf(fp, format, args);
+    vfprintf(filePointer, format, args);
     va_end(args);
   }
 
   void File::Readf(const char* format, ...) {
     va_list args;
     va_start(args, format);
-    vfscanf(fp, format, args);
+    vfscanf(filePointer, format, args);
     va_end(args);
   }
 
@@ -101,7 +101,7 @@ namespace Theodore {
 
   size_t File::WriteBuf(void* buffer, size_t elementsize, size_t elementcount) {
     if (IsOpen()) {
-      return fwrite(buffer, elementsize, elementcount, fp);
+      return fwrite(buffer, elementsize, elementcount, filePointer);
     }
 
     return 0;
@@ -109,7 +109,7 @@ namespace Theodore {
 
   size_t File::ReadBuf(void* buffer, size_t elementsize, size_t elementcount) {
     if (IsOpen()) {
-      return fread(buffer, elementsize, elementcount, fp);
+      return fread(buffer, elementsize, elementcount, filePointer);
     }
 
     return 0;
@@ -121,15 +121,15 @@ namespace Theodore {
     char c;
 
     for (;;) {
-      c = static_cast<char>(fgetc(fp));
-      if (feof(fp))
+      c = static_cast<char>(fgetc(filePointer));
+      if (feof(filePointer))
         break;
       else if (c == '\n')
 				break;
 			else if (c == '\r') {
-				c = static_cast<char>(fgetc(fp));
+				c = static_cast<char>(fgetc(filePointer));
 				if (c == '\n') {
-					ungetc(c, fp);
+					ungetc(c, filePointer);
 				}
 				break;
       }
@@ -146,8 +146,8 @@ namespace Theodore {
     char c;
 
     for (;;) {
-      c = static_cast<char>(fgetc(fp));
-      if (feof(fp))
+      c = static_cast<char>(fgetc(filePointer));
+      if (feof(filePointer))
         break;
       else if (c == delim)
         break;
@@ -163,8 +163,8 @@ namespace Theodore {
     char c;
 
     for (;;) {
-      c = static_cast<char>(fgetc(fp));
-      if (feof(fp)) break;
+      c = static_cast<char>(fgetc(filePointer));
+      if (feof(filePointer)) break;
       for (const char* temp_delim = delims; temp_delim; ++temp_delim)
         if (c == *temp_delim) break;
       temp += c;
@@ -175,26 +175,26 @@ namespace Theodore {
 
   size_t File::GetSize() {
     SeekFromEndOfFile(0);
-    size_t size = ftell(fp);
+    size_t size = ftell(filePointer);
     Rewind();
     return size;
   }
 
   void File::Rewind() { SeekFromBeginOfFile(0); }
 
-  void File::SeekFromBeginOfFile(int offset) { fseek(fp, offset, SEEK_SET); }
+  void File::SeekFromBeginOfFile(int offset) { fseek(filePointer, offset, SEEK_SET); }
 
-  void File::SeekFromEndOfFile(int offset) { fseek(fp, offset, SEEK_END); }
+  void File::SeekFromEndOfFile(int offset) { fseek(filePointer, offset, SEEK_END); }
 
-  void File::SeekByOffset(int offset) { fseek(fp, offset, SEEK_CUR); }
+  void File::SeekByOffset(int offset) { fseek(filePointer, offset, SEEK_CUR); }
 
-  bool File::Validate(void) const { return fp && !feof(fp) ? true : false; }
+  bool File::Validate(void) const { return filePointer && !feof(filePointer) ? true : false; }
 
-  std::string File::GetFullName() const { return mFullFileName; }
+  std::string File::GetFullName() const { return fullName; }
 
-  std::string File::GetBaseName() const { return mBaseName; }
+  std::string File::GetBaseName() const { return baseName; }
 
-  std::string File::GetFileName() const { return mFileName; }
+  std::string File::GetFileName() const { return fileName; }
 
   std::string File::BaseName(const std::string& path) {
     const size_t last_slash_idx = path.find_last_of("\\/");

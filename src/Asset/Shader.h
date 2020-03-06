@@ -7,7 +7,7 @@
 #include "Asset.h"
 #include "Graphics/Enumeration.h"
 #include "Helper/File.h"
-#include "Platform/os_types.h"
+#include "Platform/CondiitonalVars.h"
 #include GLEW_INCLUDE_DIR
 #include <map>
 #include <string>
@@ -18,7 +18,9 @@ namespace Theodore {
   typedef int Uniform;
 
   struct ShaderPreprocess {
-    ShaderPreprocess(int offset, int end, char* filename, int next_line_after) : offset(offset), end(end), filename(filename), next_line_after(next_line_after) {}
+    ShaderPreprocess(int offset, int end, char* filename, int next_line_after)
+    	: offset(offset), end(end), filename(filename), next_line_after(next_line_after) {}
+
     int offset;
     int end;
     char* filename;
@@ -45,7 +47,7 @@ namespace Theodore {
     static char* ReAlloc(char* str, size_t* curlen, char* addstr, size_t addlen);
 
   private:
-    unsigned int mShaderID;
+    unsigned int shaderId;
   };
 
   class Vector4d;
@@ -110,8 +112,8 @@ namespace Theodore {
     void DispatchCompute(unsigned int x, unsigned int y, unsigned int z);
 
   private:
-    unsigned int mPipelineID;
-    std::string mName;
+    unsigned int pipelineId;
+    std::string name;
   };
 
   class ShaderManager {
@@ -125,7 +127,7 @@ namespace Theodore {
 
   private:
     static ShaderManager* shaderManager;
-    std::map<std::string, Pipeline*> mPipelines;
+    std::map<std::string, Pipeline*> loadedPiplineLookUpTable;
   };
 }  // namespace Theodore
 
