@@ -5,7 +5,8 @@
 
 namespace Theodore {
   Mesh::Mesh()
-  	: indexFormat(IndexFormat::UInt32), vertexSemantic(VertexSemantic::SemanticNone), bufferUsage(BufferUsage::StaticDraw), bounds(Vector3d::zero, Vector3d::one), materialId(-1) {
+  	: indexFormat(IndexFormat::UInt32), vertexSemantic(VertexSemantic::SemanticNone),
+  	bufferUsage(BufferUsage::StaticDraw), bounds(Vector3d::zero, Vector3d::one), materialId(-1) {
 		assetType = AssetType::MeshType;
     vertices.clear();
     triangles.clear();
@@ -16,7 +17,7 @@ namespace Theodore {
   Mesh::~Mesh() {}
 
 	void Mesh::SetVertexSemantic(const VertexSemantic vertexSemantic) {
-		vertexSemantic = vertexSemantic;
+		this->vertexSemantic = vertexSemantic;
   }
 
   void Mesh::SetVertices(const std::vector<Vertex>& verts) {

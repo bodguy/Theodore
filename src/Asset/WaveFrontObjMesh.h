@@ -4,12 +4,12 @@
 #ifndef WaveFrontObjMesh_h
 #define WaveFrontObjMesh_h
 
-#include <string>
 #include "Graphics/Enumeration.h"
 #include "Asset/Mesh.h"
 #include "Math/Vector2d.h"
 #include "Math/Vector3d.h"
 #include "MeshGroup.h"
+#include <string>
 
 namespace Theodore {
 	struct VertexIndex {
@@ -30,6 +30,25 @@ namespace Theodore {
 		std::vector<Triangle> triangles;
 	};
 
+	class MeshChunk {
+	public:
+		MeshChunk() : name(), vertices(), materialId(-1) { vertices.clear(); }
+		size_t GetVertexCount() const { return vertices.size(); }
+		size_t GetTriangleCount() const { return indices.size(); }
+		bool IsVertexEmpty() const { return GetVertexCount() == 0; }
+		void SetName(const std::string& name) { this->name = name; }
+		void AppendVertex(Vertex& vertex) { vertices.emplace_back(vertex); }
+		void AppendIndex(unsigned int index) { indices.emplace_back(index); }
+		void SetMaterialId(int materialId) { this->materialId = materialId; }
+
+	private:
+		std::string name;
+		std::vector<Vertex> vertices;
+		std::vector<unsigned int> indices;
+		int materialId;
+	};
+
+	class Texture;
   class WaveFrontObjMesh : public Mesh {
   public:
 		WaveFrontObjMesh();
@@ -38,14 +57,14 @@ namespace Theodore {
 		virtual bool LoadMesh(const std::string& fileName, MeshParseOption parseOption) override;
 
 	private:
-		bool ParsePrimitive(Mesh& mesh, const PrimitiveGroup& primitive, MeshParseOption option, const int materialId,
+		bool ParsePrimitive(MeshChunk* mesh, const PrimitiveGroup& primitive, MeshParseOption option, const int materialId,
 												const std::vector<Vector3d>& vertices, const std::vector<Vector2d>& texcoords, const std::vector<Vector3d>& normals,
 												const std::string& name, const std::string& default_name);
 		bool ParseIndices(const char** token, int vsize, int vnsize, int vtsize, VertexIndex* result);
 		TextureFace ParseTextureFace(const char** token);
 		bool ParseTexture(Texture& tex, const char* token);
-		bool LoadMaterial(std::vector<Material>& materials, std::unordered_map<std::string, int>& materialMap, std::istream& inputStream);
-		bool ParseMaterial(const std::string& materialName, std::vector<Material>& materials, std::unordered_map<std::string, int>& materialMap);
+		bool LoadMaterial(MeshGroup& meshGroup, std::unordered_map<std::string, int>& materialMap, std::istream& inputStream);
+		bool ParseMaterial(MeshGroup& meshGroup, const std::string& materialName, std::unordered_map<std::string, int>& materialMap);
 
 		static void SplitWithToken(std::vector<std::string>& elems, const char* delims, const char** token);
 		std::string ParseString(const char** token) const;

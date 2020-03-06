@@ -7,11 +7,15 @@
 #include <string>
 
 namespace Theodore {
+	class Vector3d;
+	class Vector4d;
   class Color {
   public:
     Color();
 		Color(float r, float g, float b);
     Color(float r, float g, float b, float a);
+    Color(const Vector3d& other);
+		Color(const Vector4d& other);
 
     //! Red, green, blue, alpha (translucency)
     float r, g, b, a;

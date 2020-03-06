@@ -12,6 +12,10 @@ namespace Theodore {
 
   Color::Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {}
 
+	Color::Color(const Vector3d& other) : r(other.x), g(other.y), b(other.z), a(1.f) {}
+
+	Color::Color(const Vector4d& other) : r(other.x), g(other.y), b(other.z), a(other.w) {}
+
   bool Color::operator==(const Color& rhs) { return (Mathf::IsEqual(r, rhs.r) && Mathf::IsEqual(g, rhs.g) && Mathf::IsEqual(b, rhs.b) && Mathf::IsEqual(a, rhs.a)); }
 
   bool Color::operator!=(const Color& rhs) { return !(*this == rhs); }

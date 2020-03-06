@@ -11,9 +11,9 @@
 namespace Theodore {
   class Pipeline;
   class Texture;
-  class FrameBuffer;
   class Material {
   public:
+  	Material();
     Material(Pipeline* program);
     Material(Color ambient, Color diffuse, Color specular, float shininess);
     ~Material();
@@ -28,9 +28,8 @@ namespace Theodore {
 		float indexOfRefrection;
 		float dissolve; // 1 == opaque; 0 == fully transparent
 		int illuminationModel;
-		Pipeline* pipeline;
-		FrameBuffer* renderTexture;
 		unordered_map<TextureType, Texture*> textureMap;
+		Pipeline* pipeline;
 
 		static const Material emerald;
 		static const Material jade;

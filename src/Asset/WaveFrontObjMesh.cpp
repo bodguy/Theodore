@@ -2,17 +2,15 @@
 // This code is licensed under Apache 2.0 license (see LICENSE.md for details)
 
 #include "WaveFrontObjMesh.h"
-
-#include <sstream>
-#include <fstream>
-#include <vector>
-#include <unordered_map>
-#include <Object/Component/sub/Material.h>
-
+#include "Component/Material.h"
 #include "Helper/StringUtil.h"
 #include "Helper/Debug.h"
 #include "Platform/Time.h"
 #include "Asset/Texture.h"
+#include <sstream>
+#include <fstream>
+#include <vector>
+#include <unordered_map>
 
 namespace Theodore {
 	WaveFrontObjMesh::WaveFrontObjMesh() : Mesh(), meshGroup() {}
@@ -35,11 +33,9 @@ namespace Theodore {
 		PrimitiveGroup currentPrimitive;
 		std::string currentObjectName;
 		std::string currentMaterialName;
-		Mesh currentMesh;
+		MeshChunk* currentMesh = new MeshChunk();
 		int currentMaterialId = -1;
 		auto pair = StringUtil::SplitPair(fileName, "\\/");
-		fileName = pair.first;
-		std::string pureFileName = pair.second;
 		std::string lineBuffer;
 
 		// preventing a empty file
@@ -139,15 +135,15 @@ namespace Theodore {
 						currentObjectName = newMaterialName;
 					}
 					// return value not used
-					ParsePrimitive(currentMesh, currentPrimitive, parseOption, currentMaterialId, vertices, texcoords, normals, currentObjectName, pureFileName);
-					if (!currentMesh.IsVertexEmpty()) {
-						meshGroup.mMeshes.emplace_back(currentMesh);
+					ParsePrimitive(currentMesh, currentPrimitive, parseOption, currentMaterialId, vertices, texcoords, normals, currentObjectName, pair.second);
+					if (!currentMesh->IsVertexEmpty()) {
+						meshGroup.AppendMesh(currentMesh);
 						// when successfully push a new mesh, then cache current material name.
 						currentObjectName = newMaterialName;
 					}
 					// reset
 					currentPrimitive = PrimitiveGroup();
-					currentMesh = Mesh();
+					currentMesh = new MeshChunk();
 					// cache new material id
 					currentMaterialId = newMaterialId;
 					currentMaterialName = newMaterialName;
@@ -163,7 +159,7 @@ namespace Theodore {
 				SplitWithToken(materialFileNames, " ", &token);
 				// load just one available mtl file in the list
 				for (auto& name : materialFileNames) {
-					if (ParseMaterial(fileName + name, meshGroup.mMaterials, materialMap)) {
+					if (ParseMaterial(meshGroup, pair.first + name, materialMap)) {
 						break;
 					}
 				}
@@ -173,15 +169,15 @@ namespace Theodore {
 			// group name
 			if (token[0] == 'g' && StringUtil::IsSpace(token[1])) {
 				// return value not used
-				ParsePrimitive(currentMesh, currentPrimitive, parseOption, currentMaterialId, vertices, texcoords, normals, currentObjectName, pureFileName);
-				if (!currentMesh.IsVertexEmpty()) {
-					meshGroup.mMeshes.emplace_back(currentMesh);
+				ParsePrimitive(currentMesh, currentPrimitive, parseOption, currentMaterialId, vertices, texcoords, normals, currentObjectName, pair.second);
+				if (!currentMesh->IsVertexEmpty()) {
+					meshGroup.AppendMesh(currentMesh);
 					currentObjectName = "";
 				}
 
 				// reset
 				currentPrimitive = PrimitiveGroup();
-				currentMesh = Mesh();
+				currentMesh = new MeshChunk();
 
 				token += 2;
 
@@ -208,15 +204,15 @@ namespace Theodore {
 			// object name
 			if (token[0] == 'o' && StringUtil::IsSpace(token[1])) {
 				// return value not used
-				ParsePrimitive(currentMesh, currentPrimitive, parseOption, currentMaterialId, vertices, texcoords, normals, currentObjectName, pureFileName);
-				if (!currentMesh.IsVertexEmpty()) {
-					meshGroup.mMeshes.emplace_back(currentMesh);
+				ParsePrimitive(currentMesh, currentPrimitive, parseOption, currentMaterialId, vertices, texcoords, normals, currentObjectName, pair.second);
+				if (!currentMesh->IsVertexEmpty()) {
+					meshGroup.AppendMesh(currentMesh);
 					currentObjectName = "";
 				}
 
 				// reset
 				currentPrimitive = PrimitiveGroup();
-				currentMesh = Mesh();
+				currentMesh = new MeshChunk();
 
 				token += 2;
 				currentObjectName = ParseString(&token);
@@ -224,21 +220,21 @@ namespace Theodore {
 			}
 		}
 
-		bool result = ParsePrimitive(currentMesh, currentPrimitive, parseOption, currentMaterialId, vertices, texcoords, normals, currentObjectName, pureFileName);
-		if (result || !currentMesh.IsVertexEmpty()) {
-			meshGroup.mMeshes.emplace_back(currentMesh);
+		bool result = ParsePrimitive(currentMesh, currentPrimitive, parseOption, currentMaterialId, vertices, texcoords, normals, currentObjectName, pair.second);
+		if (result || !currentMesh->IsVertexEmpty()) {
+			meshGroup.AppendMesh(currentMesh);
 		}
 
 		return true;
 	}
 
-	bool WaveFrontObjMesh::ParsePrimitive(Mesh& mesh, const PrimitiveGroup& primitive, MeshParseOption option, const int materialId,
+	bool WaveFrontObjMesh::ParsePrimitive(MeshChunk* mesh, const PrimitiveGroup& primitive, MeshParseOption option, const int materialId,
 											const std::vector<Vector3d>& vertices, const std::vector<Vector2d>& texcoords, const std::vector<Vector3d>& normals,
 											const std::string& name, const std::string& default_name) {
 		if (primitive.IsEmpty()) {
 			return false;
 		}
-		mesh.name = name.empty() ? default_name : name;
+		mesh->SetName(name.empty() ? default_name : name);
 
 		// make polygon
 		unsigned int count = 0;
@@ -252,7 +248,7 @@ namespace Theodore {
 
 			// triangulate only parsing flag is set and polygon has more than 3.
 			if ((option & MeshParseOption::TRIANGULATE) && npolys != 3) {
-				triangulate(mesh, vertices, npolys);
+				Triangulate(mesh, vertices, npolys);
 			} else {
 				for (size_t f = 0; f < npolys; f++) {
 					Vertex vtx;
@@ -260,18 +256,18 @@ namespace Theodore {
 					vtx.position = vertices[idx.v_idx];
 					vtx.texcoord = (idx.vt_idx == -1 ? Vector2d() : texcoords[idx.vt_idx]);
 					vtx.normal = (idx.vn_idx == -1 ? Vector3d() : normals[idx.vn_idx]);
-					mesh.vertices.emplace_back(vtx);
+					mesh->AppendVertex(vtx);
 				}
 
 				if ((option & MeshParseOption::CALC_TANGENT) && npolys == 3) {
 					calcTangent(mesh, count);
 				}
 
-				auto preCompute = (unsigned int)((mesh.vertices.size()) - npolys);
+				auto preCompute = (unsigned int)((mesh->GetVertexCount()) - npolys);
 				for (size_t ff = 0; ff < npolys; ff++) {
-					mesh.indices.emplace_back(preCompute + ff);
+					mesh->AppendIndex(preCompute + ff);
 				}
-				mesh.material_id = materialId;
+				mesh->SetMaterialId(materialId);
 				count++;
 			}
 		}
@@ -410,8 +406,8 @@ namespace Theodore {
 		return true;
 	}
 
-	bool WaveFrontObjMesh::LoadMaterial(std::vector<Material>& materials, std::unordered_map<std::string, int>& materialMap, std::istream& inputStream) {
-		Material current_mat;
+	bool WaveFrontObjMesh::LoadMaterial(MeshGroup& meshGroup, std::unordered_map<std::string, int>& materialMap, std::istream& inputStream) {
+		Material* current_mat = new Material();
 		bool has_d = false;
 		std::string lineBuffer;
 
@@ -450,18 +446,18 @@ namespace Theodore {
 			// new mtl
 			if ((0 == strncmp(token, "newmtl", 6)) && StringUtil::IsSpace(token[6])) {
 				// save previous material
-				if (!current_mat.name.empty()) {
-					materialMap.insert(std::make_pair(current_mat.name, static_cast<int>(materials.size())));
-					materials.emplace_back(current_mat);
+				if (!current_mat->name.empty()) {
+					materialMap.insert(std::make_pair(current_mat->name, meshGroup.GetMaterialCount()));
+					meshGroup.AppendMaterial(current_mat);
 				}
 
 				// reset material
-				current_mat = Material();
+				current_mat = new Material();
 				has_d = false;
 
 				// parse new mat name
 				token += 7;
-				current_mat.name = ParseString(&token);
+				current_mat->name = ParseString(&token);
 				continue;
 			}
 
@@ -470,7 +466,7 @@ namespace Theodore {
 				token += 2;
 				Vector3d ambient;
 				ParseReal3(ambient, &token);
-				current_mat.ambient = ambient;
+				current_mat->ambient = ambient;
 				continue;
 			}
 
@@ -479,7 +475,7 @@ namespace Theodore {
 				token += 2;
 				Vector3d diffuse;
 				ParseReal3(diffuse, &token);
-				current_mat.diffuse = diffuse;
+				current_mat->diffuse = diffuse;
 				continue;
 			}
 
@@ -488,7 +484,7 @@ namespace Theodore {
 				token += 2;
 				Vector3d specular;
 				ParseReal3(specular, &token);
-				current_mat.specular = specular;
+				current_mat->specular = specular;
 				continue;
 			}
 
@@ -498,14 +494,14 @@ namespace Theodore {
 				token += 2;
 				Vector3d transmittance;
 				ParseReal3(transmittance, &token);
-				current_mat.transmittance = transmittance;
+				current_mat->transmittance = transmittance;
 				continue;
 			}
 
 			// ior(index of refraction)
 			if (token[0] == 'N' && token[1] == 'i' && StringUtil::IsSpace(token[2])) {
 				token += 2;
-				current_mat.ior = ParseReal(&token, 0.f);
+				current_mat->indexOfRefrection = ParseReal(&token, 0.f);
 				continue;
 			}
 
@@ -514,28 +510,28 @@ namespace Theodore {
 				token += 2;
 				Vector3d emission;
 				ParseReal3(emission, &token);
-				current_mat.emission = emission;
+				current_mat->emission = emission;
 				continue;
 			}
 
 			// shininess
 			if (token[0] == 'N' && token[1] == 's' && StringUtil::IsSpace(token[2])) {
 				token += 2;
-				current_mat.shininess = ParseReal(&token, 0.f);
+				current_mat->shininess = ParseReal(&token, 0.f);
 				continue;
 			}
 
 			// illum model
 			if (0 == strncmp(token, "illum", 5) && StringUtil::IsSpace(token[5])) {
 				token += 6;
-				current_mat.illum = ParseInt(&token);
+				current_mat->illuminationModel = ParseInt(&token);
 				continue;
 			}
 
 			// dissolve (the non-transparency of the material), The default is 1.0 (not transparent at all)
 			if ((token[0] == 'd' && StringUtil::IsSpace(token[1]))) {
 				token += 1;
-				current_mat.dissolve = ParseReal(&token, 1.f);
+				current_mat->dissolve = ParseReal(&token, 1.f);
 				has_d = true;
 				continue;
 			}
@@ -544,7 +540,7 @@ namespace Theodore {
 			if (token[0] == 'T' && token[1] == 'r' && StringUtil::IsSpace(token[2])) {
 				token += 2;
 				if (!has_d) {
-					current_mat.dissolve = 1.f - ParseReal(&token, 0.f);
+					current_mat->dissolve = 1.f - ParseReal(&token, 0.f);
 				}
 				continue;
 			}
@@ -644,16 +640,16 @@ namespace Theodore {
 		}
 
 		// flush last material
-		materialMap.insert(std::make_pair(current_mat.name, static_cast<int>(materials.size())));
-		materials.emplace_back(current_mat);
+		materialMap.insert(std::make_pair(current_mat->name, meshGroup.GetMaterialCount()));
+		meshGroup.AppendMaterial(current_mat);
 
 		return true;
 	}
 
-	bool WaveFrontObjMesh::ParseMaterial(const std::string& materialName, std::vector<Material>& materials, std::unordered_map<std::string, int>& materialMap) {
+	bool WaveFrontObjMesh::ParseMaterial(MeshGroup& meshGroup, const std::string& materialName, std::unordered_map<std::string, int>& materialMap) {
 		std::ifstream inputStream(materialName);
 		if (!inputStream) return false;
-		return LoadMaterial(materials, materialMap, inputStream);
+		return LoadMaterial(meshGroup, materialMap, inputStream);
 	}
 
 	void WaveFrontObjMesh::SplitWithToken(std::vector<std::string>& elems, const char* delims, const char** token) {
