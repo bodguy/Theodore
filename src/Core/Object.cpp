@@ -64,4 +64,4 @@ namespace Theodore {
 
     return clone;
   }
-}  // namespace Theodore
+} // namespace Theodore

@@ -14,6 +14,6 @@ namespace Theodore {
     float timeFrame;
     float value;
   };
-}  // namespace Theodore
+} // namespace Theodore
 
 #endif /* KeyFrame_h */

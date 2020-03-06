@@ -61,24 +61,24 @@ namespace Theodore {
 		Debug::Log("[PipelineID: %d] '%s' Link program", pipelineId, name.c_str());
 		glLinkProgram(pipelineId);
 
-		GLint result = GL_FALSE;
+		int result = false;
 		int length;
 
 		glGetProgramiv(pipelineId, GL_LINK_STATUS, &result);
 		glGetProgramiv(pipelineId, GL_INFO_LOG_LENGTH, &length);
 		if (length > 0) {
-			GLchar* message = (GLchar*)malloc(sizeof(char) * length + 1);
+			char* message = (char*)malloc(sizeof(char) * length + 1);
 			glGetProgramInfoLog(pipelineId, length, NULL, message);
 			Debug::Error("%s", message);
 			free(message);
-			return GL_FALSE;
+			return false;
 		}
 
 		if (result) {
 			if (!ShaderManager::Append(this)) {
-				Debug::Warn("'%s' already managed", name.c_str());
+				Debug::Warn("Pipeline [%s] is already stored", name.c_str());
 				glDeleteProgram(pipelineId);
-				return GL_FALSE;
+				return false;
 			}
 		}
 
@@ -90,6 +90,10 @@ namespace Theodore {
 	void Pipeline::UnUse() { glUseProgram(NULL); }
 
 	unsigned int Pipeline::GetPipelineID() const { return pipelineId; }
+
+	std::string Pipeline::GetName() const {
+		return name;
+	}
 
 	Attribute Pipeline::GetAttribute(const std::string& name) { return glGetAttribLocation(pipelineId, name.c_str()); }
 

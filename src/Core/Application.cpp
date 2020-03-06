@@ -34,7 +34,7 @@ namespace Theodore {
     if (!platform->Initialize(param)) {
       return false;
     }
-    platform->SetVSync(true);
+    platform->SetVSync(param.vsync);
 
 		input = new Input();
     timer = new Time();

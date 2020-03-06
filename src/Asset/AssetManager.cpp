@@ -6,6 +6,7 @@
 #include "Font.h"
 #include "Helper/Debug.h"
 #include "Helper/Utility.h"
+#include "Helper/File.h"
 #include "MSAATexture2D.h"
 #include "Platform/Time.h"
 #include "Shader.h"
@@ -17,10 +18,10 @@ namespace Theodore {
   AssetManager* AssetManager::instance = nullptr;
   AssetManager::AssetManager() {
     instance = this;
-    mAssets.clear();
+    assets.clear();
   }
 
-  AssetManager::~AssetManager() { SafeContDealloc(mAssets); }
+  AssetManager::~AssetManager() { SafeContDealloc(assets); }
 
   Texture2D* AssetManager::RequestTexture(const std::string& filePath, TextureFormat format, const Color& colorKey) {
     Texture2D* asset = static_cast<Texture2D*>(GetAssetByFilePath(filePath));
@@ -238,7 +239,7 @@ namespace Theodore {
   }
 
   Asset* AssetManager::GetAssetByFilePath(const std::string& filePath) {
-    for (auto asset : instance->mAssets) {
+    for (auto asset : instance->assets) {
       if (asset->filePath == filePath) {
         return asset;
       }
@@ -253,13 +254,13 @@ namespace Theodore {
 
 		asset->RemoveReference();
 		if (asset->referenceCount == 0) {
-			instance->mAssets.remove(asset);
+			instance->assets.remove(asset);
 			SafeDealloc(asset);
 		}
   }
 
   void AssetManager::StoreAsset(Asset* asset) {
-    mAssets.push_back(asset);
+    assets.push_back(asset);
     asset->isManaged = true;
   }
 

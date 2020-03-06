@@ -7,37 +7,36 @@
 #include "Core/GameObject.h"
 
 namespace Theodore {
-  RigidBody2D::RigidBody2D() : Component("RigidBody2D"), mPosition(), mVelocity(), mForce() {
-    mTransform = gameObject->GetComponent<Transform>();
-    mMass = 1.f;
-    mInertia = mMass * (3 * 3 + 10 * 10) / 12;
-    mRotation = 0.f;
-    mAngularVelocity = 0.f;
-    mTorque = 0.f;
-    mCenterOfMass = Vector2d(3.f / 2.f, 10.f / 2.f);
+  RigidBody2D::RigidBody2D() : Component("RigidBody2D"), position(), velocity(), force() {
+		mass = 1.f;
+		inertia = mass * (3 * 3 + 10 * 10) / 12;
+		rotation = 0.f;
+		angularVelocity = 0.f;
+		torque = 0.f;
+		centerOfMass = Vector2d(3.f / 2.f, 10.f / 2.f);
   }
 
   RigidBody2D::~RigidBody2D() {}
 
-  void RigidBody2D::AddForce(const Vector2d& force) { mForce += force; }
+  void RigidBody2D::AddForce(const Vector2d& force) { this->force += force; }
 
-  void RigidBody2D::AddTorque(float torque) { mTorque += torque; }
+  void RigidBody2D::AddTorque(float torque) { this->torque += torque; }
 
   void RigidBody2D::Update(float deltaTime) {
-    mTorque += mCenterOfMass.x * mForce.y - mCenterOfMass.y * mForce.x;
-    Vector2d linearAcceleration = mForce / mMass;
-    mVelocity += linearAcceleration * deltaTime;
-    mPosition += mVelocity * deltaTime;
+		torque += centerOfMass.x * force.y - centerOfMass.y * force.x;
+    Vector2d linearAcceleration = force / mass;
+		velocity += linearAcceleration * deltaTime;
+		position += velocity * deltaTime;
 
-    float angularAcceleration = mTorque / mInertia;
-    mAngularVelocity += angularAcceleration * deltaTime;
-    mRotation += angularAcceleration * deltaTime;
+    float angularAcceleration = torque / inertia;
+		angularVelocity += angularAcceleration * deltaTime;
+		rotation += angularAcceleration * deltaTime;
 
-    mTransform->Translate(Vector3d(mPosition, 0.f));
-    mTransform->Rotate(Vector3d::forward, mRotation);
+    transform->Translate(Vector3d(position, 0.f));
+		transform->Rotate(Vector3d::forward, rotation);
 
-    mTorque = 0.f;
-    mForce = Vector2d::zero;
+		torque = 0.f;
+		force = Vector2d::zero;
   }
 
   void RigidBody2D::Render() {}

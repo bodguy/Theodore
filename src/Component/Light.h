@@ -38,6 +38,6 @@ namespace Theodore {
     virtual bool CompareEquality(const Object& rhs) const override;
     virtual bool Destroy() override;
   };
-}  // namespace Theodore
+} // namespace Theodore
 
 #endif /* Light_h */

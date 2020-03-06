@@ -26,6 +26,7 @@ namespace Theodore {
     int majorVersion;
     int minorVersion;
     int multisample;
+    bool vsync;
     WindowStyle style;
     ContextProfile profile;
   };

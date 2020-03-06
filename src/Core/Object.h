@@ -4,21 +4,10 @@
 #ifndef Object_h
 #define Object_h
 
-#include <atomic>
 #include <string>
+#include "UniqueId.h"
 
 namespace Theodore {
-  class UniqueId {
-  public:
-    UniqueId() : instanceId(++type_id) {}
-
-  private:
-    static std::atomic<uint32_t> type_id;
-
-  protected:
-    uint32_t instanceId;
-  };
-
   class Vector3d;
   class Quaternion;
   class GameObject;

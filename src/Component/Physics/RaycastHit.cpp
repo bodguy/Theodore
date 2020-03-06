@@ -4,7 +4,7 @@
 #include "RaycastHit.h"
 
 namespace Theodore {
-	RaycastHit::RaycastHit() {
+	RaycastHit::RaycastHit() : transform(nullptr), collider(nullptr), point(), normal(), distance(0.f) {
 
 	}
 

@@ -4,11 +4,22 @@
 #ifndef RaycastHit_h
 #define RaycastHit_h
 
+#include "Math/Vector3d.h"
+
 namespace Theodore {
+	class Transform;
+	class Collider;
 	class RaycastHit {
 	public:
 		RaycastHit();
 		~RaycastHit();
+
+	private:
+		Transform* transform;
+		Collider* collider;
+		Vector3d point;
+		Vector3d normal;
+		float distance;
 	};
 }  // namespace Theodore
 

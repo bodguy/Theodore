@@ -5,7 +5,7 @@
 
 namespace Theodore {
   PlatformContext::PlatformContext()
-      : name("No Title"), width(800), height(600), fullscreen(false), majorVersion(4), minorVersion(3), multisample(0), style(WindowStyle::Resizable), profile(ContextProfile::Core) {}
+      : name("No Title"), width(800), height(600), fullscreen(false), majorVersion(4), minorVersion(3), multisample(0), vsync(true), style(WindowStyle::Resizable), profile(ContextProfile::Core) {}
 
   PlatformContext::~PlatformContext() {}
 

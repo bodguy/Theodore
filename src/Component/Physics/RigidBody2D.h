@@ -8,7 +8,6 @@
 #include "Component/Component.h"
 
 namespace Theodore {
-  class Transform;
   class RigidBody2D : public Component {
   public:
     RigidBody2D();
@@ -24,18 +23,17 @@ namespace Theodore {
     virtual bool Destroy() override;
 
   private:
-    Transform* mTransform;
-    Vector2d mPosition;
-    Vector2d mVelocity;
-    Vector2d mForce;
-    Vector2d mCenterOfMass;
+    Vector2d position;
+    Vector2d velocity;
+    Vector2d force;
+    Vector2d centerOfMass;
 
-    float mMass;
-    float mInertia;
-    float mRotation;
-    float mAngularVelocity;
-    float mTorque;
+    float mass;
+    float inertia;
+    float rotation;
+    float angularVelocity;
+    float torque;
   };
-}  // namespace Theodore
+} // namespace Theodore
 
 #endif /* RigidBody2D_h */

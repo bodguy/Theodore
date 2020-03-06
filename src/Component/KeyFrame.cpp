@@ -7,4 +7,4 @@ namespace Theodore {
   KeyFrame::KeyFrame(float time, float value) : timeFrame(time), value(value) {}
 
   KeyFrame::~KeyFrame() {}
-}  // namespace Theodore
+} // namespace Theodore

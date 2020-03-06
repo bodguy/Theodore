@@ -6,7 +6,6 @@
 
 #include <list>
 #include <vector>
-
 #include "Graphics/Enumeration.h"
 #include "Texture.h"
 
@@ -43,8 +42,8 @@ namespace Theodore {
 		static void AddReferenceThenLog(Asset* asset);
 		static void LoadSuccess(const std::string& filePath, Asset* asset);
 
-    static AssetManager* instance;
-    std::list<Asset*> mAssets;
+    std::list<Asset*> assets;
+		static AssetManager* instance;
   };
 }  // namespace Theodore
 

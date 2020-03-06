@@ -29,8 +29,9 @@ namespace Theodore {
 		int Link();
 		void Use();
 		void UnUse();
-		unsigned int GetPipelineID() const;
 
+		unsigned int GetPipelineID() const;
+		std::string GetName() const;
 		Attribute GetAttribute(const std::string& name);
 		Uniform GetUniform(const std::string& name);
 		Uniform GetUniformBlockIndex(const std::string& name);
