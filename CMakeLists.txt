@@ -27,14 +27,15 @@ set(SOURCE_PREFIX "src")
 set(THEODORE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/${SOURCE_PREFIX}")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
+find_package(GLEW REQUIRED)
+
 # MacOS lib settings
 if(APPLE)
     message(STATUS "Platform detected: Macos")
     find_library(COCOA_LIBRARY Cocoa REQUIRED)
     find_library(OPENGL_LIBRARY OpenGL REQUIRED)
-    set(EXTRA_LIBS ${COCOA_LIBRARY} ${OPENGL_LIBRARY})
+    set(EXTRA_LIBS ${COCOA_LIBRARY} ${OPENGL_LIBRARY} GLEW::GLEW)
     set(GLEW_LIBRARIES_DIRS "third_party/lib/Mac/")
-    link_libraries(libGLEW.a)
 endif(APPLE)
 
 # Linux lib settings
@@ -44,9 +45,8 @@ if(LINUX)
 #    link_directories("/usr/X11R6/lib")
     find_library(X11_LIBRARY X11 REQUIRED)
     find_library(OPENGL_LIBRARY GL REQUIRED)
-    set(EXTRA_LIBS ${OPENGL_LIBRARY} ${X11_LIBRARY})
+    set(EXTRA_LIBS ${OPENGL_LIBRARY} ${X11_LIBRARY} GLEW::GLEW)
     set(GLEW_LIBRARIES_DIRS "third_party/lib/Linux/")
-    link_libraries(libGLEW.a)
 endif(LINUX)
 
 # Windows lib settings
